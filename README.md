@@ -2,6 +2,6 @@
 ## Team 18
 
 ### Team Members:
-- Student1 99102037 Kamyar Kazari
-- Student2 99109188 Alipasha Montaseri
-- Student3 99100314 Sina Imani
+- Kamyar Kazari 99102037
+- Alipasha Montaseri 99109188
+- Sina Imani 99100314
