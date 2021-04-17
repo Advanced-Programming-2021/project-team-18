@@ -55,7 +55,7 @@
       </counter>
       <counter>
         <item-type type-id="" type="AbstractElementGroup" />
-        <value>167</value>
+        <value>13</value>
       </counter>
     </entity-ids>
     <diagrams>
@@ -67,7 +67,7 @@
     <fields>
       <counter>
         <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.AttributeField</type>
-        <value>224</value>
+        <value>227</value>
       </counter>
       <counter>
         <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.OperationField</type>
@@ -256,7 +256,7 @@
       </meta>
       <abstract-items />
       <sub-models />
-      <diagram type="uml-class" id="p654e89ddee5b4cab91fbae95aeeb15d1_153263314" name="ClassDiagram1" order-index="1" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false" view-location="-21,-89" zoom="0.1">
+      <diagram type="uml-class" id="p654e89ddee5b4cab91fbae95aeeb15d1_153263314" name="ClassDiagram1" order-index="1" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false" view-location="5085,340" zoom="0.7">
         <style>
           <background-color index="1" color="#FFFFFFFF" />
           <background-color index="2" color="#FFFFFFFF" />
@@ -1139,11 +1139,6 @@
           </item>
           <item id="di581572961641571371" cid="C036" type="class" name="DestroyAttackerEffect" style-class="" visibility="package" change-tracking-state="added" creation-date="04/17/2021 13:15:04">
             <style class="default" />
-            <attributes>
-              <attribute id="a52ddafab97c24b268ede0b3557d42cb8600" cid="ELEM201" name="count" type="Integer" type-id="Uml.Integer" visibility="private">
-                <style class="default" />
-              </attribute>
-            </attributes>
             <operations>
               <operation id="o4ec3c0f967c747f3900aa0aa666cae3d578" cid="ELEM192" name="runEffect" type="" type-id="" visibility="public">
                 <style class="default" />
@@ -1305,7 +1300,7 @@
           <item id="di733659105129069215" cid="GNR031" type="generalization" name="" style-class="" visibility="package" change-tracking-state="added" creation-date="04/17/2021 13:34:06" from="di400936762355734962" to="di261663513561465692">
             <style class="default" />
           </item>
-          <item id="di551510021407591312" cid="C048" type="class" name="SummonFromGraveyardEffect" style-class="" visibility="package" change-tracking-state="added" creation-date="04/17/2021 13:35:53">
+          <item id="di551510021407591312" cid="C048" type="class" name="AddToHandFromGraveyardEffect" style-class="" visibility="package" change-tracking-state="added" creation-date="04/17/2021 13:35:53">
             <style class="default" />
             <attributes>
               <attribute id="ac6535e6ade27452f9798b6e393b0afd9185" cid="ELEM222" name="requiredHandRemoval" type="Integer" type-id="Uml.Integer" visibility="private">
@@ -1340,6 +1335,11 @@
           </item>
           <item id="di474494920142998189" cid="C050" type="class" name="SummonDefensePositionMonsterEffect" style-class="" visibility="package" change-tracking-state="added" creation-date="04/17/2021 13:42:54">
             <style class="default" />
+            <attributes>
+              <attribute id="ac3df8ab82a9b4502b6a1be1c3c7d8f84766" cid="ELEM226" name="maximumLevelAllowed" type="Integer" type-id="Uml.Integer" visibility="private">
+                <style class="default" />
+              </attribute>
+            </attributes>
             <operations>
               <operation id="ocd838c9aa3a040d7bdb14a996c474933940" cid="ELEM227" name="runEffect" type="" type-id="" visibility="public">
                 <style class="default" />
@@ -1739,7 +1739,7 @@
             <class />
           </item>
           <item id="di334024634235343236" iid="30178309497d449d91c16442ec0d7096" creation-date="04/17/2021 12:03:05" order-index="68" type="relation">
-            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="true" auto-path="" x1="1093" y1="508" x2="1766" y2="639" start-border-pos="0.373458255421032" end-border-pos="0" name-position="0,0">
+            <layout start-role-position="25,15" end-role-position="25,-15" start-multiplicity-position="25,-15" end-multiplicity-position="25,15" line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="true" auto-path="" x1="1093" y1="508" x2="1766" y2="639" start-border-pos="0.373458233746615" end-border-pos="0" name-position="0,0">
               <points>
                 <point x="1093" y="508" />
                 <point x="1766" y="639" />
@@ -1863,7 +1863,7 @@
             <class />
           </item>
           <item id="di179771669125101690" iid="2b997dce596b4d1b918b5a394f572db7" creation-date="04/17/2021 13:24:45" order-index="81" type="entity">
-            <layout ax="3956.755" ay="568.7329" awidth="191" aheight="160" x="3956.755" y="568.7329" width="191" height="160" />
+            <layout ax="3942.755" ay="572.7329" awidth="191" aheight="160" x="3942.755" y="572.7329" width="191" height="160" />
             <class />
           </item>
           <item id="di999523851576055227" iid="10f086b7ca8a43d49b0f804f4e40babf" creation-date="04/17/2021 13:14:53" order-index="72" type="relation">
@@ -1876,9 +1876,9 @@
             <relation from="di264956916149181059" from-iid="d7a986f8355a4048a9cd8c85f7e54d67" to="di555163006598959811" to-iid="81b6d384517545349617d9940d79e458" />
           </item>
           <item id="di691306391795128245" iid="5ab3691860344d238b77e1630de12f4b" creation-date="04/17/2021 13:25:01" order-index="82" type="relation">
-            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="4052" y1="569" x2="4008" y2="338" start-border-pos="0.124666223975376" end-border-pos="0.624527081827088" name-position="0,0">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="4038" y1="573" x2="4008" y2="338" start-border-pos="0.124666223975376" end-border-pos="0.624527081827088" name-position="0,0">
               <points>
-                <point x="4052" y="569" />
+                <point x="4038" y="573" />
                 <point x="4008" y="338" />
               </points>
             </layout>
