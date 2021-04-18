@@ -2,6 +2,7 @@ package effects;
 
 import card.MonsterCardType;
 import events.Event;
+
 public class AddAttackAndDefenseEffect extends Effect {
     private int attackAddValue;
     private int defenseAddValue;

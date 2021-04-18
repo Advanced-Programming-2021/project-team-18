@@ -5,34 +5,30 @@ import java.util.Scanner;
 
 public class Utility {
 
-    private Scanner scanner;
+    private static Scanner scanner = new Scanner(System.in);
 
-    public HashMap<String,String> getCommand(String command) {
-        HashMap<String,String> map = new HashMap<String,String>();
+    public HashMap<String, String> getCommand(String command) {
+        HashMap<String, String> map = new HashMap<String, String>();
 
         return map;
-    }		
-    
-    public String getNextLine() {
+    }
 
-        return "";
-    }		
-    
-    public boolean isCommandValid(HashMap<String,String> map, String[] attributes)
-    {
+    public static String getNextLine() {
+        return scanner.nextLine();
+    }
+
+    public boolean isCommandValid(HashMap<String, String> map, String[] attributes) {
 
         return false;
-    }		
-    
-    public int rollADice() 		
-    {
+    }
+
+    public int rollADice() {
 
         return 0;
-    }		
-    
-    public boolean tossACoin() 		
-    {
+    }
+
+    public boolean tossACoin() {
 
         return false;
-    }		
+    }
 }
