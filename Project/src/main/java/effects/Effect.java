@@ -3,7 +3,7 @@ package effects;
 import game.Game;
 import game.Player;
 import events.Event;
-import javax.smartcardio.Card;
+import card.Card;
 
 public class Effect {
     private Game game;
