@@ -1,7 +1,6 @@
 package card;
 
 import effects.Effect;
-
 import java.util.ArrayList;
 
 public class TrapCard {
