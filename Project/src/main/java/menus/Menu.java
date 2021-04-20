@@ -1,15 +1,9 @@
 package menus;
 
-import game.User;
-
+// TODO : SINA
 public class Menu {
 
     public void runMenu() {
 
-    }
-
-    public User menuExit() {
-
-        return new User("", "", "");
     }
 }

@@ -1,9 +1,8 @@
 package menus;
 
 import game.User;
-
 import java.util.HashMap;
-
+// TODO : Kamyar
 public class LoginMenu {
 
     public LoginMenu() {
@@ -16,7 +15,7 @@ public class LoginMenu {
 
     public User login(HashMap<String, String> map) {
 
-        return new User("", "", "");
+        return null;
     }
 
     public void showMenu() {

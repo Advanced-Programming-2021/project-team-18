@@ -1,40 +1,41 @@
 package game;
 
-import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
+// TODO : SINA
+@Getter
+@Setter
 public class User {
     private String username;
     private String password;
     private String nickname;
     private int score;
     private int balance;
+    private GameDeck activeDeck;
     private ArrayList<GameDeck> decksList;
     private ArrayList<User> userList;
 
     public User(String username, String password, String nickname) {
 
     }
+    public static User getUserByUsername(String username) {
 
-    public String getUsername() {
-
-        return "";
+        return null;
     }
+    public void addGameDeck(Deck deck) {
 
+    }
     public boolean isPasswordCorrect(String password) {
 
         return false;
     }
-
-    public void setPassword(String password) {
+    public void updateUsersData() {
 
     }
+    public GameDeck getGameDeckByName(String name) {
 
-    public String getNickname() {
-
-        return "";
-    }
-
-    public void setNickname(String nickname) {
-
+        return null;
     }
 }

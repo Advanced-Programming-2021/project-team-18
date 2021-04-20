@@ -1,9 +1,11 @@
 package main;
 
 public class Main {
-    private ProgramController program;
+    private static ProgramController program;
 
     public static void main(String[] args) {
-        System.out.println("Project started :')");
+
+        program = new ProgramController();
+        program.run();
     }
 }

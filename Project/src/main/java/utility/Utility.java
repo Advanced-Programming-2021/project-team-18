@@ -3,11 +3,12 @@ package utility;
 import java.util.HashMap;
 import java.util.Scanner;
 
+// TODO : kamyar
 public class Utility {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public HashMap<String, String> getCommand(String command) {
+    public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<String, String>();
 
         return map;
@@ -17,17 +18,17 @@ public class Utility {
         return scanner.nextLine();
     }
 
-    public boolean isCommandValid(HashMap<String, String> map, String[] attributes) {
+    public static boolean isCommandValid(HashMap<String, String> map, String[] mustAttributes , String[] optionalAttributes) {
 
         return false;
     }
 
-    public int rollADice() {
+    public static int rollADice() {
 
         return 0;
     }
 
-    public boolean tossACoin() {
+    public static boolean tossACoin() {
 
         return false;
     }
