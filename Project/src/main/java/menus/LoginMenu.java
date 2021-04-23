@@ -3,7 +3,7 @@ package menus;
 import game.User;
 import java.util.HashMap;
 // TODO : Kamyar
-public class LoginMenu {
+public class LoginMenu extends Menu {
 
     public LoginMenu() {
 
@@ -23,6 +23,10 @@ public class LoginMenu {
     }
 
     public void exit() {
+
+    }
+
+    public void runMenu(){
 
     }
 }

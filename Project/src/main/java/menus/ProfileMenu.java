@@ -4,7 +4,7 @@ import game.User;
 
 import java.util.HashMap;
 // TODO : SINA
-public class ProfileMenu {
+public class ProfileMenu extends Menu{
 
     public ProfileMenu(User user) {
 
