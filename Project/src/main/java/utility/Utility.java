@@ -35,8 +35,10 @@ public class Utility {
             if(!map.containsKey(i)) return false;
         }
         mapSize -= mustAttributes.length;
-        for(String i:optionalAttributes){
-            if(map.containsKey(i)) mapSize--;
+        if(optionalAttributes != null) {
+            for (String i : optionalAttributes) {
+                if (map.containsKey(i)) mapSize--;
+            }
         }
         if(mapSize == 0) return true;
         return false;

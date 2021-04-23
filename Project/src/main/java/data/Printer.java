@@ -7,19 +7,19 @@ import game.User;
 import java.util.ArrayList;
 
 public class Printer {
-    public void showCard(Card card) {
+    public static void showCard(Card card) {
 
     }
 
-    public void prompt(String message) {
+    public static void prompt(String message) {
 
     }
 
-    public void showDeck(Deck deck) {
+    public static void showDeck(Deck deck) {
 
     }
 
-    public void showScoreBoard() {
+    public static void showScoreBoard() {
 
     }
 }
