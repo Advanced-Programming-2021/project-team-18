@@ -3,6 +3,8 @@ package utility;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // TODO : kamyar
 public class Utility {
@@ -11,7 +13,15 @@ public class Utility {
 
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<String, String>();
-
+        String regex = "--(\\w+)\\s(\\w+)";
+        Pattern attributePattern = Pattern.compile(regex);
+        Matcher matcher = attributePattern.matcher(command);
+        while (matcher.find()) {
+            String attribute = matcher.group(1);
+            String value = matcher.group(2);
+            if (map.containsKey(attribute)) return null;
+            map.put(attribute, value);
+        }
         return map;
     }
 
@@ -20,7 +30,15 @@ public class Utility {
     }
 
     public static boolean isCommandValid(HashMap<String, String> map, String[] mustAttributes, String[] optionalAttributes) {
-
+        int mapSize = map.size();
+        for(String i:mustAttributes){
+            if(!map.containsKey(i)) return false;
+        }
+        mapSize -= mustAttributes.length;
+        for(String i:optionalAttributes){
+            if(map.containsKey(i)) mapSize--;
+        }
+        if(mapSize == 0) return true;
         return false;
     }
 
