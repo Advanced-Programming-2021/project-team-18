@@ -53,4 +53,7 @@ public class Utility {
         Random rand = new Random();
         return rand.nextBoolean();
     }
+    public static Matcher getCommandMatcher(String input , String regex) {
+        return Pattern.compile(regex).matcher(input);
+    }
 }
