@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class User {
+public class User implements Comparable<User> {
     private String username;
     private String password;
     private String nickname;
@@ -15,7 +15,7 @@ public class User {
     private int balance;
     private GameDeck activeDeck;
     private ArrayList<GameDeck> decks;
-    private static ArrayList<User> allUsers;
+    private static ArrayList<User> allUsers = new ArrayList<User>();
 
     public User(String username, String password, String nickname) {
         setUsername(username);
@@ -38,6 +38,10 @@ public class User {
         return false;
     }
 
+    public static ArrayList<User> getAllUsers() {
+        return allUsers;
+    }
+
     public void addGameDeck(GameDeck deck) {
         decks.add(deck);
     }
@@ -55,5 +59,11 @@ public class User {
             if (gameDeck.getName().equals(name)) return gameDeck;
         }
         return null;
+    }
+
+    public int compareTo(User anotherUser) {
+        if (this.score > anotherUser.score) return 1;
+        if (this.score < anotherUser.score) return -1;
+        return this.nickname.compareTo(anotherUser.nickname);
     }
 }

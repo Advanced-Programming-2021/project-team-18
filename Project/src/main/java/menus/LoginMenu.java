@@ -58,6 +58,7 @@ public class LoginMenu extends Menu {
         String registerPattern = "user\\screate(\\s--\\w+\\s\\w+){3}";
         String showMenuPattern = "menu show-current";
         String menuNavigation = "menu\\senter\\s(\\w+)";
+        String exitMenuPattern = "menu\\sexit";
         while (true) {
             String input = Utility.getNextLine();
             if (input.matches(loginPattern)) {
@@ -65,7 +66,7 @@ public class LoginMenu extends Menu {
                 String[] mustAttributes = {"username", "password"};
                 if (!Utility.isCommandValid(map, mustAttributes, null)) {
                     Printer.prompt("Invalid command!");
-                    return;
+                    continue;
                 }
                 User user = login(map);
                 if (user != null) {
@@ -76,18 +77,17 @@ public class LoginMenu extends Menu {
                 String[] mustAttributes = {"username", "password", "nickname"};
                 if (!Utility.isCommandValid(map, mustAttributes, null)) {
                     Printer.prompt("Invalid command!");
-                    return;
                 }
                 create(map);
             } else if (input.matches(showMenuPattern)) {
                 showMenu();
             } else if (input.matches(menuNavigation)) {
                 Printer.prompt("please login first");
-                return;
+            } else if (input.matches(exitMenuPattern)) {
+                exit();
             } else {
                 Printer.prompt("Invalid command!");
             }
-
         }
     }
 }
