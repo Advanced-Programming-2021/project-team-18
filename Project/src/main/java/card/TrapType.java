@@ -1,7 +1,11 @@
 package card;
 
 public enum TrapType {
-    NORMAL,
-    CONTINUOUS,
-    COUNTER
+    NORMAL ("NORMAL"),
+    CONTINUOUS ("CONTINOUS"),
+    COUNTER ("COUNTER");
+    private String typeString;
+    TrapType(String typeString) {
+        this.typeString = typeString;
+    }
 }

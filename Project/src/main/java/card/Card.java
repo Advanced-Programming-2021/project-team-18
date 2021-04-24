@@ -25,6 +25,10 @@ public class Card {
     }
     public static ArrayList<Card> getAllCards() { return allCards; }
 
+    public void showCard() {
+
+    }
+
     public void runEffects(MonsterCardEvent event) {
 
     }
