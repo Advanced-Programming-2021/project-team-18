@@ -3,7 +3,11 @@ package game;
 import card.Card;
 import card.MonsterCard;
 import card.SpellCard;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Player {
     private User user;
     private Deck graveyard;
@@ -17,6 +21,10 @@ public class Player {
     private GameDeck gameDeck;
     private Game game;
 
+    public Player(User user) {
+        this.user = user;
+        // TODO
+    }
 
     public void drawCard() {
 

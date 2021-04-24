@@ -11,8 +11,11 @@ public class GameDeck {
     private Deck mainDeck;
     private Deck sideDeck;
     private String name;
-    private User owner;
-
+    private User user;
+    public GameDeck(String name , User user) {
+        this.name = name;
+        this.user = user;
+    }
     public boolean isDeckValid() {
         return false;
     }

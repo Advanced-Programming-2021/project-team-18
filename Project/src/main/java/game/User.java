@@ -1,9 +1,11 @@
 package game;
 
+import card.Card;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -15,13 +17,17 @@ public class User {
     private int balance;
     private GameDeck activeDeck;
     private ArrayList<GameDeck> decks;
-    private static ArrayList<User> allUsers;
+    private HashMap<String,Integer> cardCount;
+    private static ArrayList<User> allUsers = new ArrayList<User>();
+
 
     public User(String username, String password, String nickname) {
         setUsername(username);
         setPassword(password);
         setNickname(nickname);
+        cardCount = new HashMap<String,Integer>();
         allUsers.add(this);
+
     }
 
     public static User getUserByUsername(String username) {

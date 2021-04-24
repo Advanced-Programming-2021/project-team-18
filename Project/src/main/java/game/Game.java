@@ -12,6 +12,10 @@ public class Game {
     private ArrayList<Event> eventsList;
     private ArrayList<Card> cardChain;
 
+    public Game(User firstUser , User secondUser) {
+        firstPlayer = new Player(firstUser);
+        secondPlayer = new Player(secondUser);
+    }
 
     public void runGame() {
 

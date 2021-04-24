@@ -1,27 +1,24 @@
 package game;
 
 import card.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 // TODO : PASHA
+@Getter
+@Setter
 public class Deck {
 
     private User owner;
     private ArrayList<Card> cardsList;
 
-    public int getAmountOfCards() {
-        return cardsList.size();
-    }
 
-    public void addCard(Card card) {
-
-    }
-
-    public void removeCard(Card card) {
-
-    }
-
-    public int getCardCount(Card card) {
-        return 0;
+    public int getCardCount(String cardName) {
+        int count = 0;
+        for(Card myCard : cardsList)
+            if(myCard.getCardName().equals(cardName))
+                ++ count;
+        return count;
     }
 }
