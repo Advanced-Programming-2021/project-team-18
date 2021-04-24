@@ -1,7 +1,6 @@
 package data;
 
 import card.Card;
-import game.Deck;
 import game.GameDeck;
 import game.User;
 
@@ -13,10 +12,11 @@ public class Printer {
     }
 
     public static void prompt(String message) {
-        System.out.println(message);
+
     }
 
     public static void showDeck(GameDeck deck , boolean isSideDeck) {
 
     }
+
 }
