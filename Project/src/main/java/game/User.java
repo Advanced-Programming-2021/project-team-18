@@ -24,6 +24,7 @@ public class User implements Comparable<User>{
         setUsername(username);
         setPassword(password);
         setNickname(nickname);
+        setBalance(100 * 1000);
         cardCount = new HashMap<String,Integer>();
         allUsers.add(this);
     }
@@ -53,6 +54,7 @@ public class User implements Comparable<User>{
 
     public void updateUsersData() {
         // TODO
+        // NOTE: WHAT IS THIS FUNCTION?! WHY IT'S NOT STATIC?!
     }
 
     public GameDeck getGameDeckByName(String name) {
@@ -61,6 +63,21 @@ public class User implements Comparable<User>{
         }
         return null;
     }
+
+    public void increaseBalance(int amount) {
+        balance += amount;
+    }
+
+    // Returns true iff user did not have enough balance
+    public boolean decreaseBalance(int amount) {
+        balance -= amount;
+        if (balance < 0) {
+            balance = 0;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public int compareTo(User anotherUser) {
         if (this.score > anotherUser.score) return 1;
