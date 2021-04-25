@@ -5,7 +5,7 @@ public enum SpellType {
     RITUAL ("RITUAL"),
     EQUIP ("EQUIP"),
     FIELD ("FIELD"),
-    CONTINUOUS ("CONTINOUS"),
+    CONTINUOUS ("CONTINUOUS"),
     COUNTER ("COUNTER"),
     QUICKPLAY ("QUICKPLAY"),
     ALL ("ALL");

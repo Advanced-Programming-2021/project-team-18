@@ -2,7 +2,7 @@ package card;
 
 public enum TrapType {
     NORMAL ("NORMAL"),
-    CONTINUOUS ("CONTINOUS"),
+    CONTINUOUS ("CONTINUOUS"),
     COUNTER ("COUNTER");
     private String typeString;
     TrapType(String typeString) {
