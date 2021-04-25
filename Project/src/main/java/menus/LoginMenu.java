@@ -49,9 +49,6 @@ public class LoginMenu extends Menu {
         Printer.prompt("Login Menu");
     }
 
-    public void exit() {
-        System.exit(0);
-    }
 
     public void runMenu() {
         String loginPattern = "user\\slogin(\\s--\\w+\\s\\w+){2}";
@@ -84,7 +81,7 @@ public class LoginMenu extends Menu {
             } else if (input.matches(menuNavigation)) {
                 Printer.prompt("please login first");
             } else if (input.matches(exitMenuPattern)) {
-                exit();
+                return ;
             } else {
                 Printer.prompt("Invalid command!");
             }

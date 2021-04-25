@@ -3,12 +3,13 @@ package game;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Getter
 @Setter
-public class User implements Comparable<User>{
+public class User implements Comparable<User> , Serializable {
     private static ArrayList<User> allUsers = new ArrayList<>();
     // Note: the information about users should be extracted at start time
     private String username;
@@ -44,6 +45,7 @@ public class User implements Comparable<User>{
         return false;
     }
     public static ArrayList<User> getAllUsers() { return allUsers; }
+    public static void setAllUsers(ArrayList<User> users) { allUsers = users;}
 
     public void addGameDeck(GameDeck deck) {
         decks.add(deck);
@@ -51,11 +53,6 @@ public class User implements Comparable<User>{
 
     public boolean isPasswordCorrect(String password) {
         return this.password.equals(password);
-    }
-
-    public void updateUsersData() {
-        // TODO
-        // NOTE: WHAT IS THIS FUNCTION?! WHY IT'S NOT STATIC?!
     }
 
     public GameDeck getGameDeckByName(String name) {

@@ -2,15 +2,20 @@ package data;
 
 
 import card.*;
+import game.User;
+import lombok.SneakyThrows;
 import utility.Utility;
+
+import java.io.*;
 import java.util.ArrayList;
 
 
 // TODO : PASHA
 
 public class DataManager {
-    private static final String MONSTER_CARDS_PATH = "src\\main\\resources\\Monster.csv";
-    private static final String SPELLANDTRAP_CARDS_PATH = "src\\main\\resources\\SpellTrap.csv";
+    private static final String MONSTER_CARDS_PATH = "src\\main\\resources\\cards\\Monster.csv";
+    private static final String SPELLANDTRAP_CARDS_PATH = "src\\main\\resources\\cards\\SpellTrap.csv";
+    private static final String USERS_DATA_DIRECTORY = "src\\main\\resources\\users\\allUsers.txt";
     public static void loadMonsterCardsIntoAllCards() {
         ArrayList<String[]> cards = Utility.getArrayListFromCSV(MONSTER_CARDS_PATH);
         String[] attributes = cards.get(0);
@@ -96,18 +101,19 @@ public class DataManager {
         loadMonsterCardsIntoAllCards();
         loadSpellCardsIntoAllCards();
         loadTrapCardsIntoAllCards();
-        for(Card card : Card.getAllCards()) {
-            if(card instanceof MonsterCard) {
-                System.out.println(card.getCardName() + " " + ((MonsterCard) card).getCardLevel());
-            }
+    }
+    @SneakyThrows
+    public static void saveUsersData() {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(USERS_DATA_DIRECTORY));
+        out.writeObject(User.getAllUsers());
+    }
+    @SneakyThrows
+    public static void loadUsersData() {
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(USERS_DATA_DIRECTORY));
+            User.setAllUsers((ArrayList<User>) in.readObject());
+        } catch(FileNotFoundException e) {
+            // file not found not a big deal
         }
-    }
-
-    public static void saveData() {
-
-    }
-
-    public static void loadData() {
-
     }
 }
