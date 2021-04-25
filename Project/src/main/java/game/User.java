@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Getter
 @Setter
-public class User {
+public class User implements Comparable<User>{
     private static ArrayList<User> allUsers = new ArrayList<>();
     // Note: the information about users should be extracted at start time
     private String username;
@@ -17,11 +18,13 @@ public class User {
     private GameDeck activeDeck;
     private int balance;
     private ArrayList<GameDeck> decks;
+    private HashMap<String,Integer> cardCount;
 
     public User(String username, String password, String nickname) {
         setUsername(username);
         setPassword(password);
         setNickname(nickname);
+        cardCount = new HashMap<String,Integer>();
         allUsers.add(this);
     }
 
@@ -38,6 +41,7 @@ public class User {
         }
         return false;
     }
+    public static ArrayList<User> getAllUsers() { return allUsers; }
 
     public void addGameDeck(GameDeck deck) {
         decks.add(deck);
@@ -56,5 +60,11 @@ public class User {
             if (gameDeck.getName().equals(name)) return gameDeck;
         }
         return null;
+    }
+    @Override
+    public int compareTo(User anotherUser) {
+        if (this.score > anotherUser.score) return 1;
+        if (this.score < anotherUser.score) return -1;
+        return this.nickname.compareTo(anotherUser.nickname);
     }
 }
