@@ -3,12 +3,13 @@ package game;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Getter
 @Setter
-public class User implements Comparable<User> {
+public class User implements Comparable<User> , Serializable {
     private static ArrayList<User> allUsers = new ArrayList<>();
     // Note: the information about users should be extracted at start time
     private String username;
@@ -26,6 +27,7 @@ public class User implements Comparable<User> {
         setNickname(nickname);
         setBalance(100 * 1000);
         cardCount = new HashMap<>();
+        decks = new ArrayList<>();
         allUsers.add(this);
     }
 
