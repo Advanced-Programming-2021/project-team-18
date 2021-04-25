@@ -10,7 +10,8 @@ import java.util.ArrayList;
 @Getter
 @Setter
 public class Card {
-    private static ArrayList<Card> allCards = new ArrayList<Card>();
+    private static ArrayList<Card> allCards = new ArrayList<>();
+    private int price;
     private String cardName;
     private String cardNumber;
     private String cardDescription;

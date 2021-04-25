@@ -1,5 +1,10 @@
 package utility;
 
+import lombok.SneakyThrows;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -55,5 +60,19 @@ public class Utility {
     }
     public static Matcher getCommandMatcher(String input , String regex) {
         return Pattern.compile(regex).matcher(input);
+    }
+    @SneakyThrows
+    public static ArrayList<String[]> getArrayListFromCSV(String fileLocation) {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation));
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        String newLine = "";
+        while((newLine = bufferedReader.readLine()) != null)
+            result.add(trimAll(newLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")));
+        return result;
+    }
+    public static String[] trimAll(String [] array) {
+        for(int i = 0;i < array.length;++ i)
+            array[i] = array[i].trim();
+        return array;
     }
 }

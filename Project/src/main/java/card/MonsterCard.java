@@ -11,10 +11,11 @@ import java.util.ArrayList;
 public class MonsterCard extends Card {
     private MonsterCardAttribute cardAttribute;
     private int cardLevel;
-    private MonsterCardType cardType;
+    private MonsterCardType monsterType;
     private int cardAttack;
     private int cardDefense;
     private boolean isDefenseMode;
+    private String cardType;
     private ArrayList<Effect> onDestroyEffects;
     private ArrayList<Effect> onAttackEffects;
     private ArrayList<Effect> onFlipEffects;
@@ -31,7 +32,7 @@ public class MonsterCard extends Card {
     public void showCard() {
         String result = "Name: " + this.getCardName() + "\n";
         result += "Level: " + this.getCardLevel() + "\n";
-        result += "Type: " + this.getCardType() + "\n";
+        result += "Type: " + this.getMonsterType() + "\n";
         result += "ATK: " + this.getCardAttack() + "\n";
         result += "DEF: "+ this.getCardDefense() + "\n";
         result += "Description " + this.getCardDescription() + "\n";

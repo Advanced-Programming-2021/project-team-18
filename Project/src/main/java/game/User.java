@@ -25,6 +25,7 @@ public class User implements Comparable<User>{
         setPassword(password);
         setNickname(nickname);
         cardCount = new HashMap<String,Integer>();
+        decks = new ArrayList<GameDeck>();
         allUsers.add(this);
     }
 

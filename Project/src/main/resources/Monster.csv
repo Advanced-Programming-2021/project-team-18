@@ -1,6 +1,6 @@
 Name,Level,Attribute, Monster Type , Card Type ,Atk,Def,Description,Price
-Battle OX,4,EARHT,Beast-Warrior,Normal,1700,100,"A monster with tremendous power, it destroys enemies with a swing of its axe.",2200
-Axe Raider,4,EARHT,Warrior,Normal,1700,1150,An axe-wielding monster of tremendous strength and agility.,3100
+Battle OX,4,EARTH,BeastWarrior,Normal,1700,100,"A monster with tremendous power, it destroys enemies with a swing of its axe.",2200
+Axe Raider,4,EARTH,Warrior,Normal,1700,1150,An axe-wielding monster of tremendous strength and agility.,3100
 Yomi Ship,3,WATER,Aqua,Effect,800,1400,If this card is destroyed by battle and sent to the GY: Destroy the monster that destroyed this card.,1700
 Horn Imp,4,DARK,Fiend,Normal,1300,1000,"A small fiend that dwells in the dark, its single horn makes it a formidable opponent.",2500
 Silver Fang,3,EARTH,Beast,Normal,1200,800,"A snow wolf that's beautiful to the eye, but absolutely vicious in battle.",1700
@@ -25,7 +25,7 @@ Gate Guardian,11,DARK,Warrior,Effect,3750,3400,"Cannot be Normal Summoned/Set. M
 Scanner,1,LIGHT,Machine,Effect,0,0,"Once per turn, you can select 1 of your opponent's monsters that is removed from play. Until the End Phase, this card's name is treated as the selected monster's name, and this card has the same Attribute, Level, ATK, and DEF as the selected monster. If this card is removed from the field while this effect is applied, remove it from play.",8000
 Bitron,2,EARTH,Cyberse,Normal,200,2000,A new species found in electronic space. There's not much information on it.,1000
 Marshmallon,3,LIGHT,Fairy,Effect,300,500,"Cannot be destroyed by battle. After damage calculation, if this card was attacked, and was face-down at the start of the Damage Step: The attacking player takes 1000 damage.",700
-Beast King Barbaros,8,EARTH,Beast-Warrior,Effect,3000,1200,"You can Normal Summon/Set this card without Tributing, but its original ATK becomes 1900. You can Tribute 3 monsters to Tribute Summon (but not Set) this card. If Summoned this way: Destroy all cards your opponent controls.",9200
+Beast King Barbaros,8,EARTH,BeastWarrior,Effect,3000,1200,"You can Normal Summon/Set this card without Tributing, but its original ATK becomes 1900. You can Tribute 3 monsters to Tribute Summon (but not Set) this card. If Summoned this way: Destroy all cards your opponent controls.",9200
 Texchanger,1,DARK,Cyberse,Effect,100,100,"Once per turn, when your monster is targeted for an attack: You can negate that attack, then Special Summon 1 Cyberse Normal Monster from your hand, Deck, or GY.",200
 Leotron ,4,EARTH,Cyberse,Normal,2000,0,A territorial electronic monster that guards its own domain.,2500
 The Calculator,2,LIGHT,Thunder,Effect,0,0,The ATK of this card is the combined Levels of all face-up monsters you control x 300.,8000
@@ -35,8 +35,7 @@ Herald of Creation,4,LIGHT,Spellcaster,Effect,1800,600,"Once per turn: You can d
 Exploder Dragon,3,EARTH,Dragon,Effect,1000,0,If this card is destroyed by battle and sent to the Graveyard: Destroy the monster that destroyed it. Neither player takes any battle damage from attacks involving this attacking card.,1000
 Warrior Dai Grepher,4,EARTH,Warrior,Normal,1700,1600,The warrior who can manipulate dragons. Nobody knows his mysterious past.,3400
 Dark Blade,4,DARK,Warrior,Normal,1800,1500,"They say he is a dragon-manipulating warrior from the dark world. His attack is tremendous, using his great swords with vicious power.",3500
-Wattaildragon,6,LIGHT,Dragon,Normal,2500,1000,"Capable of indefinite flight. Attacks by wrapping its body with electricity and ramming into opponents.
-IMPORTANT: Capturing the ""Wattaildragon"" is forbidden by the Ancient Rules and is a Level 6 offense, the minimum sentence for which is imprisonment for no less than 2500 heliocycles.",5800
+Wattaildragon,6,LIGHT,Dragon,Normal,2500,1000,"Capable of indefinite flight. Attacks by wrapping its body with electricity and ramming into opponents.IMPORTANT: Capturing the ""Wattaildragon"" is forbidden by the Ancient Rules and is a Level 6 offense, the minimum sentence for which is imprisonment for no less than 2500 heliocycles.",5800
 "Terratiger, the Empowered Warrior",4,EARTH,Warrior,Effect,1800,1200,When this card is Normal Summoned: You can Special Summon 1 Level 4 or lower Normal Monster from your hand in Defense Position.,3200
 The Tricky,5,WIND,Spellcaster,Effect,2000,1200,You can Special Summon this card (from your hand) by discarding 1 card.,4300
-Spiral Serpent,8,WATER,Sea Serpent,Normal,2900,2900,"When huge whirlpools lay cities asunder, it is the hunger of this sea serpent at work. No one has ever escaped its dreaded Spiral Wave to accurately describe the terror they experienced.",11700
+Spiral Serpent,8,WATER,SeaSerpent,Normal,2900,2900,"When huge whirlpools lay cities asunder, it is the hunger of this sea serpent at work. No one has ever escaped its dreaded Spiral Wave to accurately describe the terror they experienced.",11700

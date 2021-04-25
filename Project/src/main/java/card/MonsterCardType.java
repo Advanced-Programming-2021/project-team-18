@@ -2,7 +2,7 @@ package card;
 
 public enum MonsterCardType {
     WARRIOR ("WARRIOR"),
-    BEASTWARRIOR ("BEASTWARRIOR"),
+    BEASTWARRIOR ("BEAST-WARRIOR"),
     FIEND ("FIEND"),
     AQUA ("AQUA"),
     BEAST ("BEAST"),
