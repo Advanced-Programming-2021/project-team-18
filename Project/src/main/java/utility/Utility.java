@@ -17,7 +17,7 @@ public class Utility {
     private static Scanner scanner = new Scanner(System.in);
 
     public static HashMap<String, String> getCommand(String command) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<>();
         String regex = "--(\\w+)\\s(\\w+)";
         Pattern attributePattern = Pattern.compile(regex);
         Matcher matcher = attributePattern.matcher(command);
@@ -35,6 +35,10 @@ public class Utility {
     }
 
     public static boolean isCommandValid(HashMap<String, String> map, String[] mustAttributes, String[] optionalAttributes) {
+        if (map == null) {
+            if (mustAttributes.length > 0) return false;
+            return true;
+        }
         int mapSize = map.size();
         for(String i:mustAttributes){
             if(!map.containsKey(i)) return false;
@@ -64,7 +68,7 @@ public class Utility {
     @SneakyThrows
     public static ArrayList<String[]> getArrayListFromCSV(String fileLocation) {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation));
-        ArrayList<String[]> result = new ArrayList<String[]>();
+        ArrayList<String[]> result = new ArrayList<>();
         String newLine = "";
         while((newLine = bufferedReader.readLine()) != null)
             result.add(trimAll(newLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")));

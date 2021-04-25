@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class Card {
+
+public class Card implements Comparable<Card> {
     private static ArrayList<Card> allCards = new ArrayList<>();
     private int price;
     private String cardName;
@@ -19,12 +20,15 @@ public class Card {
     private Player player;
 
     public static Card getCardByName(String cardName) {
-        for(Card card : allCards)
-            if(card.getCardName().equals(cardName))
+        for (Card card : allCards)
+            if (card.getCardName().equals(cardName))
                 return card;
         return null;
     }
-    public static ArrayList<Card> getAllCards() { return allCards; }
+
+    public static ArrayList<Card> getAllCards() {
+        return allCards;
+    }
 
     public void showCard() {
 
@@ -34,4 +38,9 @@ public class Card {
 
     }
 
+
+    @Override
+    public int compareTo(Card o) {
+        return this.cardName.compareTo(o.cardName);
+    }
 }

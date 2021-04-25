@@ -3,13 +3,12 @@ package game;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Getter
 @Setter
-public class User implements Comparable<User> , Serializable {
+public class User implements Comparable<User> {
     private static ArrayList<User> allUsers = new ArrayList<>();
     // Note: the information about users should be extracted at start time
     private String username;
@@ -19,16 +18,19 @@ public class User implements Comparable<User> , Serializable {
     private GameDeck activeDeck;
     private int balance;
     private ArrayList<GameDeck> decks;
-    private HashMap<String,Integer> cardCount;
+    private HashMap<String, Integer> cardCount;
 
     public User(String username, String password, String nickname) {
         setUsername(username);
         setPassword(password);
         setNickname(nickname);
         setBalance(100 * 1000);
-        cardCount = new HashMap<String,Integer>();
-        decks = new ArrayList<GameDeck>();
+        cardCount = new HashMap<>();
         allUsers.add(this);
+    }
+
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
     }
 
     public static User getUserByUsername(String username) {
@@ -44,8 +46,10 @@ public class User implements Comparable<User> , Serializable {
         }
         return false;
     }
-    public static ArrayList<User> getAllUsers() { return allUsers; }
-    public static void setAllUsers(ArrayList<User> users) { allUsers = users;}
+
+    public static ArrayList<User> getAllUsers() {
+        return allUsers;
+    }
 
     public void addGameDeck(GameDeck deck) {
         decks.add(deck);
@@ -53,6 +57,11 @@ public class User implements Comparable<User> , Serializable {
 
     public boolean isPasswordCorrect(String password) {
         return this.password.equals(password);
+    }
+
+    public void updateUsersData() {
+        // TODO
+        // NOTE: WHAT IS THIS FUNCTION?! WHY IT'S NOT STATIC?!
     }
 
     public GameDeck getGameDeckByName(String name) {
@@ -74,6 +83,10 @@ public class User implements Comparable<User> , Serializable {
             return true;
         }
         return false;
+    }
+
+    public void addCardBalance(String cardName) {
+        cardCount.put(cardName, cardCount.getOrDefault(cardName, 0) + 1);
     }
 
     @Override

@@ -52,18 +52,22 @@ public class ProfileMenu extends Menu {
     public void runMenu() {
         String newLine = Utility.getNextLine();
         HashMap<String, String> commandMap = Utility.getCommand(newLine);
-        while (!newLine.equals("menu exit")) {
-            if (newLine.equals("menu show-current")) {
+        while (!newLine.equals(MENU_EXIT)) {
+            if (newLine.equals(SHOW_MENU)) {
                 Printer.prompt(name);
             } else if (newLine.matches("menu enter .*")) {
-                Printer.prompt("menu navigation is not possible");
+                Printer.prompt(NAVIGATION_DENIED);
             } else if (newLine.matches("profile change --password .*")) {
-                if (Utility.isCommandValid(commandMap, mustInputs.get("changePassword"), mayInputs.get("changePassword")))
+                if (Utility.isCommandValid(commandMap, mustInputs.get("changePassword"), mayInputs.get("changePassword"))) {
+                    assert commandMap != null;
                     changePassword(commandMap);
+                }
                 else Printer.prompt(INVALID_COMMAND);
             } else if (newLine.matches("profile change --nickname .*")) {
-                if (Utility.isCommandValid(commandMap, mustInputs.get("changeNickname"), mayInputs.get("changeNickname")))
+                if (Utility.isCommandValid(commandMap, mustInputs.get("changeNickname"), mayInputs.get("changeNickname"))) {
+                    assert commandMap != null;
                     changeNickname(commandMap);
+                }
                 else Printer.prompt(INVALID_COMMAND);
             } else Printer.prompt(INVALID_COMMAND);
             newLine = Utility.getNextLine();

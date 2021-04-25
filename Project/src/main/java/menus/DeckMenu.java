@@ -61,9 +61,9 @@ public class DeckMenu extends Menu {
         matcher.matches();
         HashMap<String,String> map = Utility.getCommand(matcher.group(1));
         String[] mustAttributes = {"card" , "deck"};
-        String[] optionalAttributs = {"side"};
-        if(! Utility.isCommandValid(map , mustAttributes , optionalAttributs)) {
-            Printer.prompt("Invalid command"); return ;
+        String[] optionalAttributes = {"side"};
+        if(! Utility.isCommandValid(map , mustAttributes , optionalAttributes)) {
+            Printer.prompt(INVALID_COMMAND); return ;
         }
         String cardName = map.get("card");
         String deckName = map.get("deck");
@@ -92,9 +92,9 @@ public class DeckMenu extends Menu {
         matcher.matches();
         HashMap<String,String> map = Utility.getCommand(matcher.group(1));
         String[] mustAttributes = {"card" , "deck"};
-        String[] optionalAttributs = {"side"};
-        if(! Utility.isCommandValid(map , mustAttributes , optionalAttributs)) {
-            Printer.prompt("Invalid command"); return ;
+        String[] optionalAttributes = {"side"};
+        if(! Utility.isCommandValid(map , mustAttributes , optionalAttributes)) {
+            Printer.prompt(INVALID_COMMAND); return ;
         }
         String cardName = map.get("card");
         String deckName = map.get("deck");
@@ -122,7 +122,7 @@ public class DeckMenu extends Menu {
     public void showAllDecks(Matcher matcher) {
         matcher.matches();
         if(! matcher.group(1).contains("-a") ) {
-            Printer.prompt("Invalid command"); return ;
+            Printer.prompt(INVALID_COMMAND); return ;
         }
         String result = "";
         result += "Decks:\n";
@@ -140,7 +140,7 @@ public class DeckMenu extends Menu {
         matcher.matches();
         HashMap<String,String> map = Utility.getCommand(matcher.group(1));
         if(! Utility.isCommandValid(map , new String[] {"deck-name"} , new String[] {"side"})) {
-            Printer.prompt("Invalid command!"); return ;
+            Printer.prompt(Menu.INVALID_COMMAND); return ;
         }
         boolean isSideDeck = matcher.group(1).contains("--side");
         String deckName = map.get("deck-name");
@@ -153,7 +153,7 @@ public class DeckMenu extends Menu {
     public void showDeckCards(Matcher matcher) {
         matcher.matches();
         if(! matcher.group(1).contains("--cards")) {
-            Printer.prompt("Invalid command!"); return ;
+            Printer.prompt(Menu.INVALID_COMMAND); return ;
         }
         String result = "";
         for(Card card : Card.getAllCards())
@@ -200,7 +200,7 @@ public class DeckMenu extends Menu {
             } else if(Utility.getCommandMatcher(input , regexShowDeckCards).matches()) {
                 showDeckCards(Utility.getCommandMatcher(input , regexShowDeckCards));
             } else {
-                Printer.prompt("Invalid Command!");
+                Printer.prompt(Menu.INVALID_COMMAND);
             }
         }
     }
