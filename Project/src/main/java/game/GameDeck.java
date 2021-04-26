@@ -5,6 +5,8 @@ import card.Card;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 
@@ -31,4 +33,11 @@ public class GameDeck {
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GameDeck)) return false;
+        GameDeck gameDeck = (GameDeck) o;
+        return Objects.equals(mainDeck, gameDeck.mainDeck) && Objects.equals(sideDeck, gameDeck.sideDeck) && name.equals(gameDeck.name) && user.equals(gameDeck.user);
+    }
 }
