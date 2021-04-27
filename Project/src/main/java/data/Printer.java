@@ -8,8 +8,8 @@ import game.Deck;
 import game.GameDeck;
 import game.User;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Printer {
     public static void showCard(Card card) {
@@ -37,7 +37,7 @@ public class Printer {
         Printer.prompt(result);
     }
     public static void showScoreBoard() {
-        ArrayList<User> users = User.getAllUsers();
+        List<User> users = User.getAllUsers();
         Collections.sort(users);
         int ind = 0;
         int rank = 0;

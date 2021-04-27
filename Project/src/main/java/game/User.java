@@ -23,6 +23,10 @@ public class User implements Comparable<User> , Serializable {
     private final HashMap<String, Integer> cardCount;
 
 
+    public static List<User> getAllUsers() {
+        return Collections.unmodifiableList(allUsers);
+    }
+
     public static User getUserByUsername(String username) {
         for (User user : allUsers) {
             if (user.username.equals(username)) return user;
@@ -92,11 +96,6 @@ public class User implements Comparable<User> , Serializable {
 
     public List<GameDeck> getDecks() {
         return Collections.unmodifiableList(decks);
-    }
-
-    public void updateUsersData() {
-        // TODO
-        // NOTE: WHAT IS THIS FUNCTION?! WHY IT'S NOT STATIC?!
     }
 
     @Override
