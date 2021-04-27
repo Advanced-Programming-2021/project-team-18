@@ -31,8 +31,7 @@ public class DeckMenu extends Menu {
             return;
         }
         Printer.prompt("deck created successfully!");
-        GameDeck deck = new GameDeck(deckName, user);
-        user.getDecks().add(deck);
+        user.addGameDeck(new GameDeck(deckName, user));
     }
 
     public void deleteDeck(Matcher matcher) {
@@ -44,9 +43,7 @@ public class DeckMenu extends Menu {
             return;
         }
         Printer.prompt("deck deleted successfully");
-        user.getDecks().remove(deck);
-        if (user.getActiveDeck().getName().equals(deck.getName()))
-            user.setActiveDeck(null);
+        user.removeGameDeck(deck);
     }
 
     public void setActiveDeck(Matcher matcher) {
@@ -81,7 +78,7 @@ public class DeckMenu extends Menu {
             Printer.prompt("deck with name " + deckName + " does not exist");
             return;
         }
-        if (Card.getCardByName(cardName) == null || user.getCardCount().getOrDefault(cardName, 0) == gameDeck.getMainDeck().getCardCount(cardName) + gameDeck.getSideDeck().getCardCount(cardName)) {
+        if (Card.getCardByName(cardName) == null || user.getCardBalance(cardName) == gameDeck.getMainDeck().getCardCount(cardName) + gameDeck.getSideDeck().getCardCount(cardName)) {
             Printer.prompt("card with name " + map.get("card") + " does not exist");
             return;
         }
@@ -175,7 +172,7 @@ public class DeckMenu extends Menu {
         }
         String result = "";
         for (Card card : Card.getAllCards())
-            if (user.getCardCount().getOrDefault(card.getCardName(), 0) > 0)
+            if (user.getCardBalance(card.getCardName()) > 0)
                 result += card.getCardName() + ":" + card.getCardDescription() + "\n";
         Printer.prompt(result);
     }

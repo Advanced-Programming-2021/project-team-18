@@ -1,5 +1,6 @@
 package menus;
 
+import card.Card;
 import data.Printer;
 import game.User;
 import utility.Utility;
@@ -8,24 +9,25 @@ import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 
-// by Sina
+// By Sina
 public class ShopMenu extends Menu {
     private static final HashMap<String, Integer> cardsPrice = new HashMap<>();
     private static final TreeSet<String> allCardNames = new TreeSet<>();
     private static final String name = "Shop Menu";
     private final User user;
-    // Note: the information about price of cards should be extracted at start time
     // Note: there are two kinds of showing a card: shop-based and full-detailed
     // since there is no attribute about "price" in card, the first one should be handled
     // in ShopMenu and DeckMenu separately
 
-    public static void addCardPrice(String cardName, Integer price) {
-        cardsPrice.put(cardName, price);
-    }
 
     public ShopMenu(User user) {
         this.user = user;
-        if (allCardNames.isEmpty()) allCardNames.addAll(cardsPrice.keySet());
+        if (cardsPrice.isEmpty()){
+            for (Card card : Card.getAllCards()) {
+                cardsPrice.put(card.getCardName(), card.getPrice());
+                allCardNames.add(card.getCardName());
+            }
+        }
     }
 
     private void showCardAndPrice(String cardName) {
@@ -38,7 +40,7 @@ public class ShopMenu extends Menu {
     }
 
     private void sellCard(String cardName) {
-        if (!cardsPrice.containsKey(cardName)) {
+        if (!allCardNames.contains(cardName)) {
             Printer.prompt("there is no card with this name");
             return;
         }
@@ -63,8 +65,7 @@ public class ShopMenu extends Menu {
                 showAllCardsAndPrices();
             } else if (newLine.matches("enter menu .*")) {
                 Printer.prompt(NAVIGATION_DENIED);
-            }
-            Printer.prompt(INVALID_COMMAND);
+            } else Printer.prompt(INVALID_COMMAND);
             newLine = Utility.getNextLine();
         }
     }

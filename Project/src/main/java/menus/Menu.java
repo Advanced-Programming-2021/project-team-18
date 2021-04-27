@@ -2,8 +2,8 @@ package menus;
 
 import java.util.HashMap;
 
-// TODO : SINA
-public class Menu {
+// By Sina
+public abstract class Menu {
     protected static final HashMap<String, String[]> mustInputs = new HashMap<>();
     protected static final HashMap<String, String[]> mayInputs = new HashMap<>();
     protected static final String INVALID_COMMAND = "invalid command";
@@ -12,7 +12,6 @@ public class Menu {
     protected static final String NAVIGATION_DENIED = "menu navigation is not possible";
     protected static String name;
 
-    public void runMenu() {
+    public abstract void runMenu();
 
-    }
 }
