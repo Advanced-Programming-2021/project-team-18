@@ -2,6 +2,8 @@ package card;
 
 import data.Printer;
 import effects.Effect;
+import events.Event;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +30,12 @@ public class MonsterCard extends Card {
     public void attackTo(MonsterCard attackedMonster) {
 
     }
+
+    @Override
+    public void runEffects(Event event) {
+
+    }
+
     @Override
     public void showCard() {
         String result = "Name: " + this.getCardName() + "\n";

@@ -20,4 +20,12 @@ public class Game {
     public void runGame() {
 
     }
+
+    public void endGame(Player winner) {
+//      TODO : SINA
+    }
+
+    public void endGameWithTie() {
+//      TODO : KAMYAR
+    }
 }

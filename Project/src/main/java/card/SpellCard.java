@@ -2,6 +2,8 @@ package card;
 
 import data.Printer;
 import effects.Effect;
+import events.Event;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,10 @@ import java.util.ArrayList;
 public class SpellCard extends Card{
     private SpellType cardSpellType;
     private ArrayList<Effect> onActivationEffects;
+    @Override
+    public void runEffects(Event event) {
+
+    }
     @Override
     public void showCard() {
         String result = "Name: " + this.getCardName() + "\n";

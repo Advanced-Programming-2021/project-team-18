@@ -6,6 +6,7 @@ import card.SpellCard;
 import card.TrapCard;
 import game.Deck;
 import game.GameDeck;
+import game.Player;
 import game.User;
 
 import java.util.Collections;
@@ -19,7 +20,12 @@ public class Printer {
     public static void prompt(String message) {
         System.out.println(message);
     }
+    public static void showBoard(Player player) {
+        // TODO
+    }
+    public static void showGraveyard(Deck deck) {
 
+    }
     public static void showDeck(GameDeck gameDeck , boolean isSideDeck) {
         String result = "";
         result += "Deck: " + gameDeck.getName() + "\n";

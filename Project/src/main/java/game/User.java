@@ -11,7 +11,7 @@ import java.util.List;
 
 // By Sina
 public class User implements Comparable<User> , Serializable {
-    @Setter private static ArrayList<User> allUsers = new ArrayList<>();
+    @Setter @Getter private static ArrayList<User> allUsers = new ArrayList<>();
 
     @Setter @Getter private String username;
     @Getter @Setter private String password;

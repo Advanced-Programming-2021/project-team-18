@@ -1,5 +1,6 @@
 package card;
 
+import events.Event;
 import events.MonsterCardEvent;
 import game.Player;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 
-public class Card implements Comparable<Card> {
+public abstract class Card implements Comparable<Card> {
     private static ArrayList<Card> allCards = new ArrayList<>();
     private int price;
     private String cardName;
@@ -18,6 +19,7 @@ public class Card implements Comparable<Card> {
     private String cardDescription;
     private boolean isFaceUp;
     private Player player;
+    private Origin cardOrigin;
 
     public static Card getCardByName(String cardName) {
         for (Card card : allCards)
@@ -29,15 +31,14 @@ public class Card implements Comparable<Card> {
     public static ArrayList<Card> getAllCards() {
         return allCards;
     }
+    public Card createNewCard(String cardName) {
+//        TODO : PASHA
 
-    public void showCard() {
-
+        return null;
     }
 
-    public void runEffects(MonsterCardEvent event) {
-
-    }
-
+    public abstract void showCard();
+    public abstract void runEffects(Event event);
 
     @Override
     public int compareTo(Card o) {
