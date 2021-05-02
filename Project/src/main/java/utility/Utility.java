@@ -19,8 +19,7 @@ public class Utility {
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<>();
         String regex = "--(\\w+)\\s(\\w+)";
-        Pattern attributePattern = Pattern.compile(regex);
-        Matcher matcher = attributePattern.matcher(command);
+        Matcher matcher = getCommandMatcher(command, regex);
         while (matcher.find()) {
             String attribute = matcher.group(1);
             String value = matcher.group(2);
@@ -40,16 +39,16 @@ public class Utility {
             return true;
         }
         int mapSize = map.size();
-        for(String i:mustAttributes){
-            if(!map.containsKey(i)) return false;
+        for (String i : mustAttributes) {
+            if (!map.containsKey(i)) return false;
         }
         mapSize -= mustAttributes.length;
-        if(optionalAttributes != null) {
+        if (optionalAttributes != null) {
             for (String i : optionalAttributes) {
                 if (map.containsKey(i)) mapSize--;
             }
         }
-        if(mapSize == 0) return true;
+        if (mapSize == 0) return true;
         return false;
     }
 
@@ -62,26 +61,28 @@ public class Utility {
         Random rand = new Random();
         return rand.nextBoolean();
     }
-    public static Matcher getCommandMatcher(String input , String regex) {
+
+    public static Matcher getCommandMatcher(String input, String regex) {
         return Pattern.compile(regex).matcher(input);
     }
+
     @SneakyThrows
     public static ArrayList<String[]> getArrayListFromCSV(String fileLocation) {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation));
         ArrayList<String[]> result = new ArrayList<>();
         String newLine = "";
-        while((newLine = bufferedReader.readLine()) != null)
+        while ((newLine = bufferedReader.readLine()) != null)
             result.add(trimAll(newLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")));
         return result;
     }
 
-    public static String removeMultipleSpaces(String input){
+    public static String removeMultipleSpaces(String input) {
         input = input.replaceAll("\\s+", " ");
         return input;
     }
 
-    public static String[] trimAll(String [] array) {
-        for(int i = 0;i < array.length;++ i)
+    public static String[] trimAll(String[] array) {
+        for (int i = 0; i < array.length; ++i)
             array[i] = array[i].trim();
         return array;
     }
