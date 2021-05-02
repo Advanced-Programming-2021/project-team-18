@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 public class Utility {
 
     private static Scanner scanner = new Scanner(System.in);
-    // to be modified
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<>();
         String regex = "--(\\w+)\\s(\\w+)";
