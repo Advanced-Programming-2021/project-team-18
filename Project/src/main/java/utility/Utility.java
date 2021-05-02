@@ -74,6 +74,12 @@ public class Utility {
             result.add(trimAll(newLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")));
         return result;
     }
+
+    public static String removeMultipleSpaces(String input){
+        input = input.replaceAll("\\s+", " ");
+        return input;
+    }
+
     public static String[] trimAll(String [] array) {
         for(int i = 0;i < array.length;++ i)
             array[i] = array[i].trim();
