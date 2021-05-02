@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class Utility {
 
     private static Scanner scanner = new Scanner(System.in);
-
+    // to be modified
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<>();
         String regex = "--(\\w+)\\s(\\w+)";
@@ -33,6 +33,8 @@ public class Utility {
         return scanner.nextLine();
     }
 
+
+    // to be modified
     public static boolean isCommandValid(HashMap<String, String> map, String[] mustAttributes, String[] optionalAttributes) {
         if (map == null) {
             if (mustAttributes.length > 0) return false;
