@@ -46,8 +46,11 @@ public class DuelMenu extends Menu {
         if(roundsCount != 1 && roundsCount != 3) {
             Printer.prompt("number of rounds is not supported"); return ;
         }
-        Game game = new Game(user , User.getUserByUsername(secondPlayerName));
-        game.runGame();
+        while(roundsCount > 0) {
+            Game game = new Game(user, User.getUserByUsername(secondPlayerName));
+            game.runGame();
+            roundsCount --;
+        }
     }
     public void duelAI(Matcher matcher) {
         matcher.matches();
@@ -66,8 +69,11 @@ public class DuelMenu extends Menu {
         if(roundsCount != 1 && roundsCount != 3) {
             Printer.prompt("number of rounds is not supported"); return ;
         }
-        Game game = new Game(user , User.getUserByUsername("AI"));
-        game.runGame();
+        while(roundsCount > 0) {
+            Game game = new Game(user, User.getUserByUsername("AI"));
+            game.runGame();
+            roundsCount --;
+        }
     }
     @Override
     public void runMenu() {

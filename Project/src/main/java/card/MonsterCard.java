@@ -17,6 +17,7 @@ public class MonsterCard extends Card {
     private int cardAttack;
     private int cardDefense;
     private boolean isDefenseMode;
+    private boolean hasAttackedThisTurn = false;
     private String cardType;
     private ArrayList<Effect> onDestroyEffects;
     private ArrayList<Effect> onAttackEffects;
@@ -46,4 +47,24 @@ public class MonsterCard extends Card {
         result += "Description " + this.getCardDescription() + "\n";
         Printer.prompt(result);
     }
+    @Override
+    public Card cloneCard() {
+        MonsterCard card = new MonsterCard();
+        this.cloneDefaults(card);
+        card.setCardAttribute(this.getCardAttribute());
+        card.setCardLevel(this.getCardLevel());
+        card.setMonsterType(this.getMonsterType());
+        card.setCardAttack(this.getCardAttack());
+        card.setCardDefense(this.getCardDefense());
+        card.setCardType(this.getCardType());
+        card.setOnDestroyEffects(this.getOnDestroyEffects());
+        card.setOnAttackEffects(this.getOnAttackEffects());
+        card.setOnFlipEffects(this.getOnFlipEffects());
+        card.setOnDefenseEffects(this.getOnDefenseEffects());
+        card.setOnSummonEffects(this.getOnSummonEffects());
+        card.setOnStartPhaseEffects(this.getOnStartPhaseEffects());
+        card.setOnEndPhaseEffects(this.getOnEndPhaseEffects());
+        return card;
+    }
+
 }

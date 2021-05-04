@@ -13,12 +13,17 @@ public class Game {
     private ArrayList<Card> cardChain;
 
     public Game(User firstUser , User secondUser) {
-        firstPlayer = new Player(firstUser);
-        secondPlayer = new Player(secondUser);
+        firstPlayer = new Player(firstUser , firstUser.getActiveDeck().getMainDeck());
+        secondPlayer = new Player(secondUser , secondUser.getActiveDeck().getMainDeck());
+//        TODO
+        firstPlayer.setGame(this);
+        secondPlayer.setGame(this);
+        firstPlayer.setOpponent(secondPlayer);
+        secondPlayer.setOpponent(firstPlayer);
     }
 
     public void runGame() {
-
+//        TODO
     }
 
     public void endGame(Player winner) {

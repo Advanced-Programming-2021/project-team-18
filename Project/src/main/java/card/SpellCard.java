@@ -25,4 +25,13 @@ public class SpellCard extends Card{
         result += "Description " + this.getCardDescription() + "\n";
         Printer.prompt(result);
     }
+
+    @Override
+    public Card cloneCard() {
+        SpellCard card = new SpellCard();
+        this.cloneDefaults(card);
+        card.setCardSpellType(this.getCardSpellType());
+        card.setOnActivationEffects(this.getOnActivationEffects());
+        return card;
+    }
 }

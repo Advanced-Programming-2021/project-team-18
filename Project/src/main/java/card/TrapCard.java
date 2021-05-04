@@ -25,4 +25,13 @@ public class TrapCard extends Card{
         result += "Description " + this.getCardDescription() + "\n";
         Printer.prompt(result);
     }
+
+    @Override
+    public Card cloneCard() {
+        TrapCard card = new TrapCard();
+        this.cloneDefaults(card);
+        card.setCardTrapType(this.getCardTrapType());
+        card.setOnActivationEffects(this.getOnActivationEffects());
+        return card;
+    }
 }

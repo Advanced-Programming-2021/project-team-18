@@ -5,6 +5,7 @@ import events.MonsterCardEvent;
 import game.Player;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public abstract class Card implements Comparable<Card> {
     private String cardName;
     private String cardNumber;
     private String cardDescription;
-    private boolean isFaceUp;
+    private boolean isFaceUp = true;
     private Player player;
     private Origin cardOrigin;
 
@@ -31,12 +32,20 @@ public abstract class Card implements Comparable<Card> {
     public static ArrayList<Card> getAllCards() {
         return allCards;
     }
-    public Card createNewCard(String cardName) {
-//        TODO : PASHA
 
-        return null;
+    public static Card createNewCard(String cardName) {
+//        TODO : PASHA
+        return getCardByName(cardName).cloneCard();
     }
 
+
+    public void cloneDefaults(Card card) {
+        card.setPrice(this.getPrice());
+        card.setCardName(this.getCardName());
+        card.setCardNumber(this.getCardNumber());
+        card.setCardDescription(this.getCardDescription());
+    }
+    public abstract Card cloneCard();
     public abstract void showCard();
     public abstract void runEffects(Event event);
 
