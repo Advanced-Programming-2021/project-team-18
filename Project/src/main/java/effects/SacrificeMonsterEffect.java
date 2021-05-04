@@ -1,5 +1,5 @@
 package effects;
-
+// TODO : KAMYAR
 public class SacrificeMonsterEffect extends Effect {
     private int requiredFromHand;
     private int requiredFromBoard;

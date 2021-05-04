@@ -2,7 +2,7 @@ package effects;
 
 import card.MonsterCardType;
 import events.Event;
-
+// TODO : PASHA
 public class AddAttackAndDefenseEffect extends Effect {
     private int attackAddValue;
     private int defenseAddValue;
