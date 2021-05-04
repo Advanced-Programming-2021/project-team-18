@@ -18,7 +18,6 @@ public class Utility {
 
     // returns null if any command comes multiple times to indicate invalidity
     // if an attribute does not have any arguments, it'll be mapped to null.
-    @org.jetbrains.annotations.Nullable
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<>();
         String regex = "--(\\w+)\\s(\\w+)";
