@@ -15,6 +15,10 @@ import java.util.regex.Pattern;
 public class Utility {
 
     private static Scanner scanner = new Scanner(System.in);
+
+    // returns null if any command comes multiple times to indicate invalidity
+    // if an attribute does not have any arguments, it'll be mapped to null.
+    @org.jetbrains.annotations.Nullable
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<>();
         String regex = "--(\\w+)\\s(\\w+)";
@@ -25,6 +29,13 @@ public class Utility {
             if (map.containsKey(attribute)) return null;
             map.put(attribute, value);
         }
+        command = command.replaceAll("--(\\w+)\\s(\\w+)", "");
+        matcher = getCommandMatcher(command, "--(\\w+)");
+        while (matcher.find()) {
+            String attribute = matcher.group(1);
+            if (map.containsKey(attribute)) return null;
+            map.put(attribute, null);
+        }
         return map;
     }
 
@@ -33,15 +44,17 @@ public class Utility {
     }
 
 
-    // to be modified
+    // Be Aware: if the command has attributes without an argument always check them with areAttributesValid function
     public static boolean isCommandValid(HashMap<String, String> map, String[] mustAttributes, String[] optionalAttributes) {
         if (map == null) {
             if (mustAttributes.length > 0) return false;
             return true;
         }
         int mapSize = map.size();
-        for (String i : mustAttributes) {
-            if (!map.containsKey(i)) return false;
+        if (mustAttributes != null) {
+            for (String i : mustAttributes) {
+                if (!map.containsKey(i)) return false;
+            }
         }
         mapSize -= mustAttributes.length;
         if (optionalAttributes != null) {
@@ -51,6 +64,21 @@ public class Utility {
         }
         if (mapSize == 0) return true;
         return false;
+    }
+    public static boolean areAttributesValid(HashMap<String, String> map, String[] attributesWithArgument, String[] attributesWithoutAnArgument) {
+        if (attributesWithArgument != null) {
+            for (String i : attributesWithArgument) {
+                if (!map.containsKey(i)
+                        || map.get(i) == null) return false;
+            }
+        }
+        if (attributesWithoutAnArgument != null) {
+            for (String i : attributesWithoutAnArgument) {
+                if (!map.containsKey(i)
+                        || map.get(i) != null) return false;
+            }
+        }
+        return true;
     }
 
     public static int rollADice() {
