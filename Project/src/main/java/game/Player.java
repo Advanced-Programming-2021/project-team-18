@@ -40,7 +40,7 @@ public class Player {
     private Card selectedCard;
     private boolean hasSummonedMonsterThisTurn = false; // has to be reset at end phase
 
-    public Player(User user , Deck deck) {
+    public Player(User user, Deck deck) {
         this.user = user;
         this.remainingDeck = deck;
         monstersFieldList = new MonsterCard[6];
@@ -52,27 +52,28 @@ public class Player {
     }
 
     public void runCommonCommands(String command) {
-        if(Utility.getCommandMatcher(command , regexSelect).matches()) {
+        if (Utility.getCommandMatcher(command, regexSelect).matches()) {
             selectCard(command);
-        } else if(Utility.getCommandMatcher(command , regexshowGraveyard).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexshowGraveyard).matches()) {
             showGraveyard();
-        } else if(Utility.getCommandMatcher(command , regexshowSelectedCard).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexshowSelectedCard).matches()) {
             showSelectedCard();
         }
     }
+
     public void runMainPhaseCommands(String command) {
 
-        if(Utility.getCommandMatcher(command , regexSummon).matches()) {
+        if (Utility.getCommandMatcher(command, regexSummon).matches()) {
             summonMonster();
-        } else if(Utility.getCommandMatcher(command , regexSet).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexSet).matches()) {
             setMonster(command);
-        } else if(Utility.getCommandMatcher(command , regexFlipSummon).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexFlipSummon).matches()) {
             flipSummon();
-        } else if(Utility.getCommandMatcher(command , regexAttackNormal).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexAttackNormal).matches()) {
             attack(command);
-        } else if(Utility.getCommandMatcher(command , regexAttackDirect).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexAttackDirect).matches()) {
             attackDirect();
-        } else if(Utility.getCommandMatcher(command , regexActivateEffect).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexActivateEffect).matches()) {
             activateEffect();
         }
     }
@@ -87,8 +88,8 @@ public class Player {
 
     public void mainPhase1() {
 //      TODO : PASHA
-        Printer.showBoard(this);
-        while(true) {
+        Printer.showBoard(this, opponent);
+        while (true) {
             String command = Utility.getNextLine();
             runCommonCommands(command);
             runMainPhaseCommands(command);
@@ -101,7 +102,7 @@ public class Player {
 
     public void mainPhase2() {
 //      TODO : PASHA
-        while(true) {
+        while (true) {
             String command = Utility.getNextLine();
             runCommonCommands(command);
             runMainPhaseCommands(command);
@@ -111,17 +112,23 @@ public class Player {
     public void endPhase() {
 //      TODO : KAMYAR
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
+        Printer.prompt("phase: End phase");
+        for (int i = 1; i <= 5; i++){
+            if(monstersFieldList[i] != null)monstersFieldList[i].setHasAttackedThisTurn(false);
+        }
+        hasSummonedMonsterThisTurn = false;
+        Printer.prompt("its " + opponent.getUser().getNickname() + "’s turn");
     }
 
     public int getSelectedMonsterCardOnFieldID() {
-        for(int i = 1;i <= 5;++ i)
-            if(selectedCard == monstersFieldList[i])
+        for (int i = 1; i <= 5; ++i)
+            if (selectedCard == monstersFieldList[i])
                 return i;
         return -1;
     }
 
     public void showBoard() {
-//      TODO : KAMYAR
+        Printer.showBoard(this, opponent);
     }
 
     public void selectCard(String command) {
@@ -138,18 +145,18 @@ public class Player {
 
     public void flipSummon() {
 //      TODO : PASHA
-        if(selectedCard == null) {
+        if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
-            return ;
+            return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
-        if(cardID <= 0) {
+        if (cardID <= 0) {
             Printer.prompt("you can’t change this card position");
-            return ;
+            return;
         }
-        if(selectedCard.isFaceUp()) {
+        if (selectedCard.isFaceUp()) {
             Printer.prompt("you can’t flip summon this card");
-            return ;
+            return;
         }
         selectedCard.setFaceUp(false);
         Printer.prompt("flip summoned successfully");
@@ -157,25 +164,25 @@ public class Player {
 
     public void attack(String command) {
 //      TODO : PASHA
-        Matcher matcher = Utility.getCommandMatcher(command , regexAttackNormal);
+        Matcher matcher = Utility.getCommandMatcher(command, regexAttackNormal);
         matcher.matches();
         int positionToAttack = Integer.parseInt(matcher.group(1));
 
-        if(selectedCard == null) {
+        if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
-            return ;
+            return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
-        if(cardID <= 0) {
+        if (cardID <= 0) {
             Printer.prompt("you can’t attack with this card");
-            return ;
+            return;
         }
-        if(((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
+        if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
             Printer.prompt("this card already attacked");
-            return ;
+            return;
         }
-        if(positionToAttack > 0 && positionToAttack < 6 && ((MonsterCard) opponent.getMonstersFieldList()[positionToAttack]) != null) {
-            ((MonsterCard)selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack]);
+        if (positionToAttack > 0 && positionToAttack < 6 && ((MonsterCard) opponent.getMonstersFieldList()[positionToAttack]) != null) {
+            ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack]);
 //          TODO : NOTE : MonsterCard.attack() should handle these things
         }
 
@@ -183,21 +190,21 @@ public class Player {
 
     public void attackDirect() {
 //      TODO : PASHA
-        if(selectedCard == null) {
+        if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
-            return ;
+            return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
-        if(cardID <= 0) {
+        if (cardID <= 0) {
             Printer.prompt("you can’t attack with this card");
-            return ;
+            return;
         }
-        if(((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
+        if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
             Printer.prompt("this card already attacked");
-            return ;
+            return;
         }
         opponent.setLifePoint(opponent.getLifePoint() - ((MonsterCard) selectedCard).getCardAttack());
-        ((MonsterCard)selectedCard).setHasAttackedThisTurn(true);
+        ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
         Printer.prompt("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
     }
 
