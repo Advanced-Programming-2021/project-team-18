@@ -19,7 +19,6 @@ public class ShopMenu extends Menu {
     // since there is no attribute about "price" in card, the first one should be handled
     // in ShopMenu and DeckMenu separately
 
-
     public ShopMenu(User user) {
         this.user = user;
         if (cardsPrice.isEmpty()){

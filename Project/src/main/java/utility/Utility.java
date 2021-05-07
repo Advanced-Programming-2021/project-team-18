@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 // TODO : kamyar
 public class Utility {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     // returns null if any command comes multiple times to indicate invalidity
     // if an attribute does not have any arguments, it'll be mapped to null.
@@ -46,8 +46,7 @@ public class Utility {
     // Be Aware: if the command has attributes without an argument always check them with areAttributesValid function
     public static boolean isCommandValid(HashMap<String, String> map, String[] mustAttributes, String[] optionalAttributes) {
         if (map == null) {
-            if (mustAttributes.length > 0) return false;
-            return true;
+            return mustAttributes.length == 0;
         }
         int mapSize = map.size();
         if (mustAttributes != null) {
@@ -61,8 +60,7 @@ public class Utility {
                 if (map.containsKey(i)) mapSize--;
             }
         }
-        if (mapSize == 0) return true;
-        return false;
+        return (mapSize == 0);
     }
     public static boolean areAttributesValid(HashMap<String, String> map, String[] attributesWithArgument, String[] attributesWithoutAnArgument) {
         if (attributesWithArgument != null) {

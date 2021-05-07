@@ -10,7 +10,7 @@ public abstract class Menu {
     protected static final String MENU_EXIT = "menu exit";
     protected static final String SHOW_MENU = "menu show-current";
     protected static final String NAVIGATION_DENIED = "menu navigation is not possible";
-    protected static String name;
+    protected static String NAME;
 
     public abstract void runMenu();
 

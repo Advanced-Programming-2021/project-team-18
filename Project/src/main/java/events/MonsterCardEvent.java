@@ -1,8 +1,8 @@
 package events;
 
 public enum MonsterCardEvent {
-    ONDEFENSE,
-    ONATTACK,
-    ONFLIP,
-    ONSUMMON
+    ON_DEFENCE,
+    ON_ATTACK,
+    ON_FLIP,
+    ON_SUMMON
 }

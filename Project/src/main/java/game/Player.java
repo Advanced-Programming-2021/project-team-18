@@ -15,8 +15,8 @@ import java.util.regex.Matcher;
 // TODO : SINA
 public class Player {
     private static final String regexSelect = "select.+";
-    private static final String regexshowGraveyard = "show\\sgraveyard";
-    private static final String regexshowSelectedCard = "card\\sshow\\s\\-\\-selected";
+    private static final String regexShowGraveyard = "show\\sgraveyard";
+    private static final String regexShowSelectedCard = "card\\sshow\\s\\-\\-selected";
     private static final String regexSummon = "summon";
     private static final String regexSet = "set.*";
     private static final String regexFlipSummon = "flip\\-summon";
@@ -24,40 +24,44 @@ public class Player {
     private static final String regexAttackDirect = "attack\\sdirect";
     private static final String regexActivateEffect = "activate\\seffect";
 
-
-    private int turn;
+    // Initialized in constructor
     private User user;
     private Deck graveyard;
     private Deck remainingDeck;
     private MonsterCard[] monstersFieldList;
     private Card[] spellsAndTrapFieldList;
     private SpellCard fieldZone;
-    private Player opponent;
     private Deck hand;
     private int lifePoint;
-    private Game game;
-    private Card theSummonedCardThisTurn;
-
+    private boolean isLooser;
     private Card selectedCard;
-    private boolean hasSummonedMonsterThisTurn = false; // has to be reset at end phase
+    private boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
+    private Card theSummonedCardThisTurn;
+    // Initialized by setters
+    private Game game;
+    private Player opponent;
+
 
     public Player(User user, Deck deck) {
         this.user = user;
+        graveyard = new Deck();
         this.remainingDeck = deck;
         monstersFieldList = new MonsterCard[6];
         spellsAndTrapFieldList = new Card[6];
-        lifePoint = 8000;
+        fieldZone = null;
         hand = new Deck();
-        graveyard = new Deck();
-        // TODO
+        lifePoint = 8000;
+        isLooser = false;
+        selectedCard = null;
+        hasSummonedMonsterThisTurn = false;
     }
 
     public void runCommonCommands(String command) {
         if (Utility.getCommandMatcher(command, regexSelect).matches()) {
             selectCard(command);
-        } else if (Utility.getCommandMatcher(command, regexshowGraveyard).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexShowGraveyard).matches()) {
             showGraveyard();
-        } else if (Utility.getCommandMatcher(command, regexshowSelectedCard).matches()) {
+        } else if (Utility.getCommandMatcher(command, regexShowSelectedCard).matches()) {
             showSelectedCard();
         }
     }
@@ -79,17 +83,27 @@ public class Player {
         }
     }
 
+    // By Sina
     public void drawPhase() {
-//      TODO : SINA
+        Printer.prompt("phase: draw phase");
+        if (!game.isFirstTurn()) {
+            if (remainingDeck.isEmpty()) {
+                Printer.prompt("No card is remained in your deck");
+                isLooser = true;
+                return;
+            }
+            hand.addCard(drawCard());
+        }
     }
 
     public void standbyPhase() {
+        Printer.prompt("phase: standby phase");
 //      TODO : SINA
     }
 
     public void mainPhase1() {
 //      TODO : PASHA
-        Printer.showBoard(this, opponent);
+        Printer.showBoard(this, this.opponent);
         while (true) {
             String command = Utility.getNextLine();
             runCommonCommands(command);
@@ -333,7 +347,7 @@ public class Player {
 //      TODO : SINA
     }
 
-    public void drawCard() {
-//      TODO : SINA
+    private Card drawCard() {
+        return remainingDeck.pop();
     }
 }

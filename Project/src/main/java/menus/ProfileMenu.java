@@ -6,12 +6,12 @@ import utility.Utility;
 
 import java.util.HashMap;
 
-// TODO : SINA
+// By Sina
 public class ProfileMenu extends Menu {
     User user;
 
     static {
-        name = "Profile Menu";
+        NAME = "Profile Menu";
         mustInputs.put("changePassword", new String[]{"current", "new"});
         mayInputs.put("changePassword", null);
         mustInputs.put("changeNickname", new String[]{"nickname"});
@@ -44,7 +44,7 @@ public class ProfileMenu extends Menu {
             return;
         }
         user.setNickname(newNickname);
-        Printer.prompt("nickname changed successfully! hello world!");
+        Printer.prompt("nickname changed successfully!");
     }
 
     // Note: This function WILL NOT WORK until the function "getCommand" is re-implemented
@@ -54,21 +54,19 @@ public class ProfileMenu extends Menu {
         HashMap<String, String> commandMap = Utility.getCommand(newLine);
         while (!newLine.equals(MENU_EXIT)) {
             if (newLine.equals(SHOW_MENU)) {
-                Printer.prompt(name);
+                Printer.prompt(NAME);
             } else if (newLine.matches("menu enter .*")) {
                 Printer.prompt(NAVIGATION_DENIED);
             } else if (newLine.matches("profile change --password .*")) {
                 if (Utility.isCommandValid(commandMap, mustInputs.get("changePassword"), mayInputs.get("changePassword"))) {
                     assert commandMap != null;
                     changePassword(commandMap);
-                }
-                else Printer.prompt(INVALID_COMMAND);
+                } else Printer.prompt(INVALID_COMMAND);
             } else if (newLine.matches("profile change --nickname .*")) {
                 if (Utility.isCommandValid(commandMap, mustInputs.get("changeNickname"), mayInputs.get("changeNickname"))) {
                     assert commandMap != null;
                     changeNickname(commandMap);
-                }
-                else Printer.prompt(INVALID_COMMAND);
+                } else Printer.prompt(INVALID_COMMAND);
             } else Printer.prompt(INVALID_COMMAND);
             newLine = Utility.getNextLine();
             commandMap = Utility.getCommand(newLine);
