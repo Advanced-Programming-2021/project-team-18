@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 // By Sina
 public class User implements Comparable<User> , Serializable {
@@ -72,6 +69,10 @@ public class User implements Comparable<User> , Serializable {
         return this.password.equals(password);
     }
 
+    public void increaseScore(int amount) {
+        score += amount;
+    }
+
     public void increaseBalance(int amount) {
         balance += amount;
     }
@@ -96,6 +97,14 @@ public class User implements Comparable<User> , Serializable {
 
     public List<GameDeck> getDecks() {
         return Collections.unmodifiableList(decks);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getUsername().equals(user.getUsername()) && getPassword().equals(user.getPassword());
     }
 
     @Override

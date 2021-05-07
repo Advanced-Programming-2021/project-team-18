@@ -70,7 +70,6 @@ public class Player {
     }
 
     public void runMainPhaseCommands(String command) {
-
         if (Utility.getCommandMatcher(command, regexSummon).matches()) {
             summonMonster();
         } else if (Utility.getCommandMatcher(command, regexSet).matches()) {
@@ -95,16 +94,19 @@ public class Player {
                 isLooser = true;
                 return;
             }
-            hand.addCard(drawCard());
+            Card newCard = remainingDeck.pop();
+            hand.addCard(newCard);
+            Printer.prompt("new card added to the hand: " + newCard.getCardName());
         }
     }
 
+    // By Sina
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
-//      TODO : SINA
     }
 
     public void mainPhase1() {
+        Printer.prompt("phase: main phase 1");
 //      TODO : PASHA
         Printer.showBoard(this, this.opponent);
         while (true) {
@@ -115,10 +117,12 @@ public class Player {
     }
 
     public void battlePhase() {
+        Printer.prompt("phase: battle phase");
 //      TODO : KAMYAR
     }
 
     public void mainPhase2() {
+        Printer.prompt("phase: main phase 2");
 //      TODO : PASHA
         while (true) {
             String command = Utility.getNextLine();
@@ -128,6 +132,7 @@ public class Player {
     }
 
     public void endPhase() {
+        Printer.prompt("phase: end phase");
 //      TODO : KAMYAR
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
         Printer.prompt("phase: End phase");
