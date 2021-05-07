@@ -71,7 +71,6 @@ public class Player {
     }
 
     public void runMainPhaseCommands(String command) {
-
         if (Utility.getCommandMatcher(command, regexSummon).matches()) {
             summonMonster();
         } else if (Utility.getCommandMatcher(command, regexSet).matches()) {
@@ -107,16 +106,18 @@ public class Player {
                 isLooser = true;
                 return;
             }
-            hand.addCard(drawCard());
+            Card newCard = remainingDeck.pop();
+            hand.addCard(newCard);
+            Printer.prompt("new card added to the hand: " + newCard.getCardName());
         }
     }
 
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
-//      TODO : SINA
     }
 
     public void mainPhase1() {
+        Printer.prompt("phase: main phase 1");
 //      TODO : PASHA
         Printer.showBoard(this, this.opponent);
         while (true) {
@@ -127,6 +128,7 @@ public class Player {
     }
 
     public void battlePhase() {
+        Printer.prompt("phase: battle phase");
 //      TODO : KAMYAR
         if (game.isFirstTurn()) return;
         while (true) {
@@ -137,6 +139,7 @@ public class Player {
     }
 
     public void mainPhase2() {
+        Printer.prompt("phase: main phase 2");
 //      TODO : PASHA
         while (true) {
             String command = Utility.getNextLine();
@@ -146,6 +149,7 @@ public class Player {
     }
 
     public void endPhase() {
+        Printer.prompt("phase: end phase");
 //      TODO : KAMYAR
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
         Printer.prompt("phase: End phase");
@@ -271,8 +275,7 @@ public class Player {
     private boolean isMonsterAddressValid(int address) {
         if (address < 1) return false;
         if (address > FIELD_SIZE) return false;
-        if (monstersFieldList[address] == null) return false;
-        return true;
+        return monstersFieldList[address] != null;
     }
 
     // Used to summon monsters with level less than 5
@@ -284,18 +287,19 @@ public class Player {
     }
 
     // Used to summon monsters with level 5 or 6
-    private void summonMonsterMediumLevel(int placeOnHand, int placeOnField, int tributeAddress) {
+    private void summonMonsterMediumLevel(int placeOnHand, int tributeAddress) {
         MonsterCard tributedMonster = monstersFieldList[tributeAddress];
         monstersFieldList[tributeAddress] = null;
         graveyard.getCardsList().add(tributedMonster);
-        placeOnField = getFirstEmptyPlaceOnMonstersField();
+        int placeOnField = getFirstEmptyPlaceOnMonstersField();
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
         hasSummonedMonsterThisTurn = true;
         theSummonedCardThisTurn = selectedCard;
         hand.removeCard(placeOnHand);
     }
 
-    private void summonMonsterHighLevel(int firstTribute, int secondTribute, int placeOnHand, int placeOnField) {
+    // Used to summon monsters with level greater than 6
+    private void summonMonsterHighLevel(int firstTribute, int secondTribute, int placeOnHand) {
         MonsterCard firstTributedCard = monstersFieldList[firstTribute];
         MonsterCard secondTributedCard = monstersFieldList[secondTribute];
         monstersFieldList[firstTribute] = null;
@@ -303,7 +307,7 @@ public class Player {
         graveyard.getCardsList().add(firstTributedCard);
         graveyard.getCardsList().add(secondTributedCard);
         hand.removeCard(placeOnHand);
-        placeOnField = getFirstEmptyPlaceOnMonstersField();
+        int placeOnField = getFirstEmptyPlaceOnMonstersField();
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
         hasSummonedMonsterThisTurn = true;
         theSummonedCardThisTurn = selectedCard;
@@ -335,7 +339,7 @@ public class Player {
             int address = Integer.parseInt(Utility.getNextLine());
             if (Utility.checkAndPrompt(!isMonsterAddressValid(address),
                     "there no monsters on this address")) return;
-            summonMonsterMediumLevel(place, placeOnField, address);
+            summonMonsterMediumLevel(place, address);
             Printer.prompt(SUCCESSFUL_SUMMON);
             return;
         }
@@ -348,7 +352,7 @@ public class Player {
         if (Utility.checkAndPrompt(!isMonsterAddressValid(firstTribute) || !isMonsterAddressValid(secondTribute),
                 "there is no monster on one of these addresses")) return;
         // Note: What if the two addresses above are the same?
-        summonMonsterHighLevel(firstTribute, secondTribute, place, placeOnField);
+        summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
     }
 
@@ -394,7 +398,7 @@ public class Player {
             Printer.prompt("this card already attacked");
             return;
         }
-        if (positionToAttack > 0 && positionToAttack < 6 && ((MonsterCard) opponent.getMonstersFieldList()[positionToAttack]) != null) {
+        if (positionToAttack > 0 && positionToAttack < 6 && opponent.getMonstersFieldList()[positionToAttack] != null) {
             ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack]);
 //          TODO : NOTE : MonsterCard.attack() should handle these things
         }
@@ -434,15 +438,26 @@ public class Player {
     }
 
     public void showGraveyard() {
-//      TODO : SINA
+        if (Utility.checkAndPrompt(graveyard.isEmpty(), "graveyard empty")) return;
+        int i = 0;
+        for (Card deadCard : graveyard.getAllCards()) {
+            i ++;
+            Printer.prompt(i + ". " + deadCard.getCardName() + ":" + deadCard.getCardDescription());
+        }
     }
 
     public void showSelectedCard() {
-//      TODO : SINA
+        if (Utility.checkAndPrompt(
+                selectedCard == null,
+                "no card is selected yet")) return;
+        if (Utility.checkAndPrompt(
+                selectedCard.getPlayer() == opponent && !selectedCard.isFaceUp(),
+                "card is not visible" )) return;
+        Printer.showCard(selectedCard);
     }
 
     public void forfeit() {
-//      TODO : SINA
+        isLooser = true; // ENJOY THE DESIGN: THE COMPLICATED FUNCTION "FORFEIT" IS HANDLED IN ONE LINE :)
     }
 
     private Card drawCard() {

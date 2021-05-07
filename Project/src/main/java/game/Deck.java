@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // TODO : PASHA
 @Getter
@@ -27,7 +29,13 @@ public class Deck {
     }
 
     public void addCard(Card newCard) {
+        if (cardsList.size() == capacity) return;
         cardsList.add(newCard);
+    }
+
+    public void removeCard(int index) {
+        if (index >= cardsList.size() || index < 0) return;
+        cardsList.remove(index);
     }
 
     public int getCardCount(String cardName) {
@@ -38,8 +46,7 @@ public class Deck {
         return count;
     }
 
-    public void removeCard(int index) {
-        if (index >= cardsList.size() || index < 0) return;
-        cardsList.remove(index);
+    public List<Card> getAllCards() {
+        return Collections.unmodifiableList(cardsList);
     }
 }
