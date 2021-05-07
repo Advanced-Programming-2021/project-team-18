@@ -36,6 +36,7 @@ public class Player {
     private Deck hand;
     private int lifePoint;
     private Game game;
+    private Card theSummonedCardThisTurn;
 
     private Card selectedCard;
     private boolean hasSummonedMonsterThisTurn = false; // has to be reset at end phase
@@ -113,10 +114,11 @@ public class Player {
 //      TODO : KAMYAR
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
         Printer.prompt("phase: End phase");
-        for (int i = 1; i <= 5; i++){
-            if(monstersFieldList[i] != null)monstersFieldList[i].setHasAttackedThisTurn(false);
+        for (int i = 1; i <= 5; i++) {
+            if (monstersFieldList[i] != null) monstersFieldList[i].setHasAttackedThisTurn(false);
         }
         hasSummonedMonsterThisTurn = false;
+        theSummonedCardThisTurn = null;
         Printer.prompt("its " + opponent.getUser().getNickname() + "’s turn");
     }
 
@@ -124,6 +126,20 @@ public class Player {
         for (int i = 1; i <= 5; ++i)
             if (selectedCard == monstersFieldList[i])
                 return i;
+        return -1;
+    }
+
+    public int getSelectedCardOnHandID() {
+        for (int i = 0; i < hand.getCardsList().size(); i++) {
+            if (selectedCard == hand.getCardsList().get(i)) return i;
+        }
+        return -1;
+    }
+
+    public int getFirstEmptyPlaceOnMonstersField() {
+        for (int i = 1; i <= 5; i++) {
+            if (monstersFieldList[i] == null) return i;
+        }
         return -1;
     }
 
@@ -135,8 +151,93 @@ public class Player {
 //      TODO : KAMYAR
     }
 
+
     public void summonMonster() {
 //      TODO : KAMYAR
+//      This function should be modfied later to support
+        if (selectedCard == null) {
+            Printer.prompt("no card is selected yet");
+            return;
+        }
+        int place = getSelectedCardOnHandID();
+        if (!(selectedCard instanceof MonsterCard)
+                || place == -1) {
+            Printer.prompt("you can’t summon this card");
+            return;
+        }
+        int placeOnField = getFirstEmptyPlaceOnMonstersField();
+        if (placeOnField == -1) {
+            Printer.prompt("monster card zone is full");
+            return;
+        }
+        if (hasSummonedMonsterThisTurn) {
+            Printer.prompt("you already summoned/set on this turn");
+            return;
+        }
+        if (((MonsterCard) selectedCard).getCardLevel() <= 4) {
+            monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
+            hand.removeCard(place);
+            hasSummonedMonsterThisTurn = true;
+            theSummonedCardThisTurn = selectedCard;
+            Printer.prompt("summoned successfully");
+            return;
+        }
+        if (((MonsterCard) selectedCard).getCardLevel() == 5
+                || ((MonsterCard) selectedCard).getCardLevel() == 6) {
+            if (placeOnField == 1) {
+                Printer.prompt("there are not enough cards for tribute");
+                return;
+            }
+            Printer.prompt("input the address of the card you want to tribute:");
+            String inp = Utility.getNextLine();
+            int address = Integer.parseInt(inp);
+            if (address > 5 || address < 1 || monstersFieldList[address] == null) {
+                Printer.prompt("there no monsters on this address");
+                return;
+            }
+            MonsterCard tributedMonster = monstersFieldList[address];
+            monstersFieldList[address] = null;
+            graveyard.getCardsList().add(tributedMonster);
+            placeOnField = getFirstEmptyPlaceOnMonstersField();
+            monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
+            hasSummonedMonsterThisTurn = true;
+            theSummonedCardThisTurn = selectedCard;
+            hand.removeCard(place);
+            Printer.prompt("summoned successfully");
+            return;
+        }
+        if (((MonsterCard) selectedCard).getCardLevel() == 7
+                || ((MonsterCard) selectedCard).getCardLevel() == 8) {
+            if (placeOnField == 1
+                    || placeOnField == 2) {
+                Printer.prompt("there are not enough cards for tribute");
+                return;
+            }
+            Printer.prompt("input two addresses for the cards you want to tribute in TWO DIFFERENT LINES:");
+            int firstTribute = Integer.parseInt(Utility.getNextLine());
+            int secondTribute = Integer.parseInt(Utility.getNextLine());
+            if (firstTribute > 5
+                    || firstTribute < 1
+                    || monstersFieldList[firstTribute] == null
+                    || secondTribute > 5
+                    || secondTribute < 1
+                    || monstersFieldList[secondTribute] == null) {
+                Printer.prompt("there is no monster on one of these addresses");
+                return;
+            }
+            MonsterCard firstTributedCard = monstersFieldList[firstTribute];
+            MonsterCard secondTributedCard = monstersFieldList[secondTribute];
+            monstersFieldList[firstTribute] = null;
+            monstersFieldList[secondTribute] = null;
+            graveyard.getCardsList().add(firstTributedCard);
+            graveyard.getCardsList().add(secondTributedCard);
+            hand.removeCard(place);
+            placeOnField = getFirstEmptyPlaceOnMonstersField();
+            monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
+            hasSummonedMonsterThisTurn = true;
+            theSummonedCardThisTurn = selectedCard;
+            Printer.prompt("summoned successfully");
+        }
     }
 
     public void setMonster(String command) {
@@ -154,7 +255,7 @@ public class Player {
             Printer.prompt("you can’t change this card position");
             return;
         }
-        if (selectedCard.isFaceUp()) {
+        if (selectedCard.isFaceUp() || theSummonedCardThisTurn == selectedCard) {
             Printer.prompt("you can’t flip summon this card");
             return;
         }

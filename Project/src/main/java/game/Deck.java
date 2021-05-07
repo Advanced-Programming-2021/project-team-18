@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+
 // TODO : PASHA
 @Getter
 @Setter
@@ -16,9 +17,14 @@ public class Deck {
 
     public int getCardCount(String cardName) {
         int count = 0;
-        for(Card myCard : cardsList)
-            if(myCard.getCardName().equals(cardName))
-                ++ count;
+        for (Card myCard : cardsList)
+            if (myCard.getCardName().equals(cardName))
+                ++count;
         return count;
+    }
+
+    public void removeCard(int index) {
+        if (index >= cardsList.size()) return;
+        cardsList.remove(index);
     }
 }
