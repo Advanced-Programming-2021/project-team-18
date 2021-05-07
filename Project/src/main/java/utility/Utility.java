@@ -118,4 +118,5 @@ public class Utility {
         if (condition) Printer.prompt(promptMessage);
         return condition;
     }
+
 }
