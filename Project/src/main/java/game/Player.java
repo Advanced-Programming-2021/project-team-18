@@ -87,6 +87,17 @@ public class Player {
         }
     }
 
+    public void runBattlePhaseCommands(String command) {
+        if (Utility.getCommandMatcher(command, regexAttackNormal).matches()) {
+            attack(command);
+        } else if (Utility.getCommandMatcher(command, regexAttackDirect).matches()) {
+            attackDirect();
+        } else if (Utility.getCommandMatcher(command, regexActivateEffect).matches()) {
+            activateEffect();
+        }
+
+    }
+
     // By Sina
     public void drawPhase() {
         Printer.prompt("phase: draw phase");
@@ -117,6 +128,12 @@ public class Player {
 
     public void battlePhase() {
 //      TODO : KAMYAR
+        if (game.isFirstTurn()) return;
+        while (true) {
+            String command = Utility.getNextLine();
+            runCommonCommands(command);
+            runBattlePhaseCommands(command);
+        }
     }
 
     public void mainPhase2() {
@@ -167,6 +184,15 @@ public class Player {
 
     public void selectCard(String command) {
 //      TODO : KAMYAR
+        if (command.matches("select -d")) {
+            if (selectedCard == null) {
+                Printer.prompt("no card is selected yet");
+                return;
+            }
+            Printer.prompt("card deselected");
+            selectedCard = null;
+            return;
+        }
         HashMap<String, String> map = Utility.getCommand(command);
         boolean isOpponentsCard = false;
         String place;

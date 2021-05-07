@@ -4,8 +4,10 @@ import card.Card;
 import data.Printer;
 import events.Event;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class Game {
     private final User firstUser, secondUser;
@@ -70,7 +72,7 @@ public class Game {
     private void runDuel() {
         Player activePlayer = firstPlayer;
         while (!isDuelFinished()) {
-            turn ++;
+            turn++;
             activePlayer.drawPhase();
             if (isDuelFinished()) break;
             activePlayer.standbyPhase();
