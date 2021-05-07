@@ -23,6 +23,9 @@ public class Player {
     private static final String regexAttackNormal = "attack\\s(\\d+)";
     private static final String regexAttackDirect = "attack\\sdirect";
     private static final String regexActivateEffect = "activate\\seffect";
+    private static final String SUCCESSFUL_SUMMON = "summoned successfully";
+    private static final int HAND_SIZE = 7;
+    private static final int FIELD_SIZE = 5;
 
     // Initialized in constructor
     private User user;
@@ -46,8 +49,8 @@ public class Player {
         this.user = user;
         graveyard = new Deck();
         this.remainingDeck = deck;
-        monstersFieldList = new MonsterCard[6];
-        spellsAndTrapFieldList = new Card[6];
+        monstersFieldList = new MonsterCard[FIELD_SIZE + 1]; // To have 1-based indexing
+        spellsAndTrapFieldList = new Card[FIELD_SIZE + 1];   // To have 1-based indexing
         fieldZone = null;
         hand = new Deck();
         lifePoint = 8000;
@@ -165,93 +168,88 @@ public class Player {
 //      TODO : KAMYAR
     }
 
+    private boolean isMonsterAddressValid(int address) {
+        if (address < 1) return false;
+        if (address > FIELD_SIZE) return false;
+        if (monstersFieldList[address] == null) return false;
+        return true;
+    }
+
+    // Used to summon monsters with level less than 5
+    private void summonMonsterLowLevel(int placeOnHand, int placeOnField) {
+        monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
+        hand.removeCard(placeOnHand);
+        hasSummonedMonsterThisTurn = true;
+        theSummonedCardThisTurn = selectedCard;
+    }
+
+    // Used to summon monsters with level 5 or 6
+    private void summonMonsterMediumLevel(int placeOnHand, int placeOnField, int tributeAddress) {
+        MonsterCard tributedMonster = monstersFieldList[tributeAddress];
+        monstersFieldList[tributeAddress] = null;
+        graveyard.getCardsList().add(tributedMonster);
+        placeOnField = getFirstEmptyPlaceOnMonstersField();
+        monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
+        hasSummonedMonsterThisTurn = true;
+        theSummonedCardThisTurn = selectedCard;
+        hand.removeCard(placeOnHand);
+    }
+
+    private void summonMonsterHighLevel(int firstTribute, int secondTribute, int placeOnHand, int placeOnField) {
+        MonsterCard firstTributedCard = monstersFieldList[firstTribute];
+        MonsterCard secondTributedCard = monstersFieldList[secondTribute];
+        monstersFieldList[firstTribute] = null;
+        monstersFieldList[secondTribute] = null;
+        graveyard.getCardsList().add(firstTributedCard);
+        graveyard.getCardsList().add(secondTributedCard);
+        hand.removeCard(placeOnHand);
+        placeOnField = getFirstEmptyPlaceOnMonstersField();
+        monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
+        hasSummonedMonsterThisTurn = true;
+        theSummonedCardThisTurn = selectedCard;
+    }
 
     public void summonMonster() {
 //      TODO : KAMYAR
-//      This function should be modfied later to support
-        if (selectedCard == null) {
-            Printer.prompt("no card is selected yet");
-            return;
-        }
+//      Note: This function should be modified later to support
+        if (Utility.checkAndPrompt(selectedCard == null,
+                "no card is selected yet")) return;
         int place = getSelectedCardOnHandID();
-        if (!(selectedCard instanceof MonsterCard)
-                || place == -1) {
-            Printer.prompt("you can’t summon this card");
-            return;
-        }
+        if (Utility.checkAndPrompt(!(selectedCard instanceof MonsterCard) || place == -1,
+                "you can’t summon this card")) return;
         int placeOnField = getFirstEmptyPlaceOnMonstersField();
-        if (placeOnField == -1) {
-            Printer.prompt("monster card zone is full");
+        if (Utility.checkAndPrompt(placeOnField == -1,
+                "monster card zone is full")) return;
+        if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn,
+                "you already summoned/set on this turn")) return;
+        int monsterLevel = ((MonsterCard) selectedCard).getCardLevel();
+        if (monsterLevel <= 4) {
+            summonMonsterLowLevel(place, placeOnField);
+            Printer.prompt(SUCCESSFUL_SUMMON);
             return;
         }
-        if (hasSummonedMonsterThisTurn) {
-            Printer.prompt("you already summoned/set on this turn");
-            return;
-        }
-        if (((MonsterCard) selectedCard).getCardLevel() <= 4) {
-            monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
-            hand.removeCard(place);
-            hasSummonedMonsterThisTurn = true;
-            theSummonedCardThisTurn = selectedCard;
-            Printer.prompt("summoned successfully");
-            return;
-        }
-        if (((MonsterCard) selectedCard).getCardLevel() == 5
-                || ((MonsterCard) selectedCard).getCardLevel() == 6) {
-            if (placeOnField == 1) {
-                Printer.prompt("there are not enough cards for tribute");
-                return;
-            }
+        if (monsterLevel <= 6) {
+            if (Utility.checkAndPrompt(placeOnField == 1,
+                    "there are not enough cards for tribute")) return;
             Printer.prompt("input the address of the card you want to tribute:");
-            String inp = Utility.getNextLine();
-            int address = Integer.parseInt(inp);
-            if (address > 5 || address < 1 || monstersFieldList[address] == null) {
-                Printer.prompt("there no monsters on this address");
-                return;
-            }
-            MonsterCard tributedMonster = monstersFieldList[address];
-            monstersFieldList[address] = null;
-            graveyard.getCardsList().add(tributedMonster);
-            placeOnField = getFirstEmptyPlaceOnMonstersField();
-            monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
-            hasSummonedMonsterThisTurn = true;
-            theSummonedCardThisTurn = selectedCard;
-            hand.removeCard(place);
-            Printer.prompt("summoned successfully");
+            int address = Integer.parseInt(Utility.getNextLine());
+            if (Utility.checkAndPrompt(!isMonsterAddressValid(address),
+                    "there no monsters on this address")) return;
+            summonMonsterMediumLevel(place, placeOnField, address);
+            Printer.prompt(SUCCESSFUL_SUMMON);
             return;
         }
-        if (((MonsterCard) selectedCard).getCardLevel() == 7
-                || ((MonsterCard) selectedCard).getCardLevel() == 8) {
-            if (placeOnField == 1
-                    || placeOnField == 2) {
-                Printer.prompt("there are not enough cards for tribute");
-                return;
-            }
-            Printer.prompt("input two addresses for the cards you want to tribute in TWO DIFFERENT LINES:");
-            int firstTribute = Integer.parseInt(Utility.getNextLine());
-            int secondTribute = Integer.parseInt(Utility.getNextLine());
-            if (firstTribute > 5
-                    || firstTribute < 1
-                    || monstersFieldList[firstTribute] == null
-                    || secondTribute > 5
-                    || secondTribute < 1
-                    || monstersFieldList[secondTribute] == null) {
-                Printer.prompt("there is no monster on one of these addresses");
-                return;
-            }
-            MonsterCard firstTributedCard = monstersFieldList[firstTribute];
-            MonsterCard secondTributedCard = monstersFieldList[secondTribute];
-            monstersFieldList[firstTribute] = null;
-            monstersFieldList[secondTribute] = null;
-            graveyard.getCardsList().add(firstTributedCard);
-            graveyard.getCardsList().add(secondTributedCard);
-            hand.removeCard(place);
-            placeOnField = getFirstEmptyPlaceOnMonstersField();
-            monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
-            hasSummonedMonsterThisTurn = true;
-            theSummonedCardThisTurn = selectedCard;
-            Printer.prompt("summoned successfully");
-        }
+
+        if (Utility.checkAndPrompt(placeOnField == 1 || placeOnField == 2,
+                "there are not enough cards for tribute")) return;
+        Printer.prompt("input two addresses for the cards you want to tribute in TWO DIFFERENT LINES:");
+        int firstTribute = Integer.parseInt(Utility.getNextLine());
+        int secondTribute = Integer.parseInt(Utility.getNextLine());
+        if (Utility.checkAndPrompt(!isMonsterAddressValid(firstTribute) || !isMonsterAddressValid(secondTribute),
+                "there is no monster on one of these addresses")) return;
+        // Note: What if the two addresses above are the same?
+        summonMonsterHighLevel(firstTribute, secondTribute, place, placeOnField);
+        Printer.prompt(SUCCESSFUL_SUMMON);
     }
 
     public void setMonster(String command) {

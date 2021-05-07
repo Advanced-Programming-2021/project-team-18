@@ -39,7 +39,7 @@ public class Deck {
     }
 
     public void removeCard(int index) {
-        if (index >= cardsList.size()) return;
+        if (index >= cardsList.size() || index < 0) return;
         cardsList.remove(index);
     }
 }

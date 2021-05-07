@@ -1,5 +1,6 @@
 package utility;
 
+import data.Printer;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -111,5 +112,10 @@ public class Utility {
         for (int i = 0; i < array.length; ++i)
             array[i] = array[i].trim();
         return array;
+    }
+
+    public static boolean checkAndPrompt(boolean condition, String promptMessage) {
+        if (condition) Printer.prompt(promptMessage);
+        return condition;
     }
 }

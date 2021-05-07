@@ -8,16 +8,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Game {
-    private final User firstUser;
-    private final User secondUser;
-    private Player firstPlayer;
-    private Player secondPlayer;
-    private int turn;
+    private final User firstUser, secondUser;
+    private final ArrayList<Event> eventsList;
+    private final ArrayList<Card> cardChain;
+    private final HashMap<User, Integer> scores;
     private final int duelsCount;
+
+    private Player firstPlayer, secondPlayer;
+    private int turn;
     private boolean isGameFinished;
-    private ArrayList<Event> eventsList;
-    private ArrayList<Card> cardChain;
-    private HashMap<User, Integer> scores;
 
     // Note: A Game consists of some duels (namely, consists of "duelsCount" duels)
     // If secondUser is null, the game starts between firstUser and Computer
@@ -26,6 +25,9 @@ public class Game {
         this.secondUser = secondUser;
         isGameFinished = false;
         this.duelsCount = duelsCount;
+        eventsList = new ArrayList<>();
+        cardChain = new ArrayList<>();
+        scores = new HashMap<>();
     }
 
     boolean isFirstTurn() {
