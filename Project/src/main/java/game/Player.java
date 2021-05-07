@@ -3,6 +3,7 @@ package game;
 import card.Card;
 import card.MonsterCard;
 import card.SpellCard;
+import card.TrapCard;
 import data.Printer;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +41,7 @@ public class Player {
     private boolean isLooser;
     private Card selectedCard;
     private boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
-    private Card theSummonedCardThisTurn;
+    private Card theSummonedMonsterThisTurn;
     // Initialized by setters
     private Game game;
     private Player opponent;
@@ -74,7 +75,12 @@ public class Player {
         if (Utility.getCommandMatcher(command, regexSummon).matches()) {
             summonMonster();
         } else if (Utility.getCommandMatcher(command, regexSet).matches()) {
-            setMonster(command);
+            if (selectedCard == null) {
+                Printer.prompt("no card is selected yet");
+                return;
+            }
+            if (selectedCard instanceof MonsterCard) setMonster();
+            else if (selectedCard instanceof SpellCard || selectedCard instanceof TrapCard) setSpell();
         } else if (Utility.getCommandMatcher(command, regexFlipSummon).matches()) {
             flipSummon();
         } else if (Utility.getCommandMatcher(command, regexAttackNormal).matches()) {
@@ -157,7 +163,7 @@ public class Player {
             if (monstersFieldList[i] != null) monstersFieldList[i].setHasAttackedThisTurn(false);
         }
         hasSummonedMonsterThisTurn = false;
-        theSummonedCardThisTurn = null;
+        theSummonedMonsterThisTurn = null;
         Printer.prompt("its " + opponent.getUser().getNickname() + "’s turn");
     }
 
@@ -283,7 +289,9 @@ public class Player {
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
         hand.removeCard(placeOnHand);
         hasSummonedMonsterThisTurn = true;
-        theSummonedCardThisTurn = selectedCard;
+        selectedCard.setFaceUp(true);
+        ((MonsterCard) selectedCard).setDefenseMode(false);
+        theSummonedMonsterThisTurn = selectedCard;
     }
 
     // Used to summon monsters with level 5 or 6
@@ -294,7 +302,9 @@ public class Player {
         int placeOnField = getFirstEmptyPlaceOnMonstersField();
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
         hasSummonedMonsterThisTurn = true;
-        theSummonedCardThisTurn = selectedCard;
+        theSummonedMonsterThisTurn = selectedCard;
+        selectedCard.setFaceUp(true);
+        ((MonsterCard) selectedCard).setDefenseMode(false);
         hand.removeCard(placeOnHand);
     }
 
@@ -310,7 +320,9 @@ public class Player {
         int placeOnField = getFirstEmptyPlaceOnMonstersField();
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
         hasSummonedMonsterThisTurn = true;
-        theSummonedCardThisTurn = selectedCard;
+        selectedCard.setFaceUp(true);
+        ((MonsterCard) selectedCard).setDefenseMode(false);
+        theSummonedMonsterThisTurn = selectedCard;
     }
 
     public void summonMonster() {
@@ -356,8 +368,21 @@ public class Player {
         Printer.prompt(SUCCESSFUL_SUMMON);
     }
 
-    public void setMonster(String command) {
+    public void setMonster() {
 //      TODO : KAMYAR
+        if (Utility.checkAndPrompt((selectedCard == null), "no card is selected yet")) return;
+        int placeOnHand = getSelectedCardOnHandID();
+        if (Utility.checkAndPrompt((placeOnHand == -1), "you can’t set this card")) return;
+        int placeOnMonstersZone = getFirstEmptyPlaceOnMonstersField();
+        if (Utility.checkAndPrompt((placeOnMonstersZone == -1), "monster card zone is full")) return;
+        if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn, "you already summoned/set on this turn")) return;
+        hand.removeCard(placeOnHand);
+        monstersFieldList[placeOnMonstersZone] = (MonsterCard) selectedCard;
+        selectedCard.setFaceUp(false);
+        hasSummonedMonsterThisTurn = true;
+        ((MonsterCard) selectedCard).setDefenseMode(true);
+        theSummonedMonsterThisTurn = selectedCard;
+        Printer.prompt("set successfully");
     }
 
     public void flipSummon() {
@@ -371,7 +396,7 @@ public class Player {
             Printer.prompt("you can’t change this card position");
             return;
         }
-        if (selectedCard.isFaceUp() || theSummonedCardThisTurn == selectedCard) {
+        if (selectedCard.isFaceUp() || theSummonedMonsterThisTurn == selectedCard) {
             Printer.prompt("you can’t flip summon this card");
             return;
         }
@@ -441,7 +466,7 @@ public class Player {
         if (Utility.checkAndPrompt(graveyard.isEmpty(), "graveyard empty")) return;
         int i = 0;
         for (Card deadCard : graveyard.getAllCards()) {
-            i ++;
+            i++;
             Printer.prompt(i + ". " + deadCard.getCardName() + ":" + deadCard.getCardDescription());
         }
     }
@@ -452,7 +477,7 @@ public class Player {
                 "no card is selected yet")) return;
         if (Utility.checkAndPrompt(
                 selectedCard.getPlayer() == opponent && !selectedCard.isFaceUp(),
-                "card is not visible" )) return;
+                "card is not visible")) return;
         Printer.showCard(selectedCard);
     }
 
