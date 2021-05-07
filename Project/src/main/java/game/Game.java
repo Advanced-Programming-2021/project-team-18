@@ -12,6 +12,7 @@ public class Game {
     private final ArrayList<Event> eventsList;
     private final ArrayList<Card> cardChain;
     private final HashMap<User, Integer> scores;
+    private final HashMap<User, Integer> maxScores;
     private final int duelsCount;
 
     private Player firstPlayer, secondPlayer;
@@ -28,6 +29,9 @@ public class Game {
         eventsList = new ArrayList<>();
         cardChain = new ArrayList<>();
         scores = new HashMap<>();
+        maxScores = new HashMap<>();
+        maxScores.put(firstUser, 0);
+        maxScores.put(secondUser, 0);
     }
 
     boolean isFirstTurn() {
@@ -42,7 +46,7 @@ public class Game {
         return firstPlayer.isLooser() || secondPlayer.isLooser();
     }
 
-    public void endGame(Player winner) {
+    private void endGame(Player winner) {
         scores.put(winner.getUser(), scores.get(winner.getUser()) + 1);
         Printer.prompt(winner.getUser().getUsername() + " won the game and the score is: <" +
                 scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
@@ -52,7 +56,11 @@ public class Game {
                     scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
             );
             isGameFinished = true;
+            giveAwards(winner.getUser());
         }
+
+        maxScores.put(firstUser, Math.max(maxScores.get(firstUser), scores.get(firstUser)));
+        maxScores.put(secondUser, Math.max(maxScores.get(secondUser), scores.get(secondUser)));
     }
 
     private void startNewDuel() {
@@ -70,7 +78,7 @@ public class Game {
     private void runDuel() {
         Player activePlayer = firstPlayer;
         while (!isDuelFinished()) {
-            turn ++;
+            turn++;
             activePlayer.drawPhase();
             if (isDuelFinished()) break;
             activePlayer.standbyPhase();
@@ -89,10 +97,24 @@ public class Game {
         else endGame(firstPlayer);
     }
 
+    private void giveAwards(User winner) {
+        User looser = (winner.equals(firstUser) ? secondUser : firstUser);
+        if (duelsCount == 1) {
+            winner.increaseBalance(1000 + maxScores.get(winner));
+            winner.increaseScore(1000);
+            looser.increaseBalance(100);
+            return;
+        }
+        winner.increaseBalance(3000 + 3 * maxScores.get(winner));
+        winner.increaseScore(3000);
+        looser.increaseBalance(300);
+    }
+
     public void runGame() {
         while (!isGameFinished) {
             startNewDuel();
             runDuel();
         }
+
     }
 }

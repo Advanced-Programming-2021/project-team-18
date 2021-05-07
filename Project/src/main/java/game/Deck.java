@@ -27,6 +27,7 @@ public class Deck {
     }
 
     public void addCard(Card newCard) {
+        if (cardsList.size() == capacity) return;
         cardsList.add(newCard);
     }
 
