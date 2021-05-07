@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import utility.Utility;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 @Getter
@@ -166,6 +167,79 @@ public class Player {
 
     public void selectCard(String command) {
 //      TODO : KAMYAR
+        HashMap<String, String> map = Utility.getCommand(command);
+        boolean isOpponentsCard = false;
+        String place;
+        int placeID;
+        if (Utility.isCommandValid(map, new String[]{"monster"}, new String[]{"opponent"})) {
+            if (map.containsKey("opponent")) {
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"monster"}), "invalid selection"))
+                    return;
+                place = map.get("opponent");
+                isOpponentsCard = true;
+            } else {
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"monster"}, null), "invalid selection"))
+                    return;
+                place = map.get("monster");
+            }
+            if (Utility.checkAndPrompt((!place.matches("\\d+")), "invalid selection")) return;
+            placeID = Integer.parseInt(place);
+            if (Utility.checkAndPrompt((placeID > 5 || placeID < 1), "invalid selection")) return;
+            Card selectCandidateCard = (isOpponentsCard ? opponent.monstersFieldList[placeID] : monstersFieldList[placeID]);
+            if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
+            selectedCard = selectCandidateCard;
+            Printer.prompt("card selected");
+            return;
+        } else if (Utility.isCommandValid(map, new String[]{"spell"}, new String[]{"opponent"})) {
+            if (map.containsKey("opponent")) {
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"spell"}), "invalid selection"))
+                    return;
+                place = map.get("opponent");
+                isOpponentsCard = true;
+            } else {
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"spell"}, null), "invalid selection"))
+                    return;
+                place = map.get("spell");
+            }
+            if (Utility.checkAndPrompt((!place.matches("\\d+")), "invalid selection")) return;
+            placeID = Integer.parseInt(place);
+            if (Utility.checkAndPrompt((placeID > 5 || placeID < 1), "invalid selection")) return;
+            Card selectCandidateCard = (isOpponentsCard ? opponent.spellsAndTrapFieldList[placeID] : spellsAndTrapFieldList[placeID]);
+            if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
+            selectedCard = selectCandidateCard;
+            Printer.prompt("card selected");
+            return;
+        } else if (Utility.isCommandValid(map, new String[]{"field"}, new String[]{"opponent"})) {
+            if (map.containsKey("opponent")) {
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"field"}), "invalid selection"))
+                    return;
+                isOpponentsCard = true;
+            } else {
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"field"}, null), "invalid selection"))
+                    return;
+            }
+            Card selectCandidateCard = (isOpponentsCard ? opponent.fieldZone : fieldZone);
+            if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
+            selectedCard = selectCandidateCard;
+            Printer.prompt("card selected");
+            return;
+        } else if (Utility.isCommandValid(map, new String[]{"hand"}, null)) {
+            if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"hand"}, null), "invalid selection"))
+                return;
+            place = map.get("hand");
+            if (Utility.checkAndPrompt((!place.matches("\\d+")), "invalid selection")) return;
+            placeID = Integer.parseInt(place);
+            if (Utility.checkAndPrompt((placeID >= hand.getCardsList().size() || placeID < 0), "invalid selection"))
+                return;
+            Card selectCandidateCard = hand.getCardsList().get(placeID);
+            selectedCard = selectCandidateCard;
+            Printer.prompt("card selected");
+            return;
+
+        } else {
+            Printer.prompt("invalid selection");
+        }
+
     }
 
     private boolean isMonsterAddressValid(int address) {
@@ -348,4 +422,6 @@ public class Player {
     private Card drawCard() {
         return remainingDeck.pop();
     }
+
+
 }
