@@ -10,7 +10,7 @@ import utility.Utility;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
-// TODO : PASHA
+// by Pasha
 public class DeckMenu extends Menu {
     User user;
 
@@ -19,23 +19,20 @@ public class DeckMenu extends Menu {
     }
 
     public void showCard(Matcher matcher) {
-        matcher.matches();
         Printer.showCard(Card.getCardByName(matcher.group(1)));
     }
 
     public void createDeck(Matcher matcher) {
-        matcher.matches();
         String deckName = matcher.group(1);
         if (user.getGameDeckByName(deckName) != null) {
             Printer.prompt("deck with name " + deckName + " already exists");
             return;
         }
         Printer.prompt("deck created successfully!");
-        user.addGameDeck(new GameDeck(deckName, user));
+        user.addGameDeck(new GameDeck(deckName));
     }
 
     public void deleteDeck(Matcher matcher) {
-        matcher.matches();
         String deckName = matcher.group(1);
         GameDeck deck = user.getGameDeckByName(deckName);
         if (deck == null) {
@@ -47,7 +44,6 @@ public class DeckMenu extends Menu {
     }
 
     public void setActiveDeck(Matcher matcher) {
-        matcher.matches();
         String deckName = matcher.group(1);
         GameDeck deck = user.getGameDeckByName(deckName);
         if (deck == null) {
@@ -59,7 +55,6 @@ public class DeckMenu extends Menu {
     }
 
     public void addCardToDeck(Matcher matcher) {
-        matcher.matches();
         HashMap<String, String> map = Utility.getCommand(matcher.group(1));
         String[] mustAttributes = {"card", "deck"};
         String[] optionalAttributes = {"side"};
@@ -72,12 +67,13 @@ public class DeckMenu extends Menu {
         boolean isSideDeck = matcher.group(1).contains("--side");
         Card card = Card.getCardByName(cardName);
         GameDeck gameDeck = user.getGameDeckByName(deckName);
-        Deck deck = gameDeck.getMainDeck();
-        if (isSideDeck) deck = gameDeck.getSideDeck();
         if (gameDeck == null) {
             Printer.prompt("deck with name " + deckName + " does not exist");
             return;
         }
+        Deck deck = gameDeck.getMainDeck();
+        if (isSideDeck) deck = gameDeck.getSideDeck();
+
         if (Card.getCardByName(cardName) == null || user.getCardBalance(cardName) == gameDeck.getMainDeck().getCardCount(cardName) + gameDeck.getSideDeck().getCardCount(cardName)) {
             Printer.prompt("card with name " + map.get("card") + " does not exist");
             return;
@@ -95,7 +91,6 @@ public class DeckMenu extends Menu {
     }
 
     public void removeCardFromDeck(Matcher matcher) {
-        matcher.matches();
         HashMap<String, String> map = Utility.getCommand(matcher.group(1));
         String[] mustAttributes = {"card", "deck"};
         String[] optionalAttributes = {"side"};
@@ -108,12 +103,12 @@ public class DeckMenu extends Menu {
         boolean isSideDeck = matcher.group(1).contains("--side");
         Card card = Card.getCardByName(cardName);
         GameDeck gameDeck = user.getGameDeckByName(deckName);
-        Deck deck = gameDeck.getMainDeck();
-        if (isSideDeck) deck = gameDeck.getSideDeck();
         if (gameDeck == null) {
             Printer.prompt("deck with name " + deckName + " does not exist");
             return;
         }
+        Deck deck = gameDeck.getMainDeck();
+        if (isSideDeck) deck = gameDeck.getSideDeck();
         if (Card.getCardByName(cardName) == null || deck.getCardCount(cardName) == 0) {
             Printer.prompt("card with name " + cardName + " does not exist in " + (isSideDeck ? "side" : "main") + " deck");
             return;
@@ -130,27 +125,24 @@ public class DeckMenu extends Menu {
         return deck.getName() + ": main deck " + deck.getMainDeck().getCardsList().size() + ", side deck " + deck.getSideDeck().getCardsList().size() + ", " + (deck.isDeckValid() ? "" : "in") + "valid";
     }
 
-    public void showAllDecks(Matcher matcher) {
-        matcher.matches();
-        if (!matcher.group(1).contains("-a")) {
-            Printer.prompt(INVALID_COMMAND);
-            return;
-        }
-        String result = "";
-        result += "Decks:\n";
-        result += "Active deck:\n";
+    public void showAllDecks() {
+        StringBuilder result = new StringBuilder();
+        result.append("Decks:\n");
+        result.append("Active deck:\n");
         if (user.getActiveDeck() != null)
-            result += getAllDecksFormat(user.getActiveDeck()) + "\n";
-        result += "Other decks:\n";
+            result.append(getAllDecksFormat(user.getActiveDeck()) + "\n");
+        result.append("Other decks:\n");
         for (GameDeck deck : user.getDecks())
             if (user.getActiveDeck() == null || (!user.getActiveDeck().getName().equals(deck.getName())))
-                result += getAllDecksFormat(deck) + "\n";
-        Printer.prompt(result);
+                result.append(getAllDecksFormat(deck) + "\n");
+        Printer.prompt(result.toString());
     }
 
     public void showDeck(Matcher matcher) {
-        matcher.matches();
+        System.out.println(matcher.group(1));
         HashMap<String, String> map = Utility.getCommand(matcher.group(1));
+        for(String x : map.keySet())
+            System.out.println(x + " : " + map.get(x));
         if (!Utility.isCommandValid(map, new String[]{"deck-name"}, new String[]{"side"})) {
             Printer.prompt(Menu.INVALID_COMMAND);
             return;
@@ -164,17 +156,12 @@ public class DeckMenu extends Menu {
         Printer.showDeck(user.getGameDeckByName(deckName), isSideDeck);
     }
 
-    public void showDeckCards(Matcher matcher) {
-        matcher.matches();
-        if (!matcher.group(1).contains("--cards")) {
-            Printer.prompt(Menu.INVALID_COMMAND);
-            return;
-        }
-        String result = "";
+    public void showDeckCards() {
+        StringBuilder result = new StringBuilder();
         for (Card card : Card.getAllCards())
             if (user.getCardBalance(card.getCardName()) > 0)
-                result += card.getCardName() + ":" + card.getCardDescription() + "\n";
-        Printer.prompt(result);
+                result.append(card.getCardName() + ":" + card.getCardDescription() + "\n");
+        Printer.prompt(result.toString());
     }
 
     @Override
@@ -187,33 +174,35 @@ public class DeckMenu extends Menu {
         String regexSetActiveDeck = "deck\\sset\\-activate\\s(\\w+)";
         String regexAddCardToDeck = "deck\\sadd-card\\s(.+)";
         String regexRemoveCardFromDeck = "deck\\srm-card\\s(.+)";
-        String regexDeckShowAll = "deck\\sshow\\s(.+)";
+        String regexDeckShowAll = "deck\\sshow\\s--all";
+        String regexShowDeckCards = "deck\\sshow\\s--cards";
         String regexShowDeck = "deck\\sshow\\s(.+)";
-        String regexShowDeckCards = "deck\\sshow\\s(.+)";
+
+        Matcher matcher;
         while (true) {
             String input = Utility.getNextLine();
-            if (Utility.getCommandMatcher(input, regexMenuExit).matches()) {
+            if ((Utility.getCommandMatcher(input, regexMenuExit)).matches()) {
                 return;
-            } else if (Utility.getCommandMatcher(input, regexShowCurrentMenu).matches()) {
+            } else if ((Utility.getCommandMatcher(input, regexShowCurrentMenu)).matches()) {
                 Printer.prompt("Deck Menu");
-            } else if (Utility.getCommandMatcher(input, regexShowCard).matches()) {
-                showCard(Utility.getCommandMatcher(input, regexShowCard));
-            } else if (Utility.getCommandMatcher(input, regexCreateDeck).matches()) {
-                createDeck(Utility.getCommandMatcher(input, regexCreateDeck));
-            } else if (Utility.getCommandMatcher(input, regexDeleteDeck).matches()) {
-                deleteDeck(Utility.getCommandMatcher(input, regexDeleteDeck));
-            } else if (Utility.getCommandMatcher(input, regexSetActiveDeck).matches()) {
-                setActiveDeck(Utility.getCommandMatcher(input, regexSetActiveDeck));
-            } else if (Utility.getCommandMatcher(input, regexAddCardToDeck).matches()) {
-                addCardToDeck(Utility.getCommandMatcher(input, regexAddCardToDeck));
-            } else if (Utility.getCommandMatcher(input, regexRemoveCardFromDeck).matches()) {
-                removeCardFromDeck(Utility.getCommandMatcher(input, regexRemoveCardFromDeck));
-            } else if (Utility.getCommandMatcher(input, regexDeckShowAll).matches()) {
-                showAllDecks(Utility.getCommandMatcher(input, regexDeckShowAll));
-            } else if (Utility.getCommandMatcher(input, regexShowDeck).matches()) {
-                showDeck(Utility.getCommandMatcher(input, regexShowDeck));
-            } else if (Utility.getCommandMatcher(input, regexShowDeckCards).matches()) {
-                showDeckCards(Utility.getCommandMatcher(input, regexShowDeckCards));
+            } else if ((matcher = Utility.getCommandMatcher(input, regexShowCard)).matches()) {
+                showCard(matcher);
+            } else if ((matcher = Utility.getCommandMatcher(input, regexCreateDeck)).matches()) {
+                createDeck(matcher);
+            } else if ((matcher = Utility.getCommandMatcher(input, regexDeleteDeck)).matches()) {
+                deleteDeck(matcher);
+            } else if ((matcher = Utility.getCommandMatcher(input, regexSetActiveDeck)).matches()) {
+                setActiveDeck(matcher);
+            } else if ((matcher = Utility.getCommandMatcher(input, regexAddCardToDeck)).matches()) {
+                addCardToDeck(matcher);
+            } else if ((matcher = Utility.getCommandMatcher(input, regexRemoveCardFromDeck)).matches()) {
+                removeCardFromDeck(matcher);
+            } else if ((Utility.getCommandMatcher(input, regexDeckShowAll)).matches()) {
+                showAllDecks();
+            } else if ((Utility.getCommandMatcher(input, regexShowDeckCards)).matches()) {
+                showDeckCards();
+            } else if ((matcher = Utility.getCommandMatcher(input, regexShowDeck)).matches()) {
+                showDeck(matcher);
             } else {
                 Printer.prompt(Menu.INVALID_COMMAND);
             }

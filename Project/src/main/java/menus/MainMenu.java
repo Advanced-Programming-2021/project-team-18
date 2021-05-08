@@ -6,16 +6,15 @@ import utility.Utility;
 
 import java.util.regex.Matcher;
 
-// TODO : PASHA : DONE
+// by Pasha
 public class MainMenu extends Menu {
-    private User user;
+    private final User user;
 
     public MainMenu(User user) {
         this.user = user;
     }
 
     public void menuEnter(Matcher matcher) {
-        matcher.matches(); // Why this method is re-called? There is no need to do so.
         String menuName = matcher.group(1).toLowerCase();
         if (menuName.equals("duel menu") || menuName.equals("duel")) {
             new DuelMenu(user).runMenu();

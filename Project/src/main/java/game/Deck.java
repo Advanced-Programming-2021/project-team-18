@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 // TODO : PASHA
@@ -14,8 +15,11 @@ import java.util.List;
 public class Deck {
 
     private int capacity;
-    private User owner;
     private ArrayList<Card> cardsList;
+    private HashMap<String,Integer> cardCount; // NOTE : dont use this only needed for gson
+    public Deck() {
+        cardsList = new ArrayList<>();
+    }
 
     public boolean isEmpty() {
         return cardsList.isEmpty();

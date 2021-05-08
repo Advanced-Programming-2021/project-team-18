@@ -21,15 +21,15 @@ public class Utility {
     // if an attribute does not have any arguments, it'll be mapped to null.
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<>();
-        String regex = "--(\\w+)\\s(\\w+)";
+        String regex = "--([\\w|-]+)\\s([^-]*)";
         Matcher matcher = getCommandMatcher(command, regex);
         while (matcher.find()) {
             String attribute = matcher.group(1);
-            String value = matcher.group(2);
+            String value = matcher.group(2).trim();
             if (map.containsKey(attribute)) return null;
             map.put(attribute, value);
         }
-        command = command.replaceAll("--(\\w+)\\s(\\w+)", "");
+        command = command.replaceAll("--([\\w|-]+)\\s([^-]*)", "");
         matcher = getCommandMatcher(command, "--(\\w+)");
         while (matcher.find()) {
             String attribute = matcher.group(1);
@@ -55,7 +55,8 @@ public class Utility {
                 if (!map.containsKey(i)) return false;
             }
         }
-        mapSize -= mustAttributes.length;
+        if(mustAttributes != null)
+            mapSize -= mustAttributes.length;
         if (optionalAttributes != null) {
             for (String i : optionalAttributes) {
                 if (map.containsKey(i)) mapSize--;
@@ -97,7 +98,7 @@ public class Utility {
     public static ArrayList<String[]> getArrayListFromCSV(String fileLocation) {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation));
         ArrayList<String[]> result = new ArrayList<>();
-        String newLine = "";
+        String newLine;
         while ((newLine = bufferedReader.readLine()) != null)
             result.add(trimAll(newLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")));
         return result;

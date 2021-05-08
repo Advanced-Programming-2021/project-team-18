@@ -2,17 +2,14 @@ package menus;
 
 import data.Printer;
 import game.User;
-import menus.Menu;
 import utility.Utility;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
-// TODO : Kamyar
+// by Kamyar
 public class ScoreboardMenu extends Menu {
 
     public ScoreboardMenu(User user) {
+
     }
 
     public void showScoreboard() {
