@@ -53,4 +53,11 @@ public class Deck {
     public List<Card> getAllCards() {
         return Collections.unmodifiableList(cardsList);
     }
+    public Deck cloneDeck() {
+        Deck deck = new Deck();
+        deck.setCapacity(this.getCapacity());
+        for(Card card : this.getCardsList())
+            deck.getCardsList().add(card.cloneCard());
+        return deck;
+    }
 }

@@ -25,7 +25,9 @@ public class Player {
     private static final String regexAttackNormal = "attack\\s(\\d+)";
     private static final String regexAttackDirect = "attack\\sdirect";
     private static final String regexActivateEffect = "activate\\seffect";
+    private static final String regexNextPhase = "next\\sphase";
     private static final String SUCCESSFUL_SUMMON = "summoned successfully";
+    private static final String regexForFeit = "forfeit";
     private static final int HAND_SIZE = 7;
     private static final int FIELD_SIZE = 5;
 
@@ -38,7 +40,7 @@ public class Player {
     private SpellCard fieldZone;
     private Deck hand;
     private int lifePoint;
-    private boolean isLooser;
+    private boolean loser;
     private Card selectedCard;
     private boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
     private Card theSummonedMonsterThisTurn;
@@ -56,7 +58,7 @@ public class Player {
         fieldZone = null;
         hand = new Deck();
         lifePoint = 8000;
-        isLooser = false;
+        loser = false;
         selectedCard = null;
         hasSummonedMonsterThisTurn = false;
     }
@@ -109,7 +111,7 @@ public class Player {
         if (!game.isFirstTurn()) {
             if (remainingDeck.isEmpty()) {
                 Printer.prompt("No card is remained in your deck");
-                isLooser = true;
+                loser = true;
                 return;
             }
             Card newCard = remainingDeck.pop();
@@ -124,10 +126,12 @@ public class Player {
 
     public void mainPhase1() {
         Printer.prompt("phase: main phase 1");
-//      TODO : PASHA
+//      by Pasha
         Printer.showBoard(this, this.opponent);
         while (true) {
             String command = Utility.getNextLine();
+            if(Utility.getCommandMatcher(command , regexNextPhase).matches())
+                break ;
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
@@ -139,6 +143,8 @@ public class Player {
         if (game.isFirstTurn()) return;
         while (true) {
             String command = Utility.getNextLine();
+            if(Utility.getCommandMatcher(command , regexNextPhase).matches())
+                break ;
             runCommonCommands(command);
             runBattlePhaseCommands(command);
         }
@@ -146,9 +152,11 @@ public class Player {
 
     public void mainPhase2() {
         Printer.prompt("phase: main phase 2");
-//      TODO : PASHA
+//      by Pasha
         while (true) {
             String command = Utility.getNextLine();
+            if(Utility.getCommandMatcher(command , regexNextPhase).matches())
+                break ;
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
@@ -188,9 +196,7 @@ public class Player {
         return -1;
     }
 
-    public void showBoard() {
-        Printer.showBoard(this, opponent);
-    }
+
 
     public void selectCard(String command) {
 //      TODO : KAMYAR
@@ -267,8 +273,7 @@ public class Player {
             placeID = Integer.parseInt(place);
             if (Utility.checkAndPrompt((placeID >= hand.getCardsList().size() || placeID < 0), "invalid selection"))
                 return;
-            Card selectCandidateCard = hand.getCardsList().get(placeID);
-            selectedCard = selectCandidateCard;
+            selectedCard = hand.getCardsList().get(placeID);
             Printer.prompt("card selected");
             return;
 
@@ -386,7 +391,7 @@ public class Player {
     }
 
     public void flipSummon() {
-//      TODO : PASHA
+//      by Pasha
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
             return;
@@ -405,7 +410,7 @@ public class Player {
     }
 
     public void attack(String command) {
-//      TODO : PASHA
+//      by Pasha
         Matcher matcher = Utility.getCommandMatcher(command, regexAttackNormal);
         matcher.matches();
         int positionToAttack = Integer.parseInt(matcher.group(1));
@@ -423,15 +428,17 @@ public class Player {
             Printer.prompt("this card already attacked");
             return;
         }
-        if (positionToAttack > 0 && positionToAttack < 6 && opponent.getMonstersFieldList()[positionToAttack] != null) {
-            ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack]);
-//          TODO : NOTE : MonsterCard.attack() should handle these things
+        if(((MonsterCard)selectedCard).isDefenseMode()) {
+            Printer.prompt("can't attack with a defense position monster");
+            return ;
         }
+        if (positionToAttack > 0 && positionToAttack < 6 && opponent.getMonstersFieldList()[positionToAttack] != null)
+            ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack] , this);
 
     }
 
     public void attackDirect() {
-//      TODO : PASHA
+//      by Pasha
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
             return;
@@ -446,6 +453,8 @@ public class Player {
             return;
         }
         opponent.setLifePoint(opponent.getLifePoint() - ((MonsterCard) selectedCard).getCardAttack());
+        if(opponent.getLifePoint() <= 0)
+            opponent.setLoser(true);
         ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
         Printer.prompt("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
     }
@@ -482,12 +491,14 @@ public class Player {
     }
 
     public void forfeit() {
-        isLooser = true; // ENJOY THE DESIGN: THE COMPLICATED FUNCTION "FORFEIT" IS HANDLED IN ONE LINE :)
+        loser = true; // ENJOY THE DESIGN: THE COMPLICATED FUNCTION "FORFEIT" IS HANDLED IN ONE LINE :)
     }
 
-    private Card drawCard() {
-        return remainingDeck.pop();
+    public void destroyMonster(MonsterCard card) {
+        for(int i = 1;i <= 5;++ i)
+            if(card == monstersFieldList[i]) {
+                monstersFieldList[i] = null;
+                this.getGraveyard().addCard(card);
+            }
     }
-
-
 }

@@ -9,17 +9,15 @@ import game.GameDeck;
 import game.User;
 import lombok.SneakyThrows;
 import utility.Utility;
-
-import java.io.*;
+import java.io.FileWriter;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-// TODO : PASHA
+// by Pasha
 
 public class DataManager {
     private static final String MONSTER_CARDS_PATH = "src\\main\\resources\\cards\\Monster.csv";
