@@ -26,27 +26,29 @@ public class Printer {
         System.out.println(opponent.getUser().getNickname() + ":" + opponent.getLifePoint());
         int handSize = opponent.getHand().getCardsList().size();
         for (int i = 0; i < handSize; i++) System.out.print("\tC");
-        System.out.println("\n" + opponent.getRemainingDeck().getCardsList().size());
+        System.out.print("\n");
+        //System.out.println("\n" + opponent.getRemainingDeck().getCardsList().size());
         int[] opponentSequence = {4, 2, 1, 3, 5};
         showSpellsField(opponent, opponentSequence);
         System.out.print("\n");
         showMonstersField(opponent, opponentSequence);
         System.out.print(opponent.getGraveyard().getCardsList().size() + "\t\t\t\t\t");
         SpellCard spellCard = opponent.getFieldZone();
-        if (spellCard == null) System.out.println("O");
-        else System.out.println("E");
+        if (spellCard == null) System.out.println("E");
+        else System.out.println("O");
         System.out.println("\n--------------------------\n");
         int[] playerSequence = {5, 3, 1, 2, 4};
         SpellCard spellCard2 = player.getFieldZone();
-        if (spellCard2 == null) System.out.print("O");
-        else System.out.print("E");
+        if (spellCard2 == null) System.out.print("E");
+        else System.out.print("O");
         System.out.println("\t\t\t\t\t" + player.getGraveyard().getCardsList().size());
         showMonstersField(player, playerSequence);
         showSpellsField(player, playerSequence);
-        System.out.println("\t\t\t\t\t\t" + player.getRemainingDeck().getCardsList().size());
+        System.out.print("\n");
+        //System.out.println("\t\t\t\t\t\t" + player.getRemainingDeck().getCardsList().size());
         handSize = player.getHand().getCardsList().size();
         for(int i = 0 ; i < handSize ; i++){
-            System.out.print("C\t");
+            System.out.print("\tC");
         }
         System.out.print("\n");
         System.out.println(player.getUser().getNickname() + ":" + player.getLifePoint());
@@ -70,10 +72,6 @@ public class Printer {
             else if (spellOrTrap.isFaceUp()) System.out.print("\tO");
             else System.out.print("\tH");
         }
-    }
-
-    public static void showGraveyard(Deck deck) {
-
     }
 
     public static void showDeck(GameDeck gameDeck, boolean isSideDeck) {

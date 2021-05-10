@@ -20,7 +20,8 @@ public class Player {
     private static final String regexShowGraveyard = "show\\sgraveyard";
     private static final String regexShowSelectedCard = "card\\sshow\\s\\-\\-selected";
     private static final String regexSummon = "summon";
-    private static final String regexSet = "set.*";
+    private static final String regexSet = "set";
+    private static final String regexChangePosition = "set --position.+";
     private static final String regexFlipSummon = "flip\\-summon";
     private static final String regexAttackNormal = "attack\\s(\\d+)";
     private static final String regexAttackDirect = "attack\\sdirect";
@@ -51,12 +52,12 @@ public class Player {
 
     public Player(User user, Deck deck) {
         this.user = user;
-        graveyard = new Deck();
+        graveyard = new Deck(100);
         this.remainingDeck = deck;
         monstersFieldList = new MonsterCard[FIELD_SIZE + 1]; // To have 1-based indexing
         spellsAndTrapFieldList = new Card[FIELD_SIZE + 1];   // To have 1-based indexing
         fieldZone = null;
-        hand = new Deck();
+        hand = new Deck(6);
         lifePoint = 8000;
         loser = false;
         selectedCard = null;
@@ -83,6 +84,8 @@ public class Player {
             }
             if (selectedCard instanceof MonsterCard) setMonster();
             else if (selectedCard instanceof SpellCard || selectedCard instanceof TrapCard) setSpell();
+        } else if (Utility.getCommandMatcher(command, regexChangePosition).matches()) {
+            changeMonsterPosition();
         } else if (Utility.getCommandMatcher(command, regexFlipSummon).matches()) {
             flipSummon();
         } else if (Utility.getCommandMatcher(command, regexAttackNormal).matches()) {
@@ -123,12 +126,13 @@ public class Player {
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
     }
-
+    //      by Pasha
     public void mainPhase1() {
         Printer.prompt("phase: main phase 1");
-//      by Pasha
         Printer.showBoard(this, this.opponent);
         while (true) {
+            if(this.isLoser() || opponent.isLoser())
+                return ;
             String command = Utility.getNextLine();
             if(Utility.getCommandMatcher(command , regexNextPhase).matches())
                 break ;
@@ -136,12 +140,13 @@ public class Player {
             runMainPhaseCommands(command);
         }
     }
-
+//          by Kamyar
     public void battlePhase() {
         Printer.prompt("phase: battle phase");
-//      TODO : KAMYAR
         if (game.isFirstTurn()) return;
         while (true) {
+            if(this.isLoser() || opponent.isLoser())
+                return ;
             String command = Utility.getNextLine();
             if(Utility.getCommandMatcher(command , regexNextPhase).matches())
                 break ;
@@ -149,11 +154,12 @@ public class Player {
             runBattlePhaseCommands(command);
         }
     }
-
+//          by Pasha
     public void mainPhase2() {
         Printer.prompt("phase: main phase 2");
-//      by Pasha
         while (true) {
+            if(this.isLoser() || opponent.isLoser())
+                return ;
             String command = Utility.getNextLine();
             if(Utility.getCommandMatcher(command , regexNextPhase).matches())
                 break ;
@@ -161,10 +167,10 @@ public class Player {
             runMainPhaseCommands(command);
         }
     }
-
+//         by KAMYAR
     public void endPhase() {
         Printer.prompt("phase: end phase");
-//      TODO : KAMYAR
+
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
         Printer.prompt("phase: End phase");
         for (int i = 1; i <= 5; i++) {
@@ -312,6 +318,9 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(false);
         hand.removeCard(placeOnHand);
     }
+    private void changeMonsterPosition() {
+
+    }
 
     // Used to summon monsters with level greater than 6
     private void summonMonsterHighLevel(int firstTribute, int secondTribute, int placeOnHand) {
@@ -451,6 +460,16 @@ public class Player {
         if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
             Printer.prompt("this card already attacked");
             return;
+        }
+        boolean doesOpponentHaveMonster = false;
+        for(int i = 1;i <= 5;++ i)
+            if (opponent.getMonstersFieldList()[i] != null) {
+                doesOpponentHaveMonster = true;
+                break;
+            }
+        if(doesOpponentHaveMonster) {
+            Printer.prompt("can't attack direct when opponent has at least a monster");
+            return ;
         }
         opponent.setLifePoint(opponent.getLifePoint() - ((MonsterCard) selectedCard).getCardAttack());
         if(opponent.getLifePoint() <= 0)

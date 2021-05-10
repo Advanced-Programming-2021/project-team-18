@@ -65,6 +65,12 @@ public class Game {
         maxScores.put(secondUser, Math.max(maxScores.get(secondUser), scores.get(secondUser)));
     }
 
+    private void drawInitialCards(Player player) {
+        player.getRemainingDeck().shuffleDeck();
+        for(int i = 0;i < 5;++ i)
+            player.getHand().addCard(player.getRemainingDeck().pop());
+    }
+
     private void startNewDuel() {
         firstPlayer = new Player(firstUser, firstUser.getActiveDeck().getMainDeck().cloneDeck());
         secondPlayer = new Player(secondUser, secondUser.getActiveDeck().getMainDeck().cloneDeck());
@@ -74,6 +80,8 @@ public class Game {
         secondPlayer.setOpponent(firstPlayer);
         scores.put(firstUser, 0);
         scores.put(secondUser, 0);
+        drawInitialCards(firstPlayer);
+        drawInitialCards(secondPlayer);
         turn = 0;
     }
 

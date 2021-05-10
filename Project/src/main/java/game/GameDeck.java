@@ -19,8 +19,8 @@ public class GameDeck {
     public GameDeck(String name) {
         this.name = name;
 
-        mainDeck = new Deck();
-        sideDeck = new Deck();
+        mainDeck = new Deck(60);
+        sideDeck = new Deck(15);
     }
 
     public boolean isDeckValid() {
