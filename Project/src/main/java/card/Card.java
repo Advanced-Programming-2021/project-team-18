@@ -34,7 +34,6 @@ public abstract class Card implements Comparable<Card> {
     }
 
     public static Card createNewCard(String cardName) {
-//        TODO : PASHA
         return getCardByName(cardName).cloneCard();
     }
 

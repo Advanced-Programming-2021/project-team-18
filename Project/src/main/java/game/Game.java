@@ -45,7 +45,7 @@ public class Game {
     }
 
     public boolean isDuelFinished() {
-        return firstPlayer.isLooser() || secondPlayer.isLooser();
+        return firstPlayer.isLoser() || secondPlayer.isLoser();
     }
 
     private void endGame(Player winner) {
@@ -65,15 +65,23 @@ public class Game {
         maxScores.put(secondUser, Math.max(maxScores.get(secondUser), scores.get(secondUser)));
     }
 
+    private void drawInitialCards(Player player) {
+        player.getRemainingDeck().shuffleDeck();
+        for(int i = 0;i < 5;++ i)
+            player.getHand().addCard(player.getRemainingDeck().pop());
+    }
+
     private void startNewDuel() {
-        firstPlayer = new Player(firstUser, firstUser.getActiveDeck().getMainDeck());
-        secondPlayer = new Player(secondUser, secondUser.getActiveDeck().getMainDeck());
+        firstPlayer = new Player(firstUser, firstUser.getActiveDeck().getMainDeck().cloneDeck());
+        secondPlayer = new Player(secondUser, secondUser.getActiveDeck().getMainDeck().cloneDeck());
         firstPlayer.setGame(this);
         secondPlayer.setGame(this);
         firstPlayer.setOpponent(secondPlayer);
         secondPlayer.setOpponent(firstPlayer);
         scores.put(firstUser, 0);
         scores.put(secondUser, 0);
+        drawInitialCards(firstPlayer);
+        drawInitialCards(secondPlayer);
         turn = 0;
     }
 
@@ -95,21 +103,21 @@ public class Game {
             if (activePlayer == firstPlayer) activePlayer = secondPlayer;
             else activePlayer = firstPlayer;
         }
-        if (firstPlayer.isLooser()) endGame(secondPlayer);
+        if (firstPlayer.isLoser()) endGame(secondPlayer);
         else endGame(firstPlayer);
     }
 
     private void giveAwards(User winner) {
-        User looser = (winner.equals(firstUser) ? secondUser : firstUser);
+        User loser = (winner.equals(firstUser) ? secondUser : firstUser);
         if (duelsCount == 1) {
             winner.increaseBalance(1000 + maxScores.get(winner));
             winner.increaseScore(1000);
-            looser.increaseBalance(100);
+            loser.increaseBalance(100);
             return;
         }
         winner.increaseBalance(3000 + 3 * maxScores.get(winner));
         winner.increaseScore(3000);
-        looser.increaseBalance(300);
+        loser.increaseBalance(300);
     }
 
     public void runGame() {

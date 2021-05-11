@@ -58,7 +58,7 @@ public class ShopMenu extends Menu {
         Matcher matcher;
         while (!newLine.equals(MENU_EXIT)) {
             if (newLine.equals(SHOW_MENU)) Printer.prompt(name);
-            else if ((matcher = Utility.getCommandMatcher(newLine, "shop buy +(\\w+) *")).matches()) {
+            else if ((matcher = Utility.getCommandMatcher(newLine, "shop buy +(.+) *")).matches()) {
                 sellCard(matcher.group(1));
             } else if (newLine.equals("shop show --all")) {
                 showAllCardsAndPrices();

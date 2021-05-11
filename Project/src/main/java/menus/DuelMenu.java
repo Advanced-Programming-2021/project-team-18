@@ -9,7 +9,7 @@ import utility.Utility;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
-// TODO : PASHA : ِDONE
+// by Pasha
 public class DuelMenu extends Menu {
     User user;
 
@@ -18,12 +18,10 @@ public class DuelMenu extends Menu {
     }
 
     public void showCard(Matcher matcher) {
-        matcher.matches();
         Printer.showCard(Card.getCardByName(matcher.group(1)));
     }
 
     public void duelOtherPlayer(Matcher matcher) {
-        matcher.matches(); // Why this method is re-called? There is no need to do it
         HashMap<String, String> map = Utility.getCommand(matcher.group(1));
         String[] mustAttributes = {"second-player", "rounds"};
         if (!Utility.isCommandValid(map, mustAttributes, null)) {
@@ -60,7 +58,6 @@ public class DuelMenu extends Menu {
     }
 
     public void duelAI(Matcher matcher) {
-        matcher.matches();
         HashMap<String, String> map = Utility.getCommand(matcher.group(1));
         String[] mustAttributes = {"rounds"};
         if (!Utility.isCommandValid(map, mustAttributes, null)) {
@@ -85,7 +82,7 @@ public class DuelMenu extends Menu {
 
     @Override
     public void runMenu() {
-        String regexShowCard = "card\\sshow\\s(\\w+)";
+        String regexShowCard = "card\\sshow\\s(.+)";
         String regexDuelOtherPlayer = "duel\\s\\-\\-new\\s(.+)";
         String regexDuelAI = "duel\\s\\-\\-new\\s\\-\\-ai\\s(.+)";
         Matcher matcher;

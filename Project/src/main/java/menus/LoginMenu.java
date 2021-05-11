@@ -6,7 +6,7 @@ import utility.Utility;
 
 import java.util.HashMap;
 
-// TODO : Kamyar
+// by Kamyar
 public class LoginMenu extends Menu {
 
     public LoginMenu() {
@@ -34,11 +34,11 @@ public class LoginMenu extends Menu {
         String password = map.get("password");
         User user = User.getUserByUsername(username);
         if (user == null) {
-            Printer.prompt("Username and password didn’t match!");
+            Printer.prompt("Username and password didn't match!");
             return null;
         }
         if (!user.isPasswordCorrect(password)) {
-            Printer.prompt("Username and password didn’t match!");
+            Printer.prompt("Username and password didn't match!");
             return null;
         }
         Printer.prompt("user logged in successfully!");

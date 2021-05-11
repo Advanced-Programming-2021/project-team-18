@@ -5,6 +5,7 @@ import card.Card;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 @Getter
@@ -14,11 +15,12 @@ public class GameDeck {
     private Deck mainDeck;
     private Deck sideDeck;
     private String name;
-    private User user;
 
-    public GameDeck(String name, User user) {
+    public GameDeck(String name) {
         this.name = name;
-        this.user = user;
+
+        mainDeck = new Deck(60);
+        sideDeck = new Deck(15);
     }
 
     public boolean isDeckValid() {
@@ -38,6 +40,6 @@ public class GameDeck {
         if (this == o) return true;
         if (!(o instanceof GameDeck)) return false;
         GameDeck gameDeck = (GameDeck) o;
-        return Objects.equals(mainDeck, gameDeck.mainDeck) && Objects.equals(sideDeck, gameDeck.sideDeck) && name.equals(gameDeck.name) && user.equals(gameDeck.user);
+        return Objects.equals(mainDeck, gameDeck.mainDeck) && Objects.equals(sideDeck, gameDeck.sideDeck) && name.equals(gameDeck.name);
     }
 }

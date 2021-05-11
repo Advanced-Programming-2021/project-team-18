@@ -13,7 +13,7 @@ public class ProfileMenu extends Menu {
     static {
         NAME = "Profile Menu";
         mustInputs.put("changePassword", new String[]{"current", "new"});
-        mayInputs.put("changePassword", null);
+        mayInputs.put("changePassword", new String[]{"password"});
         mustInputs.put("changeNickname", new String[]{"nickname"});
         mayInputs.put("changeNickname", null);
     }

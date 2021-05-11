@@ -4,9 +4,7 @@ import card.Card;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // TODO : PASHA
 @Getter
@@ -14,8 +12,12 @@ import java.util.List;
 public class Deck {
 
     private int capacity;
-    private User owner;
     private ArrayList<Card> cardsList;
+    private HashMap<String,Integer> cardCount; // NOTE : dont use this only needed for gson
+    public Deck(int capacity) {
+        this.capacity = capacity;
+        cardsList = new ArrayList<>();
+    }
 
     public boolean isEmpty() {
         return cardsList.isEmpty();
@@ -27,7 +29,9 @@ public class Deck {
         cardsList.remove(cardsList.size() - 1);
         return card;
     }
-
+    public void shuffleDeck() {
+        Collections.shuffle(cardsList , new Random(System.nanoTime()));
+    }
     public void addCard(Card newCard) {
         if (cardsList.size() == capacity) return;
         cardsList.add(newCard);
@@ -48,5 +52,11 @@ public class Deck {
 
     public List<Card> getAllCards() {
         return Collections.unmodifiableList(cardsList);
+    }
+    public Deck cloneDeck() {
+        Deck deck = new Deck(this.capacity);
+        for(Card card : this.getCardsList())
+            deck.getCardsList().add(card.cloneCard());
+        return deck;
     }
 }
