@@ -169,8 +169,6 @@ public class Player {
     }
 //         by KAMYAR
     public void endPhase() {
-        Printer.prompt("phase: end phase");
-
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
         Printer.prompt("phase: End phase");
         for (int i = 1; i <= 5; i++) {
