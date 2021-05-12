@@ -1,5 +1,6 @@
 package card;
 
+import effects.Effect;
 import events.Event;
 import events.MonsterCardEvent;
 import game.Player;
@@ -21,6 +22,7 @@ public abstract class Card implements Comparable<Card> {
     private boolean isFaceUp = true;
     private Player player;
     private Origin cardOrigin;
+    private ArrayList<Effect> effects;
 
     public static Card getCardByName(String cardName) {
         for (Card card : allCards)
@@ -36,7 +38,9 @@ public abstract class Card implements Comparable<Card> {
     public static Card createNewCard(String cardName) {
         return getCardByName(cardName).cloneCard();
     }
-
+    public boolean hasEffect(Effect effect) {
+        return effects.contains(effect);
+    }
 
     public void cloneDefaults(Card card) {
         card.setPrice(this.getPrice());

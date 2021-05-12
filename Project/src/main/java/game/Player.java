@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 @Setter
 // TODO : SINA
 public class Player {
+
     private static final String regexSelect = "select.+";
     private static final String regexShowGraveyard = "show\\sgraveyard";
     private static final String regexShowSelectedCard = "card\\sshow\\s\\-\\-selected";
@@ -32,7 +33,7 @@ public class Player {
     private static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
     private static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
     private static final int HAND_SIZE = 7;
-    private static final int FIELD_SIZE = 5;
+    public static final int FIELD_SIZE = 5;
 
     // Initialized in constructor
     private User user;
@@ -65,18 +66,21 @@ public class Player {
         selectedCard = null;
         hasSummonedMonsterThisTurn = false;
     }
+
     private void increaseLifePoint(Matcher matcher) {
         int amount = Integer.parseInt(matcher.group(1));
         this.lifePoint += amount;
     }
+
     private void setDuelWinner(Matcher matcher) {
         String nickName = matcher.group(1);
-        if(this.getUser().getNickname().equals(nickName)) {
+        if (this.getUser().getNickname().equals(nickName)) {
             this.getOpponent().setLoser(true);
         } else {
             this.setLoser(true);
         }
     }
+
     public void runCommonCommands(String command) {
         Matcher matcher;
         if (Utility.getCommandMatcher(command, regexSelect).matches()) {
@@ -85,9 +89,9 @@ public class Player {
             showGraveyard();
         } else if (Utility.getCommandMatcher(command, regexShowSelectedCard).matches()) {
             showSelectedCard();
-        } else if((matcher = Utility.getCommandMatcher(command , regexIncreaseLifePoint)).matches()) {
+        } else if ((matcher = Utility.getCommandMatcher(command, regexIncreaseLifePoint)).matches()) {
             increaseLifePoint(matcher);
-        } else if((matcher = Utility.getCommandMatcher(command , regexSetDuelWinner)).matches()) {
+        } else if ((matcher = Utility.getCommandMatcher(command, regexSetDuelWinner)).matches()) {
             setDuelWinner(matcher);
         }
 
@@ -145,52 +149,56 @@ public class Player {
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
     }
+
     //      by Pasha
     public void mainPhase1() {
         Printer.prompt("phase: main phase 1");
         Printer.showBoard(this, this.opponent);
         while (true) {
-            if(this.isLoser() || opponent.isLoser())
-                return ;
+            if (this.isLoser() || opponent.isLoser())
+                return;
             String command = Utility.getNextLine();
-            if(Utility.getCommandMatcher(command , regexNextPhase).matches())
-                break ;
+            if (Utility.getCommandMatcher(command, regexNextPhase).matches())
+                break;
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
     }
-//          by Kamyar
+
+    //          by Kamyar
     public void battlePhase() {
         Printer.prompt("phase: battle phase");
         if (game.isFirstTurn()) return;
         while (true) {
-            if(this.isLoser() || opponent.isLoser())
-                return ;
+            if (this.isLoser() || opponent.isLoser())
+                return;
             String command = Utility.getNextLine();
-            if(Utility.getCommandMatcher(command , regexNextPhase).matches())
-                break ;
+            if (Utility.getCommandMatcher(command, regexNextPhase).matches())
+                break;
             runCommonCommands(command);
             runBattlePhaseCommands(command);
         }
     }
-//          by Pasha
+
+    //          by Pasha
     public void mainPhase2() {
         Printer.prompt("phase: main phase 2");
         while (true) {
-            if(this.isLoser() || opponent.isLoser())
-                return ;
+            if (this.isLoser() || opponent.isLoser())
+                return;
             String command = Utility.getNextLine();
-            if(Utility.getCommandMatcher(command , regexNextPhase).matches())
-                break ;
+            if (Utility.getCommandMatcher(command, regexNextPhase).matches())
+                break;
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
     }
-//         by KAMYAR
+
+    //         by KAMYAR
     public void endPhase() {
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
         Printer.prompt("phase: End phase");
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= FIELD_SIZE; i++) {
             if (monstersFieldList[i] != null) monstersFieldList[i].setHasAttackedThisTurn(false);
         }
         hasSummonedMonsterThisTurn = false;
@@ -199,7 +207,7 @@ public class Player {
     }
 
     public int getSelectedMonsterCardOnFieldID() {
-        for (int i = 1; i <= 5; ++i)
+        for (int i = 1; i <= FIELD_SIZE; ++i)
             if (selectedCard == monstersFieldList[i])
                 return i;
         return -1;
@@ -213,12 +221,25 @@ public class Player {
     }
 
     public int getFirstEmptyPlaceOnMonstersField() {
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= FIELD_SIZE; i++) {
             if (monstersFieldList[i] == null) return i;
         }
         return -1;
     }
 
+    public int getMonsterPositionOnBoard(MonsterCard card) {
+        for (int i = 1; i <= FIELD_SIZE; ++i)
+            if (monstersFieldList[i] == card)
+                return i;
+        return -1;
+    }
+
+    public int getSpellOrTrapPositionOnBoard(Card card) {
+        for(int i = 1;i <= FIELD_SIZE;++ i)
+            if(spellsAndTrapFieldList[i] == card)
+                return i;
+        return -1;
+    }
 
 
     public void selectCard(String command) {
@@ -249,7 +270,7 @@ public class Player {
             }
             if (Utility.checkAndPrompt((!place.matches("\\d+")), "invalid selection")) return;
             placeID = Integer.parseInt(place);
-            if (Utility.checkAndPrompt((placeID > 5 || placeID < 1), "invalid selection")) return;
+            if (Utility.checkAndPrompt((placeID > FIELD_SIZE || placeID < 1), "invalid selection")) return;
             Card selectCandidateCard = (isOpponentsCard ? opponent.monstersFieldList[placeID] : monstersFieldList[placeID]);
             if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
             selectedCard = selectCandidateCard;
@@ -268,7 +289,7 @@ public class Player {
             }
             if (Utility.checkAndPrompt((!place.matches("\\d+")), "invalid selection")) return;
             placeID = Integer.parseInt(place);
-            if (Utility.checkAndPrompt((placeID > 5 || placeID < 1), "invalid selection")) return;
+            if (Utility.checkAndPrompt((placeID > FIELD_SIZE || placeID < 1), "invalid selection")) return;
             Card selectCandidateCard = (isOpponentsCard ? opponent.spellsAndTrapFieldList[placeID] : spellsAndTrapFieldList[placeID]);
             if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
             selectedCard = selectCandidateCard;
@@ -335,6 +356,7 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(false);
         hand.removeCard(placeOnHand);
     }
+
     private void changeMonsterPosition() {
 
     }
@@ -454,12 +476,12 @@ public class Player {
             Printer.prompt("this card already attacked");
             return;
         }
-        if(((MonsterCard)selectedCard).isDefenseMode()) {
+        if (((MonsterCard) selectedCard).isDefenseMode()) {
             Printer.prompt("can't attack with a defense position monster");
-            return ;
+            return;
         }
         if (positionToAttack > 0 && positionToAttack < 6 && opponent.getMonstersFieldList()[positionToAttack] != null)
-            ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack] , this);
+            ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack], this);
 
     }
 
@@ -479,17 +501,17 @@ public class Player {
             return;
         }
         boolean doesOpponentHaveMonster = false;
-        for(int i = 1;i <= 5;++ i)
+        for (int i = 1; i <= FIELD_SIZE; ++i)
             if (opponent.getMonstersFieldList()[i] != null) {
                 doesOpponentHaveMonster = true;
                 break;
             }
-        if(doesOpponentHaveMonster) {
+        if (doesOpponentHaveMonster) {
             Printer.prompt("can't attack direct when opponent has at least a monster");
-            return ;
+            return;
         }
         opponent.setLifePoint(opponent.getLifePoint() - ((MonsterCard) selectedCard).getCardAttack());
-        if(opponent.getLifePoint() <= 0)
+        if (opponent.getLifePoint() <= 0)
             opponent.setLoser(true);
         ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
         Printer.prompt("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
@@ -531,8 +553,8 @@ public class Player {
     }
 
     public void destroyMonster(MonsterCard card) {
-        for(int i = 1;i <= 5;++ i)
-            if(card == monstersFieldList[i]) {
+        for (int i = 1; i <= FIELD_SIZE; ++i)
+            if (card == monstersFieldList[i]) {
                 monstersFieldList[i] = null;
                 this.getGraveyard().addCard(card);
             }

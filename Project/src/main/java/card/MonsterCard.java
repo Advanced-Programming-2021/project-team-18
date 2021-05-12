@@ -20,7 +20,7 @@ public class MonsterCard extends Card {
     private boolean isDefenseMode;
     private boolean hasAttackedThisTurn = false;
     private String cardType;
-    private ArrayList<Effect> effects;
+
 
 
     public void attackTo(MonsterCard attackedMonster , Player owner) {

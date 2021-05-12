@@ -3,6 +3,6 @@ package events;
 public enum CardEventInfo {
     ENTRANCE,
     EXIT,
-    FLIP,
+    FLIP, // flip means face down to face up
     DESTROYED
 }

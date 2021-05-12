@@ -2,6 +2,6 @@ package events;
 
 import card.Card;
 
-public class DrawCardEvent {
+public class DrawCardEvent extends Event {
     private Card card;
 }

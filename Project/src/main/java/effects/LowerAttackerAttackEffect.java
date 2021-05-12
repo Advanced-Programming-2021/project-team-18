@@ -1,10 +1,13 @@
 package effects;
 
-public class LowerAttackerAttackEffect {
+import events.Event;
+
+public class LowerAttackerAttackEffect extends Effect{
     private int numberOfTimesPerSummon;
     private int putAttackValue;
 
-    public void runEffect() {
+    public boolean permit(Event event) {
 
+        return true;
     }
 }

@@ -1,9 +1,12 @@
 package effects;
 
-public class CalculatorAttackEffect {
+import events.Event;
+
+public class CalculatorAttackEffect extends Effect{
     private int attackPerLevel;
 
-    public void runEffect() {
+    public boolean permit(Event event) {
 
+        return true;
     }
 }
