@@ -29,6 +29,8 @@ public class Player {
     private static final String regexNextPhase = "next\\sphase";
     private static final String SUCCESSFUL_SUMMON = "summoned successfully";
     private static final String regexForFeit = "forfeit";
+    private static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
+    private static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
     private static final int HAND_SIZE = 7;
     private static final int FIELD_SIZE = 5;
 
@@ -63,15 +65,32 @@ public class Player {
         selectedCard = null;
         hasSummonedMonsterThisTurn = false;
     }
-
+    private void increaseLifePoint(Matcher matcher) {
+        int amount = Integer.parseInt(matcher.group(1));
+        this.lifePoint += amount;
+    }
+    private void setDuelWinner(Matcher matcher) {
+        String nickName = matcher.group(1);
+        if(this.getUser().getNickname().equals(nickName)) {
+            this.getOpponent().setLoser(true);
+        } else {
+            this.setLoser(true);
+        }
+    }
     public void runCommonCommands(String command) {
+        Matcher matcher;
         if (Utility.getCommandMatcher(command, regexSelect).matches()) {
             selectCard(command);
         } else if (Utility.getCommandMatcher(command, regexShowGraveyard).matches()) {
             showGraveyard();
         } else if (Utility.getCommandMatcher(command, regexShowSelectedCard).matches()) {
             showSelectedCard();
+        } else if((matcher = Utility.getCommandMatcher(command , regexIncreaseLifePoint)).matches()) {
+            increaseLifePoint(matcher);
+        } else if((matcher = Utility.getCommandMatcher(command , regexSetDuelWinner)).matches()) {
+            setDuelWinner(matcher);
         }
+
     }
 
     public void runMainPhaseCommands(String command) {

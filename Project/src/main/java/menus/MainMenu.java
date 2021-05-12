@@ -27,7 +27,7 @@ public class MainMenu extends Menu {
         } else if (menuName.equals("shop menu") || menuName.equals("shop")) {
             new ShopMenu(user).runMenu();
         } else if (menuName.equals("import/export menu") || menuName.equals("import/export")) {
-            new ImportExportMenu(user).runMenu();
+            new ImportExportMenu().runMenu();
         } else {
             Printer.prompt(NAVIGATION_DENIED);
         }
