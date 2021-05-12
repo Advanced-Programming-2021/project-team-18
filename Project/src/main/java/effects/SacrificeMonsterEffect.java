@@ -1,4 +1,7 @@
 package effects;
+
+import events.Event;
+
 // TODO : KAMYAR
 public class SacrificeMonsterEffect extends Effect {
     private int requiredFromHand;
@@ -7,5 +10,8 @@ public class SacrificeMonsterEffect extends Effect {
 
     public void runEffect() {
 
+    }
+    public boolean permit(Event event) {
+        return false;
     }
 }

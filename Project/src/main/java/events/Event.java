@@ -1,5 +1,7 @@
 package events;
 
-public class Event {
+import game.Game;
 
+public class Event {
+    private Game game;
 }

@@ -40,10 +40,6 @@ public class Game {
         return turn == 1;
     }
 
-    public int getTurn() {
-        return turn;
-    }
-
     public boolean isDuelFinished() {
         return firstPlayer.isLoser() || secondPlayer.isLoser();
     }

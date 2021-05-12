@@ -1,6 +1,7 @@
 package effects;
 
 import card.SpellType;
+import events.Event;
 
 public class DrawEffect extends Effect {
     private int drawCardCount;
@@ -8,5 +9,8 @@ public class DrawEffect extends Effect {
 
     public void runEffect() {
 
+    }
+    public boolean permit(Event event) {
+        return false;
     }
 }
