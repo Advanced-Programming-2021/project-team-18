@@ -1,10 +1,13 @@
 package effects;
 
-public class DisableAttackerEffect {
+import events.Event;
+
+public class DisableAttackerEffect extends Effect{
     private int requiredCountMonsters;
     private int maximumTimesPerTurn;
 
-    public void runEffect() {
+    public boolean permit(Event event) {
 
+        return true;
     }
 }

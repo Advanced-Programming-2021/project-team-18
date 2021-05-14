@@ -1,12 +1,10 @@
 package card;
 
+import effects.Effect;
 import events.Event;
-import events.MonsterCardEvent;
 import game.Player;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
-
 import java.util.ArrayList;
 
 @Getter
@@ -21,8 +19,10 @@ public abstract class Card implements Comparable<Card> {
     private boolean isFaceUp = true;
     private Player player;
     private Origin cardOrigin;
+    private ArrayList<Effect> effects;
 
     public static Card getCardByName(String cardName) {
+
         for (Card card : allCards)
             if (card.getCardName().equals(cardName))
                 return card;
@@ -36,7 +36,9 @@ public abstract class Card implements Comparable<Card> {
     public static Card createNewCard(String cardName) {
         return getCardByName(cardName).cloneCard();
     }
-
+    public boolean hasEffect(Effect effect) {
+        return effects.contains(effect);
+    }
 
     public void cloneDefaults(Card card) {
         card.setPrice(this.getPrice());

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Setter
 public class SpellCard extends Card{
     private SpellType cardSpellType;
-    private ArrayList<Effect> onActivationEffects;
+
     @Override
     public void runEffects(Event event) {
 
@@ -31,7 +31,7 @@ public class SpellCard extends Card{
         SpellCard card = new SpellCard();
         this.cloneDefaults(card);
         card.setCardSpellType(this.getCardSpellType());
-        card.setOnActivationEffects(this.getOnActivationEffects());
+        card.setEffects(this.getEffects());
         return card;
     }
 }

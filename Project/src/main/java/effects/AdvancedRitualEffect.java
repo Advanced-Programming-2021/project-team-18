@@ -1,8 +1,11 @@
 package effects;
 
-public class AdvancedRitualEffect {
+import events.Event;
 
-    public void runEffect() {
+public class AdvancedRitualEffect extends Effect {
 
+
+    public boolean permit(Event event) {
+        return false;
     }
 }

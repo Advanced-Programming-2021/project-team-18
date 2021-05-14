@@ -52,6 +52,11 @@ public class ShopMenu extends Menu {
         user.addCardBalance(cardName);
     }
 
+    private void increaseMoney(Matcher matcher) {
+        int amount = Integer.parseInt(matcher.group(1));
+        user.setBalance(user.getBalance() + amount);
+    }
+
     @Override
     public void runMenu() {
         String newLine = Utility.getNextLine();
@@ -64,6 +69,8 @@ public class ShopMenu extends Menu {
                 showAllCardsAndPrices();
             } else if (newLine.matches("enter menu .*")) {
                 Printer.prompt(NAVIGATION_DENIED);
+            } else if ((matcher = Utility.getCommandMatcher(newLine , "(\"increase\\\\smoney\\\\s(\\\\d+)\")")).matches()) {
+                increaseMoney(matcher);
             } else Printer.prompt(INVALID_COMMAND);
             newLine = Utility.getNextLine();
         }

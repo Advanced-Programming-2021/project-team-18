@@ -20,13 +20,7 @@ public class MonsterCard extends Card {
     private boolean isDefenseMode;
     private boolean hasAttackedThisTurn = false;
     private String cardType;
-    private ArrayList<Effect> onDestroyEffects;
-    private ArrayList<Effect> onAttackEffects;
-    private ArrayList<Effect> onFlipEffects;
-    private ArrayList<Effect> onDefenseEffects;
-    private ArrayList<Effect> onSummonEffects;
-    private ArrayList<Effect> onStartPhaseEffects;
-    private ArrayList<Effect> onEndPhaseEffects;
+
 
 
     public void attackTo(MonsterCard attackedMonster , Player owner) {
@@ -80,13 +74,7 @@ public class MonsterCard extends Card {
         card.setCardAttack(this.getCardAttack());
         card.setCardDefense(this.getCardDefense());
         card.setCardType(this.getCardType());
-        card.setOnDestroyEffects(this.getOnDestroyEffects());
-        card.setOnAttackEffects(this.getOnAttackEffects());
-        card.setOnFlipEffects(this.getOnFlipEffects());
-        card.setOnDefenseEffects(this.getOnDefenseEffects());
-        card.setOnSummonEffects(this.getOnSummonEffects());
-        card.setOnStartPhaseEffects(this.getOnStartPhaseEffects());
-        card.setOnEndPhaseEffects(this.getOnEndPhaseEffects());
+        card.setEffects(this.getEffects());
         return card;
     }
 

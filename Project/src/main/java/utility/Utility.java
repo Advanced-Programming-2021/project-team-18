@@ -55,7 +55,7 @@ public class Utility {
                 if (!map.containsKey(i)) return false;
             }
         }
-        if(mustAttributes != null)
+        if (mustAttributes != null)
             mapSize -= mustAttributes.length;
         if (optionalAttributes != null) {
             for (String i : optionalAttributes) {
@@ -64,6 +64,7 @@ public class Utility {
         }
         return (mapSize == 0);
     }
+
     public static boolean areAttributesValid(HashMap<String, String> map, String[] attributesWithArgument, String[] attributesWithoutAnArgument) {
         if (attributesWithArgument != null) {
             for (String i : attributesWithArgument) {

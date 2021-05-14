@@ -1,8 +1,13 @@
 package events;
 
 import card.Card;
+import lombok.Getter;
+import lombok.Setter;
 
-public class CardEvent {
+
+@Getter
+@Setter
+public class CardEvent extends Event {
     private Card card;
     private CardEventInfo info;
 }

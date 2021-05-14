@@ -20,9 +20,9 @@ import java.util.List;
 // by Pasha
 
 public class DataManager {
-    private static final String MONSTER_CARDS_PATH = "src\\main\\resources\\cards\\Monster.csv";
-    private static final String SPELLANDTRAP_CARDS_PATH = "src\\main\\resources\\cards\\SpellTrap.csv";
-    private static final String USERS_DATA_PATH = "src\\main\\resources\\users\\allUsers.json";
+    private static final String MONSTER_CARDS_PATH = "src/main/resources/cards/Monster.csv";
+    private static final String SPELLANDTRAP_CARDS_PATH = "src/main/resources/cards/SpellTrap.csv";
+    private static final String USERS_DATA_PATH = "src/main/resources/users/allUsers.json";
     public static void loadMonsterCardsIntoAllCards() {
         ArrayList<String[]> cards = Utility.getArrayListFromCSV(MONSTER_CARDS_PATH);
         String[] attributes = cards.get(0);
@@ -125,6 +125,7 @@ public class DataManager {
     }
     public static void mapToList(Deck deck) {
         if(deck.getCardCount() == null) return ;
+        deck.setCardsList(new ArrayList<>());
         for(String cardName : deck.getCardCount().keySet()) {
             int value = deck.getCardCount().get(cardName);
             for(int i = 0;i < value;++ i)

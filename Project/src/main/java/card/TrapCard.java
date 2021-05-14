@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Setter
 public class TrapCard extends Card{
     private TrapType cardTrapType;
-    private ArrayList<Effect> onActivationEffects;
+
     @Override
     public void runEffects(Event event) {
 
@@ -31,7 +31,7 @@ public class TrapCard extends Card{
         TrapCard card = new TrapCard();
         this.cloneDefaults(card);
         card.setCardTrapType(this.getCardTrapType());
-        card.setOnActivationEffects(this.getOnActivationEffects());
+        card.setEffects(this.getEffects());
         return card;
     }
 }

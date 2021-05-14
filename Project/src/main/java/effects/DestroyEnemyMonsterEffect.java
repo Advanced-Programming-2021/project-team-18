@@ -1,9 +1,12 @@
 package effects;
 
-public class DestroyEnemyMonsterEffect {
+import events.Event;
+
+public class DestroyEnemyMonsterEffect extends Effect{
     private int monstersCount;
 
-    public void runEffect() {
+    public boolean permit(Event event) {
 
+        return true;
     }
 }
