@@ -2,12 +2,9 @@ package card;
 
 import effects.Effect;
 import events.Event;
-import events.MonsterCardEvent;
 import game.Player;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
-
 import java.util.ArrayList;
 
 @Getter
@@ -25,6 +22,7 @@ public abstract class Card implements Comparable<Card> {
     private ArrayList<Effect> effects;
 
     public static Card getCardByName(String cardName) {
+
         for (Card card : allCards)
             if (card.getCardName().equals(cardName))
                 return card;
