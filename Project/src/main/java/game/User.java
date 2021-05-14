@@ -7,15 +7,28 @@ import java.io.Serializable;
 import java.util.*;
 
 // By Sina
-public class User implements Comparable<User> , Serializable {
-    @Setter private static ArrayList<User> allUsers = new ArrayList<>();
+public class User implements Comparable<User>, Serializable {
+    @Setter
+    private static ArrayList<User> allUsers = new ArrayList<>();
 
-    @Setter @Getter private String username;
-    @Getter @Setter private String password;
-    @Getter @Setter private String nickname;
-    @Getter @Setter private int score;
-    @Getter @Setter private GameDeck activeDeck;
-    @Getter @Setter private int balance;
+    @Setter
+    @Getter
+    private String username;
+    @Getter
+    @Setter
+    private String password;
+    @Getter
+    @Setter
+    private String nickname;
+    @Getter
+    @Setter
+    private int score;
+    @Getter
+    @Setter
+    private GameDeck activeDeck;
+    @Getter
+    @Setter
+    private int balance;
     private final ArrayList<GameDeck> decks;
     private final HashMap<String, Integer> cardCount;
 
@@ -36,6 +49,15 @@ public class User implements Comparable<User> , Serializable {
             if (user.nickname.equals(nickname)) return true;
         }
         return false;
+    }
+
+    public static void removeUser(String username) {
+        for (User user : allUsers) {
+            if(user.getUsername().contentEquals(username)){
+                allUsers.remove(user);
+                return;
+            }
+        }
     }
 
 
