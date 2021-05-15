@@ -3,6 +3,7 @@ package data;
 
 import card.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 //import com.sun.org.apache.bcel.internal.classfile.Utility;
 import game.Deck;
@@ -148,7 +149,7 @@ public class DataManager {
 
         prepareUsersDataForSaving();
         FileWriter fileWriter = new FileWriter(USERS_DATA_PATH);
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(User.getAllUsers());
         fileWriter.write(json);
         fileWriter.close();
@@ -159,6 +160,7 @@ public class DataManager {
             Gson gson = new Gson();
             String text = new String(Files.readAllBytes(Paths.get(USERS_DATA_PATH)));
             ArrayList < User > users = gson.fromJson(text , new TypeToken<List<User>>(){}.getType());
+            if(users == null) { return ; }
             User.setAllUsers(users);
             prepareUserDataAfterLoading();
         } catch(Exception e) {

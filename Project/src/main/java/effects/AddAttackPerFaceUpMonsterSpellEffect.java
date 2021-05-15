@@ -7,8 +7,8 @@ import events.CardEventInfo;
 import events.Event;
 import game.Player;
 
-
-
+// by Pasha
+// cards with this effect : [United we stand]
 public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
     private int attackAmount;
     Player player;

@@ -19,6 +19,7 @@ public class MonsterCard extends Card {
     private int cardDefense;
     private boolean isDefenseMode;
     private boolean hasAttackedThisTurn = false;
+    private boolean hasChangedPositionThisTurn = false;
     private String cardType;
 
 

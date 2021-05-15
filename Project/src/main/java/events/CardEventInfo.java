@@ -1,8 +1,8 @@
 package events;
 
 public enum CardEventInfo {
-    ENTRANCE,
-    EXIT,
+    ENTRANCE, // entering the board
     FLIP, // flip means face down to face up
-    DESTROYED
+    ACTIVATE_EFFECT,
+    DESTROYED // getting removed from the board
 }
