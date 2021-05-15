@@ -559,4 +559,8 @@ public class Player {
                 this.getGraveyard().addCard(card);
             }
     }
+
+    public boolean equals(Player checkPlayer){
+        return user.getUsername().contentEquals(checkPlayer.getUser().getUsername());
+    }
 }
