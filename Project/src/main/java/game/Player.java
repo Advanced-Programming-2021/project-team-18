@@ -7,6 +7,7 @@ import card.TrapCard;
 import data.Printer;
 import lombok.Getter;
 import lombok.Setter;
+import menus.Menu;
 import utility.Utility;
 
 import java.util.HashMap;
@@ -33,7 +34,8 @@ public class Player {
     private static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
     private static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
     private static final int HAND_SIZE = 7;
-    @Getter private static final int FIELD_SIZE = 5;
+    @Getter
+    private static final int FIELD_SIZE = 5;
 
     // Initialized in constructor
     private User user;
@@ -55,12 +57,12 @@ public class Player {
 
     public Player(User user, Deck deck) {
         this.user = user;
-        graveyard = new Deck(100);
+        graveyard = new Deck(105);
         this.remainingDeck = deck;
         monstersFieldList = new MonsterCard[FIELD_SIZE + 1]; // To have 1-based indexing
         spellsAndTrapFieldList = new Card[FIELD_SIZE + 1];   // To have 1-based indexing
         fieldZone = null;
-        hand = new Deck(6);
+        hand = new Deck(HAND_SIZE);
         lifePoint = 8000;
         loser = false;
         selectedCard = null;
@@ -70,6 +72,12 @@ public class Player {
     private void increaseLifePoint(Matcher matcher) {
         int amount = Integer.parseInt(matcher.group(1));
         this.lifePoint += amount;
+    }
+
+    public void decreaseLifePoint(int amount) {
+        lifePoint -= amount;
+        if (lifePoint < 0) lifePoint = 0;
+        if (lifePoint == 0) loser = true;
     }
 
     private void setDuelWinner(Matcher matcher) {
@@ -93,7 +101,7 @@ public class Player {
             increaseLifePoint(matcher);
         } else if ((matcher = Utility.getCommandMatcher(command, regexSetDuelWinner)).matches()) {
             setDuelWinner(matcher);
-        } else if(command.equals(regexForfeit)) {
+        } else if (command.equals(regexForfeit)) {
             forfeit();
         }
     }
@@ -260,6 +268,36 @@ public class Player {
         }
     }
 
+    public void removeCardFromHand(Card card) {
+        hand.removeCard(card);
+    }
+
+    public Card obtainCardFromHand() {
+        String response = "";
+        int index = -1;
+        while (!(0 <= index && index < hand.getSize())){
+            while (true) {
+                Printer.prompt("Please select a card position on hand");
+                response = Utility.getNextLine();
+                if (response.matches("\\d")) break;
+                Printer.prompt(Menu.INVALID_COMMAND);
+            }
+            index = Integer.parseInt(response);
+        }
+        return hand.getCardsList().get(index);
+    }
+
+    public boolean obtainConfirmation(String promptMassage) {
+        String response = "";
+        while (true) {
+            Printer.prompt(promptMassage);
+            response = Utility.getNextLine();
+            if (response.equals("yes")) return true;
+            if (response.equals("no")) return false;
+            Printer.prompt(Menu.INVALID_COMMAND);
+        }
+    }
+
     public void selectCard(String command) {
 //      TODO : KAMYAR
         if (command.matches("select -d")) {
@@ -354,7 +392,7 @@ public class Player {
     // Used to summon monsters with level less than 5
     private void summonMonsterLowLevel(int placeOnHand, int placeOnField) {
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
-        hand.removeCard(placeOnHand);
+        hand.removeCardAt(placeOnHand);
         hasSummonedMonsterThisTurn = true;
         selectedCard.setFaceUp(true);
         ((MonsterCard) selectedCard).setDefenseMode(false);
@@ -372,27 +410,27 @@ public class Player {
         theSummonedMonsterThisTurn = selectedCard;
         selectedCard.setFaceUp(true);
         ((MonsterCard) selectedCard).setDefenseMode(false);
-        hand.removeCard(placeOnHand);
+        hand.removeCardAt(placeOnHand);
     }
 
     private void changeMonsterPosition(Matcher matcher) {
         String position = matcher.group(1);
-        if(selectedCard == null) {
+        if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
-            return ;
+            return;
         }
         int cardId = getSelectedMonsterCardOnFieldID();
-        if(cardId == -1) {
+        if (cardId == -1) {
             Printer.prompt("you can't change this card position");
-            return ;
+            return;
         }
-        if((monstersFieldList[cardId].isDefenseMode() && position.equals("defense")) || (!monstersFieldList[cardId].isDefenseMode() && position.equals("attack"))) {
+        if ((monstersFieldList[cardId].isDefenseMode() && position.equals("defense")) || (!monstersFieldList[cardId].isDefenseMode() && position.equals("attack"))) {
             Printer.prompt("this card is already in the wanted position");
-            return ;
+            return;
         }
-        if(monstersFieldList[cardId].isHasChangedPositionThisTurn()) {
+        if (monstersFieldList[cardId].isHasChangedPositionThisTurn()) {
             Printer.prompt("you already changed this card position in this turn");
-            return ;
+            return;
         }
         monstersFieldList[cardId].setHasChangedPositionThisTurn(true);
         monstersFieldList[cardId].setDefenseMode(!monstersFieldList[cardId].isDefenseMode());
@@ -407,7 +445,7 @@ public class Player {
         monstersFieldList[secondTribute] = null;
         graveyard.getCardsList().add(firstTributedCard);
         graveyard.getCardsList().add(secondTributedCard);
-        hand.removeCard(placeOnHand);
+        hand.removeCardAt(placeOnHand);
         int placeOnField = getFirstEmptyPlaceOnMonstersField();
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
         hasSummonedMonsterThisTurn = true;
@@ -457,7 +495,7 @@ public class Player {
         // Note: What if the two addresses above are the same?
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
     }
 
     public void setMonster() {
@@ -468,14 +506,14 @@ public class Player {
         int placeOnMonstersZone = getFirstEmptyPlaceOnMonstersField();
         if (Utility.checkAndPrompt((placeOnMonstersZone == -1), "monster card zone is full")) return;
         if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn, "you already summoned/set on this turn")) return;
-        hand.removeCard(placeOnHand);
+        hand.removeCardAt(placeOnHand);
         monstersFieldList[placeOnMonstersZone] = (MonsterCard) selectedCard;
         selectedCard.setFaceUp(false);
         hasSummonedMonsterThisTurn = true;
         ((MonsterCard) selectedCard).setDefenseMode(true);
         theSummonedMonsterThisTurn = selectedCard;
         Printer.prompt("set successfully");
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
     }
 
     public void flipSummon() {
@@ -495,7 +533,7 @@ public class Player {
         }
         selectedCard.setFaceUp(false);
         Printer.prompt("flip summoned successfully");
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
     }
 
     public void attack(String command) {
@@ -523,7 +561,7 @@ public class Player {
         }
         if (positionToAttack > 0 && positionToAttack < 6 && opponent.getMonstersFieldList()[positionToAttack] != null)
             ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack], this);
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
 
     }
 
@@ -557,22 +595,22 @@ public class Player {
             opponent.setLoser(true);
         ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
         Printer.prompt("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
     }
 
     public void activateEffect() {
 //      TODO : PASHA
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
     }
 
     public void setSpell() {
 //      TODO : PASHA
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
     }
 
     public void setTrap() {
 //      TODO : PASHA
-        Printer.showBoard(this , this.opponent);
+        Printer.showBoard(this, this.opponent);
     }
 
     public void showGraveyard() {
@@ -606,7 +644,7 @@ public class Player {
             }
     }
 
-    public boolean equals(Player checkPlayer){
+    public boolean equals(Player checkPlayer) {
         return user.getUsername().contentEquals(checkPlayer.getUser().getUsername());
     }
 }

@@ -18,6 +18,7 @@ public class HarpiesFeatherEffect extends Effect {
     }
 
     public boolean permit(Event event) {
+        initializeSelfCardWithEvent(event);
         if (event instanceof SpellTrapActivationEvent) {
             SpellTrapActivationEvent partEvent = (SpellTrapActivationEvent) event;
             if (partEvent.getCard().hasEffect(this))

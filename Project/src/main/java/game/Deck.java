@@ -37,9 +37,13 @@ public class Deck {
         cardsList.add(newCard);
     }
 
-    public void removeCard(int index) {
+    public void removeCardAt(int index) {
         if (index >= cardsList.size() || index < 0) return;
         cardsList.remove(index);
+    }
+
+    public void removeCard(Card card) {
+        cardsList.remove(card);
     }
 
     public int getCardCount(String cardName) {
@@ -48,6 +52,10 @@ public class Deck {
             if (myCard.getCardName().equals(cardName))
                 ++count;
         return count;
+    }
+
+    public int getSize() {
+        return cardsList.size();
     }
 
     public List<Card> getAllCards() {
