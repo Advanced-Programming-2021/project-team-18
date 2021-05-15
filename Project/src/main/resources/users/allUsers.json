@@ -1,1 +1,11 @@
-[{"username":"kamikaze","password":"12345","nickname":"khiko","score":0,"balance":100000,"decks":[],"cardCount":{}}]
+[
+  {
+    "username": "kamikaze",
+    "password": "12345",
+    "nickname": "khiko",
+    "score": 0,
+    "balance": 100000,
+    "decks": [],
+    "cardCount": {}
+  }
+]

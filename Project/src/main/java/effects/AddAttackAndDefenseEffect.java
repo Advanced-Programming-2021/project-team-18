@@ -19,15 +19,14 @@ public class AddAttackAndDefenseEffect extends Effect {
     private int defenseAddValue;
     private MonsterCardType monsterType;
     private int attackAddedPerGraveyardMonsters;
-    private Player player;
 
     private void toggleSelfEffect(int coefficient) {
         for (int i = 1; i <= Player.FIELD_SIZE; ++i) {
-            MonsterCard monsterCard = player.getMonstersFieldList()[i];
+            MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[i];
             if (monsterCard != null && (monsterCard.getMonsterType() == monsterType) || monsterType == MonsterCardType.ALL) {
                 monsterCard.setCardAttack(monsterCard.getCardAttack() + (attackAddValue * coefficient));
                 monsterCard.setCardDefense(monsterCard.getCardDefense() + (defenseAddValue * coefficient));
-                monsterCard.setCardAttack(monsterCard.getCardAttack() + (coefficient * attackAddedPerGraveyardMonsters * player.getGraveyard().getCardsList().size()));
+                monsterCard.setCardAttack(monsterCard.getCardAttack() + (coefficient * attackAddedPerGraveyardMonsters * selfPlayer.getGraveyard().getCardsList().size()));
             }
         }
     }
@@ -44,22 +43,21 @@ public class AddAttackAndDefenseEffect extends Effect {
         if (monsterCard != null && (monsterCard.getMonsterType() == monsterType) || monsterType == MonsterCardType.ALL) {
             monsterCard.setCardAttack(monsterCard.getCardAttack() + (attackAddValue));
             monsterCard.setCardDefense(monsterCard.getCardDefense() + (defenseAddValue));
-            monsterCard.setCardAttack(monsterCard.getCardAttack() + (attackAddedPerGraveyardMonsters * player.getGraveyard().getCardsList().size()));
+            monsterCard.setCardAttack(monsterCard.getCardAttack() + (attackAddedPerGraveyardMonsters * selfPlayer.getGraveyard().getCardsList().size()));
         }
     }
 
     public boolean permit(Event event) {
+        initializeSelfCardWithEvent(event);
         if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if (cardEventInfo == CardEventInfo.ENTRANCE && card.hasEffect(this))
-                player = card.getPlayer();
             if (((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || (cardEventInfo == CardEventInfo.FLIP)) && card.hasEffect(this)) {
                 whenPlayedEffect();
             } else if ((cardEventInfo == CardEventInfo.DESTROYED) && card.hasEffect(this)) {
                 whenDestroyedEffect();
-            } else if (((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || (cardEventInfo == CardEventInfo.FLIP)) && card.getPlayer() == player && card instanceof MonsterCard) {
+            } else if (((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || (cardEventInfo == CardEventInfo.FLIP)) && card.getPlayer() == selfPlayer && card instanceof MonsterCard) {
                 whenOtherMonsterCardPlayedEffect((MonsterCard) card);
             }
         }

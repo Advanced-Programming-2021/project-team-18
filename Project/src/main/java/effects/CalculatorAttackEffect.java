@@ -11,30 +11,20 @@ import game.Player;
 public class CalculatorAttackEffect extends Effect{
     private int attackPerLevel;
     private int currentAttackAdded;
-    private Player player;
-    private MonsterCard card;
     private void calculateCurrentAttack() {
         int previousAttackAdded = currentAttackAdded;
         currentAttackAdded = 0;
         for(int i = 1;i <= Player.FIELD_SIZE;++ i) {
-            MonsterCard monsterCard = player.getMonstersFieldList()[i];
+            MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[i];
             if(monsterCard != null && monsterCard.isFaceUp()) {
                 currentAttackAdded += monsterCard.getCardLevel() * attackPerLevel;
             }
          }
         int differenceAttack = currentAttackAdded - previousAttackAdded;
-        card.setCardAttack(card.getCardAttack() + differenceAttack);
+        ((MonsterCard)selfCard).setCardAttack(((MonsterCard)selfCard).getCardAttack() + differenceAttack);
     }
     public boolean permit(Event event) {
-        if(event instanceof CardEvent) {
-            CardEvent cardEvent = (CardEvent) event;
-            CardEventInfo cardEventInfo = cardEvent.getInfo();
-            Card card = cardEvent.getCard();
-            if(card.hasEffect(this)) {
-                this.card = (MonsterCard) card;
-                player = card.getPlayer();
-            }
-        }
+        initializeSelfCardWithEvent(event);
         calculateCurrentAttack();
         return true;
     }

@@ -45,6 +45,7 @@ public abstract class Card implements Comparable<Card> {
         card.setCardName(this.getCardName());
         card.setCardNumber(this.getCardNumber());
         card.setCardDescription(this.getCardDescription());
+        card.setEffects(this.getEffects());
     }
     public abstract Card cloneCard();
     public abstract void showCard();

@@ -7,17 +7,14 @@ import game.Player;
 // cards with this effect : [time seal]
 public class DenyDrawCardEffect extends Effect {
     int turnsRemaining = 1;// should be initialized
-    private Player player;
     boolean isActive = false;
 
     public boolean permit(Event event) {
-
+        initializeSelfCardWithEvent(event);
         if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if (cardEventInfo == CardEventInfo.ENTRANCE && card.hasEffect(this))
-                player = card.getPlayer();
             if (card.hasEffect(this) && ((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP)) {
                 isActive = true;
             }
@@ -25,7 +22,7 @@ public class DenyDrawCardEffect extends Effect {
         if (event instanceof DrawCardEvent) {
             DrawCardEvent cardEvent = (DrawCardEvent) event;
             Card card = cardEvent.getCard();
-            if (isActive && card.getPlayer() == player.getOpponent() && turnsRemaining > 0) {
+            if (isActive && card.getPlayer() == selfPlayer.getOpponent() && turnsRemaining > 0) {
                 return false;
             }
         }

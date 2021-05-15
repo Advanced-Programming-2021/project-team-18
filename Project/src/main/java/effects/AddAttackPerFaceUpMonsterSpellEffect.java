@@ -11,17 +11,16 @@ import game.Player;
 // cards with this effect : [United we stand]
 public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
     private int attackAmount;
-    Player player;
     int positionOnBoard = -1;
 
     private void toggleSelfEffect(int coefficient) {
         int faceUpCount = 0;
         for(int i = 1;i <= Player.FIELD_SIZE;++ i) {
-            MonsterCard monsterCard = player.getMonstersFieldList()[i];
+            MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[i];
             if(monsterCard != null && monsterCard.isFaceUp())
                 ++ faceUpCount;
         }
-        MonsterCard monsterCard = player.getMonstersFieldList()[positionOnBoard];
+        MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[positionOnBoard];
         if(monsterCard != null) {
            monsterCard.setCardAttack(monsterCard.getCardAttack() + coefficient * attackAmount * faceUpCount);
         }
@@ -36,14 +35,12 @@ public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
     }
 
     public boolean permit(Event event) {
+        initializeSelfCardWithEvent(event);
+        positionOnBoard = selfPlayer.getSpellOrTrapPositionOnBoard(selfCard);
         if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if (cardEventInfo == CardEventInfo.ENTRANCE && card.hasEffect(this)) {
-                player = card.getPlayer();
-                positionOnBoard = player.getSpellOrTrapPositionOnBoard(card);
-            }
             if (card.hasEffect(this) && ((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP)) {
                 whenPlayedEffect();
             } else if ((cardEventInfo == CardEventInfo.DESTROYED) && card.hasEffect(this)) {

@@ -11,11 +11,10 @@ import game.Player;
 public class AttackAndDefenseEquipEffect extends Effect {
     private int addAttack;
     private int addDefense;
-    private Player player;
     private int spellPosition;
 
     private void toggleSelfEffect(int coefficient) {
-        MonsterCard monsterCard = player.getMonstersFieldList()[spellPosition];
+        MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[spellPosition];
         if(monsterCard == null) return ;
         monsterCard.setCardAttack(monsterCard.getCardAttack() + addAttack * coefficient);
         monsterCard.setCardDefense(monsterCard.getCardDefense() + addDefense * coefficient);
@@ -24,19 +23,17 @@ public class AttackAndDefenseEquipEffect extends Effect {
     private void deactivateEffect() { toggleSelfEffect(-1); }
 
     public boolean permit(Event event) {
+        initializeSelfCardWithEvent(event);
+        spellPosition = selfPlayer.getSpellOrTrapPositionOnBoard(selfCard);
         if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if (cardEventInfo == CardEventInfo.ENTRANCE && card.hasEffect(this)) {
-                player = card.getPlayer();
-                spellPosition = player.getSpellOrTrapPositionOnBoard(card);
-            }
             if(((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP) && card.hasEffect(this)) {
                 activateEffect();
             } else if(card.hasEffect(this) && cardEventInfo == CardEventInfo.DESTROYED) {
                 deactivateEffect();
-            } else if(((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP) && card instanceof MonsterCard && player.getMonsterPositionOnBoard((MonsterCard) card) == spellPosition) {
+            } else if(((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP) && card instanceof MonsterCard && selfPlayer.getMonsterPositionOnBoard((MonsterCard) card) == spellPosition) {
                 activateEffect();
             }
         }
