@@ -29,7 +29,7 @@ public class Player {
     private static final String regexActivateEffect = "activate\\seffect";
     private static final String regexNextPhase = "next\\sphase";
     private static final String SUCCESSFUL_SUMMON = "summoned successfully";
-    private static final String regexForFeit = "forfeit";
+    private static final String regexForfeit = "surrender";
     private static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
     private static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
     private static final int HAND_SIZE = 7;
@@ -241,12 +241,29 @@ public class Player {
     }
 
     public int getSpellOrTrapPositionOnBoard(Card card) {
-        for(int i = 1;i <= FIELD_SIZE;++ i)
-            if(spellsAndTrapFieldList[i] == card)
+        for (int i = 1; i <= FIELD_SIZE; ++i)
+            if (spellsAndTrapFieldList[i] == card)
                 return i;
         return -1;
     }
 
+    public void removeCardFromField(Card card) {
+        if (card == null) return;
+        for (int i = 1; i <= FIELD_SIZE; i++) {
+            if (monstersFieldList[i] == card) {
+                monstersFieldList[i] = null;
+                graveyard.addCard(card);
+            }
+            if (spellsAndTrapFieldList[i] == card) {
+                spellsAndTrapFieldList[i] = null;
+                graveyard.addCard(card);
+            }
+        }
+        if (card == fieldZone) {
+            fieldZone = null;
+            graveyard.addCard(card);
+        }
+    }
 
     public void selectCard(String command) {
 //      TODO : KAMYAR
