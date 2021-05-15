@@ -1,7 +1,7 @@
 package effects;
 
 import events.Event;
-
+// by Pasha
 public class DestroyEnemiesTrapEffect extends Effect {
     public void runEffect() {
 

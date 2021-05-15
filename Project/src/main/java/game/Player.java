@@ -22,7 +22,7 @@ public class Player {
     private static final String regexShowSelectedCard = "card\\sshow\\s\\-\\-selected";
     private static final String regexSummon = "summon";
     private static final String regexSet = "set";
-    private static final String regexChangePosition = "set --position.+";
+    private static final String regexChangePosition = "set\\s--position\\s(.+)";
     private static final String regexFlipSummon = "flip\\-summon";
     private static final String regexAttackNormal = "attack\\s(\\d+)";
     private static final String regexAttackDirect = "attack\\sdirect";
@@ -98,6 +98,7 @@ public class Player {
     }
 
     public void runMainPhaseCommands(String command) {
+        Matcher matcher;
         if (Utility.getCommandMatcher(command, regexSummon).matches()) {
             summonMonster();
         } else if (Utility.getCommandMatcher(command, regexSet).matches()) {
@@ -107,8 +108,8 @@ public class Player {
             }
             if (selectedCard instanceof MonsterCard) setMonster();
             else if (selectedCard instanceof SpellCard || selectedCard instanceof TrapCard) setSpell();
-        } else if (Utility.getCommandMatcher(command, regexChangePosition).matches()) {
-            changeMonsterPosition();
+        } else if ((matcher = Utility.getCommandMatcher(command, regexChangePosition)).matches()) {
+            changeMonsterPosition(matcher);
         } else if (Utility.getCommandMatcher(command, regexFlipSummon).matches()) {
             flipSummon();
         } else if (Utility.getCommandMatcher(command, regexAttackNormal).matches()) {
@@ -118,6 +119,7 @@ public class Player {
         } else if (Utility.getCommandMatcher(command, regexActivateEffect).matches()) {
             activateEffect();
         }
+        Printer.showBoard(this , this.opponent);
     }
 
     public void runBattlePhaseCommands(String command) {
@@ -128,7 +130,7 @@ public class Player {
         } else if (Utility.getCommandMatcher(command, regexActivateEffect).matches()) {
             activateEffect();
         }
-
+        Printer.showBoard(this , this.opponent);
     }
 
     // By Sina
@@ -191,6 +193,7 @@ public class Player {
                 break;
             runCommonCommands(command);
             runMainPhaseCommands(command);
+
         }
     }
 
@@ -199,7 +202,10 @@ public class Player {
 //      NOTE : for each monster card .hasAttacked has to be set to false and hasSummonedMonsterThisTurn should be also set to false
         Printer.prompt("phase: End phase");
         for (int i = 1; i <= FIELD_SIZE; i++) {
-            if (monstersFieldList[i] != null) monstersFieldList[i].setHasAttackedThisTurn(false);
+            if (monstersFieldList[i] != null) {
+                monstersFieldList[i].setHasAttackedThisTurn(false);
+                monstersFieldList[i].setHasChangedPositionThisTurn(false);
+            }
         }
         hasSummonedMonsterThisTurn = false;
         theSummonedMonsterThisTurn = null;
@@ -357,8 +363,28 @@ public class Player {
         hand.removeCard(placeOnHand);
     }
 
-    private void changeMonsterPosition() {
-
+    private void changeMonsterPosition(Matcher matcher) {
+        String position = matcher.group(1);
+        if(selectedCard == null) {
+            Printer.prompt("no card is selected yet");
+            return ;
+        }
+        int cardId = getSelectedMonsterCardOnFieldID();
+        if(cardId == -1) {
+            Printer.prompt("you can't change this card position");
+            return ;
+        }
+        if((monstersFieldList[cardId].isDefenseMode() && position.equals("defense")) || (!monstersFieldList[cardId].isDefenseMode() && position.equals("attack"))) {
+            Printer.prompt("this card is already in the wanted position");
+            return ;
+        }
+        if(monstersFieldList[cardId].isHasChangedPositionThisTurn()) {
+            Printer.prompt("you already changed this card position in this turn");
+            return ;
+        }
+        monstersFieldList[cardId].setHasChangedPositionThisTurn(true);
+        monstersFieldList[cardId].setDefenseMode(!monstersFieldList[cardId].isDefenseMode());
+        Printer.prompt("monster card position changed successfully");
     }
 
     // Used to summon monsters with level greater than 6

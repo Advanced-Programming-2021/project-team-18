@@ -70,6 +70,11 @@ public class Game {
     private void startNewDuel() {
         firstPlayer = new Player(firstUser, firstUser.getActiveDeck().getMainDeck().cloneDeck());
         secondPlayer = new Player(secondUser, secondUser.getActiveDeck().getMainDeck().cloneDeck());
+        for(Card card : firstPlayer.getRemainingDeck().getCardsList())
+            card.setPlayer(firstPlayer);
+        for(Card card : secondPlayer.getRemainingDeck().getCardsList())
+            card.setPlayer(secondPlayer);
+
         firstPlayer.setGame(this);
         secondPlayer.setGame(this);
         firstPlayer.setOpponent(secondPlayer);

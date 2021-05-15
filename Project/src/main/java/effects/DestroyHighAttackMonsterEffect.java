@@ -1,7 +1,7 @@
 package effects;
 
 import events.Event;
-// TODO : PASHA
+// by Pasha
 public class DestroyHighAttackMonsterEffect extends Effect {
     private int requiredAttack;
     private int opponentCount;
