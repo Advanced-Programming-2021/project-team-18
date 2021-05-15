@@ -33,7 +33,7 @@ public class Player {
     private static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
     private static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
     private static final int HAND_SIZE = 7;
-    public static final int FIELD_SIZE = 5;
+    @Getter private static final int FIELD_SIZE = 5;
 
     // Initialized in constructor
     private User user;
@@ -93,8 +93,9 @@ public class Player {
             increaseLifePoint(matcher);
         } else if ((matcher = Utility.getCommandMatcher(command, regexSetDuelWinner)).matches()) {
             setDuelWinner(matcher);
+        } else if(command.equals(regexForfeit)) {
+            forfeit();
         }
-
     }
 
     public void runMainPhaseCommands(String command) {
@@ -112,14 +113,9 @@ public class Player {
             changeMonsterPosition(matcher);
         } else if (Utility.getCommandMatcher(command, regexFlipSummon).matches()) {
             flipSummon();
-        } else if (Utility.getCommandMatcher(command, regexAttackNormal).matches()) {
-            attack(command);
-        } else if (Utility.getCommandMatcher(command, regexAttackDirect).matches()) {
-            attackDirect();
         } else if (Utility.getCommandMatcher(command, regexActivateEffect).matches()) {
             activateEffect();
         }
-        Printer.showBoard(this , this.opponent);
     }
 
     public void runBattlePhaseCommands(String command) {
@@ -130,7 +126,7 @@ public class Player {
         } else if (Utility.getCommandMatcher(command, regexActivateEffect).matches()) {
             activateEffect();
         }
-        Printer.showBoard(this , this.opponent);
+
     }
 
     // By Sina
@@ -193,7 +189,6 @@ public class Player {
                 break;
             runCommonCommands(command);
             runMainPhaseCommands(command);
-
         }
     }
 
@@ -462,6 +457,7 @@ public class Player {
         // Note: What if the two addresses above are the same?
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
+        Printer.showBoard(this , this.opponent);
     }
 
     public void setMonster() {
@@ -479,6 +475,7 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(true);
         theSummonedMonsterThisTurn = selectedCard;
         Printer.prompt("set successfully");
+        Printer.showBoard(this , this.opponent);
     }
 
     public void flipSummon() {
@@ -498,6 +495,7 @@ public class Player {
         }
         selectedCard.setFaceUp(false);
         Printer.prompt("flip summoned successfully");
+        Printer.showBoard(this , this.opponent);
     }
 
     public void attack(String command) {
@@ -525,6 +523,7 @@ public class Player {
         }
         if (positionToAttack > 0 && positionToAttack < 6 && opponent.getMonstersFieldList()[positionToAttack] != null)
             ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack], this);
+        Printer.showBoard(this , this.opponent);
 
     }
 
@@ -558,18 +557,22 @@ public class Player {
             opponent.setLoser(true);
         ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
         Printer.prompt("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
+        Printer.showBoard(this , this.opponent);
     }
 
     public void activateEffect() {
 //      TODO : PASHA
+        Printer.showBoard(this , this.opponent);
     }
 
     public void setSpell() {
 //      TODO : PASHA
+        Printer.showBoard(this , this.opponent);
     }
 
     public void setTrap() {
 //      TODO : PASHA
+        Printer.showBoard(this , this.opponent);
     }
 
     public void showGraveyard() {

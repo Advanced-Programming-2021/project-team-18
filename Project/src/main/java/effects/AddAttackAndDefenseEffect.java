@@ -21,7 +21,7 @@ public class AddAttackAndDefenseEffect extends Effect {
     private int attackAddedPerGraveyardMonsters;
 
     private void toggleSelfEffect(int coefficient) {
-        for (int i = 1; i <= Player.FIELD_SIZE; ++i) {
+        for (int i = 1; i <= Player.getFIELD_SIZE(); ++i) {
             MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[i];
             if (monsterCard != null && (monsterCard.getMonsterType() == monsterType) || monsterType == MonsterCardType.ALL) {
                 monsterCard.setCardAttack(monsterCard.getCardAttack() + (attackAddValue * coefficient));

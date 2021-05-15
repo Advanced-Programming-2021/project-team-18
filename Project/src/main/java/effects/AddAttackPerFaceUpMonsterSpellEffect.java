@@ -15,7 +15,7 @@ public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
 
     private void toggleSelfEffect(int coefficient) {
         int faceUpCount = 0;
-        for(int i = 1;i <= Player.FIELD_SIZE;++ i) {
+        for(int i = 1;i <= Player.getFIELD_SIZE();++ i) {
             MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[i];
             if(monsterCard != null && monsterCard.isFaceUp())
                 ++ faceUpCount;

@@ -25,7 +25,7 @@ public class Debug {
         for(int i = 0;i < 40;++ i)
             gameDeck.getMainDeck().addCard(sample);
         user.addGameDeck(gameDeck);
-        user.setActiveDeck(gameDeck);
+        user.setActiveDeckName(gameDeck.getName());
         return user;
     }
 }

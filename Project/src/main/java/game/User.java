@@ -25,7 +25,7 @@ public class User implements Comparable<User>, Serializable {
     private int score;
     @Getter
     @Setter
-    private GameDeck activeDeck;
+    private String activeDeckName;
     @Getter
     @Setter
     private int balance;
@@ -83,7 +83,7 @@ public class User implements Comparable<User>, Serializable {
     }
 
     public boolean removeGameDeck(GameDeck deck) {
-        if (deck.equals(activeDeck)) activeDeck = null;
+        if (deck.getName().equals(activeDeckName)) activeDeckName = null;
         return decks.remove(deck);
     }
 

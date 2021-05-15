@@ -50,7 +50,7 @@ public class Game {
                 scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
         );
         if (scores.get((winner.getUser())) > duelsCount / 2) {
-            Printer.prompt(winner.getUser().getUsername() + "won the whole match with score: <" +
+            Printer.prompt(winner.getUser().getUsername() + " won the whole match with score: <" +
                     scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
             );
             isGameFinished = true;
@@ -68,8 +68,8 @@ public class Game {
     }
 
     private void startNewDuel() {
-        firstPlayer = new Player(firstUser, firstUser.getActiveDeck().getMainDeck().cloneDeck());
-        secondPlayer = new Player(secondUser, secondUser.getActiveDeck().getMainDeck().cloneDeck());
+        firstPlayer = new Player(firstUser, firstUser.getGameDeckByName(firstUser.getActiveDeckName()).getMainDeck().cloneDeck());
+        secondPlayer = new Player(secondUser, secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
         for(Card card : firstPlayer.getRemainingDeck().getCardsList())
             card.setPlayer(firstPlayer);
         for(Card card : secondPlayer.getRemainingDeck().getCardsList())

@@ -1,11 +1,106 @@
 [
   {
-    "username": "kamikaze",
-    "password": "12345",
-    "nickname": "khiko",
+    "username": "a",
+    "password": "a",
+    "nickname": "a",
     "score": 0,
-    "balance": 100000,
-    "decks": [],
-    "cardCount": {}
+    "activeDeckName": "a",
+    "balance": 96500,
+    "decks": [
+      {
+        "mainDeck": {
+          "capacity": 60,
+          "cardCount": {
+            "Horn Imp": 3,
+            "Wattkid": 3,
+            "Axe Raider": 3,
+            "Battle warrior": 3,
+            "Battle OX": 3,
+            "Curtain of the dark ones": 3,
+            "Flame manipulator": 3,
+            "Feral Imp": 3,
+            "Fireyarou": 3,
+            "Silver Fang": 3,
+            "Baby dragon": 3,
+            "Dark magician": 3,
+            "Hero of the east": 3,
+            "Crawling dragon": 3
+          }
+        },
+        "sideDeck": {
+          "capacity": 15,
+          "cardCount": {}
+        },
+        "name": "a"
+      }
+    ],
+    "cardCount": {
+      "Horn Imp": 3,
+      "Wattkid": 3,
+      "Axe Raider": 3,
+      "Battle warrior": 3,
+      "Battle OX": 3,
+      "Curtain of the dark ones": 3,
+      "Flame manipulator": 3,
+      "Feral Imp": 3,
+      "Fireyarou": 3,
+      "Silver Fang": 3,
+      "Baby dragon": 3,
+      "Dark magician": 3,
+      "Hero of the east": 3,
+      "Crawling dragon": 3
+    }
+  },
+  {
+    "username": "b",
+    "password": "b",
+    "nickname": "b",
+    "score": 0,
+    "activeDeckName": "b",
+    "balance": 96500,
+    "decks": [
+      {
+        "mainDeck": {
+          "capacity": 60,
+          "cardCount": {
+            "Horn Imp": 3,
+            "Wattkid": 3,
+            "Axe Raider": 3,
+            "Battle warrior": 3,
+            "Battle OX": 3,
+            "Curtain of the dark ones": 3,
+            "Flame manipulator": 3,
+            "Feral Imp": 3,
+            "Fireyarou": 3,
+            "Silver Fang": 3,
+            "Baby dragon": 3,
+            "Dark magician": 3,
+            "Hero of the east": 3,
+            "Crawling dragon": 3
+          }
+        },
+        "sideDeck": {
+          "capacity": 15,
+          "cardCount": {}
+        },
+        "name": "b"
+      }
+    ],
+    "cardCount": {
+      "Horn Imp": 3,
+      "Wattkid": 3,
+      "Axe Raider": 3,
+      "Battle warrior": 3,
+      "Battle OX": 3,
+      "Curtain of the dark ones": 3,
+      "Flame manipulator": 3,
+      "Feral Imp": 3,
+      "Fireyarou": 3,
+      "Silver Fang": 3,
+      "Baby dragon": 3,
+      "Dark magician": 3,
+      "Hero of the east": 3,
+      "Crawling dragon": 3
+    }
   }
 ]

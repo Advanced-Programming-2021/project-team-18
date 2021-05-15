@@ -51,7 +51,7 @@ public class DeckMenu extends Menu {
             return;
         }
         Printer.prompt("deck activated successfully");
-        user.setActiveDeck(deck);
+        user.setActiveDeckName(deck.getName());
     }
 
     public void addCardToDeck(Matcher matcher) {
@@ -129,11 +129,11 @@ public class DeckMenu extends Menu {
         StringBuilder result = new StringBuilder();
         result.append("Decks:\n");
         result.append("Active deck:\n");
-        if (user.getActiveDeck() != null)
-            result.append(getAllDecksFormat(user.getActiveDeck()) + "\n");
+        if (user.getActiveDeckName() != null)
+            result.append(getAllDecksFormat(user.getGameDeckByName(user.getActiveDeckName())) + "\n");
         result.append("Other decks:\n");
         for (GameDeck deck : user.getDecks())
-            if (user.getActiveDeck() == null || (!user.getActiveDeck().getName().equals(deck.getName())))
+            if (user.getActiveDeckName() == null || (!user.getActiveDeckName().equals(deck.getName())))
                 result.append(getAllDecksFormat(deck) + "\n");
         Printer.prompt(result.toString());
     }

@@ -34,19 +34,19 @@ public class DuelMenu extends Menu {
             Printer.prompt("there is no player with this username");
             return;
         }
-        if (user.getActiveDeck() == null) {
+        if (user.getActiveDeckName() == null) {
             Printer.prompt(user.getUsername() + "  has no active deck");
             return;
         }
-        if (User.getUserByUsername(secondPlayerName).getActiveDeck() == null) {
+        if (User.getUserByUsername(secondPlayerName).getActiveDeckName() == null) {
             Printer.prompt(User.getUserByUsername(secondPlayerName).getUsername() + "  has no active deck");
             return;
         }
-        if (!user.getActiveDeck().isDeckValid()) {
+        if (!user.getGameDeckByName(user.getActiveDeckName()).isDeckValid()) {
             Printer.prompt(user.getUsername() + "'s deck is invalid");
             return;
         }
-        if (!User.getUserByUsername(secondPlayerName).getActiveDeck().isDeckValid()) {
+        if (!User.getUserByUsername(secondPlayerName).getGameDeckByName(User.getUserByUsername(secondPlayerName).getActiveDeckName()).isDeckValid()) {
             Printer.prompt(User.getUserByUsername(secondPlayerName).getUsername() + "'s deck is invalid");
             return;
         }
@@ -65,11 +65,11 @@ public class DuelMenu extends Menu {
             return;
         }
         int roundsCount = Integer.parseInt(map.get("rounds"));
-        if (user.getActiveDeck() == null) {
+        if (user.getActiveDeckName() == null) {
             Printer.prompt(user.getUsername() + "  has no active deck");
             return;
         }
-        if (!user.getActiveDeck().isDeckValid()) {
+        if (!user.getGameDeckByName(user.getActiveDeckName()).isDeckValid()) {
             Printer.prompt(user.getUsername() + "'s deck is invalid");
             return;
         }

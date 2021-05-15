@@ -126,8 +126,8 @@ public class DataManager {
         }
     }
     public static void mapToList(Deck deck) {
-        if(deck.getCardCount() == null) return ;
         deck.setCardsList(new ArrayList<>());
+        if(deck.getCardCount() == null) return ;
         for(String cardName : deck.getCardCount().keySet()) {
             int value = deck.getCardCount().get(cardName);
             for(int i = 0;i < value;++ i)
@@ -163,6 +163,7 @@ public class DataManager {
             if(users == null) { return ; }
             User.setAllUsers(users);
             prepareUserDataAfterLoading();
+
         } catch(Exception e) {
             // file not found not a big deal
         }
