@@ -33,7 +33,7 @@ public class Player {
     private static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
     private static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
     private static final int HAND_SIZE = 7;
-    public static final int FIELD_SIZE = 5;
+    private static final int FIELD_SIZE = 5;
 
     // Initialized in constructor
     private User user;
@@ -242,6 +242,7 @@ public class Player {
     }
 
     public void removeCardFromField(Card card) {
+        if (card == null) return;
         for (int i = 1; i <= FIELD_SIZE; i++) {
             if (monstersFieldList[i] == card) {
                 monstersFieldList[i] = null;
