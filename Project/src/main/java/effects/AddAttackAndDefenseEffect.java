@@ -12,7 +12,7 @@ import game.Player;
 import java.rmi.server.RMISocketFactory;
 
 // by Pasha
-// Note : every time a card with this effect gets summoned it should also called its own permit with its own event
+// Note : every time a card with this effect gets summoned it should also call its own permit with its own event
 public class AddAttackAndDefenseEffect extends Effect {
     private int attackAddValue;
     private int defenseAddValue;
