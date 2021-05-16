@@ -1,9 +1,6 @@
 package game;
 
-import card.Card;
-import card.MonsterCard;
-import card.SpellCard;
-import card.TrapCard;
+import card.*;
 import data.Printer;
 import lombok.Getter;
 import lombok.Setter;
@@ -116,7 +113,7 @@ public class Player {
                 return;
             }
             if (selectedCard instanceof MonsterCard) setMonster();
-            else if (selectedCard instanceof SpellCard || selectedCard instanceof TrapCard) setSpell();
+            else if (selectedCard instanceof SpellCard) setSpellOrTrap();
         } else if ((matcher = Utility.getCommandMatcher(command, regexChangePosition)).matches()) {
             changeMonsterPosition(matcher);
         } else if (Utility.getCommandMatcher(command, regexFlipSummon).matches()) {
@@ -236,6 +233,13 @@ public class Player {
         return -1;
     }
 
+    public int getFirstEmptyPlaceOnSpellsField() {
+        for (int i = 1; i <= FIELD_SIZE; i++) {
+            if (spellsAndTrapFieldList[i] == null) return i;
+        }
+        return -1;
+    }
+
     public int getMonsterPositionOnBoard(MonsterCard card) {
         for (int i = 1; i <= FIELD_SIZE; ++i)
             if (monstersFieldList[i] == card)
@@ -302,9 +306,8 @@ public class Player {
             Printer.prompt(Menu.INVALID_COMMAND);
         }
     }
-
+    // by Kamyar
     public void selectCard(String command) {
-//      TODO : KAMYAR
         if (command.matches("select -d")) {
             if (selectedCard == null) {
                 Printer.prompt("no card is selected yet");
@@ -602,21 +605,52 @@ public class Player {
         Printer.prompt("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
         Printer.showBoard(this, this.opponent);
     }
-
+    // by Pasha
     public void activateEffect() {
-//      TODO : PASHA
+        if(selectedCard == null) {
+            Printer.prompt("no card is selected");
+            return ;
+        }
+        if(! (selectedCard instanceof SpellCard) && !(selectedCard instanceof TrapCard)) {
+            Printer.prompt("activate effect is only for spells");
+            return ;
+        }
+        if(selectedCard.isFaceUp()) {
+            Printer.prompt("you have already activated this card");
+            return ;
+        }
+        // todo event
+        if(false) {// if event doesnt get permission
+            Printer.prompt("preparation of this spell are not done yet");
+            return ;
+        }
+        Printer.prompt("spell activated");
+        Printer.showBoard(this, this.opponent);
+    }
+    // by Pasha
+    public void setSpellOrTrap() {
+        int placeOnHand = getSelectedCardOnHandID();
+        if(placeOnHand == -1) {
+            Printer.prompt("you can't set this card");
+            return ;
+        }
+        boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
+        if(getFirstEmptyPlaceOnSpellsField() == -1 && ! isFieldSpell) {
+            Printer.prompt("spell card zone is full");
+            return ;
+        }
+        Printer.prompt("set successfully");
+        if(isFieldSpell) {
+            // todo event
+            destroySpellOrTrap(fieldZone);
+            fieldZone = (SpellCard) selectedCard;
+            return ;
+        }
+        // todo event
+        spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
         Printer.showBoard(this, this.opponent);
     }
 
-    public void setSpell() {
-//      TODO : PASHA
-        Printer.showBoard(this, this.opponent);
-    }
-
-    public void setTrap() {
-//      TODO : PASHA
-        Printer.showBoard(this, this.opponent);
-    }
 
     public void showGraveyard() {
         if (Utility.checkAndPrompt(graveyard.isEmpty(), "graveyard empty")) return;
@@ -642,9 +676,21 @@ public class Player {
     }
 
     public void destroyMonster(MonsterCard card) {
+        // todo events
         for (int i = 1; i <= FIELD_SIZE; ++i)
             if (card == monstersFieldList[i]) {
                 monstersFieldList[i] = null;
+                this.getGraveyard().addCard(card);
+            }
+    }
+    public void destroySpellOrTrap(Card card) {
+        // todo events
+        if(card == fieldZone) {
+            fieldZone = null;
+        }
+        for(int i = 1;i <= FIELD_SIZE;++ i)
+            if(card == spellsAndTrapFieldList[i]) {
+                spellsAndTrapFieldList[i] = null;
                 this.getGraveyard().addCard(card);
             }
     }

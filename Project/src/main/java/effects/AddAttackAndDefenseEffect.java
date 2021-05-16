@@ -20,6 +20,13 @@ public class AddAttackAndDefenseEffect extends Effect {
     private MonsterCardType monsterType;
     private int attackAddedPerGraveyardMonsters;
 
+    public AddAttackAndDefenseEffect(int attackAddValue , int defenseAddValue , MonsterCardType monsterType , int attackAddedPerGraveyardMonsters) {
+        this.attackAddValue = attackAddValue;
+        this.defenseAddValue = defenseAddValue;
+        this.monsterType = monsterType;
+        this.attackAddedPerGraveyardMonsters = attackAddedPerGraveyardMonsters;
+    }
+
     private void toggleSelfEffect(int coefficient) {
         for (int i = 1; i <= Player.getFIELD_SIZE(); ++i) {
             MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[i];

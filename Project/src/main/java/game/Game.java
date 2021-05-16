@@ -67,13 +67,19 @@ public class Game {
             player.getHand().addCard(player.getRemainingDeck().pop());
     }
 
+    private void makeCardsReady(Player player) {
+        for(Card card : player.getRemainingDeck().getCardsList()) {
+            card.setPlayer(player);
+            card.setFaceUp(false);
+            card.manageEffect();
+        }
+    }
+
     private void startNewDuel() {
         firstPlayer = new Player(firstUser, firstUser.getGameDeckByName(firstUser.getActiveDeckName()).getMainDeck().cloneDeck());
         secondPlayer = new Player(secondUser, secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
-        for(Card card : firstPlayer.getRemainingDeck().getCardsList())
-            card.setPlayer(firstPlayer);
-        for(Card card : secondPlayer.getRemainingDeck().getCardsList())
-            card.setPlayer(secondPlayer);
+        makeCardsReady(firstPlayer);
+        makeCardsReady(secondPlayer);
 
         firstPlayer.setGame(this);
         secondPlayer.setGame(this);

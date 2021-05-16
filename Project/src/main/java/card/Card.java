@@ -1,6 +1,6 @@
 package card;
 
-import effects.Effect;
+import effects.*;
 import events.Event;
 import game.Player;
 import lombok.Getter;
@@ -63,6 +63,57 @@ public abstract class Card implements Comparable<Card> {
     public abstract void showCard();
 
     public abstract void runEffects(Event event);
+
+    private void manageMonsterEffects() {
+        String name = this.getCardName();
+        if(name.equals("Command Knight")) {
+            this.getEffects().add(new AddAttackAndDefenseEffect(400 , 400 , MonsterCardType.ALL , 0));
+            // add disable attacker effect
+        } else if(name.equals("Yomi Ship")) {
+            this.getEffects().add(new DestroyAttackerEffect());
+        } else if(name.equals("Suijin")) {
+            this.getEffects().add(new SuijinEffect());
+        } else if(name.equals("Crab Turtle")) {
+            this.getEffects().add(new RitualSummonEffect());
+        } else if(name.equals("Skull Guardian")) {
+            this.getEffects().add(new RitualSummonEffect());
+        } else if(name.equals("Man-Eater Bug")) {
+            this.getEffects().add(new ManEaterBugEffect());
+        } else if(name.equals("Gate Guardian")) {
+            // not written yet
+        } else if(name.equals("Scanner")) {
+            // not written yet
+        } else if(name.equals("Marshmallon")) {
+            this.getEffects().add(new MarshmallonEffect());
+        } else if(name.equals("Beast King Barbaros")) {
+            // not written yet
+        } else if(name.equals("Texchanger")) {
+            // not written yet
+        } else if(name.equals("The Calculator")) {
+            this.getEffects().add(new CalculatorAttackEffect(300));
+        } else if(name.equals("Mirage Dragon")) {
+            this.getEffects().add(new TrapActivationDenialEffect());
+        } else if(name.equals("Herald of Creation")) {
+            // not written yet
+        } else if(name.equals("Exploder Dragon")) {
+            this.getEffects().add(new DenyLifePointChangeEffect());
+            this.getEffects().add(new DestroyAttackerEffect());
+        } else if(name.equals("Terratiger the Empowered Warrior")) {
+            // not written yet
+        } else if(name.equals("The Tricky")) {
+            // not written yet
+        }
+    }
+
+    private void manageSpellAndTrapEffects() {
+
+    }
+
+    public void manageEffect() {
+        // NOTE : should be called when creating players not at the beginning
+        manageMonsterEffects();
+        manageSpellAndTrapEffects();
+    }
 
     @Override
     public int compareTo(Card o) {

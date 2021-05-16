@@ -11,6 +11,9 @@ import game.Player;
 public class CalculatorAttackEffect extends Effect{
     private int attackPerLevel;
     private int currentAttackAdded;
+    public CalculatorAttackEffect(int attackPerLevel) {
+        this.attackPerLevel = attackPerLevel;
+    }
     private void calculateCurrentAttack() {
         int previousAttackAdded = currentAttackAdded;
         currentAttackAdded = 0;
