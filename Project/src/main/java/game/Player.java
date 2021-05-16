@@ -275,15 +275,19 @@ public class Player {
     public Card obtainCardFromHand() {
         String response = "";
         int index = -1;
-        // maybe print the options first ?
+        Printer.prompt("Your hand contains these cards: ");
+        for (Card card : hand.getAllCards()) {
+            Printer.showCard(card);
+        }
         while (!(0 <= index && index < hand.getSize())){
             while (true) {
                 Printer.prompt("Please select a card position on hand");
+                Printer.prompt("(a number in range 1 to " + hand.getSize() + ")");
                 response = Utility.getNextLine();
                 if (response.matches("\\d")) break;
                 Printer.prompt(Menu.INVALID_COMMAND);
             }
-            index = Integer.parseInt(response);
+            index = Integer.parseInt(response) - 1;
         }
         return hand.getCardsList().get(index);
     }

@@ -122,23 +122,21 @@ public class Utility {
         return condition;
     }
 
-    public static String askPlayer(Player player , String message , ArrayList<String> options) {
+    public static String askPlayer(Player player, String message, ArrayList<String> options) {
         Printer.prompt(player.getUser().getNickname() + ": " + message);
         System.out.print("your options are (");
-        for(String option : options)
+        for (String option : options)
             System.out.print(option + " ");
         System.out.println(")");
-        while(true) {
+        while (true) {
             String response = getNextLine();
             boolean exists = false;
-            for(String option : options)
-                if(option.equals(response)) {
+            for (String option : options)
+                if (option.equals(response)) {
                     Printer.prompt("successful response");
                     return response;
                 }
             Printer.prompt("option does not exist!");
         }
-
     }
-
 }
