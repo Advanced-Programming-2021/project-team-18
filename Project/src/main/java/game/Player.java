@@ -268,8 +268,8 @@ public class Player {
         }
     }
 
-    public void removeCardFromHand(Card card) {
-        hand.removeCard(card);
+    public boolean removeCardFromHand(Card card) {
+        return hand.removeCard(card);
     }
 
     public Card obtainCardFromHand() {

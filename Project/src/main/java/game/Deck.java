@@ -23,6 +23,22 @@ public class Deck {
         return cardsList.isEmpty();
     }
 
+    public boolean contains(Card card) {
+        return cardsList.contains(card);
+    }
+
+    public Card getCardByName(String cardName) {
+        for (Card card : cardsList) {
+            if (card.getCardName().equals(cardName)) return card;
+        }
+        return null;
+    }
+
+    public Card getRandomCard() {
+        if (cardsList.isEmpty()) return null;
+        return cardsList.get((new Random()).nextInt(cardsList.size()));
+    }
+
     public Card pop() {
         if (cardsList.isEmpty()) return null;
         Card card = cardsList.get(cardsList.size() - 1);
@@ -37,13 +53,13 @@ public class Deck {
         cardsList.add(newCard);
     }
 
-    public void removeCardAt(int index) {
-        if (index >= cardsList.size() || index < 0) return;
-        cardsList.remove(index);
+    public Card removeCardAt(int index) {
+        if (index >= cardsList.size() || index < 0) return null;
+        return cardsList.remove(index);
     }
 
-    public void removeCard(Card card) {
-        cardsList.remove(card);
+    public boolean removeCard(Card card) {
+        return cardsList.remove(card);
     }
 
     public int getCardCount(String cardName) {

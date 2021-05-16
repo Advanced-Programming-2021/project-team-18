@@ -5,28 +5,37 @@ import events.Event;
 import game.Player;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.ArrayList;
+
+import java.util.*;
 
 @Getter
-@Setter
 
 public abstract class Card implements Comparable<Card> {
-    private static ArrayList<Card> allCards = new ArrayList<>();
-    private int price;
+    private static final ArrayList<Card> allCards = new ArrayList<>();
+    private static final ArrayList<String> allCardNames = new ArrayList<>();
     private String cardName;
-    private String cardNumber;
-    private String cardDescription;
-    private boolean isFaceUp = true;
-    private Player player;
-    private Origin cardOrigin;
-    private ArrayList<Effect> effects;
+    @Setter private int price;
+    @Setter private String cardNumber;
+    @Setter private String cardDescription;
+    @Setter private boolean isFaceUp = true;
+    @Setter private Player player;
+    @Setter private Origin cardOrigin;
+    @Setter private ArrayList<Effect> effects;
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+        allCardNames.add(cardName);
+    }
 
     public static Card getCardByName(String cardName) {
-
         for (Card card : allCards)
             if (card.getCardName().equals(cardName))
                 return card;
         return null;
+    }
+
+    public static List<String> getAllCardNames() {
+        return Collections.unmodifiableList(allCardNames);
     }
 
     public static ArrayList<Card> getAllCards() {
@@ -36,6 +45,7 @@ public abstract class Card implements Comparable<Card> {
     public static Card createNewCard(String cardName) {
         return getCardByName(cardName).cloneCard();
     }
+
     public boolean hasEffect(Effect effect) {
         return effects.contains(effect);
     }
@@ -47,8 +57,11 @@ public abstract class Card implements Comparable<Card> {
         card.setCardDescription(this.getCardDescription());
         card.setEffects(this.getEffects());
     }
+
     public abstract Card cloneCard();
+
     public abstract void showCard();
+
     public abstract void runEffects(Event event);
 
     @Override
