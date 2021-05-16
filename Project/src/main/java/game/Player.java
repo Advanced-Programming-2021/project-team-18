@@ -275,6 +275,7 @@ public class Player {
     public Card obtainCardFromHand() {
         String response = "";
         int index = -1;
+        // maybe print the options first ?
         while (!(0 <= index && index < hand.getSize())){
             while (true) {
                 Printer.prompt("Please select a card position on hand");

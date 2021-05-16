@@ -1,6 +1,7 @@
 package utility;
 
 import data.Printer;
+import game.Player;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -119,6 +120,25 @@ public class Utility {
     public static boolean checkAndPrompt(boolean condition, String promptMessage) {
         if (condition) Printer.prompt(promptMessage);
         return condition;
+    }
+
+    public static String askPlayer(Player player , String message , ArrayList<String> options) {
+        Printer.prompt(player.getUser().getNickname() + ": " + message);
+        System.out.print("your options are (");
+        for(String option : options)
+            System.out.print(option + " ");
+        System.out.println(")");
+        while(true) {
+            String response = getNextLine();
+            boolean exists = false;
+            for(String option : options)
+                if(option.equals(response)) {
+                    Printer.prompt("successful response");
+                    return response;
+                }
+            Printer.prompt("option does not exist!");
+        }
+
     }
 
 }

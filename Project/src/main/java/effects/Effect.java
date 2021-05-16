@@ -14,7 +14,7 @@ public abstract class Effect {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if (cardEventInfo == CardEventInfo.ENTRANCE && card.hasEffect(this)) {
+            if (card.hasEffect(this)) {
                 selfCard = card;
                 selfPlayer = card.getPlayer();
             }

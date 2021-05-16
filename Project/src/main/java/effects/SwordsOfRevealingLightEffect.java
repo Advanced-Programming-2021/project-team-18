@@ -26,7 +26,7 @@ public class SwordsOfRevealingLightEffect extends Effect {
                 sourceCardOnFieldPlace = player.getSpellOrTrapPositionOnBoard(sourceCard);
                 Player opponent = player.getOpponent();
                 MonsterCard[] monstersField = opponent.getMonstersFieldList();
-                for (int i = 1; i <= Player.FIELD_SIZE; i++) {
+                for (int i = 1; i <= Player.getFIELD_SIZE(); i++) {
                     if (monstersField[i] != null && !monstersField[i].isFaceUp()) {
                         //Permit from everyone
                         monstersField[i].setFaceUp(true);
