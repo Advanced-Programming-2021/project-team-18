@@ -5,5 +5,4 @@ public enum CardEventInfo {
     FLIP, // flip means face down to face up
     ACTIVATE_EFFECT,
     DESTROYED, // getting removed from the board
-
 }

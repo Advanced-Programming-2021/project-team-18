@@ -8,9 +8,6 @@ import events.TurnChangeEvent;
 import menus.Menu;
 import utility.Utility;
 
-import javax.print.attribute.standard.MediaName;
-import java.util.HashSet;
-import java.util.Random;
 
 public class MindCrushEffect extends Effect {
     boolean hasEnteredThisTurn = true;
@@ -19,11 +16,11 @@ public class MindCrushEffect extends Effect {
         if (Utility.checkAndPrompt(hasEnteredThisTurn,
                 "You cannot activate a trap at it's entrance turn!"))
             return false;
-        String selectedCardName = null;
+        String selectedCardName;
         int index = 0;
         int cardSize = Card.getAllCardNames().size();
         for (String cardName : Card.getAllCardNames()) {
-            index ++;
+            index++;
             Printer.prompt(index + ". " + cardName);
         }
         String response;

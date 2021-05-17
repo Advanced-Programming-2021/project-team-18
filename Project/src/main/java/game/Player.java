@@ -72,16 +72,18 @@ public class Player {
         this.lifePoint += amount;
     }
 
-    public void decreaseLifePoint(int amount , Card causedCard) {
+    // Returns true iff the decrement action has been done successfully
+    public boolean decreaseLifePoint(int amount , Card causedCard) {
         // event : [lifepoint change]
         LifePointChangeEvent lifePointChangeEvent = new LifePointChangeEvent(this , causedCard , - amount);
         if(!getPermissionFromAllEffects(lifePointChangeEvent)) {
             Printer.prompt("lifepoint won't change");
-            return ;
+            return false;
         }
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
+        return true;
     }
 
     private void setDuelWinner(Matcher matcher) {
