@@ -1,5 +1,3 @@
-package debug;
-
 import game.User;
 import menus.LoginMenu;
 import org.junit.jupiter.api.Assertions;

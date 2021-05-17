@@ -378,7 +378,7 @@ public class Player {
                 return;
             place = map.get("hand");
             if (Utility.checkAndPrompt((!place.matches("\\d+")), "invalid selection")) return;
-            placeID = Integer.parseInt(place);
+            placeID = Integer.parseInt(place) - 1;
             if (Utility.checkAndPrompt((placeID >= hand.getCardsList().size() || placeID < 0), "invalid selection"))
                 return;
             selectedCard = hand.getCardsList().get(placeID);
