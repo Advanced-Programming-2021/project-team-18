@@ -70,62 +70,62 @@ public abstract class Card implements Comparable<Card> {
     public abstract void showCard();
 
     private void manageMonsterEffects() {
-        String name = this.getCardName();
-        if (name.equals("Command Knight")) {
+
+        if (cardName.equals("Command Knight")) {
             effects.add(new AddAttackAndDefenseEffect(400, 400, MonsterCardType.ALL, 0));
             // add disable attacker effect
-        } else if (name.equals("Yomi Ship")) {
+        } else if (cardName.equals("Yomi Ship")) {
             effects.add(new DestroyAttackerEffect());
-        } else if (name.equals("Suijin")) {
+        } else if (cardName.equals("Suijin")) {
             effects.add(new SuijinEffect());
-        } else if (name.equals("Crab Turtle")) {
+        } else if (cardName.equals("Crab Turtle")) {
             effects.add(new RitualSummonEffect());
-        } else if (name.equals("Skull Guardian")) {
+        } else if (cardName.equals("Skull Guardian")) {
             effects.add(new RitualSummonEffect());
-        } else if (name.equals("Man-Eater Bug")) {
+        } else if (cardName.equals("Man-Eater Bug")) {
             effects.add(new ManEaterBugEffect());
-        } else if (name.equals("Gate Guardian")) {
+        } else if (cardName.equals("Gate Guardian")) {
             // not written yet
-        } else if (name.equals("Scanner")) {
+        } else if (cardName.equals("Scanner")) {
             // not written yet
-        } else if (name.equals("Marshmallon")) {
+        } else if (cardName.equals("Marshmallon")) {
             effects.add(new MarshmallonEffect());
-        } else if (name.equals("Beast King Barbaros")) {
+        } else if (cardName.equals("Beast King Barbaros")) {
             // not written yet
-        } else if (name.equals("Texchanger")) {
+        } else if (cardName.equals("Texchanger")) {
             // not written yet
-        } else if (name.equals("The Calculator")) {
+        } else if (cardName.equals("The Calculator")) {
             effects.add(new CalculatorAttackEffect(300));
-        } else if (name.equals("Mirage Dragon")) {
+        } else if (cardName.equals("Mirage Dragon")) {
             effects.add(new TrapActivationDenialEffect());
-        } else if (name.equals("Herald of Creation")) {
+        } else if (cardName.equals("Herald of Creation")) {
             // not written yet
-        } else if (name.equals("Exploder Dragon")) {
+        } else if (cardName.equals("Exploder Dragon")) {
             effects.add(new DenyLifePointChangeEffect());
             effects.add(new DestroyAttackerEffect());
-        } else if (name.equals("Terratiger the Empowered Warrior")) {
+        } else if (cardName.equals("Terratiger the Empowered Warrior")) {
             // not written yet
-        } else if (name.equals("The Tricky")) {
+        } else if (cardName.equals("The Tricky")) {
             // not written yet
-        } else if (name.equals("Harpie's Feather Duster")) {
-            effects.add(new HarpiesFeatherEffect());
-        } else if (name.equals("Magic Jammer")) {
-            effects.add(new MagicJammerEffect());
-        } else if (name.equals("Magnum Shield")) {
-            effects.add(new MagnumShieldEffect());
-        } else if (name.equals("Magic Cylinder")) {
-            effects.add(new MagicCylinderEffect());
-        } else if (name.equals("Messenger of peace")) {
-            effects.add(new MessengerOfPeaceEffect());
-        } else if (name.equals("Mind Crush")) {
-            effects.add(new MindCrushEffect());
-        } else if (name.equals("Solemn Warning")) {
-            effects.add(new SolemnWarningEffect());
         }
     }
 
     private void manageSpellAndTrapEffects() {
-
+        if (cardName.equals("Solemn Warning")) {
+            effects.add(new SolemnWarningEffect());
+        } else if (cardName.equals("Mind Crush")) {
+            effects.add(new MindCrushEffect());
+        }else if (cardName.equals("Messenger of peace")) {
+            effects.add(new MessengerOfPeaceEffect());
+        } else if (cardName.equals("Magnum Shield")) {
+            effects.add(new MagnumShieldEffect());
+        } else if (cardName.equals("Magic Cylinder")) {
+            effects.add(new MagicCylinderEffect());
+        } else if (cardName.equals("Harpie's Feather Duster")) {
+            effects.add(new HarpiesFeatherEffect());
+        } else if (cardName.equals("Magic Jammer")) {
+            effects.add(new MagicJammerEffect());
+        }
     }
 
     public void manageEffect() {

@@ -22,7 +22,9 @@ public class MonsterCard extends Card {
     private boolean hasChangedPositionThisTurn = false;
     private String cardType;
 
-
+    public boolean isRitual() {
+        return false; // TODO: Handle this function (how the data should be stored?)
+    }
 
     public void attackTo(MonsterCard attackedMonster , Player owner) {
         if(attackedMonster.isDefenseMode()) {

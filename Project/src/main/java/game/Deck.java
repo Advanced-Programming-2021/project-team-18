@@ -7,13 +7,14 @@ import lombok.Setter;
 import java.util.*;
 
 // TODO : PASHA
-@Getter
-@Setter
-public class Deck {
 
+@Setter
+@Getter
+public class Deck {
     private int capacity;
     private ArrayList<Card> cardsList;
-    private HashMap<String,Integer> cardCount; // NOTE : dont use this only needed for gson
+    private HashMap<String, Integer> cardCount; // NOTE : don't use this; only needed for gson
+
     public Deck(int capacity) {
         this.capacity = capacity;
         cardsList = new ArrayList<>();
@@ -45,9 +46,11 @@ public class Deck {
         cardsList.remove(cardsList.size() - 1);
         return card;
     }
+
     public void shuffleDeck() {
-        Collections.shuffle(cardsList , new Random(System.nanoTime()));
+        Collections.shuffle(cardsList, new Random(System.nanoTime()));
     }
+
     public void addCard(Card newCard) {
         if (cardsList.size() == capacity) return;
         cardsList.add(newCard);
@@ -74,13 +77,10 @@ public class Deck {
         return cardsList.size();
     }
 
-    public List<Card> getAllCards() {
-        return Collections.unmodifiableList(cardsList);
-    }
     public Deck cloneDeck() {
         Deck deck = new Deck(this.capacity);
-        for(Card card : this.getCardsList())
-            deck.getCardsList().add(card.cloneCard());
+        for (Card card : cardsList)
+            cardsList.add(card.cloneCard());
         return deck;
     }
 }

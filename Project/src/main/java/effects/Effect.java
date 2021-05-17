@@ -9,6 +9,12 @@ import game.Player;
 public abstract class Effect {
     protected Card selfCard;
     protected Player selfPlayer;
+
+    public Effect() {
+        selfCard = null;
+        selfPlayer = null;
+    }
+
     protected void initializeSelfCardWithEvent(Event event) {
         if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
