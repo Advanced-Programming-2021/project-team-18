@@ -20,7 +20,7 @@ public class TrapHoleEffect extends Effect {
         options.add("yes");
         String response = Utility.askPlayer(selfPlayer , message , options);
         if(response.equals("no")) return ;
-        selfPlayer.getOpponent().destroyMonster(monsterCard);
+        selfPlayer.getOpponent().removeCardFromField(monsterCard , null);
         // effect event
         // destroy this card
     }

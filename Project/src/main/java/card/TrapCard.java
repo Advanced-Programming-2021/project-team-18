@@ -14,10 +14,6 @@ public class TrapCard extends Card{
     private TrapType cardTrapType;
 
     @Override
-    public void runEffects(Event event) {
-
-    }
-    @Override
     public void showCard() {
         String result = "Name: " + this.getCardName() + "\n";
         result += "Trap\n";

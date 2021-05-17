@@ -21,7 +21,7 @@ public class ManEaterBugEffect extends Effect {
         if(options.size() <= 0)
             return ;
         String response = Utility.askPlayer(selfPlayer , message , options);
-        selfPlayer.getOpponent().destroyMonster(selfPlayer.getOpponent().getMonstersFieldList()[Integer.parseInt(String.valueOf(response.charAt(0)))]);
+        selfPlayer.getOpponent().removeCardFromField(selfPlayer.getOpponent().getMonstersFieldList()[Integer.parseInt(String.valueOf(response.charAt(0)))] , selfCard);
     }
 
     public boolean permit(Event event) {

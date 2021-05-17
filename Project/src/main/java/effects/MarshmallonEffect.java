@@ -23,7 +23,7 @@ public class MarshmallonEffect extends Effect{
             if (partEvent.getDefender().hasEffect(this)) {
                 if (!partEvent.getDefender().isFaceUp()) {
                     Player opponent = partEvent.getAttacker().getPlayer();
-                    opponent.decreaseLifePoint(1000);
+                    opponent.decreaseLifePoint(1000 , null);
                 }
             }
         }

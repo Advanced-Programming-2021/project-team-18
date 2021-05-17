@@ -12,7 +12,7 @@ public class HarpiesFeatherEffect extends Effect {
     public void runEffect(Player opponent) {
         Card[] list = opponent.getSpellsAndTrapFieldList();
         for (int i = 1; i < list.length; i++) {
-            opponent.removeCardFromField(list[i]);
+            opponent.removeCardFromField(list[i] , selfCard);
         }
         // Add the event of effect done
     }

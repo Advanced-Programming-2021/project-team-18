@@ -11,7 +11,7 @@ public class DestroyEnemyMonsterEffect extends Effect {
     private void destroyPlayer(Player player) {
         for(int i = 1;i <= Player.getFIELD_SIZE();++ i)
             if(player.getMonstersFieldList()[i] != null)
-                player.destroyMonster(player.getMonstersFieldList()[i]);
+                player.removeCardFromField(player.getMonstersFieldList()[i] , selfCard);
     }
     private void activateEffect() {
         destroyPlayer(selfPlayer.getOpponent());

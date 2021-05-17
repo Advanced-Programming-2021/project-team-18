@@ -19,9 +19,7 @@ public class MagicCylinderEffect extends Effect {
             if (partEvent.getDefender() == selfCard) {
                 if (obtainConfirmation()) {
                     if (!selfCard.isFaceUp())  selfCard.setFaceUp(true);
-                    selfPlayer.getOpponent().decreaseLifePoint(
-                            partEvent.getAttacker().getCardAttack()
-                    );
+                    selfPlayer.getOpponent().decreaseLifePoint(partEvent.getAttacker().getCardAttack() , null);
                     return false;
                 }
             }

@@ -18,7 +18,7 @@ public class DestroyAttackerEffect extends Effect {
             Card card = cardEvent.getCard();
             Card causedByCard = cardEvent.getCausedByCard();
             if(cardEventInfo == CardEventInfo.DESTROYED && card == selfCard && causedByCard != null) {
-                selfPlayer.getOpponent().destroyMonster((MonsterCard) causedByCard);
+                selfPlayer.getOpponent().removeCardFromField((MonsterCard) causedByCard , selfCard);
             }
         }
         return true;

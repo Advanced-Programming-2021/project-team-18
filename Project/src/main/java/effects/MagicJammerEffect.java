@@ -12,7 +12,7 @@ public class MagicJammerEffect extends Effect {
         Player opponent = selfPlayer.getOpponent();
         Card card = opponent.obtainCardFromHand();
         opponent.removeCardFromHand(card);
-        opponent.removeCardFromField(spellCardToDelete);
+        opponent.removeCardFromField(spellCardToDelete , null);
     }
 
     public boolean permit(Event event) {

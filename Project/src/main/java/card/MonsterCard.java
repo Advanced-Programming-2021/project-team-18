@@ -30,29 +30,26 @@ public class MonsterCard extends Card {
                 Printer.prompt("no card is destroyed");
             } else if(this.getCardAttack() > attackedMonster.getCardDefense()) {
                 Printer.prompt("the defense position monster is destroyed");
-                owner.getOpponent().destroyMonster(attackedMonster);
+                owner.getOpponent().removeCardFromField(attackedMonster , this);
             } else if(this.getCardAttack() < attackedMonster.getCardDefense()) {
                 Printer.prompt("no card is destroyed and you received " + (attackedMonster.getCardDefense() - this.getCardAttack()) + " battle damage");
-                owner.setLifePoint(owner.getLifePoint() - attackedMonster.getCardDefense() + this.getCardAttack());
+                owner.decreaseLifePoint(attackedMonster.getCardDefense() - this.getCardAttack() , attackedMonster);
             }
         } else {
             if(this.getCardAttack() == attackedMonster.getCardAttack()) {
                 Printer.prompt("both you and your opponent monster cards are destroyed and no one receives damage");
-                owner.destroyMonster(this);
-                owner.getOpponent().destroyMonster(attackedMonster);
+                owner.removeCardFromField(this , attackedMonster);
+                owner.getOpponent().removeCardFromField(attackedMonster , this);
             } else if(this.getCardAttack() > attackedMonster.getCardAttack()) {
                 Printer.prompt("your opponent’s monster is destroyed and your opponent receives " + (this.getCardAttack() - attackedMonster.getCardAttack()) + " battle damage");
-                owner.getOpponent().destroyMonster(attackedMonster);
+                owner.getOpponent().removeCardFromField(attackedMonster , this);
+                owner.getOpponent().decreaseLifePoint(this.getCardAttack() - attackedMonster.getCardAttack() , this);
             } else if(this.getCardAttack() < attackedMonster.getCardAttack()) {
                 Printer.prompt("Your monster card is destroyed and you received " + (attackedMonster.getCardAttack() - this.getCardAttack()) + " battle damage");
-                owner.destroyMonster(this);
+                owner.decreaseLifePoint(attackedMonster.getCardAttack() - this.getCardAttack() , attackedMonster);
+                owner.removeCardFromField(this , attackedMonster);
             }
         }
-    }
-
-    @Override
-    public void runEffects(Event event) {
-
     }
 
     @Override

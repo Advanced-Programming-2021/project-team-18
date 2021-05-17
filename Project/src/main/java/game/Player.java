@@ -2,6 +2,8 @@ package game;
 
 import card.*;
 import data.Printer;
+import effects.Effect;
+import events.*;
 import lombok.Getter;
 import lombok.Setter;
 import menus.Menu;
@@ -12,7 +14,6 @@ import java.util.regex.Matcher;
 
 @Getter
 @Setter
-// TODO : SINA
 public class Player {
 
     private static final String regexSelect = "select.+";
@@ -71,7 +72,13 @@ public class Player {
         this.lifePoint += amount;
     }
 
-    public void decreaseLifePoint(int amount) {
+    public void decreaseLifePoint(int amount , Card causedCard) {
+        // event : [lifepoint change]
+        LifePointChangeEvent lifePointChangeEvent = new LifePointChangeEvent(this , causedCard , - amount);
+        if(!getPermissionFromAllEffects(lifePointChangeEvent)) {
+            Printer.prompt("lifepoint won't change");
+            return ;
+        }
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
@@ -144,13 +151,21 @@ public class Player {
                 return;
             }
             Card newCard = remainingDeck.pop();
+            DrawCardEvent drawCardEvent = new DrawCardEvent(newCard);
+            // Note : event added here
+            if(! getPermissionFromAllEffects(drawCardEvent)) {
+                remainingDeck.addCard(newCard);
+                return ;
+            }
             hand.addCard(newCard);
             Printer.prompt("new card added to the hand: " + newCard.getCardName());
         }
+        // todo event : [phase change event]
     }
 
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
+        // todo event : [phase change event]
     }
 
     //      by Pasha
@@ -166,6 +181,7 @@ public class Player {
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
+        // todo event : [phase change event]
     }
 
     //          by Kamyar
@@ -181,6 +197,7 @@ public class Player {
             runCommonCommands(command);
             runBattlePhaseCommands(command);
         }
+        // todo event : [phase change event]
     }
 
     //          by Pasha
@@ -195,6 +212,7 @@ public class Player {
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
+        // todo event : [phase change event]
     }
 
     //         by KAMYAR
@@ -210,6 +228,7 @@ public class Player {
         hasSummonedMonsterThisTurn = false;
         theSummonedMonsterThisTurn = null;
         Printer.prompt("its " + opponent.getUser().getNickname() + "’s turn");
+        // todo event : [phase change event , turn change event]
     }
 
     public int getSelectedMonsterCardOnFieldID() {
@@ -254,8 +273,15 @@ public class Player {
         return -1;
     }
 
-    public void removeCardFromField(Card card) {
+    public void removeCardFromField(Card card , Card causedCard) {
+
         if (card == null) return;
+        // event : [card event]
+        CardEvent cardEvent = new CardEvent(card , CardEventInfo.DESTROYED , causedCard);
+        if(!getPermissionFromAllEffects(cardEvent)) {
+            Printer.prompt("monster won't be destroyed");
+            return ;
+        }
         for (int i = 1; i <= FIELD_SIZE; i++) {
             if (monstersFieldList[i] == card) {
                 monstersFieldList[i] = null;
@@ -277,7 +303,7 @@ public class Player {
     }
 
     public Card obtainCardFromHand() {
-        String response = "";
+        String response;
         int index = -1;
         Printer.prompt("Your hand contains these cards: ");
         for (Card card : hand.getAllCards()) {
@@ -297,7 +323,7 @@ public class Player {
     }
 
     public boolean obtainConfirmation(String promptMassage) {
-        String response = "";
+        String response;
         while (true) {
             Printer.prompt(promptMassage);
             response = Utility.getNextLine();
@@ -440,6 +466,7 @@ public class Player {
             Printer.prompt("you already changed this card position in this turn");
             return;
         }
+        // maybe change position event ? not needed yet though
         monstersFieldList[cardId].setHasChangedPositionThisTurn(true);
         monstersFieldList[cardId].setDefenseMode(!monstersFieldList[cardId].isDefenseMode());
         Printer.prompt("monster card position changed successfully");
@@ -461,9 +488,8 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(false);
         theSummonedMonsterThisTurn = selectedCard;
     }
-
+    // by Kamyar
     public void summonMonster() {
-//      TODO : KAMYAR
 //      Note: This function should be modified later to support
         if (Utility.checkAndPrompt(selectedCard == null,
                 "no card is selected yet")) return;
@@ -475,10 +501,19 @@ public class Player {
                 "monster card zone is full")) return;
         if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn,
                 "you already summoned/set on this turn")) return;
+        // event : [summon]
+        selectedCard.setFaceUp(true);
+        CardEvent cardEvent = new CardEvent(selectedCard , CardEventInfo.ENTRANCE , null);
+        if(! getPermissionFromAllEffects(cardEvent)) {
+            Printer.prompt("you don't have permission to summon");
+            return ;
+        }
         int monsterLevel = ((MonsterCard) selectedCard).getCardLevel();
         if (monsterLevel <= 4) {
             summonMonsterLowLevel(place, placeOnField);
             Printer.prompt(SUCCESSFUL_SUMMON);
+            getPermissionFromCard(cardEvent , selectedCard);
+            Printer.showBoard(this, this.opponent);
             return;
         }
         if (monsterLevel <= 6) {
@@ -490,6 +525,8 @@ public class Player {
                     "there no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
             Printer.prompt(SUCCESSFUL_SUMMON);
+            getPermissionFromCard(cardEvent , selectedCard);
+            Printer.showBoard(this, this.opponent);
             return;
         }
 
@@ -503,17 +540,21 @@ public class Player {
         // Note: What if the two addresses above are the same?
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
+        getPermissionFromCard(cardEvent , selectedCard);
         Printer.showBoard(this, this.opponent);
     }
-
+    // by Kamyar
     public void setMonster() {
-//      TODO : KAMYAR
         if (Utility.checkAndPrompt((selectedCard == null), "no card is selected yet")) return;
         int placeOnHand = getSelectedCardOnHandID();
         if (Utility.checkAndPrompt((placeOnHand == -1), "you can’t set this card")) return;
         int placeOnMonstersZone = getFirstEmptyPlaceOnMonstersField();
         if (Utility.checkAndPrompt((placeOnMonstersZone == -1), "monster card zone is full")) return;
         if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn, "you already summoned/set on this turn")) return;
+        // event : [summon]
+        selectedCard.setFaceUp(false);
+        CardEvent cardEvent = new CardEvent(selectedCard , CardEventInfo.ENTRANCE , null);
+
         hand.removeCardAt(placeOnHand);
         monstersFieldList[placeOnMonstersZone] = (MonsterCard) selectedCard;
         selectedCard.setFaceUp(false);
@@ -521,11 +562,11 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(true);
         theSummonedMonsterThisTurn = selectedCard;
         Printer.prompt("set successfully");
+        getPermissionFromCard(cardEvent , selectedCard);
         Printer.showBoard(this, this.opponent);
     }
-
+    // by Pasha
     public void flipSummon() {
-//      by Pasha
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
             return;
@@ -539,15 +580,20 @@ public class Player {
             Printer.prompt("you can’t flip summon this card");
             return;
         }
+        // event : [flip]
+        CardEvent cardEvent = new CardEvent(selectedCard , CardEventInfo.FLIP , null);
+        if(! getPermissionFromAllEffects(cardEvent)) {
+            Printer.prompt("you can't flip your card");
+            return ;
+        }
         selectedCard.setFaceUp(false);
         Printer.prompt("flip summoned successfully");
         Printer.showBoard(this, this.opponent);
     }
-
+    // by Pasha
     public void attack(String command) {
-//      by Pasha
-        Matcher matcher = Utility.getCommandMatcher(command, regexAttackNormal);
-        matcher.matches();
+        Matcher matcher;
+        (matcher = Utility.getCommandMatcher(command, regexAttackNormal)).matches();
         int positionToAttack = Integer.parseInt(matcher.group(1));
 
         if (selectedCard == null) {
@@ -567,14 +613,20 @@ public class Player {
             Printer.prompt("can't attack with a defense position monster");
             return;
         }
-        if (positionToAttack > 0 && positionToAttack < 6 && opponent.getMonstersFieldList()[positionToAttack] != null)
-            ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack], this);
+        if(positionToAttack <= 0 || positionToAttack >= 6 || opponent.getMonstersFieldList()[positionToAttack] == null)
+            return ;
+        // event : [Attack Event]
+        AttackEvent attackEvent = new AttackEvent((MonsterCard) selectedCard , opponent.getMonstersFieldList()[positionToAttack]);
+        if(! getPermissionFromAllEffects(attackEvent)) {
+            Printer.prompt("you can't attack");
+            return ;
+        }
+        ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack], this);
         Printer.showBoard(this, this.opponent);
 
     }
-
+    // by Pasha
     public void attackDirect() {
-//      by Pasha
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
             return;
@@ -588,6 +640,7 @@ public class Player {
             Printer.prompt("this card already attacked");
             return;
         }
+
         boolean doesOpponentHaveMonster = false;
         for (int i = 1; i <= FIELD_SIZE; ++i)
             if (opponent.getMonstersFieldList()[i] != null) {
@@ -598,7 +651,13 @@ public class Player {
             Printer.prompt("can't attack direct when opponent has at least a monster");
             return;
         }
-        opponent.setLifePoint(opponent.getLifePoint() - ((MonsterCard) selectedCard).getCardAttack());
+        // event : [Attack Event]
+        AttackEvent attackEvent = new AttackEvent((MonsterCard) selectedCard , null);
+        if(! getPermissionFromAllEffects(attackEvent)) {
+            Printer.prompt("you can't attack");
+            return ;
+        }
+        opponent.decreaseLifePoint(((MonsterCard) selectedCard).getCardAttack() , null);
         if (opponent.getLifePoint() <= 0)
             opponent.setLoser(true);
         ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
@@ -619,9 +678,10 @@ public class Player {
             Printer.prompt("you have already activated this card");
             return ;
         }
-        // todo event
-        if(false) {// if event doesnt get permission
-            Printer.prompt("preparation of this spell are not done yet");
+        // event : [cardEvent]
+        CardEvent cardEvent = new CardEvent(selectedCard , CardEventInfo.ACTIVATE_EFFECT , null);
+        if(! getPermissionFromAllEffects(cardEvent)) {
+            Printer.prompt("you can't activate this effect");
             return ;
         }
         Printer.prompt("spell activated");
@@ -641,12 +701,22 @@ public class Player {
         }
         Printer.prompt("set successfully");
         if(isFieldSpell) {
-            // todo event
-            destroySpellOrTrap(fieldZone);
+            // event :[cardEvent]
+            CardEvent cardEvent = new CardEvent(selectedCard , CardEventInfo.ENTRANCE , null);
+            if(! getPermissionFromAllEffects(cardEvent)) {
+                Printer.prompt("you cant set this spell");
+                return ;
+            }
+            removeCardFromField(fieldZone , null);
             fieldZone = (SpellCard) selectedCard;
             return ;
         }
-        // todo event
+        // event :[cardEvent]
+        CardEvent cardEvent = new CardEvent(selectedCard , CardEventInfo.ENTRANCE , null);
+        if(! getPermissionFromAllEffects(cardEvent)) {
+            Printer.prompt("you cant set this spell");
+            return ;
+        }
         spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
         Printer.showBoard(this, this.opponent);
     }
@@ -675,26 +745,27 @@ public class Player {
         loser = true; // ENJOY THE DESIGN: THE COMPLICATED FUNCTION "FORFEIT" IS HANDLED IN ONE LINE :)
     }
 
-    public void destroyMonster(MonsterCard card) {
-        // todo events
-        for (int i = 1; i <= FIELD_SIZE; ++i)
-            if (card == monstersFieldList[i]) {
-                monstersFieldList[i] = null;
-                this.getGraveyard().addCard(card);
-            }
+    private boolean getPermissionFromCard(Event event , Card card) {
+        boolean permitted = true;
+        for(Effect effect : card.getEffects())
+            permitted &= effect.permit(event);
+        return permitted;
     }
-    public void destroySpellOrTrap(Card card) {
-        // todo events
-        if(card == fieldZone) {
-            fieldZone = null;
+    private boolean getPermissionFromMyEffects(Event event) {
+        boolean permitted = true;
+        if(fieldZone != null)
+            permitted &= getPermissionFromCard(event , fieldZone);
+        for(int i = 1;i <= FIELD_SIZE;++ i) {
+            if(monstersFieldList[i] != null)
+                permitted &= getPermissionFromCard(event , monstersFieldList[i]);
+            if(spellsAndTrapFieldList[i] != null)
+                permitted &= getPermissionFromCard(event , spellsAndTrapFieldList[i]);
         }
-        for(int i = 1;i <= FIELD_SIZE;++ i)
-            if(card == spellsAndTrapFieldList[i]) {
-                spellsAndTrapFieldList[i] = null;
-                this.getGraveyard().addCard(card);
-            }
+        return permitted;
     }
-
+    private boolean getPermissionFromAllEffects(Event event) {
+        return getPermissionFromMyEffects(event) && this.getOpponent().getPermissionFromMyEffects(event);
+    }
     public boolean equals(Player checkPlayer) {
         return user.getUsername().contentEquals(checkPlayer.getUser().getUsername());
     }

@@ -14,10 +14,6 @@ public class SpellCard extends Card{
     private SpellType cardSpellType;
 
     @Override
-    public void runEffects(Event event) {
-
-    }
-    @Override
     public void showCard() {
         String result = "Name: " + this.getCardName() + "\n";
         result += "Spell\n";

@@ -10,7 +10,7 @@ import utility.Utility;
 public class MessengerOfPeaceEffect extends Effect {
     private void consumeLP() {
         if (selfPlayer.getLifePoint() < 100) {
-            selfPlayer.removeCardFromField(selfCard);
+            selfPlayer.removeCardFromField(selfCard , null);
             return;
         }
         String response;
@@ -18,11 +18,11 @@ public class MessengerOfPeaceEffect extends Effect {
             Printer.prompt("Would you like to spend 100 LPs, or destruct this card? (1 for LP, 2 for destruction)");
             response = Utility.getNextLine();
             if (response.equals("1")) {
-                selfPlayer.decreaseLifePoint(100);
+                selfPlayer.decreaseLifePoint(100 , null);
                 return;
             }
             if (response.equals("2")) {
-                selfPlayer.removeCardFromField(selfCard);
+                selfPlayer.removeCardFromField(selfCard , null);
                 return;
             }
             Printer.prompt("invalid input");

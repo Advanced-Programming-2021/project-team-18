@@ -48,7 +48,7 @@ public class TwinTwistersEffect extends Effect {
             if (firstSpellIndex < 1 || firstSpellIndex > 5 || player.getOpponent().getSpellsAndTrapFieldList()[firstSpellIndex] == null) Printer.prompt("Invalid number try again");
             else {
                 Card firstSpell = player.getOpponent().getSpellsAndTrapFieldList()[firstSpellIndex];
-                player.getOpponent().removeCardFromField(firstSpell);
+                player.getOpponent().removeCardFromField(firstSpell , null);
                 break;
             }
         }
@@ -68,7 +68,7 @@ public class TwinTwistersEffect extends Effect {
             if (secondSpellIndex < 1 || secondSpellIndex > 5 || player.getOpponent().getSpellsAndTrapFieldList()[secondSpellIndex] == null) Printer.prompt("Invalid number try again");
             else {
                 Card secondSpell = player.getOpponent().getSpellsAndTrapFieldList()[secondSpellIndex];
-                player.getOpponent().removeCardFromField(secondSpell);
+                player.getOpponent().removeCardFromField(secondSpell , null);
                 return;
             }
         }

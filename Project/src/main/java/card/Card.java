@@ -62,8 +62,6 @@ public abstract class Card implements Comparable<Card> {
 
     public abstract void showCard();
 
-    public abstract void runEffects(Event event);
-
     private void manageMonsterEffects() {
         String name = this.getCardName();
         if(name.equals("Command Knight")) {
