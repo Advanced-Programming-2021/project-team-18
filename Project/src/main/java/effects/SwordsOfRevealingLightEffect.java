@@ -19,8 +19,8 @@ public class SwordsOfRevealingLightEffect extends Effect {
             CardEvent cardEvent = (CardEvent) event;
             Card sourceCard = cardEvent.getCard();
             CardEventInfo cardEventInfo = cardEvent.getInfo();
-            if ((cardEventInfo == CardEventInfo.ENTRANCE && sourceCard.hasEffect(this))
-                    || (cardEventInfo == CardEventInfo.FLIP && sourceCard.hasEffect(this))) {
+            if ((cardEventInfo == CardEventInfo.ENTRANCE && sourceCard.hasEffect(this) && player == null)
+                    || (cardEventInfo == CardEventInfo.FLIP && sourceCard.hasEffect(this) & player == null)) {
                 player = sourceCard.getPlayer();
                 numberOfTurns = 0;
                 sourceCardOnFieldPlace = player.getSpellOrTrapPositionOnBoard(sourceCard);

@@ -78,7 +78,7 @@ public class TwinTwistersEffect extends Effect {
         if (event instanceof CardEvent) {
             Card sourceCard = ((CardEvent) event).getCard();
             CardEventInfo info = ((CardEvent) event).getInfo();
-            if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard.hasEffect(this)) {
+            if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard.hasEffect(this) && player == null) {
                 player = sourceCard.getPlayer();
                 runEffect();
                 return true;
