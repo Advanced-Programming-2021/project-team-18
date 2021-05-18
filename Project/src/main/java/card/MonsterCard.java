@@ -28,6 +28,7 @@ public class MonsterCard extends Card {
 
     public void attackTo(MonsterCard attackedMonster , Player owner) {
         if(attackedMonster.isDefenseMode()) {
+            owner.getOpponent().flipMonsterOnDefense(attackedMonster , this);
             if(this.getCardAttack() == attackedMonster.getCardDefense()) {
                 Printer.prompt("no card is destroyed");
             } else if(this.getCardAttack() > attackedMonster.getCardDefense()) {

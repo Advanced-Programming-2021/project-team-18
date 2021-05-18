@@ -2,6 +2,7 @@ package effects;
 
 import card.Card;
 import card.MonsterCard;
+import card.MonsterCardType;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
@@ -11,11 +12,17 @@ import game.Player;
 public class AttackAndDefenseEquipEffect extends Effect {
     private int addAttack;
     private int addDefense;
+    private MonsterCardType monsterCardType;
+    public AttackAndDefenseEquipEffect(int addAttack , int addDefense , MonsterCardType monsterCardType) {
+        this.addAttack = addAttack;
+        this.addDefense = addDefense;
+        this.monsterCardType = monsterCardType;
+    }
     private int spellPosition;
 
     private void toggleSelfEffect(int coefficient) {
         MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[spellPosition];
-        if(monsterCard == null) return ;
+        if(monsterCard == null || (monsterCard.getMonsterType() != monsterCardType && monsterCardType != MonsterCardType.ALL)) return ;
         monsterCard.setCardAttack(monsterCard.getCardAttack() + addAttack * coefficient);
         monsterCard.setCardDefense(monsterCard.getCardDefense() + addDefense * coefficient);
     }

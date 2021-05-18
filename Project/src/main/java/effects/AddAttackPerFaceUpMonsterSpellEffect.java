@@ -11,8 +11,13 @@ import game.Player;
 // cards with this effect : [United we stand]
 public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
     private int attackAmount;
-    int positionOnBoard = -1;
+    private int defenseAmount;
+    public AddAttackPerFaceUpMonsterSpellEffect(int attackAmount , int defenseAmount) {
+        this.attackAmount = attackAmount;
+        this.defenseAmount = defenseAmount;
+    }
 
+    int positionOnBoard = -1;
     private void toggleSelfEffect(int coefficient) {
         int faceUpCount = 0;
         for(int i = 1;i <= Player.getFIELD_SIZE();++ i) {

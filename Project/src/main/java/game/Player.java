@@ -323,6 +323,25 @@ public class Player {
         return false;
     }
 
+    public void flipMonsterOnDefense(MonsterCard monsterCard, Card causedByCard) {
+        CardEvent cardEvent = new CardEvent(monsterCard, CardEventInfo.FLIP, causedByCard);
+        if (getPermissionFromAllEffects(cardEvent))
+            monsterCard.setFaceUp(true);
+    }
+
+    public void summonRitualMonster(MonsterCard monsterCard) {
+        int placeOnBoard = getFirstEmptyPlaceOnMonstersField();
+        if (placeOnBoard == -1) {
+            Printer.prompt("no place for monster to be summoned");
+            return;
+        }
+        monsterCard.setFaceUp(true);
+        CardEvent cardEvent = new CardEvent(monsterCard, CardEventInfo.ENTRANCE, null);
+        if (!getPermissionFromAllEffects(cardEvent))
+            return;
+        monstersFieldList[placeOnBoard] = monsterCard;
+    }
+
     public Card obtainCardFromHand() {
         Printer.prompt("Your hand contains these cards: ");
         for (Card card : hand.getCardsList()) {
@@ -553,6 +572,7 @@ public class Player {
             Printer.prompt("you don't have permission to summon");
             return;
         }
+        selectedCard.setFaceUp(true);
         int monsterLevel = ((MonsterCard) selectedCard).getCardLevel();
         if (monsterLevel <= 4) {
             summonMonsterLowLevel(place, placeOnField);
