@@ -80,6 +80,7 @@ public class Player {
             Printer.prompt("lifepoint won't change");
             return false;
         }
+        notifyAllEffectsForConsideration(lifePointChangeEvent);
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
@@ -154,11 +155,11 @@ public class Player {
             }
             Card newCard = remainingDeck.pop();
             DrawCardEvent drawCardEvent = new DrawCardEvent(newCard);
-            // Note : event added here
             if (!getPermissionFromAllEffects(drawCardEvent)) {
                 remainingDeck.addCard(newCard);
                 return;
             }
+            notifyAllEffectsForConsideration(drawCardEvent);
             hand.addCard(newCard);
             Printer.prompt("new card added to the hand: " + newCard.getCardName());
         }
@@ -240,6 +241,13 @@ public class Player {
         return -1;
     }
 
+    public int getSelectedSpellOrTrapCardOnFieldID() {
+        for (int i = 1; i <= FIELD_SIZE; ++i)
+            if (selectedCard == spellsAndTrapFieldList[i])
+                return i;
+        return -1;
+    }
+
     public int getSelectedCardOnHandID() {
         for (int i = 0; i < hand.getCardsList().size(); i++) {
             if (selectedCard == hand.getCardsList().get(i)) return i;
@@ -298,6 +306,7 @@ public class Player {
             fieldZone = null;
             graveyard.addCard(card);
         }
+        notifyAllEffectsForConsideration(cardEvent);
         return true;
     }
 
@@ -325,8 +334,10 @@ public class Player {
 
     public void flipMonsterOnDefense(MonsterCard monsterCard, Card causedByCard) {
         CardEvent cardEvent = new CardEvent(monsterCard, CardEventInfo.FLIP, causedByCard);
-        if (getPermissionFromAllEffects(cardEvent))
+        if (getPermissionFromAllEffects(cardEvent)) {
             monsterCard.setFaceUp(true);
+            notifyAllEffectsForConsideration(cardEvent);
+        }
     }
 
     public void summonRitualMonster(MonsterCard monsterCard) {
@@ -340,6 +351,7 @@ public class Player {
         if (!getPermissionFromAllEffects(cardEvent))
             return;
         monstersFieldList[placeOnBoard] = monsterCard;
+        notifyAllEffectsForConsideration(cardEvent);
     }
 
     public Card obtainCardFromHand() {
@@ -577,7 +589,8 @@ public class Player {
         if (monsterLevel <= 4) {
             summonMonsterLowLevel(place, placeOnField);
             Printer.prompt(SUCCESSFUL_SUMMON);
-            getPermissionFromCard(cardEvent, selectedCard);
+            notifyEffectsOfCard(cardEvent, selectedCard);
+            notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
         }
@@ -590,7 +603,8 @@ public class Player {
                     "there no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
             Printer.prompt(SUCCESSFUL_SUMMON);
-            getPermissionFromCard(cardEvent, selectedCard);
+            notifyEffectsOfCard(cardEvent, selectedCard);
+            notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
         }
@@ -605,7 +619,8 @@ public class Player {
         // Note: What if the two addresses above are the same?
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
-        getPermissionFromCard(cardEvent, selectedCard);
+        notifyEffectsOfCard(cardEvent, selectedCard);
+        notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }
 
@@ -620,6 +635,8 @@ public class Player {
         // event : [summon]
         selectedCard.setFaceUp(false);
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
+        if (!getPermissionFromAllEffects(cardEvent))
+            return;
 
         hand.removeCardAt(placeOnHand);
         monstersFieldList[placeOnMonstersZone] = (MonsterCard) selectedCard;
@@ -628,7 +645,8 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(true);
         theSummonedMonsterThisTurn = selectedCard;
         Printer.prompt("set successfully");
-        getPermissionFromCard(cardEvent, selectedCard);
+        notifyEffectsOfCard(cardEvent, selectedCard);
+        notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }
 
@@ -654,6 +672,7 @@ public class Player {
             return;
         }
         selectedCard.setFaceUp(false);
+        notifyAllEffectsForConsideration(cardEvent);
         Printer.prompt("flip summoned successfully");
         Printer.showBoard(this, this.opponent);
     }
@@ -689,6 +708,7 @@ public class Player {
             Printer.prompt("you can't attack");
             return;
         }
+        notifyAllEffectsForConsideration(attackEvent);
         ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack], this);
         Printer.showBoard(this, this.opponent);
 
@@ -730,6 +750,7 @@ public class Player {
         if (opponent.getLifePoint() <= 0)
             opponent.setLoser(true);
         ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
+        notifyAllEffectsForConsideration(attackEvent);
         Printer.prompt("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
         Printer.showBoard(this, this.opponent);
     }
@@ -748,12 +769,33 @@ public class Player {
             Printer.prompt("you have already activated this card");
             return;
         }
+        boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
+        if(isFieldSpell) {
+            Printer.prompt("you can't activate field spells");
+            return ;
+        }
+        CardEvent activateCardEvent = new CardEvent(selectedCard, CardEventInfo.ACTIVATE_EFFECT, null);
+        if (getSelectedCardOnHandID() != -1) {
+            int firstEmptyPlace = getFirstEmptyPlaceOnSpellsField();
+            if(firstEmptyPlace == -1) {
+                Printer.prompt("there is no card space on board for you to activate your spell");
+            } else {
+                CardEvent entranceCardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
+                if (!getPermissionFromAllEffects(entranceCardEvent) || ! getPermissionFromAllEffects(activateCardEvent)) {
+                    Printer.prompt("you cant activate this spell");
+                    return;
+                }
+                notifyAllEffectsForConsideration(entranceCardEvent);
+                spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
+            }
+        }
         // event : [cardEvent]
-        CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ACTIVATE_EFFECT, null);
-        if (!getPermissionFromAllEffects(cardEvent)) {
-            Printer.prompt("you can't activate this effect");
+
+        if (!getPermissionFromAllEffects(activateCardEvent)) {
+            Printer.prompt("you can't activate this spell");
             return;
         }
+        notifyAllEffectsForConsideration(activateCardEvent);
         Printer.prompt("spell activated");
         Printer.showBoard(this, this.opponent);
     }
@@ -778,6 +820,8 @@ public class Player {
                 Printer.prompt("you cant set this spell");
                 return;
             }
+
+            notifyAllEffectsForConsideration(cardEvent);
             removeCardFromField(fieldZone, null);
             fieldZone = (SpellCard) selectedCard;
             return;
@@ -788,6 +832,8 @@ public class Player {
             Printer.prompt("you cant set this spell");
             return;
         }
+
+        notifyAllEffectsForConsideration(cardEvent);
         spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
         Printer.showBoard(this, this.opponent);
     }
@@ -814,6 +860,27 @@ public class Player {
 
     public void forfeit() {
         loser = true; // ENJOY THE DESIGN: THE COMPLICATED FUNCTION "FORFEIT" IS HANDLED IN ONE LINE :)
+    }
+
+    private void notifyEffectsOfCard(Event event, Card card) {
+        for (Effect effect : card.getEffects())
+            effect.consider(event);
+    }
+
+    private void notifyMyEffectsForConsideration(Event event) {
+        if (fieldZone != null)
+            notifyEffectsOfCard(event, fieldZone);
+        for (int i = 1; i <= FIELD_SIZE; ++i) {
+            if (monstersFieldList[i] != null)
+                notifyEffectsOfCard(event, monstersFieldList[i]);
+            if (spellsAndTrapFieldList[i] != null)
+                notifyEffectsOfCard(event, spellsAndTrapFieldList[i]);
+        }
+    }
+
+    private void notifyAllEffectsForConsideration(Event event) {
+        notifyMyEffectsForConsideration(event);
+        opponent.notifyAllEffectsForConsideration(event);
     }
 
     private boolean getPermissionFromCard(Event event, Card card) {

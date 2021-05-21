@@ -20,7 +20,7 @@ public class AddAttackAndDefenseEffect extends Effect {
     private MonsterCardType monsterType;
     private int attackAddedPerGraveyardMonsters;
 
-    public AddAttackAndDefenseEffect(int attackAddValue , int defenseAddValue , MonsterCardType monsterType , int attackAddedPerGraveyardMonsters) {
+    public AddAttackAndDefenseEffect(int attackAddValue, int defenseAddValue, MonsterCardType monsterType, int attackAddedPerGraveyardMonsters) {
         this.attackAddValue = attackAddValue;
         this.defenseAddValue = defenseAddValue;
         this.monsterType = monsterType;
@@ -55,6 +55,13 @@ public class AddAttackAndDefenseEffect extends Effect {
     }
 
     public boolean permit(Event event) {
+
+        return true;
+    }
+
+
+    public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
@@ -68,6 +75,6 @@ public class AddAttackAndDefenseEffect extends Effect {
                 whenOtherMonsterCardPlayedEffect((MonsterCard) card);
             }
         }
-        return true;
+        isInConsideration = false;
     }
 }

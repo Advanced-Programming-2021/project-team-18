@@ -25,6 +25,10 @@ public class ManEaterBugEffect extends Effect {
     }
 
     public boolean permit(Event event) {
+        return true;
+    }
+
+    public void consider(Event event) {
         initializeSelfCardWithEvent(event);
         if(event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
@@ -34,6 +38,5 @@ public class ManEaterBugEffect extends Effect {
                 activateEffect();
             }
         }
-        return true;
     }
 }

@@ -77,4 +77,8 @@ public class MagnumShieldEffect extends Effect {
         }
         return false;
     }
+
+    public void consider(Event event) {
+
+    }
 }

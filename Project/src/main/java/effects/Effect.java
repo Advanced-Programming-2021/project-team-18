@@ -5,11 +5,14 @@ import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
 import game.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 public abstract class Effect {
     protected Card selfCard;
     protected Player selfPlayer;
-
+    @Getter @Setter
+    protected boolean isInConsideration;
     public Effect() {
         selfCard = null;
         selfPlayer = null;
@@ -27,4 +30,5 @@ public abstract class Effect {
         }
     }
     public abstract boolean permit(Event event);
+    public abstract void consider(Event event);
 }

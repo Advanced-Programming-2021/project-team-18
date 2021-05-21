@@ -27,8 +27,13 @@ public class CalculatorAttackEffect extends Effect{
         ((MonsterCard)selfCard).setCardAttack(((MonsterCard)selfCard).getCardAttack() + differenceAttack);
     }
     public boolean permit(Event event) {
+        return true;
+    }
+
+    public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         calculateCurrentAttack();
-        return true;
+        isInConsideration = false;
     }
 }

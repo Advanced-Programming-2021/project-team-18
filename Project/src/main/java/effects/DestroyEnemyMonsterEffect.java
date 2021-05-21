@@ -20,6 +20,11 @@ public class DestroyEnemyMonsterEffect extends Effect {
             destroyPlayer(selfPlayer);
     }
     public boolean permit(Event event) {
+        return true;
+    }
+
+    public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         if(event instanceof SpellTrapActivationEvent) {
             SpellTrapActivationEvent spellTrapActivationEvent = (SpellTrapActivationEvent) event;
@@ -27,6 +32,6 @@ public class DestroyEnemyMonsterEffect extends Effect {
                 activateEffect();
             }
         }
-        return true;
+        isInConsideration = false;
     }
 }

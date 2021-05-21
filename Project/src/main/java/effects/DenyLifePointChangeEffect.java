@@ -8,13 +8,18 @@ import events.LifePointChangeEvent;
 public class DenyLifePointChangeEffect extends Effect {
 
     public boolean permit(Event event) {
-        initializeSelfCardWithEvent(event);
-        if(event instanceof LifePointChangeEvent) {
+        if (event instanceof LifePointChangeEvent) {
             LifePointChangeEvent lifePointChangeEvent = (LifePointChangeEvent) event;
-            if(lifePointChangeEvent != null && lifePointChangeEvent.getAttackedTo() == selfCard) {
+            if (lifePointChangeEvent != null && lifePointChangeEvent.getAttackedTo() == selfCard) {
                 return false;
             }
         }
         return true;
+    }
+
+    public void consider(Event event) {
+        isInConsideration = true;
+        initializeSelfCardWithEvent(event);
+        isInConsideration = false;
     }
 }

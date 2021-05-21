@@ -11,4 +11,8 @@ public class StealMonsterEffect extends Effect {
         return false;
     }
 
+    public void consider(Event event) {
+
+    }
+
 }

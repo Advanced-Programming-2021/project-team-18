@@ -10,4 +10,8 @@ public class DisableAttackerEffect extends Effect{
 
         return true;
     }
+
+    public void consider(Event event) {
+
+    }
 }

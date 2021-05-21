@@ -12,4 +12,8 @@ public class NegateAttackEffect extends Effect {
 
         return false;
     }
+
+    public void consider(Event event) {
+
+    }
 }

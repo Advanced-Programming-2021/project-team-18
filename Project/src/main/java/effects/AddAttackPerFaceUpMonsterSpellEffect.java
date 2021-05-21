@@ -40,6 +40,11 @@ public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
     }
 
     public boolean permit(Event event) {
+        return true;
+    }
+
+    public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         positionOnBoard = selfPlayer.getSpellOrTrapPositionOnBoard(selfCard);
         if (event instanceof CardEvent) {
@@ -51,8 +56,7 @@ public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
             } else if ((cardEventInfo == CardEventInfo.DESTROYED) && card.hasEffect(this)) {
                 whenDestroyedEffect();
             }
-
         }
-        return true;
+        isInConsideration = false;
     }
 }

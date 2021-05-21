@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+
 @Getter
 @Setter
 public class MonsterCard extends Card {
@@ -26,31 +27,31 @@ public class MonsterCard extends Card {
         return false; // TODO: Handle this function (how the data should be stored?)
     }
 
-    public void attackTo(MonsterCard attackedMonster , Player owner) {
-        if(attackedMonster.isDefenseMode()) {
-            owner.getOpponent().flipMonsterOnDefense(attackedMonster , this);
-            if(this.getCardAttack() == attackedMonster.getCardDefense()) {
+    public void attackTo(MonsterCard attackedMonster, Player owner) {
+        if (attackedMonster.isDefenseMode()) {
+            owner.getOpponent().flipMonsterOnDefense(attackedMonster, this);
+            if (this.getCardAttack() == attackedMonster.getCardDefense()) {
                 Printer.prompt("no card is destroyed");
-            } else if(this.getCardAttack() > attackedMonster.getCardDefense()) {
+            } else if (this.getCardAttack() > attackedMonster.getCardDefense()) {
                 Printer.prompt("the defense position monster is destroyed");
-                owner.getOpponent().removeCardFromField(attackedMonster , this);
-            } else if(this.getCardAttack() < attackedMonster.getCardDefense()) {
+                owner.getOpponent().removeCardFromField(attackedMonster, this);
+            } else if (this.getCardAttack() < attackedMonster.getCardDefense()) {
                 Printer.prompt("no card is destroyed and you received " + (attackedMonster.getCardDefense() - this.getCardAttack()) + " battle damage");
-                owner.decreaseLifePoint(attackedMonster.getCardDefense() - this.getCardAttack() , attackedMonster);
+                owner.decreaseLifePoint(attackedMonster.getCardDefense() - this.getCardAttack(), attackedMonster);
             }
         } else {
-            if(this.getCardAttack() == attackedMonster.getCardAttack()) {
+            if (this.getCardAttack() == attackedMonster.getCardAttack()) {
                 Printer.prompt("both you and your opponent monster cards are destroyed and no one receives damage");
-                owner.removeCardFromField(this , attackedMonster);
-                owner.getOpponent().removeCardFromField(attackedMonster , this);
-            } else if(this.getCardAttack() > attackedMonster.getCardAttack()) {
+                owner.removeCardFromField(this, attackedMonster);
+                owner.getOpponent().removeCardFromField(attackedMonster, this);
+            } else if (this.getCardAttack() > attackedMonster.getCardAttack()) {
                 Printer.prompt("your opponent’s monster is destroyed and your opponent receives " + (this.getCardAttack() - attackedMonster.getCardAttack()) + " battle damage");
-                owner.getOpponent().removeCardFromField(attackedMonster , this);
-                owner.getOpponent().decreaseLifePoint(this.getCardAttack() - attackedMonster.getCardAttack() , this);
-            } else if(this.getCardAttack() < attackedMonster.getCardAttack()) {
+                owner.getOpponent().removeCardFromField(attackedMonster, this);
+                owner.getOpponent().decreaseLifePoint(this.getCardAttack() - attackedMonster.getCardAttack(), this);
+            } else if (this.getCardAttack() < attackedMonster.getCardAttack()) {
                 Printer.prompt("Your monster card is destroyed and you received " + (attackedMonster.getCardAttack() - this.getCardAttack()) + " battle damage");
-                owner.decreaseLifePoint(attackedMonster.getCardAttack() - this.getCardAttack() , attackedMonster);
-                owner.removeCardFromField(this , attackedMonster);
+                owner.decreaseLifePoint(attackedMonster.getCardAttack() - this.getCardAttack(), attackedMonster);
+                owner.removeCardFromField(this, attackedMonster);
             }
         }
     }
@@ -61,10 +62,11 @@ public class MonsterCard extends Card {
         result += "Level: " + this.getCardLevel() + "\n";
         result += "Type: " + this.getMonsterType() + "\n";
         result += "ATK: " + this.getCardAttack() + "\n";
-        result += "DEF: "+ this.getCardDefense() + "\n";
+        result += "DEF: " + this.getCardDefense() + "\n";
         result += "Description " + this.getCardDescription() + "\n";
         Printer.prompt(result);
     }
+
     @Override
     public Card cloneCard() {
         MonsterCard card = new MonsterCard();

@@ -11,4 +11,8 @@ public class SummonDefensePositionMonsterEffect extends Effect {
     public boolean permit(Event event) {
         return false;
     }
+
+    public void consider(Event event) {
+
+    }
 }

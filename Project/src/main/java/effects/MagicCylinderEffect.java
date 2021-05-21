@@ -26,4 +26,8 @@ public class MagicCylinderEffect extends Effect {
         }
         return true;
     }
+
+    public void consider(Event event) {
+
+    }
 }

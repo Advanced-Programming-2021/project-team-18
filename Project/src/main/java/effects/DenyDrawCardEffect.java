@@ -10,6 +10,18 @@ public class DenyDrawCardEffect extends Effect {
     boolean isActive = false;
 
     public boolean permit(Event event) {
+        if (event instanceof DrawCardEvent) {
+            DrawCardEvent cardEvent = (DrawCardEvent) event;
+            Card card = cardEvent.getCard();
+            if (isActive && card.getPlayer() == selfPlayer.getOpponent() && turnsRemaining > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
@@ -19,19 +31,12 @@ public class DenyDrawCardEffect extends Effect {
                 isActive = true;
             }
         }
-        if (event instanceof DrawCardEvent) {
-            DrawCardEvent cardEvent = (DrawCardEvent) event;
-            Card card = cardEvent.getCard();
-            if (isActive && card.getPlayer() == selfPlayer.getOpponent() && turnsRemaining > 0) {
-                return false;
-            }
-        }
         if (event instanceof PhaseChangeEvent) {
             PhaseChangeEvent phaseChangeEvent = (PhaseChangeEvent) event;
             if(phaseChangeEvent.getPhase() == Phase.MAIN1 && isActive) {
                 -- turnsRemaining;
             }
         }
-        return true;
+        isInConsideration = false;
     }
 }

@@ -86,4 +86,8 @@ public class TwinTwistersEffect extends Effect {
         }
         return true;
     }
+
+    public void consider(Event event) {
+
+    }
 }

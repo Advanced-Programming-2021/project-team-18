@@ -106,15 +106,15 @@ public abstract class Card implements Comparable<Card> {
     }
 
     private void manageSpellAndTrapEffects() {
-        if(cardName.equals("Monster Reborn")) {
+        if (cardName.equals("Monster Reborn")) {
 
-        } else if(cardName.equals("Terraforming")) {
+        } else if (cardName.equals("Terraforming")) {
 
-        } else if(cardName.equals("Pot of Greed")) {
+        } else if (cardName.equals("Pot of Greed")) {
 
-        } else if(cardName.equals("Raigeki")) {
+        } else if (cardName.equals("Raigeki")) {
             effects.add(new DestroyEnemyMonsterEffect(false));
-        } else if(cardName.equals("Change of Heart")) {
+        } else if (cardName.equals("Change of Heart")) {
 
         } else if (cardName.equals("Harpie's Feather Duster")) {
             effects.add(new HarpiesFeatherEffect());
@@ -135,28 +135,28 @@ public abstract class Card implements Comparable<Card> {
         } else if (cardName.equals("Ring of defense")) {
 
         } else if (cardName.equals("Yami")) {
-            effects.add(new AddAttackAndDefenseEffect(200 , 200 , MonsterCardType.FIEND , 0));
-            effects.add(new AddAttackAndDefenseEffect(200 , 200 , MonsterCardType.SPELLCASTER , 0));
-            effects.add(new AddAttackAndDefenseEffect(-200 , -200 , MonsterCardType.FAIRY , 0));
+            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.FIEND, 0));
+            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.SPELLCASTER, 0));
+            effects.add(new AddAttackAndDefenseEffect(-200, -200, MonsterCardType.FAIRY, 0));
         } else if (cardName.equals("Forest")) {
-            effects.add(new AddAttackAndDefenseEffect(200 , 200 , MonsterCardType.INSECT , 0));
-            effects.add(new AddAttackAndDefenseEffect(200 , 200 , MonsterCardType.BEAST , 0));
-            effects.add(new AddAttackAndDefenseEffect(200 , 200 , MonsterCardType.BEASTWARRIOR , 0));
+            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.INSECT, 0));
+            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.BEAST, 0));
+            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.BEASTWARRIOR, 0));
         } else if (cardName.equals("Closed Forest")) {
-            effects.add(new AddAttackAndDefenseEffect(0 , 0 , MonsterCardType.BEAST , 100));
+            effects.add(new AddAttackAndDefenseEffect(0, 0, MonsterCardType.BEAST, 100));
         } else if (cardName.equals("Umiiruka")) {
-            effects.add(new AddAttackAndDefenseEffect(500 , -400 , MonsterCardType.AQUA , 0));
+            effects.add(new AddAttackAndDefenseEffect(500, -400, MonsterCardType.AQUA, 0));
         } else if (cardName.equals("Sword of dark destruction")) {
-            effects.add(new AttackAndDefenseEquipEffect(400 , -200 , MonsterCardType.FIEND));
-            effects.add(new AttackAndDefenseEquipEffect(400 , -200 , MonsterCardType.SPELLCASTER));
+            effects.add(new AttackAndDefenseEquipEffect(400, -200, MonsterCardType.FIEND));
+            effects.add(new AttackAndDefenseEquipEffect(400, -200, MonsterCardType.SPELLCASTER));
         } else if (cardName.equals("Black Pendant")) {
-            effects.add(new AttackAndDefenseEquipEffect(500 , 0 , MonsterCardType.ALL));
+            effects.add(new AttackAndDefenseEquipEffect(500, 0, MonsterCardType.ALL));
         } else if (cardName.equals("United We Stand")) {
-            effects.add(new AddAttackPerFaceUpMonsterSpellEffect(800 , 800));
+            effects.add(new AddAttackPerFaceUpMonsterSpellEffect(800, 800));
         } else if (cardName.equals("Magnum Shield")) {
             effects.add(new MagnumShieldEffect());
         } else if (cardName.equals("Advanced Ritual Art")) {
-            effects.add(new AdvancedRitualEffect());
+
         } else if (cardName.equals("Magic Cylinder")) {
             effects.add(new MagicCylinderEffect());
         } else if (cardName.equals("Mirror Force")) {
@@ -182,6 +182,7 @@ public abstract class Card implements Comparable<Card> {
         // NOTE : should be called when creating players not at the beginning
         manageMonsterEffects();
         manageSpellAndTrapEffects();
+
     }
 
     @Override

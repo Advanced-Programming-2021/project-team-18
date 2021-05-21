@@ -11,6 +11,11 @@ import events.Event;
 public class DestroyAttackerEffect extends Effect {
 
     public boolean permit(Event event) {
+        return true;
+    }
+
+    public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         if(event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
@@ -21,6 +26,6 @@ public class DestroyAttackerEffect extends Effect {
                 selfPlayer.getOpponent().removeCardFromField((MonsterCard) causedByCard , selfCard);
             }
         }
-        return true;
+        isInConsideration = false;
     }
 }

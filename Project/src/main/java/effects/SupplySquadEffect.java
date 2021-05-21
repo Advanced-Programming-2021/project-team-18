@@ -50,4 +50,8 @@ public class SupplySquadEffect extends Effect {
         }
         return true;
     }
+
+    public void consider(Event event) {
+
+    }
 }

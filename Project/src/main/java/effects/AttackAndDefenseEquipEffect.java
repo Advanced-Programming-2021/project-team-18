@@ -30,6 +30,11 @@ public class AttackAndDefenseEquipEffect extends Effect {
     private void deactivateEffect() { toggleSelfEffect(-1); }
 
     public boolean permit(Event event) {
+        return true;
+    }
+
+    public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         spellPosition = selfPlayer.getSpellOrTrapPositionOnBoard(selfCard);
         if (event instanceof CardEvent) {
@@ -44,6 +49,6 @@ public class AttackAndDefenseEquipEffect extends Effect {
                 activateEffect();
             }
         }
-        return true;
+        isInConsideration = false;
     }
 }

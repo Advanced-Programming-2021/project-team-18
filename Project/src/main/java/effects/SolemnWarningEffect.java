@@ -27,4 +27,8 @@ public class SolemnWarningEffect extends Effect {
         }
         return true;
     }
+
+    public void consider(Event event) {
+
+    }
 }
