@@ -185,6 +185,10 @@ public abstract class Card implements Comparable<Card> {
 
     }
 
+    public void addEffect(Effect effect){
+        effects.add(effect);
+    }
+
     @Override
     public int compareTo(Card o) {
         return this.cardName.compareTo(o.cardName);

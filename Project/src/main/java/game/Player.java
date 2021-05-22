@@ -407,6 +407,21 @@ public class Player {
         return remainingDeck.getCardsList().get(index);
     }
 
+    public Card obtainCardFromGraveYard(){
+        showGraveyard();
+        Printer.prompt("Enter the number of the monster card which you want to transform scanner to:");
+        String input = Utility.getNextLine();
+        int size = graveyard.getSize();
+        while (!input.matches("\\d{1,4}")
+                || Integer.parseInt(input) > size
+                || Integer.parseInt(input) < 1) {
+            Printer.prompt("Invalid input\nPlease try again.");
+            input = Utility.getNextLine();
+        }
+        int index = Integer.parseInt(input);
+        return graveyard.getCardsList().get(index);
+    }
+
     // by Kamyar
     public void selectCard(String command) {
         if (command.matches("select -d")) {
@@ -770,18 +785,18 @@ public class Player {
             return;
         }
         boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
-        if(isFieldSpell) {
+        if (isFieldSpell) {
             Printer.prompt("you can't activate field spells");
-            return ;
+            return;
         }
         CardEvent activateCardEvent = new CardEvent(selectedCard, CardEventInfo.ACTIVATE_EFFECT, null);
         if (getSelectedCardOnHandID() != -1) {
             int firstEmptyPlace = getFirstEmptyPlaceOnSpellsField();
-            if(firstEmptyPlace == -1) {
+            if (firstEmptyPlace == -1) {
                 Printer.prompt("there is no card space on board for you to activate your spell");
             } else {
                 CardEvent entranceCardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
-                if (!getPermissionFromAllEffects(entranceCardEvent) || ! getPermissionFromAllEffects(activateCardEvent)) {
+                if (!getPermissionFromAllEffects(entranceCardEvent) || !getPermissionFromAllEffects(activateCardEvent)) {
                     Printer.prompt("you cant activate this spell");
                     return;
                 }
@@ -906,6 +921,15 @@ public class Player {
     public boolean getPermissionFromAllEffects(Event event) {
         return getPermissionFromMyEffects(event) && this.getOpponent().getPermissionFromMyEffects(event);
     }
+
+    public int getNumberOfMonstersInGraveyard(){
+        int result = 0;
+        for (Card card : graveyard.getCardsList()) {
+            if (card instanceof MonsterCard) result++;
+        }
+        return result;
+    }
+
 
     public boolean equals(Player checkPlayer) {
         return user.getUsername().contentEquals(checkPlayer.getUser().getUsername());
