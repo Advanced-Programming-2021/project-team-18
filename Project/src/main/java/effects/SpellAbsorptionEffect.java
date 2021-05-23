@@ -9,7 +9,6 @@ import game.Player;
 
 public class SpellAbsorptionEffect extends Effect {
 
-    Player player;
 
     public void runEffect() {
 
@@ -19,12 +18,12 @@ public class SpellAbsorptionEffect extends Effect {
         if (event instanceof CardEvent) {
             Card sourceCard = ((CardEvent) event).getCard();
             CardEventInfo info = ((CardEvent) event).getInfo();
-            if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard.hasEffect(this) && player == null) {
-                player = sourceCard.getPlayer();
+            if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard.hasEffect(this) && selfPlayer == null) {
+                selfPlayer = sourceCard.getPlayer();
                 return true;
             }
             else if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard instanceof SpellCard){
-                player.setLifePoint(player.getLifePoint() + 500);
+                selfPlayer.setLifePoint(selfPlayer.getLifePoint() + 500);
                 return  true;
             }
         }

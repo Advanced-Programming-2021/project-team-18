@@ -7,25 +7,24 @@ import events.*;
 import game.Player;
 
 public class SupplySquadEffect extends Effect {
-    Player player;
     boolean hasActivatedEffectThisTurn;
 
     public void runEffect() {
         hasActivatedEffectThisTurn = true;
-        if(player.getRemainingDeck().isEmpty()){
+        if(selfPlayer.getRemainingDeck().isEmpty()){
             Printer.prompt("Your deck is empty so Supply Squad cannot draw a card for you");
             return;
         }
-        if(player.getHand().getCardsList().size() == 6){
+        if(selfPlayer.getHand().getCardsList().size() == 6){
             Printer.prompt("Your hand is full so Supply Squad cannot draw a card for you");
             return;
         }
-        Card newCard = player.getRemainingDeck().pop();
+        Card newCard = selfPlayer.getRemainingDeck().pop();
         DrawCardEvent drawCardEvent = new DrawCardEvent(newCard);
-        if (!player.getPermissionFromAllEffects(drawCardEvent)) {
-            player.getRemainingDeck().addCard(newCard);
+        if (!selfPlayer.getPermissionFromAllEffects(drawCardEvent)) {
+            selfPlayer.getRemainingDeck().addCard(newCard);
         }
-        player.getHand().addCard(newCard);
+        selfPlayer.getHand().addCard(newCard);
     }
 
     public boolean permit(Event event) {
@@ -33,15 +32,15 @@ public class SupplySquadEffect extends Effect {
             Card sourceCard = ((CardEvent) event).getCard();
             CardEventInfo info = ((CardEvent) event).getInfo();
             if (info == CardEventInfo.ACTIVATE_EFFECT
-                    && player == null
+                    && selfPlayer == null
                     && sourceCard.hasEffect(this)) {
-                player = sourceCard.getPlayer();
+                selfPlayer = sourceCard.getPlayer();
                 hasActivatedEffectThisTurn = false;
                 return true;
             } else if (info == CardEventInfo.DESTROYED
                     && !hasActivatedEffectThisTurn
                     && sourceCard instanceof MonsterCard
-                    && sourceCard.getPlayer() == player) {
+                    && sourceCard.getPlayer() == selfPlayer) {
                 runEffect();
             }
         }
