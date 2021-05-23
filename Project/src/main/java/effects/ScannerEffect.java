@@ -27,7 +27,7 @@ public class ScannerEffect extends Effect {
         player.getOpponent().showGraveyard();
         Card selectedCard = player.getOpponent().obtainCardFromGraveYard();
         while (!(selectedCard instanceof MonsterCard)) {
-            Printer.prompt("The selected Card isn't a monster card try again");
+            Printer.prompt("The selected Card isn't a monster card! try again");
             player.getOpponent().showGraveyard();
             selectedCard = player.getOpponent().obtainCardFromGraveYard();
         }
@@ -50,7 +50,7 @@ public class ScannerEffect extends Effect {
         if (event instanceof TurnChangeEvent) {
             int graveyardMonsterSize = sourceCard.getPlayer().getOpponent().getNumberOfMonstersInGraveyard();
             if (graveyardMonsterSize == 0) {
-                Printer.prompt("Opponent does not have any monster cards in their graveyard, so the Scanner cannot activate It's effect");
+                Printer.prompt("Opponent does not have any monster cards in their graveyard, so the Scanner cannot activate its effect");
                 return;
             }
             MonsterCard card = handleEffectIO();

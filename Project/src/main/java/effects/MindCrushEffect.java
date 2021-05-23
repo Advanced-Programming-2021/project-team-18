@@ -9,13 +9,11 @@ import menus.Menu;
 import utility.Utility;
 
 
+// By Sina
 public class MindCrushEffect extends Effect {
-    boolean hasEnteredThisTurn = true;
+    private boolean hasEnteredThisTurn = true;
 
-    public boolean runEffect() {
-        if (Utility.checkAndPrompt(hasEnteredThisTurn,
-                "You cannot activate a trap at it's entrance turn!"))
-            return false;
+    private void runEffect() {
         String selectedCardName;
         int index = 0;
         int cardSize = Card.getAllCardNames().size();
@@ -36,24 +34,28 @@ public class MindCrushEffect extends Effect {
             Printer.prompt(Menu.INVALID_COMMAND);
         }
         Card selectedCard = selfPlayer.getOpponent().getHand().getCardByName(selectedCardName);
-        if (selfPlayer.getOpponent().removeCardFromHand(selectedCard))
-            return true;
+        if (selfPlayer.getOpponent().removeCardFromHand(selectedCard)) return;
         selfPlayer.removeCardFromHand(selfPlayer.getHand().getRandomCard());
-        return true;
     }
 
     public boolean permit(Event event) {
         initializeSelfCardWithEvent(event);
-        if (event instanceof TurnChangeEvent) hasEnteredThisTurn = false;
         if (event instanceof SpellTrapActivationEvent) {
             if (((SpellTrapActivationEvent) event).getCard() == selfCard) {
-                return runEffect();
+                return !Utility.checkAndPrompt(hasEnteredThisTurn,
+                        "You cannot activate a trap at it's entrance turn!");
             }
         }
         return true;
     }
 
     public void consider(Event event) {
-
+        if (event instanceof TurnChangeEvent)
+            hasEnteredThisTurn = false;
+        if (event instanceof SpellTrapActivationEvent) {
+            if (((SpellTrapActivationEvent) event).getCard() == selfCard) {
+                runEffect();
+            }
+        }
     }
 }

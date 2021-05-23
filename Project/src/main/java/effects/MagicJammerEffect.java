@@ -6,13 +6,15 @@ import events.Event;
 import events.SpellTrapActivationEvent;
 import game.Player;
 
+
+// By Sina
 public class MagicJammerEffect extends Effect {
 
     private void runEffect(SpellCard spellCardToDelete) {
         Player opponent = selfPlayer.getOpponent();
         Card card = opponent.obtainCardFromHand();
         opponent.removeCardFromHand(card);
-        opponent.removeCardFromField(spellCardToDelete , null);
+        opponent.removeCardFromField(spellCardToDelete, null);
     }
 
     public boolean permit(Event event) {

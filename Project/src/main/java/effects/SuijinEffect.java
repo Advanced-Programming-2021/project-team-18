@@ -1,16 +1,30 @@
 package effects;
 
-import card.Card;
 import card.MonsterCard;
 import data.Printer;
 import events.*;
 import utility.Utility;
 
+// By Sina
+
+/*
+ALGORITHM OF THIS EFFECT
+
+Attack
+    Confirmation?
+        runEffect, faceUp if needed
+    Else nothing
+TurnChange
+    Counteract
+FaceUp, Entrance
+    Reset
+*/
+
 public class SuijinEffect extends Effect {
 
     private MonsterCard sacrifice = null;
     private int lastAttackAmount;
-    private boolean hasBeenCounteracted = false;
+    private boolean hasBeenCounteracted = true;
 
     private boolean obtainConfirmation() {
         String response;
@@ -28,9 +42,11 @@ public class SuijinEffect extends Effect {
     }
 
     private void runEffect(MonsterCard attacker) {
+        selfCard.setFaceUp(true);
         sacrifice = attacker;
         lastAttackAmount = sacrifice.getCardAttack();
         sacrifice.setCardAttack(0);
+        hasBeenCounteracted = false;
     }
 
     private void counteractEffect() {
@@ -40,6 +56,11 @@ public class SuijinEffect extends Effect {
     }
 
     public boolean permit(Event event) {
+        initializeSelfCardWithEvent(event);
+        return true;
+    }
+
+    public void consider(Event event) {
         if (event instanceof AttackEvent) {
             AttackEvent partEvent = (AttackEvent) event;
             if (partEvent.getDefender().hasEffect(this)) {
@@ -58,14 +79,9 @@ public class SuijinEffect extends Effect {
                     partEvent.getInfo() == CardEventInfo.ENTRANCE) {
                 if (partEvent.getCard().hasEffect(this)) {
                     sacrifice = null;
-                    hasBeenCounteracted = false;
+                    hasBeenCounteracted = true;
                 }
             }
         }
-        return true;
-    }
-
-    public void consider(Event event) {
-
     }
 }

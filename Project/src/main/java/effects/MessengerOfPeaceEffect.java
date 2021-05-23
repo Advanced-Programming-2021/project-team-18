@@ -7,6 +7,8 @@ import events.Phase;
 import events.PhaseChangeEvent;
 import utility.Utility;
 
+
+// By Sina
 public class MessengerOfPeaceEffect extends Effect {
     private void consumeLP() {
         if (selfPlayer.getLifePoint() < 100) {
@@ -34,18 +36,18 @@ public class MessengerOfPeaceEffect extends Effect {
         if (event instanceof AttackEvent) {
             AttackEvent partEvent = (AttackEvent) event;
             if (partEvent.getAttacker().getPlayer() != selfPlayer) {
-                if (partEvent.getDefender().getCardAttack() >= 1500) return false;
+                return partEvent.getDefender().getCardAttack() < 1500;
             }
         }
+
+        return true;
+    }
+
+    public void consider(Event event) {
         if (event instanceof PhaseChangeEvent) {
             if (((PhaseChangeEvent) event).getPhase() == Phase.STANDBY) {
                 consumeLP();
             }
         }
-        return false;
-    }
-
-    public void consider(Event event) {
-
     }
 }

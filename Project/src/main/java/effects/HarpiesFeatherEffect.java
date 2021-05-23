@@ -5,7 +5,7 @@ import events.Event;
 import events.SpellTrapActivationEvent;
 import game.Player;
 
-// TODO : SINA
+// By Sina
 public class HarpiesFeatherEffect extends Effect {
     private int count;
 
@@ -19,15 +19,14 @@ public class HarpiesFeatherEffect extends Effect {
 
     public boolean permit(Event event) {
         initializeSelfCardWithEvent(event);
+        return true;
+    }
+
+    public void consider(Event event) {
         if (event instanceof SpellTrapActivationEvent) {
             SpellTrapActivationEvent partEvent = (SpellTrapActivationEvent) event;
             if (partEvent.getCard().hasEffect(this))
                 runEffect(partEvent.getCard().getPlayer().getOpponent());
         }
-        return true;
-    }
-
-    public void consider(Event event) {
-
     }
 }

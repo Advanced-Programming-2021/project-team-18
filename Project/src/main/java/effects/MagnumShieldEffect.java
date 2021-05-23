@@ -1,9 +1,7 @@
 package effects;
 
-import card.Card;
 import card.MonsterCard;
 import card.MonsterCardType;
-import data.Printer;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
@@ -12,6 +10,7 @@ import utility.Utility;
 
 import java.util.ArrayList;
 
+// By Sina
 public class MagnumShieldEffect extends Effect {
     MonsterCard equippedMonster;
     int originalAttack, originalDefense;
@@ -25,16 +24,13 @@ public class MagnumShieldEffect extends Effect {
         return warriors;
     }
 
-    private boolean runEffect() {
+    private void runEffect() {
         ArrayList<String> warriors = getWarriors();
-        if (Utility.checkAndPrompt(
-                warriors.isEmpty(),
-                "You don't have any warrior monsters to equip!")) return false;
         String cardName = Utility.askPlayer(
                 selfPlayer, "please select a warrior monster", warriors
         );
         for (MonsterCard monsterCard : selfPlayer.getMonstersFieldList()) {
-            if (monsterCard.getCardName() == cardName) {
+            if (monsterCard.getCardName().equals(cardName)) {
                 originalAttack = monsterCard.getCardAttack();
                 originalDefense = monsterCard.getCardDefense();
                 if (monsterCard.isDefenseMode())
@@ -45,10 +41,9 @@ public class MagnumShieldEffect extends Effect {
                     monsterCard.setCardAttack(
                             originalAttack + monsterCard.getCardDefense()
                     );
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     private void counterAct() {
@@ -62,23 +57,29 @@ public class MagnumShieldEffect extends Effect {
         if (event instanceof SpellTrapActivationEvent) {
             SpellTrapActivationEvent partEvent = (SpellTrapActivationEvent) event;
             if (partEvent.getCard() == selfCard) {
-                return runEffect();
+                return !Utility.checkAndPrompt(
+                        getWarriors().isEmpty(),
+                        "You don't have any warrior monsters to equip!");
+            }
+        }
+        return true;
+    }
+
+    public void consider(Event event) {
+        if (event instanceof SpellTrapActivationEvent) {
+            SpellTrapActivationEvent partEvent = (SpellTrapActivationEvent) event;
+            if (partEvent.getCard() == selfCard) {
+                runEffect();
             }
         }
         if (event instanceof CardEvent) {
             CardEvent partEvent = (CardEvent) event;
             if (partEvent.getCard() == equippedMonster) {
-                CardEventInfo info = partEvent.getInfo();
-                if (info == CardEventInfo.DESTROYED) {
+                if (partEvent.getInfo() == CardEventInfo.DESTROYED) {
                     counterAct();
                     selfPlayer.removeCardFromField(selfCard , null);
                 }
             }
         }
-        return false;
-    }
-
-    public void consider(Event event) {
-
     }
 }

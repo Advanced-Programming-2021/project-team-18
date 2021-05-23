@@ -9,18 +9,37 @@ import events.SummonEvent;
 import game.Deck;
 import utility.Utility;
 
-import java.util.ArrayList;
-
-// The only card which has this effect, is "Advanced Ritual Art"
+// By Sina
+// Note that the only card which has this effect, is "Advanced Ritual Art"
 public class RitualSummonEffect extends Effect {
-    boolean hasRitualInHand = false;
-    private MonsterCard selecetRitualMonsterToSummon() {
+
+    private boolean hasRitualInHand() {
         for (Card card : selfPlayer.getHand().getCardsList()) {
             if (card instanceof MonsterCard) {
-                if (((MonsterCard) card).isRitual()) hasRitualInHand = true;
+                if (((MonsterCard) card).isRitual()) return true;
             }
         }
-        if (!hasRitualInHand) return null;
+        return false;
+    }
+
+    private boolean hasEnoughStarsToTribute() {
+        int minStars = Integer.MAX_VALUE;
+        for (Card card : selfPlayer.getHand().getCardsList()) {
+            if (card instanceof MonsterCard &&
+                    ((MonsterCard) card).isRitual()) {
+                minStars = Math.min(minStars, ((MonsterCard) card).getCardLevel());
+            }
+        }
+        Deck playerDeck = selfPlayer.getHand();
+        int levelSum = 0;
+        for (Card card : playerDeck.getCardsList()) {
+            if (card instanceof MonsterCard)
+                levelSum += ((MonsterCard) card).getCardLevel();
+        }
+        return levelSum >= minStars;
+    }
+
+    private MonsterCard selectRitualMonsterToSummon() {
         Card selectedCard;
         while (true) {
             Printer.prompt("Please select ritual monster to summon.");
@@ -34,18 +53,18 @@ public class RitualSummonEffect extends Effect {
         }
     }
 
-    // Returns true iff there was enough level for tribute the monster
-    private boolean selectAndDeleteTributes(MonsterCard selectedMonster) {
-        Deck playerDeck = selfPlayer.getHand();
-        int levelSum = 0;
-        for (Card card : playerDeck.getCardsList()) {
-            if (card instanceof MonsterCard)
-                levelSum += ((MonsterCard) card).getCardLevel();
+    private void runEffect() {
+        MonsterCard selectedMonster = selectRitualMonsterToSummon();
+        SummonEvent newEvent = new SummonEvent(selectedMonster, true);
+        if (selfPlayer.getPermissionFromAllEffects(newEvent)) {
+            selectAndDeleteTributes(selectedMonster);
+            selfPlayer.addMonsterCardToField(selectedMonster);
         }
+        selfPlayer.removeCardFromField(selfCard, selfCard);
+    }
+
+    private void selectAndDeleteTributes(MonsterCard selectedMonster) {
         int neededLevelSum = selectedMonster.getCardLevel();
-        if (Utility.checkAndPrompt(
-                levelSum < neededLevelSum,
-                "insufficient stars for summoning the monster!")) return false;
         MonsterCard sacrificedMonster;
         Card deckCard;
         boolean firstSelection = true;
@@ -70,31 +89,26 @@ public class RitualSummonEffect extends Effect {
             neededLevelSum -= sacrificedMonster.getCardLevel();
         }
         selfPlayer.getRemainingDeck().shuffleDeck();
-        return true;
-    }
-
-    private boolean runEffect() {
-        MonsterCard selectedMonster = selecetRitualMonsterToSummon();
-        if (selectedMonster == null) return false;
-        SummonEvent newEvent = new SummonEvent(selectedMonster, true);
-        if (!selfPlayer.getPermissionFromAllEffects(newEvent)) return false;
-        if (!selectAndDeleteTributes(selectedMonster)) return false;
-        selfPlayer.addMonsterCardToField(selectedMonster);
-        selfPlayer.removeCardFromField(selfCard, selfCard);
-        return true;
     }
 
     public boolean permit(Event event) {
         initializeSelfCardWithEvent(event);
         if (event instanceof SpellTrapActivationEvent) {
             if (((SpellTrapActivationEvent) event).getCard() == selfCard) {
-                return runEffect();
+                if (Utility.checkAndPrompt(!hasRitualInHand(),
+                        "You have no ritual monster in hand!")) return false;
+                return !Utility.checkAndPrompt(!hasEnoughStarsToTribute(),
+                        "You don't have enough stars to tribute!");
             }
         }
         return true;
     }
 
     public void consider(Event event) {
-
+        if (event instanceof SpellTrapActivationEvent) {
+            if (((SpellTrapActivationEvent) event).getCard() == selfCard) {
+                runEffect();
+            }
+        }
     }
 }

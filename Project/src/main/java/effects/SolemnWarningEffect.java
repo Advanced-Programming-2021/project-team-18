@@ -5,6 +5,7 @@ import events.Event;
 import events.SummonEvent;
 import events.TurnChangeEvent;
 
+// By Sina
 public class SolemnWarningEffect extends Effect {
     boolean hasEnteredThisTurn = true;
 
@@ -13,7 +14,7 @@ public class SolemnWarningEffect extends Effect {
         if (!selfPlayer.getOpponent().decreaseLifePoint(2000, selfCard))
             return true;
         selfPlayer.getOpponent().removeCardFromHand(summonedMonster);
-        // Note that the "summoned" monster actually is not added to field yet!
+        // Note that the "summoned" monster is not actually added to field yet!
         // So The function removeCardFromHand is called, instead of removeCardFromField
         return false;
     }

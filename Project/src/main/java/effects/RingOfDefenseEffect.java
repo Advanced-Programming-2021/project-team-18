@@ -2,6 +2,7 @@ package effects;
 
 import events.Event;
 
+// Seems to be similar to DenyLifePointChangeEffect
 public class RingOfDefenseEffect extends Effect {
 
     public void runEffect() {

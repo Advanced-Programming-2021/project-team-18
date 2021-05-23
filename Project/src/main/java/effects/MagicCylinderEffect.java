@@ -1,10 +1,9 @@
 package effects;
 
-import data.Printer;
 import events.AttackEvent;
 import events.Event;
-import utility.Utility;
 
+// By Sina
 public class MagicCylinderEffect extends Effect {
 
     private boolean obtainConfirmation() {
@@ -18,8 +17,8 @@ public class MagicCylinderEffect extends Effect {
             AttackEvent partEvent = (AttackEvent) event;
             if (partEvent.getDefender() == selfCard) {
                 if (obtainConfirmation()) {
-                    if (!selfCard.isFaceUp())  selfCard.setFaceUp(true);
-                    selfPlayer.getOpponent().decreaseLifePoint(partEvent.getAttacker().getCardAttack() , null);
+                    if (!selfCard.isFaceUp()) selfCard.setFaceUp(true);
+                    selfPlayer.getOpponent().decreaseLifePoint(partEvent.getAttacker().getCardAttack(), null);
                     return false;
                 }
             }
