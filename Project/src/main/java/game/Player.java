@@ -134,14 +134,14 @@ public class Player {
     }
 
     public void runBattlePhaseCommands(String command) {
-        if (Utility.getCommandMatcher(command, regexAttackNormal).matches()) {
-            attack(command);
+        Matcher matcher;
+        if ((matcher = Utility.getCommandMatcher(command, regexAttackNormal)).matches()) {
+            attack(matcher);
         } else if (Utility.getCommandMatcher(command, regexAttackDirect).matches()) {
             attackDirect();
         } else if (Utility.getCommandMatcher(command, regexActivateEffect).matches()) {
             activateEffect();
         }
-
     }
 
     // By Sina
@@ -175,9 +175,7 @@ public class Player {
     public void mainPhase1() {
         Printer.prompt("phase: main phase 1");
         Printer.showBoard(this, this.opponent);
-        while (true) {
-            if (this.isLoser() || opponent.isLoser())
-                return;
+        while (!this.isLoser() && !opponent.isLoser()) {
             String command = Utility.getNextLine();
             if (Utility.getCommandMatcher(command, regexNextPhase).matches())
                 break;
@@ -191,9 +189,7 @@ public class Player {
     public void battlePhase() {
         Printer.prompt("phase: battle phase");
         if (game.isFirstTurn()) return;
-        while (true) {
-            if (this.isLoser() || opponent.isLoser())
-                return;
+        while (!this.isLoser() && !opponent.isLoser()) {
             String command = Utility.getNextLine();
             if (Utility.getCommandMatcher(command, regexNextPhase).matches())
                 break;
@@ -206,9 +202,7 @@ public class Player {
     //          by Pasha
     public void mainPhase2() {
         Printer.prompt("phase: main phase 2");
-        while (true) {
-            if (this.isLoser() || opponent.isLoser())
-                return;
+        while (!this.isLoser() && !opponent.isLoser()) {
             String command = Utility.getNextLine();
             if (Utility.getCommandMatcher(command, regexNextPhase).matches())
                 break;
@@ -310,10 +304,9 @@ public class Player {
         return true;
     }
 
-    public boolean addMonsterCardToField(MonsterCard newCard) {
-        if (monstersFieldList.length == FIELD_SIZE) return false;
+    public void addMonsterCardToField(MonsterCard newCard) {
+        if (monstersFieldList.length == FIELD_SIZE) return;
         monstersFieldList[getFirstEmptyPlaceOnMonstersField()] = newCard;
-        return true;
     }
 
     public boolean removeCardFromHand(Card card) {
@@ -324,12 +317,10 @@ public class Player {
         return false;
     }
 
-    public boolean removeCardFromDeck(Card card) {
+    public void removeCardFromDeck(Card card) {
         if (remainingDeck.removeCard(card)) {
             graveyard.addCard(card);
-            return true;
         }
-        return false;
     }
 
     public void flipMonsterOnDefense(MonsterCard monsterCard, Card causedByCard) {
@@ -348,8 +339,7 @@ public class Player {
         }
         monsterCard.setFaceUp(true);
         CardEvent cardEvent = new CardEvent(monsterCard, CardEventInfo.ENTRANCE, null);
-        if (!getPermissionFromAllEffects(cardEvent))
-            return;
+        if (!getPermissionFromAllEffects(cardEvent)) return;
         monstersFieldList[placeOnBoard] = monsterCard;
         notifyAllEffectsForConsideration(cardEvent);
     }
@@ -407,7 +397,7 @@ public class Player {
         return remainingDeck.getCardsList().get(index);
     }
 
-    public Card obtainCardFromGraveYard(){
+    public Card obtainCardFromGraveYard() {
         showGraveyard();
         Printer.prompt("Enter the number of the monster card which you want to transform scanner to:");
         String input = Utility.getNextLine();
@@ -434,6 +424,10 @@ public class Player {
             return;
         }
         HashMap<String, String> map = Utility.getCommand(command);
+        if (map == null) {
+            Printer.prompt(Menu.INVALID_COMMAND);
+            return;
+        }
         boolean isOpponentsCard = false;
         String place;
         int placeID;
@@ -455,7 +449,6 @@ public class Player {
             if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
             selectedCard = selectCandidateCard;
             Printer.prompt("card selected");
-            return;
         } else if (Utility.isCommandValid(map, new String[]{"spell"}, new String[]{"opponent"})) {
             if (map.containsKey("opponent")) {
                 if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"spell"}), "invalid selection"))
@@ -474,7 +467,6 @@ public class Player {
             if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
             selectedCard = selectCandidateCard;
             Printer.prompt("card selected");
-            return;
         } else if (Utility.isCommandValid(map, new String[]{"field"}, new String[]{"opponent"})) {
             if (map.containsKey("opponent")) {
                 if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"field"}), "invalid selection"))
@@ -488,7 +480,6 @@ public class Player {
             if (Utility.checkAndPrompt(selectCandidateCard == null, "no card found in the given position")) return;
             selectedCard = selectCandidateCard;
             Printer.prompt("card selected");
-            return;
         } else if (Utility.isCommandValid(map, new String[]{"hand"}, null)) {
             if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"hand"}, null), "invalid selection"))
                 return;
@@ -499,7 +490,6 @@ public class Player {
                 return;
             selectedCard = hand.getCardsList().get(placeID);
             Printer.prompt("card selected");
-            return;
 
         } else {
             Printer.prompt("invalid selection");
@@ -507,10 +497,10 @@ public class Player {
 
     }
 
-    private boolean isMonsterAddressValid(int address) {
-        if (address < 1) return false;
-        if (address > FIELD_SIZE) return false;
-        return monstersFieldList[address] != null;
+    private boolean isMonsterAddressInvalid(int address) {
+        if (address < 1) return true;
+        if (address > FIELD_SIZE) return true;
+        return monstersFieldList[address] == null;
     }
 
     // Used to summon monsters with level less than 5
@@ -614,8 +604,8 @@ public class Player {
                     "there are not enough cards for tribute")) return;
             Printer.prompt("input the address of the card you want to tribute:");
             int address = Integer.parseInt(Utility.getNextLine());
-            if (Utility.checkAndPrompt(!isMonsterAddressValid(address),
-                    "there no monsters on this address")) return;
+            if (Utility.checkAndPrompt(isMonsterAddressInvalid(address),
+                    "there are no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
             Printer.prompt(SUCCESSFUL_SUMMON);
             notifyEffectsOfCard(cardEvent, selectedCard);
@@ -629,9 +619,11 @@ public class Player {
         Printer.prompt("input two addresses for the cards you want to tribute in TWO DIFFERENT LINES:");
         int firstTribute = Integer.parseInt(Utility.getNextLine());
         int secondTribute = Integer.parseInt(Utility.getNextLine());
-        if (Utility.checkAndPrompt(!isMonsterAddressValid(firstTribute) || !isMonsterAddressValid(secondTribute),
+        if (Utility.checkAndPrompt(isMonsterAddressInvalid(firstTribute) || isMonsterAddressInvalid(secondTribute),
                 "there is no monster on one of these addresses")) return;
         // Note: What if the two addresses above are the same?
+        if (Utility.checkAndPrompt(firstTribute == secondTribute,
+                "Tributes are the same!")) return;
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
         notifyEffectsOfCard(cardEvent, selectedCard);
@@ -693,9 +685,7 @@ public class Player {
     }
 
     // by Pasha
-    public void attack(String command) {
-        Matcher matcher;
-        (matcher = Utility.getCommandMatcher(command, regexAttackNormal)).matches();
+    public void attack(Matcher matcher) {
         int positionToAttack = Integer.parseInt(matcher.group(1));
 
         if (selectedCard == null) {
@@ -895,7 +885,7 @@ public class Player {
 
     private void notifyAllEffectsForConsideration(Event event) {
         notifyMyEffectsForConsideration(event);
-        opponent.notifyAllEffectsForConsideration(event);
+        opponent.notifyMyEffectsForConsideration(event);
     }
 
     private boolean getPermissionFromCard(Event event, Card card) {
@@ -908,7 +898,7 @@ public class Player {
     private boolean getPermissionFromMyEffects(Event event) {
         boolean permitted = true;
         if (fieldZone != null)
-            permitted &= getPermissionFromCard(event, fieldZone);
+            permitted = getPermissionFromCard(event, fieldZone);
         for (int i = 1; i <= FIELD_SIZE; ++i) {
             if (monstersFieldList[i] != null)
                 permitted &= getPermissionFromCard(event, monstersFieldList[i]);
@@ -922,7 +912,7 @@ public class Player {
         return getPermissionFromMyEffects(event) && this.getOpponent().getPermissionFromMyEffects(event);
     }
 
-    public int getNumberOfMonstersInGraveyard(){
+    public int getNumberOfMonstersInGraveyard() {
         int result = 0;
         for (Card card : graveyard.getCardsList()) {
             if (card instanceof MonsterCard) result++;

@@ -66,115 +66,164 @@ public abstract class Card implements Comparable<Card> {
 
     private void manageMonsterEffects() {
 
-        if (cardName.equals("Command Knight")) {
-            effects.add(new AddAttackAndDefenseEffect(400, 400, MonsterCardType.ALL, 0));
-            // add disable attacker effect
-        } else if (cardName.equals("Yomi Ship")) {
-            effects.add(new DestroyAttackerEffect());
-        } else if (cardName.equals("Suijin")) {
-            effects.add(new SuijinEffect());
-        } else if (cardName.equals("Crab Turtle")) {
-            effects.add(new RitualSummonEffect());
-        } else if (cardName.equals("Skull Guardian")) {
-            effects.add(new RitualSummonEffect());
-        } else if (cardName.equals("Man-Eater Bug")) {
-            effects.add(new ManEaterBugEffect());
-        } else if (cardName.equals("Gate Guardian")) {
-            // not written yet
-        } else if (cardName.equals("Scanner")) {
-            // not written yet
-        } else if (cardName.equals("Marshmallon")) {
-            effects.add(new MarshmallonEffect());
-        } else if (cardName.equals("Beast King Barbaros")) {
-            // not written yet
-        } else if (cardName.equals("Texchanger")) {
-            // not written yet
-        } else if (cardName.equals("The Calculator")) {
-            effects.add(new CalculatorAttackEffect(300));
-        } else if (cardName.equals("Mirage Dragon")) {
-            effects.add(new TrapActivationDenialEffect());
-        } else if (cardName.equals("Herald of Creation")) {
-            // not written yet
-        } else if (cardName.equals("Exploder Dragon")) {
-            effects.add(new DenyLifePointChangeEffect());
-            effects.add(new DestroyAttackerEffect());
-        } else if (cardName.equals("Terratiger the Empowered Warrior")) {
-            // not written yet
-        } else if (cardName.equals("The Tricky")) {
-            // not written yet
+        switch (cardName) {
+            case "Command Knight":
+                effects.add(new AddAttackAndDefenseEffect(400, 400, MonsterCardType.ALL, 0));
+                // add disable attacker effect
+                break;
+            case "Yomi Ship":
+                effects.add(new DestroyAttackerEffect());
+                break;
+            case "Suijin":
+                effects.add(new SuijinEffect());
+                break;
+            case "Crab Turtle":
+            case "Skull Guardian":
+                effects.add(new RitualSummonEffect());
+                break;
+            case "Man-Eater Bug":
+                effects.add(new ManEaterBugEffect());
+                break;
+            case "Gate Guardian":
+                // not written yet
+                break;
+            case "Scanner":
+                // not written yet
+                break;
+            case "Marshmallon":
+                effects.add(new MarshmallonEffect());
+                break;
+            case "Beast King Barbaros":
+                // not written yet
+                break;
+            case "Texchanger":
+                // not written yet
+                break;
+            case "The Calculator":
+                effects.add(new CalculatorAttackEffect(300));
+                break;
+            case "Mirage Dragon":
+                effects.add(new TrapActivationDenialEffect());
+                break;
+            case "Herald of Creation":
+                // not written yet
+                break;
+            case "Exploder Dragon":
+                effects.add(new DenyLifePointChangeEffect());
+                effects.add(new DestroyAttackerEffect());
+                break;
+            case "Terratiger the Empowered Warrior":
+                // not written yet
+                break;
+            case "The Tricky":
+                // not written yet
+                break;
         }
     }
 
     private void manageSpellAndTrapEffects() {
-        if (cardName.equals("Monster Reborn")) {
+        switch (cardName) {
+            case "Monster Reborn":
 
-        } else if (cardName.equals("Terraforming")) {
+                break;
+            case "Terraforming":
 
-        } else if (cardName.equals("Pot of Greed")) {
+                break;
+            case "Pot of Greed":
 
-        } else if (cardName.equals("Raigeki")) {
-            effects.add(new DestroyEnemyMonsterEffect(false));
-        } else if (cardName.equals("Change of Heart")) {
+                break;
+            case "Raigeki":
+                effects.add(new DestroyEnemyMonsterEffect(false));
+                break;
+            case "Change of Heart":
 
-        } else if (cardName.equals("Harpie's Feather Duster")) {
-            effects.add(new HarpiesFeatherEffect());
-        } else if (cardName.equals("Swords of Revealing Light")) {
+                break;
+            case "Harpie's Feather Duster":
+                effects.add(new HarpiesFeatherEffect());
+                break;
+            case "Swords of Revealing Light":
 
-        } else if (cardName.equals("Dark Hole")) {
-            effects.add(new DestroyEnemyMonsterEffect(true));
-        } else if (cardName.equals("Supply Squad")) {
+                break;
+            case "Dark Hole":
+                effects.add(new DestroyEnemyMonsterEffect(true));
+                break;
+            case "Supply Squad":
 
-        } else if (cardName.equals("Spell Absorption")) {
+                break;
+            case "Spell Absorption":
 
-        } else if (cardName.equals("Messenger of peace")) {
-            effects.add(new MessengerOfPeaceEffect());
-        } else if (cardName.equals("Twin Twisters")) {
+                break;
+            case "Messenger of peace":
+                effects.add(new MessengerOfPeaceEffect());
+                break;
+            case "Twin Twisters":
 
-        } else if (cardName.equals("Mystical space typhoon")) {
+                break;
+            case "Mystical space typhoon":
 
-        } else if (cardName.equals("Ring of defense")) {
+                break;
+            case "Ring of defense":
 
-        } else if (cardName.equals("Yami")) {
-            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.FIEND, 0));
-            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.SPELLCASTER, 0));
-            effects.add(new AddAttackAndDefenseEffect(-200, -200, MonsterCardType.FAIRY, 0));
-        } else if (cardName.equals("Forest")) {
-            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.INSECT, 0));
-            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.BEAST, 0));
-            effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.BEASTWARRIOR, 0));
-        } else if (cardName.equals("Closed Forest")) {
-            effects.add(new AddAttackAndDefenseEffect(0, 0, MonsterCardType.BEAST, 100));
-        } else if (cardName.equals("Umiiruka")) {
-            effects.add(new AddAttackAndDefenseEffect(500, -400, MonsterCardType.AQUA, 0));
-        } else if (cardName.equals("Sword of dark destruction")) {
-            effects.add(new AttackAndDefenseEquipEffect(400, -200, MonsterCardType.FIEND));
-            effects.add(new AttackAndDefenseEquipEffect(400, -200, MonsterCardType.SPELLCASTER));
-        } else if (cardName.equals("Black Pendant")) {
-            effects.add(new AttackAndDefenseEquipEffect(500, 0, MonsterCardType.ALL));
-        } else if (cardName.equals("United We Stand")) {
-            effects.add(new AddAttackPerFaceUpMonsterSpellEffect(800, 800));
-        } else if (cardName.equals("Magnum Shield")) {
-            effects.add(new MagnumShieldEffect());
-        } else if (cardName.equals("Advanced Ritual Art")) {
+                break;
+            case "Yami":
+                effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.FIEND, 0));
+                effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.SPELLCASTER, 0));
+                effects.add(new AddAttackAndDefenseEffect(-200, -200, MonsterCardType.FAIRY, 0));
+                break;
+            case "Forest":
+                effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.INSECT, 0));
+                effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.BEAST, 0));
+                effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.BEASTWARRIOR, 0));
+                break;
+            case "Closed Forest":
+                effects.add(new AddAttackAndDefenseEffect(0, 0, MonsterCardType.BEAST, 100));
+                break;
+            case "Umiiruka":
+                effects.add(new AddAttackAndDefenseEffect(500, -400, MonsterCardType.AQUA, 0));
+                break;
+            case "Sword of dark destruction":
+                effects.add(new AttackAndDefenseEquipEffect(400, -200, MonsterCardType.FIEND));
+                effects.add(new AttackAndDefenseEquipEffect(400, -200, MonsterCardType.SPELLCASTER));
+                break;
+            case "Black Pendant":
+                effects.add(new AttackAndDefenseEquipEffect(500, 0, MonsterCardType.ALL));
+                break;
+            case "United We Stand":
+                effects.add(new AddAttackPerFaceUpMonsterSpellEffect(800, 800));
+                break;
+            case "Magnum Shield":
+                effects.add(new MagnumShieldEffect());
+                break;
+            case "Advanced Ritual Art":
 
-        } else if (cardName.equals("Magic Cylinder")) {
-            effects.add(new MagicCylinderEffect());
-        } else if (cardName.equals("Mirror Force")) {
+                break;
+            case "Magic Cylinder":
+                effects.add(new MagicCylinderEffect());
+                break;
+            case "Mirror Force":
 
-        } else if (cardName.equals("Mind Crush")) {
-            effects.add(new MindCrushEffect());
-        } else if (cardName.equals("Trap Hole")) {
+                break;
+            case "Mind Crush":
+                effects.add(new MindCrushEffect());
+                break;
+            case "Trap Hole":
 
-        } else if (cardName.equals("Torrential Tribute")) {
+                break;
+            case "Torrential Tribute":
 
-        } else if (cardName.equals("Time Seal")) {
+                break;
+            case "Time Seal":
 
-        } else if (cardName.equals("Negate Attack")) {
+                break;
+            case "Negate Attack":
 
-        } else if (cardName.equals("Solemn Warning")) {
-            effects.add(new SolemnWarningEffect());
-        } else if (cardName.equals("Magic Jammer")) {
-            effects.add(new MagicJammerEffect());
+                break;
+            case "Solemn Warning":
+                effects.add(new SolemnWarningEffect());
+                break;
+            case "Magic Jammer":
+                effects.add(new MagicJammerEffect());
+                break;
         }
     }
 
@@ -182,7 +231,6 @@ public abstract class Card implements Comparable<Card> {
         // NOTE : should be called when creating players not at the beginning
         manageMonsterEffects();
         manageSpellAndTrapEffects();
-
     }
 
     public void addEffect(Effect effect){

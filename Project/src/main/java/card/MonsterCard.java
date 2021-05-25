@@ -1,14 +1,9 @@
 package card;
 
 import data.Printer;
-import effects.Effect;
-import events.Event;
-
 import game.Player;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -24,7 +19,7 @@ public class MonsterCard extends Card {
     private String cardType;
 
     public boolean isRitual() {
-        return false; // TODO: Handle this function (how the data should be stored?)
+        return cardType.equals("Ritual");
     }
 
     public void attackTo(MonsterCard attackedMonster, Player owner) {
