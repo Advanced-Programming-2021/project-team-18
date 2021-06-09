@@ -22,33 +22,25 @@ public class ProfileMenu extends Menu {
         this.user = user;
     }
 
-    public void changePassword(HashMap<String, String> commandMap) {
-        String currentPassword = commandMap.get("current");
-        String newPassword = commandMap.get("new");
-        if (!user.isPasswordCorrect(currentPassword)) {
-            Printer.prompt("current password is invalid");
-            return;
-        }
-        if (currentPassword.equals(newPassword)) {
-            Printer.prompt("please enter a new password");
-            return;
-        }
+    public ProfileResult changePassword(String currentPassword, String newPassword) {
+        if (!user.isPasswordCorrect(currentPassword))
+            return ProfileResult.INVALID_PASSWORD;
+        if (currentPassword.equals(newPassword))
+            return ProfileResult.PASSWORD_THE_SAME;
         user.setPassword(newPassword);
-        Printer.prompt("password changed successfully!");
+        return ProfileResult.SUCCESSFUL_OPERATION;
     }
 
-    public void changeNickname(HashMap<String, String> commandMap) {
-        String newNickname = commandMap.get("nickname");
-        if (User.isNicknameTaken(newNickname)) {
-            Printer.prompt("user with nickname " + newNickname + " already exists");
-            return;
-        }
+    public ProfileResult changeNickname(String newNickname) {
+        if (User.isNicknameTaken(newNickname)) return ProfileResult.NICKNAME_TAKEN;
         user.setNickname(newNickname);
-        Printer.prompt("nickname changed successfully!");
+        return ProfileResult.SUCCESSFUL_OPERATION;
     }
 
     // Note: This function WILL NOT WORK until the function "getCommand" is re-implemented
     // Command processing should be improved. Also the function "isCommandValid" should accept null HashMaps
+
+    /*
     public void runMenu() {
         String newLine = Utility.getNextLine();
         HashMap<String, String> commandMap = Utility.getCommand(newLine);
@@ -71,5 +63,11 @@ public class ProfileMenu extends Menu {
             newLine = Utility.getNextLine();
             commandMap = Utility.getCommand(newLine);
         }
+    }
+
+     */
+    // TODO: Update runMenu
+    public void runMenu() {
+
     }
 }

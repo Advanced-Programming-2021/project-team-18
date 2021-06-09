@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.Menu.LoginMenu.RegisterView"
+            prefHeight="400.0" prefWidth="600.0">
+    <center>
+        <VBox alignment="CENTER">
+            <HBox alignment="CENTER">
+                <Label>Username</Label>
+                <TextField fx:id="usernameInput"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label>Nickname</Label>
+                <TextField fx:id="nicknameInput"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label>Password</Label>
+                <PasswordField fx:id="passwordInput"/>
+            </HBox>
+            <Button onAction="#register" alignment="CENTER">Register</Button>
+            <Label alignment="CENTER" fx:id="response"/>
+        </VBox>
+    </center>
+</BorderPane>
