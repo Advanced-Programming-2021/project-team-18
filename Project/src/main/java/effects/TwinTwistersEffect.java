@@ -25,14 +25,15 @@ public class TwinTwistersEffect extends Effect {
             }
             if (index < 1
                     || index > handSize
-                    || selfPlayer.getHand().getCardsList().get(index) == null) Printer.prompt("Invalid number try again");
+                    || selfPlayer.getHand().getCardsList().get(index) == null)
+                Printer.prompt("Invalid number try again");
             else break;
         }
         index--;
         Card card = selfPlayer.getHand().getCardsList().get(index);
         selfPlayer.removeCardFromHand(card);
         int firstSpellIndex;
-        if(selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1){
+        if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
             Printer.prompt("Your opponent does not have anymore spells");
             return;
         }
@@ -44,14 +45,15 @@ public class TwinTwistersEffect extends Effect {
                 Printer.prompt("You didn't input a number");
                 continue;
             }
-            if (firstSpellIndex < 1 || firstSpellIndex > 5 || selfPlayer.getOpponent().getSpellsAndTrapFieldList()[firstSpellIndex] == null) Printer.prompt("Invalid number try again");
+            if (firstSpellIndex < 1 || firstSpellIndex > 5 || selfPlayer.getOpponent().getSpellsAndTrapFieldList()[firstSpellIndex] == null)
+                Printer.prompt("Invalid number try again");
             else {
                 Card firstSpell = selfPlayer.getOpponent().getSpellsAndTrapFieldList()[firstSpellIndex];
-                selfPlayer.getOpponent().removeCardFromField(firstSpell , null);
+                selfPlayer.getOpponent().removeCardFromField(firstSpell, null);
                 break;
             }
         }
-        if(selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1){
+        if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
             Printer.prompt("Your opponent does not have anymore spells");
             return;
         }
@@ -64,16 +66,21 @@ public class TwinTwistersEffect extends Effect {
                 Printer.prompt("You didn't input a number");
                 continue;
             }
-            if (secondSpellIndex < 1 || secondSpellIndex > 5 || selfPlayer.getOpponent().getSpellsAndTrapFieldList()[secondSpellIndex] == null) Printer.prompt("Invalid number try again");
+            if (secondSpellIndex < 1 || secondSpellIndex > 5 || selfPlayer.getOpponent().getSpellsAndTrapFieldList()[secondSpellIndex] == null)
+                Printer.prompt("Invalid number try again");
             else {
                 Card secondSpell = selfPlayer.getOpponent().getSpellsAndTrapFieldList()[secondSpellIndex];
-                selfPlayer.getOpponent().removeCardFromField(secondSpell , null);
+                selfPlayer.getOpponent().removeCardFromField(secondSpell, null);
                 return;
             }
         }
     }
 
     public boolean permit(Event event) {
+        return true;
+    }
+
+    public void consider(Event event) {
         if (event instanceof CardEvent) {
             Card sourceCard = ((CardEvent) event).getCard();
             CardEventInfo info = ((CardEvent) event).getInfo();
@@ -81,13 +88,7 @@ public class TwinTwistersEffect extends Effect {
                 selfPlayer = sourceCard.getPlayer();
                 selfCard = sourceCard;
                 runEffect();
-                return true;
             }
         }
-        return true;
-    }
-
-    public void consider(Event event) {
-
     }
 }

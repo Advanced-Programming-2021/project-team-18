@@ -22,15 +22,17 @@ public class SpellAbsorptionEffect extends Effect {
                 selfPlayer = sourceCard.getPlayer();
                 return true;
             }
-            else if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard instanceof SpellCard){
-                selfPlayer.setLifePoint(selfPlayer.getLifePoint() + 500);
-                return  true;
-            }
         }
         return true;
     }
 
     public void consider(Event event) {
-
+        if (event instanceof CardEvent) {
+            Card sourceCard = ((CardEvent) event).getCard();
+            CardEventInfo info = ((CardEvent) event).getInfo();
+            if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard instanceof SpellCard) {
+                selfPlayer.setLifePoint(selfPlayer.getLifePoint() + 500);
+            }
+        }
     }
 }
