@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.Menu.LoginMenu.LoginMenuView"
+            prefHeight="400.0" prefWidth="600.0">
+        <center>
+                <VBox alignment="CENTER">
+                        <Button onAction="#register">Register</Button>
+                        <Button onAction="#login">Login</Button>
+                </VBox>
+        </center>
+</BorderPane>

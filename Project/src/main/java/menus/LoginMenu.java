@@ -9,40 +9,31 @@ import java.util.HashMap;
 // by Kamyar
 public class LoginMenu extends Menu {
 
-    public LoginMenu() {
-
-    }
-
     public void create(HashMap<String, String> map) {
         String username = map.get("username");
         String password = map.get("password");
         String nickname = map.get("nickname");
-        if (User.getUserByUsername(username) != null) {
-            Printer.prompt("user with username " + username + " already exists");
-            return;
+        switch (MenuController.getInstance().createNewUser(username, password, nickname)) {
+            case USERNAME_TAKEN:
+                Printer.prompt("user with username " + username + " already exists");
+                return;
+            case NICKNAME_TAKEN:
+                Printer.prompt("user with nickname " + nickname + " already exists");
+                return;
+            case SUCCESSFUL_OPERATION:
+                Printer.prompt("user created successfully!");
         }
-        if (User.isNicknameTaken(nickname)) {
-            Printer.prompt("user with nickname " + nickname + " already exists");
-            return;
-        }
-        Printer.prompt("user created successfully!");
-        User user = new User(username, password, nickname);
     }
 
     public User login(HashMap<String, String> map) {
         String username = map.get("username");
         String password = map.get("password");
-        User user = User.getUserByUsername(username);
-        if (user == null) {
-            Printer.prompt("Username and password didn't match!");
-            return null;
-        }
-        if (!user.isPasswordCorrect(password)) {
+        if (!MenuController.getInstance().isLoginValid(username, password)) {
             Printer.prompt("Username and password didn't match!");
             return null;
         }
         Printer.prompt("user logged in successfully!");
-        return user;
+        return User.getUserByUsername(username);
     }
 
     public void showMenu() {
