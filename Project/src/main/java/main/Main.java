@@ -6,6 +6,6 @@ public class Main {
     public static void main(String[] args) {
 
         program = new ProgramController();
-        program.run();
+        program.runGraphic(args);
     }
 }
