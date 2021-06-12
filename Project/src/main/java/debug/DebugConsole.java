@@ -9,7 +9,7 @@ import utility.Utility;
 
 import java.util.HashMap;
 
-public class Debug {
+public class DebugConsole {
     public static void main(String[] args) {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();

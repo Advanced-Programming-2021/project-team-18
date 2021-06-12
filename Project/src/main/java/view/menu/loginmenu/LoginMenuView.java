@@ -1,4 +1,4 @@
-package view.Menu.LoginMenu;
+package view.menu.loginmenu;
 
 import javafx.event.ActionEvent;
 import view.View;
