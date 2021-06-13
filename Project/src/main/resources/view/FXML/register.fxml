@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.Menu.LoginMenu.RegisterView"
+            fx:controller="view.menu.loginmenu.RegisterView"
             prefHeight="400.0" prefWidth="600.0">
     <center>
         <VBox alignment="CENTER">
