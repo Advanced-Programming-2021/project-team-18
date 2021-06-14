@@ -1,10 +1,12 @@
 package view.menu.loginmenu;
 
+import game.User;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import menus.MenuController;
 import view.UtilityView;
 import view.View;
+import view.menu.mainmenu.MainMenuView;
 
 import java.io.IOException;
 
@@ -19,6 +21,7 @@ public class LoginView extends View {
             loadView("/view/FXML/loginMenu.fxml");
         }
         else{
+            MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
             loadView("/view/FXML/mainMenu.fxml");
         }
     }
