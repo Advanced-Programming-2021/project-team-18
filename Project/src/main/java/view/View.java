@@ -14,7 +14,7 @@ public class View {
         this.stage = stage;
     }
 
-    protected View loadView(String address) throws IOException {
+    public View loadView(String address) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(address));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
@@ -22,4 +22,5 @@ public class View {
         controllerView.setStage(this.stage);
         return controllerView;
     }
+
 }

@@ -2,6 +2,7 @@ package main;
 
 import data.DataManager;
 import menus.LoginMenu;
+import view.App;
 import view.Starter;
 
 // TODO : Pasha

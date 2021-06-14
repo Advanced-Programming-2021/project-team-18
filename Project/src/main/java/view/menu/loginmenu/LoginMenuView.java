@@ -11,6 +11,7 @@ public class LoginMenuView extends View {
         loadView("/view/FXML/register.fxml");
     }
 
-    public void login(ActionEvent actionEvent) {
+    public void login(ActionEvent actionEvent) throws IOException {
+        loadView("/view/FXML/login.fxml");
     }
 }
