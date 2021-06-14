@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 
 public class DeckMenuSpecificDeck extends View implements Initializable {
     @Setter private static GameDeck currentDeck; // Note : has to be set when entered
+    @Setter private static User currentUser; // Note : has to be set when entered
     private static int mainDeckSelectId;
     private static int sideDeckSelectId;
     public ImageView mainDeckImageView;
@@ -50,15 +51,20 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
     }
 
 
-
+    @SneakyThrows
     public void addCardToMainDeck(ActionEvent actionEvent) {
         DeckMenuCardSelection.setCurrentDeck(currentDeck.getMainDeck());
-
+        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
+        DeckMenuCardSelection.setCurrentUser(currentUser);
+        loadView("/view/FXML/deckMenuSelectCard.fxml");
     }
 
+    @SneakyThrows
     public void addCardToSideDeck(ActionEvent actionEvent) {
         DeckMenuCardSelection.setCurrentDeck(currentDeck.getSideDeck());
-
+        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
+        DeckMenuCardSelection.setCurrentUser(currentUser);
+        loadView("/view/FXML/deckMenuSelectCard.fxml");
     }
 
     public void onRemoveMainDeckButton(ActionEvent actionEvent) {

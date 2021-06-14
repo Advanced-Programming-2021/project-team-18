@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.deckmenu.DeckMenuCardSelection">
    <children>
-      <ImageView fitHeight="213.0" fitWidth="160.0" layoutX="163.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="90.0" layoutY="180.0" mnemonicParsing="false" text="&lt;" />
-      <Button layoutX="360.0" layoutY="180.0" mnemonicParsing="false" text="&gt;" />
-      <Button layoutX="217.0" layoutY="316.0" mnemonicParsing="false" text="select" />
+      <ImageView fx:id="imageView" fitHeight="213.0" fitWidth="160.0" layoutX="163.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" />
+      <Button onAction="#leftButton" layoutX="90.0" layoutY="180.0" mnemonicParsing="false" text="&lt;" />
+      <Button onAction="#rightButton" layoutX="360.0" layoutY="180.0" mnemonicParsing="false" text="&gt;" />
+      <Button onAction="#selectCard" layoutX="217.0" layoutY="316.0" mnemonicParsing="false" text="select" />
    </children>
 </AnchorPane>
