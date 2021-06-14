@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 
 // by Pasha
 public class ImportExportMenu extends Menu {
-    private static final String PATH ="src\\main\\resources\\cards";
+    private static final String PATH ="src/main/resources/cards";
     @SneakyThrows
     private void importCard(Matcher matcher) {
         String cardName = matcher.group(1);

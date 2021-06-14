@@ -1,5 +1,6 @@
 package view.menu.deckmenu;
 
+import game.Deck;
 import game.GameDeck;
 import game.User;
 import javafx.collections.ObservableList;
@@ -41,6 +42,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
         loadView("/view/FXML/mainMenu.fxml");
     }
 
+    @SneakyThrows
     @FXML
     private void onEditButton() {
         ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
@@ -48,7 +50,8 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
             UtilityView.displayMessage("no deck was selected");
             return ;
         }
-        // todo : enter specific deck's menu
+        DeckMenuSpecificDeck.setCurrentDeck(currentUser.getGameDeckByName(list.get(0)));
+        loadView("/view/FXML/deckView.fxml");
     }
 
     @FXML
