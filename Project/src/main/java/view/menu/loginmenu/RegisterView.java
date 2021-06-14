@@ -1,5 +1,6 @@
 package view.menu.loginmenu;
 
+import game.User;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -31,9 +32,10 @@ public class RegisterView extends View {
             case SUCCESSFUL_OPERATION:
                 response.setTextFill(Color.DARKGREEN);
                 response.setText("Registered successfully!");
+                MenuController.getInstance().setUser(User.getUserByUsername(usernameInput.getText()));
                 // TODO: CHOOSE PROFILE PHOTO
         }
         if (result == ProfileResult.SUCCESSFUL_OPERATION)
-            loadView("/view/FXML/mainMenu.fxml");
+            loadView("mainMenu");
     }
 }

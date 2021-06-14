@@ -15,7 +15,11 @@ import java.util.List;
 
 public class Printer {
     public static void showCard(Card card) {
-        if(card == null) { Printer.prompt("There is no card with this name"); } else { card.showCard(); }
+        if (card == null) {
+            Printer.prompt("There is no card with this name");
+        } else {
+            card.showCard();
+        }
     }
 
     public static void prompt(String message) {
@@ -47,7 +51,7 @@ public class Printer {
         System.out.print("\n");
         //System.out.println("\t\t\t\t\t\t" + player.getRemainingDeck().getCardsList().size());
         handSize = player.getHand().getCardsList().size();
-        for(int i = 0 ; i < handSize ; i++){
+        for (int i = 0; i < handSize; i++) {
             System.out.print("\tC");
         }
         System.out.print("\n");
@@ -66,7 +70,7 @@ public class Printer {
     }
 
     private static void showSpellsField(Player player, int[] playerSequence) {
-        for (int i = 0; i < 5 ; i++) {
+        for (int i = 0; i < 5; i++) {
             Card spellOrTrap = player.getSpellsAndTrapFieldList()[playerSequence[i]];
             if (spellOrTrap == null) System.out.print("\tE");
             else if (spellOrTrap.isFaceUp()) System.out.print("\tO");
@@ -76,23 +80,23 @@ public class Printer {
 
     public static void showDeck(GameDeck gameDeck, boolean isSideDeck) {
         StringBuilder result = new StringBuilder();
-        result.append("Deck: " + gameDeck.getName() + "\n");
-        result.append((isSideDeck ? "Side" : "Main") + "deck:\n");
+        result.append("Deck: ").append(gameDeck.getName()).append("\n");
+        result.append(isSideDeck ? "Side" : "Main").append("deck:\n");
         Deck deck = gameDeck.getMainDeck();
         if (isSideDeck) deck = gameDeck.getSideDeck();
         result.append("Monsters:\n");
         for (Card card : deck.getCardsList())
             if (card instanceof MonsterCard)
-                result.append(card.getCardName() + ": " + card.getCardDescription() + "\n");
+                result.append(card.getCardName()).append(": ").append(card.getCardDescription()).append("\n");
         result.append("Spells and Traps:\n");
         for (Card card : deck.getCardsList())
             if (card instanceof SpellCard || card instanceof TrapCard)
-                result.append(card.getCardName() + ": " + card.getCardDescription() + "\n");
+                result.append(card.getCardName()).append(": ").append(card.getCardDescription()).append("\n");
         Printer.prompt(result.toString());
     }
 
     public static void showScoreBoard() {
-        List<User> users = new ArrayList<> (User.getAllUsers());
+        List<User> users = new ArrayList<>(User.getAllUsers());
         Collections.sort(users);
         int ind = 0;
         int rank = 0;

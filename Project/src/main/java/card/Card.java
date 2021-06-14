@@ -30,7 +30,8 @@ public abstract class Card implements Comparable<Card> {
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
-        allCardNames.add(cardName);
+        if (!allCardNames.contains(cardName))
+            allCardNames.add(cardName);
     }
 
     public static Card getCardByName(String cardName) {

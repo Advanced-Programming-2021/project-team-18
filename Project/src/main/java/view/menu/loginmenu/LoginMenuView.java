@@ -8,7 +8,7 @@ import java.io.IOException;
 public class LoginMenuView extends View {
 
     public void register(ActionEvent actionEvent) throws IOException {
-        loadView("/view/FXML/register.fxml");
+        loadView("register");
     }
 
     public void login(ActionEvent actionEvent) {
