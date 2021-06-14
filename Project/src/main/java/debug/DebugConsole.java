@@ -14,9 +14,12 @@ public class DebugConsole {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();
 
-        User a = getSampleUser("a");
-        User b = getSampleUser("b");
-        new Game(a , b , 1).runGame();
+        for(Card card : Card.getAllCards()) {
+            System.out.println("#" + card.getCardName() + "#");
+        }
+//        User a = getSampleUser("a");
+//        User b = getSampleUser("b");
+//        new Game(a , b , 1).runGame();
     }
     private static User getSampleUser(String name) {
         User user = new User(name , name , name);
