@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import menus.MenuController;
 import menus.ProfileResult;
 import view.View;
+import view.menu.mainmenu.MainMenuView;
 
 import java.io.IOException;
 
@@ -36,6 +37,7 @@ public class RegisterView extends View {
                 // TODO: CHOOSE PROFILE PHOTO
         }
         if (result == ProfileResult.SUCCESSFUL_OPERATION)
+            MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
             loadView("mainMenu");
     }
 }

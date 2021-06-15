@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="view.menu.shopmenu.ShopMenuView"
-            >
+            maxHeight="400"
+>
+    <left>
+        <StackPane prefWidth="100">
+            <Rectangle width="500" height="200" fill="lightseagreen"/>
+            <Text fx:id="cardNameText"/>
+        </StackPane>
+    </left>
     <center>
-        <GridPane fx:id="grid" vgap="20" hgap="20"/>
+        <ScrollPane fx:id="scrollPane">
+            <GridPane fx:id="grid" alignment="CENTER">
+            </GridPane>
+        </ScrollPane>
     </center>
 </BorderPane>

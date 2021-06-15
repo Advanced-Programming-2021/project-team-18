@@ -61,7 +61,6 @@ public class ProfileMenuView extends View {
         System.out.println("Password changed!");
         Timeline timeline = new Timeline();
         Duration instant = Duration.ZERO;
-        timeline.getKeyFrames().add(new KeyFrame(instant, actionEvent -> {}));
         instant = instant.add(Duration.seconds(1));
         timeline.getKeyFrames().add(new KeyFrame(instant, actionEvent -> {
             try {

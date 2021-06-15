@@ -22,6 +22,11 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     @FXML
     private ListView<String> listView;
 
+    {
+        System.out.println("Constructed!");
+        System.out.println("currentUser: " + currentUser);
+    }
+
     @FXML
     private void onRemoveButton() {
         ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
@@ -52,7 +57,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
         }
         DeckMenuSpecificDeck.setCurrentDeck(currentUser.getGameDeckByName(list.get(0)));
         DeckMenuSpecificDeck.setCurrentUser(currentUser);
-        loadView("/view/FXML/deckView.fxml");
+        loadView("deckView");
     }
 
     @FXML

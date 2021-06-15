@@ -7,7 +7,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import lombok.Setter;
+import menus.Menu;
+import menus.MenuController;
 import view.View;
+import view.menu.mainmenu.MainMenuView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +53,7 @@ public class ScoreboardView extends View {
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
-        loadView("/view/FXML/mainMenu.fxml");
+        MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
+        loadView("mainMenu");
     }
 }

@@ -13,37 +13,31 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" fx:controller="view.menu.loginmenu.LoginView" style="-fx-background-color: Blue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER" minHeight="100.0" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Username" textFill="WHITE">
-                     <font>
-                        <Font size="29.0" />
-                     </font>
-                  </Label>
-                  <TextField alignment="CENTER" fx:id="usernameField" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Password" textFill="WHITE">
-                     <font>
-                        <Font size="29.0" />
-                     </font>
-                  </Label>
-                  <TextField alignment="CENTER" minWidth="100.0" fx:id="passwordField" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Login" onMouseClicked="#login">
-                     <font>
-                        <Font size="34.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
+         <HBox alignment="CENTER" minHeight="100.0" prefHeight="100.0" prefWidth="200.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Username" textFill="WHITE"><![CDATA[
+               <font>
+                  <Font size="29.0"/>
+               </font>
+            </Label>
+            <TextField alignment="CENTER" fx:id="usernameField"/>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Password" textFill="WHITE">
+               <font>
+                  <Font size="29.0"/>
+               </font>
+            </Label>
+            <TextField alignment="CENTER" minWidth="100.0" fx:id="passwordField"/>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Button mnemonicParsing="false" text="Login" onAction="#login">
+                  <font>
+                     <Font size="34.0"/>
+                  </font>
+               </Button>
+            </children>
+         </HBox>
       </VBox>
    </center>
    <top>
