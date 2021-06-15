@@ -2,6 +2,7 @@ package main;
 
 import data.DataManager;
 import menus.LoginMenu;
+import view.App;
 import view.Starter;
 
 // TODO : Pasha
@@ -16,7 +17,7 @@ public class ProgramController {
     public void runGraphic(String[] args) {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();
-        Starter.main(args);
+        App.main(args);
         DataManager.saveUsersData();
     }
 }

@@ -102,5 +102,26 @@
       "Hero of the east": 3,
       "Crawling dragon": 3
     }
+  },
+  {
+    "username": "kamyar",
+    "password": "kamyar",
+    "nickname": "kamyar",
+    "score": 50,
+    "balance": 100000,
+    "decks": [
+      {
+        "mainDeck": {
+          "capacity": 60,
+          "cardCount": {}
+        },
+        "sideDeck": {
+          "capacity": 15,
+          "cardCount": {}
+        },
+        "name": "khiar"
+      }
+    ],
+    "cardCount": {}
   }
 ]

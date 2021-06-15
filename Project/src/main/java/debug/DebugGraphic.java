@@ -25,8 +25,10 @@ public class DebugGraphic {
         Card sample = Card.getCardByName("Fireyarou");
         for(int i = 0;i < 40;++ i) {
             gameDeck1.getMainDeck().addCard(sample);
-            gameDeck2.getMainDeck().addCard(sample);
         }
+        gameDeck2.getMainDeck().addCard(sample);
+        sample = Card.getCardByName("Axe Raider");
+        gameDeck2.getMainDeck().addCard(sample);
         user.addGameDeck(gameDeck1);
         user.addGameDeck(gameDeck2);
         user.setActiveDeckName(gameDeck1.getName());
