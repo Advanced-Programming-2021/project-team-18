@@ -1,8 +1,8 @@
 package view.menu.loginmenu;
 
 import game.User;
+import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import menus.MenuController;
 import view.UtilityView;
 import view.View;
@@ -14,15 +14,15 @@ public class LoginView extends View {
     public TextField usernameField;
     public TextField passwordField;
 
-    public void login(MouseEvent mouseEvent) throws IOException {
+    public void login(ActionEvent mouseEvent) throws IOException {
         boolean result = MenuController.getInstance().isLoginValid(usernameField.getText(), passwordField.getText());
         if(!result){
             UtilityView.showError("username and password didn't match!");
-            loadView("/view/FXML/loginMenu.fxml");
+            loadView("login");
         }
         else{
             MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
-            loadView("/view/FXML/mainMenu.fxml");
+            loadView("mainMenu");
         }
     }
 }

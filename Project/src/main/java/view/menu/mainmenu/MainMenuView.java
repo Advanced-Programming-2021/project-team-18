@@ -9,8 +9,6 @@ import view.menu.scoreboard.ScoreboardView;
 
 import java.io.IOException;
 
-import java.io.IOException;
-
 public class MainMenuView extends View {
     @Setter private static User currentUser; // note : has to be set when entered
 
@@ -23,9 +21,9 @@ public class MainMenuView extends View {
         loadView("deckMenuDeckSelection");
     }
 
-    public void enterScoreboardMenu(ActionEvent actionEvent) throws IOException {
+    public void enterScoreboardMenu() throws IOException {
         ScoreboardView.setUser(currentUser);
-        loadView("/view/FXML/scoreboard.fxml");
+        loadView("scoreboard");
     }
 
     public void enterProfileMenu() throws IOException {
