@@ -14,8 +14,8 @@ public class View {
         this.stage = stage;
     }
 
-    public View loadView(String address) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(address));
+    public View loadView(String fileName) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/" + fileName + ".fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         View controllerView = loader.getController();

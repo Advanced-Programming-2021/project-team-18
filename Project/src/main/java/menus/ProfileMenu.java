@@ -20,22 +20,9 @@ public class ProfileMenu extends Menu {
 
     public ProfileMenu(User user) {
         this.user = user;
+        MenuController.getInstance().setUser(user);
     }
 
-    public ProfileResult changePassword(String currentPassword, String newPassword) {
-        if (!user.isPasswordCorrect(currentPassword))
-            return ProfileResult.INVALID_PASSWORD;
-        if (currentPassword.equals(newPassword))
-            return ProfileResult.PASSWORD_THE_SAME;
-        user.setPassword(newPassword);
-        return ProfileResult.SUCCESSFUL_OPERATION;
-    }
-
-    public ProfileResult changeNickname(String newNickname) {
-        if (User.isNicknameTaken(newNickname)) return ProfileResult.NICKNAME_TAKEN;
-        user.setNickname(newNickname);
-        return ProfileResult.SUCCESSFUL_OPERATION;
-    }
 
     // Note: This function WILL NOT WORK until the function "getCommand" is re-implemented
     // Command processing should be improved. Also the function "isCommandValid" should accept null HashMaps

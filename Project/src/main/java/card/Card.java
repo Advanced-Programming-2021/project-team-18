@@ -2,6 +2,9 @@ package card;
 
 import effects.*;
 import game.Player;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +33,8 @@ public abstract class Card implements Comparable<Card> {
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
-        allCardNames.add(cardName);
+        if (!allCardNames.contains(cardName))
+            allCardNames.add(cardName);
     }
 
     public static Card getCardByName(String cardName) {
@@ -50,6 +54,18 @@ public abstract class Card implements Comparable<Card> {
 
     public boolean hasEffect(Effect effect) {
         return effects.contains(effect);
+    }
+
+    public ImageView getImage() {
+        String path = "/cards_images/" + cardName.replaceAll(" ", "_") + ".jpg";
+        try{
+            return new ImageView(new Image(Objects.requireNonNull(
+                    getClass().getResource(path)).toExternalForm()));
+        }
+        catch (Exception e) {
+            System.out.print(cardName.replaceAll(" ", "_") + ".jpg ");
+            return null;
+        }
     }
 
     public void cloneDefaults(Card card) {
@@ -233,7 +249,7 @@ public abstract class Card implements Comparable<Card> {
         manageSpellAndTrapEffects();
     }
 
-    public void addEffect(Effect effect){
+    public void addEffect(Effect effect) {
         effects.add(effect);
     }
 

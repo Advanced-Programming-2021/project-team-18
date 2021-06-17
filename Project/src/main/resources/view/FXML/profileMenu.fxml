@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.menu.profilemenu.ProfileMenuView"
+            prefHeight="400.0" prefWidth="600.0">
+    <center>
+        <VBox spacing="5" alignment="CENTER">
+            <HBox alignment="CENTER" spacing="10">
+                <Label>Username</Label>
+                <Label fx:id="username"/>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10">
+                <Label>Nickname</Label>
+                <Label fx:id="nickname"/>
+            </HBox>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="TOP_CENTER" spacing="10">
+            <Button onAction="#loadChangePasswordPage">Change Your Password</Button>
+            <Button onAction="#loadChangeNicknamePage">Change Your Nickname</Button>
+        </HBox>
+    </bottom>
+</BorderPane>

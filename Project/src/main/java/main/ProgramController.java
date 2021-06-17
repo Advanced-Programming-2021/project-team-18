@@ -17,7 +17,7 @@ public class ProgramController {
     public void runGraphic(String[] args) {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();
-        Starter.main(args);
+        App.main(args);
         DataManager.saveUsersData();
     }
 }

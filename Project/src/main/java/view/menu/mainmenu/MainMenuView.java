@@ -1,7 +1,6 @@
 package view.menu.mainmenu;
 
 import game.User;
-import javafx.event.ActionEvent;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import view.View;
@@ -13,35 +12,35 @@ import java.io.IOException;
 public class MainMenuView extends View {
     @Setter private static User currentUser; // note : has to be set when entered
 
-    public void enterDuelMenu(ActionEvent actionEvent) {
+    public void enterDuelMenu() {
 
     }
     @SneakyThrows
-    public void enterDeckMenu(ActionEvent actionEvent) {
+    public void enterDeckMenu() {
         DeckMenuDeckSelectionView.setCurrentUser(currentUser);
-        loadView("/view/FXML/deckMenuDeckSelection.fxml");
+        loadView("deckMenuDeckSelection");
     }
 
-    public void enterScoreboardMenu(ActionEvent actionEvent) throws IOException {
+    public void enterScoreboardMenu() throws IOException {
         ScoreboardView.setUser(currentUser);
-        loadView("/view/FXML/scoreboard.fxml");
+        loadView("scoreboard");
     }
 
-    public void enterProfileMenu(ActionEvent actionEvent) {
-
+    public void enterProfileMenu() throws IOException {
+        loadView("profileMenu");
     }
 
-    public void enterShopMenu(ActionEvent actionEvent) {
-
+    public void enterShopMenu() throws IOException {
+        loadView("shopMenu");
     }
 
-    public void enterImportExportMenu(ActionEvent actionEvent) {
+    public void enterImportExportMenu() {
 
     }
 
     @SneakyThrows
-    public void logout(ActionEvent actionEvent) {
+    public void logout() {
         currentUser = null;
-        loadView("/view/FXML/loginMenu.fxml");
+        loadView("loginMenu");
     }
 }
