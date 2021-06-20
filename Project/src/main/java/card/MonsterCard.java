@@ -72,7 +72,6 @@ public class MonsterCard extends Card {
         card.setCardAttack(this.getCardAttack());
         card.setCardDefense(this.getCardDefense());
         card.setCardType(this.getCardType());
-        card.setEffects(this.getEffects());
         return card;
     }
 

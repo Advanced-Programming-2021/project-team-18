@@ -80,7 +80,7 @@ public class Deck {
     public Deck cloneDeck() {
         Deck deck = new Deck(this.capacity);
         for (Card card : cardsList)
-            cardsList.add(card.cloneCard());
+            deck.getCardsList().add(card.cloneCard());
         return deck;
     }
 }
