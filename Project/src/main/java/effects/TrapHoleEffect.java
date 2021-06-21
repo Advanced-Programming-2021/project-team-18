@@ -14,15 +14,8 @@ import java.util.ArrayList;
 public class TrapHoleEffect extends Effect {
     private static int minimumAttack = 1000;
     private void activateEffect(MonsterCard monsterCard) {
-        String message = "do you want to activate your trap hole by killing opponent " + monsterCard.getCardName() + "?";
-        ArrayList<String> options = new ArrayList<>();
-        options.add("no");
-        options.add("yes");
-        String response = Utility.askPlayer(selfPlayer , message , options);
-        if(response.equals("no")) return ;
+        selfPlayer.obtainConfirmation("do you want to activate your trap hole by killing opponent " + monsterCard.getCardName() + "?");
         selfPlayer.getOpponent().removeCardFromField(monsterCard , null);
-        // effect event
-        // destroy this card
     }
     public boolean permit(Event event) {
         return true;
