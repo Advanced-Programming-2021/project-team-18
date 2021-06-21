@@ -1,13 +1,10 @@
 package effects;
 
 import card.Card;
-import card.SpellCard;
 import data.Printer;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
-import game.Player;
-import utility.Utility;
 
 
 // TODO : KAMYAR
@@ -19,26 +16,14 @@ public class TwinTwistersEffect extends Effect {
             Printer.prompt("Your opponent does not have anymore spells");
             return;
         }
-        SpellCard firstSpell = selfPlayer.getOpponent().obtainSpellCardFromHand();
-        CardEvent firstDestruction = new CardEvent(firstSpell, CardEventInfo.DESTROYED, selfCard);
-        if (selfPlayer.getPermissionFromAllEffects(firstDestruction)) {
-            selfPlayer.getOpponent().removeCardFromHand(firstSpell);
-            selfPlayer.notifyAllEffectsForConsideration(firstDestruction);
-        }
-        selfPlayer.removeCardFromHand(card);
-        selfPlayer.getOpponent().removeCardFromHand(firstSpell);
+        Card firstSpell = selfPlayer.getOpponent().obtainSpellCardFromField();
+        selfPlayer.getOpponent().removeCardFromField(firstSpell, selfCard);
         if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
             Printer.prompt("Your opponent does not have anymore spells");
             return;
         }
-        SpellCard secondSpell = selfPlayer.getOpponent().obtainSpellCardFromHand();
-        selfPlayer.getOpponent().removeCardFromHand(secondSpell);
-        CardEvent secondDestruction = new CardEvent(secondSpell,CardEventInfo.DESTROYED,selfCard);
-        if(selfPlayer.getPermissionFromAllEffects(secondDestruction)){
-            selfPlayer.getOpponent().removeCardFromHand(secondSpell);
-            selfPlayer.notifyAllEffectsForConsideration(secondDestruction);
-        }
-        selfPlayer.removeCardFromHand(selfCard);
+        Card secondSpell = selfPlayer.getOpponent().obtainSpellCardFromField();
+        selfPlayer.getOpponent().removeCardFromField(secondSpell, selfCard);
     }
 
     public boolean permit(Event event) {
@@ -53,6 +38,7 @@ public class TwinTwistersEffect extends Effect {
                 selfPlayer = sourceCard.getPlayer();
                 selfCard = sourceCard;
                 runEffect();
+                selfPlayer.forceRemoveCardFromField(selfCard);
             }
         }
     }

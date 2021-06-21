@@ -293,7 +293,7 @@ public class Player {
         // event : [card event]
         CardEvent cardEvent = new CardEvent(card, CardEventInfo.DESTROYED, causedCard);
         if (!getPermissionFromAllEffects(cardEvent)) {
-            Printer.prompt("monster won't be destroyed");
+            Printer.prompt("card won't be destroyed");
             return false;
         }
         for (int i = 1; i <= FIELD_SIZE; i++) {
@@ -313,6 +313,24 @@ public class Player {
         notifyAllEffectsForConsideration(cardEvent);
         return true;
     }
+
+    public void forceRemoveCardFromField(Card card){
+        for (int i = 1; i <= FIELD_SIZE; i++) {
+            if(monstersFieldList[i] == card){
+                monstersFieldList[i] = null;
+                graveyard.addCard(card);
+            }
+        }
+        for (int i = 1; i <= FIELD_SIZE ; i++) {
+            spellsAndTrapFieldList[i] = null;
+            graveyard.addCard(card);
+        }
+        if(fieldZone == card){
+            fieldZone = null;
+            graveyard.addCard(card);
+        }
+    }
+
 
     public void addMonsterCardToField(MonsterCard newCard) {
         if (monstersFieldList.length == FIELD_SIZE) return;
@@ -374,16 +392,18 @@ public class Player {
         return hand.getCardsList().get(index);
     }
 
-    public SpellCard obtainSpellCardFromHand(){
-        Printer.prompt("Your hand contains these cards: ");
+    public Card obtainSpellCardFromField(){
+        Printer.prompt( this.getUser().getNickname() + "'s field contains these cards: ");
         for (Card card : hand.getCardsList()) {
             Printer.showCard(card);
         }
         String response;
         int index = -1;
-        while (!(0 <= index && index < hand.getSize()) && !(hand.getCardsList().get(index) instanceof SpellCard)) {
+        while (!(0 <= index && index < hand.getSize())
+                && !(hand.getCardsList().get(index) instanceof SpellCard
+                || hand.getCardsList().get(index) instanceof TrapCard)) {
             while (true) {
-                Printer.prompt("Please select a spell card position on hand");
+                Printer.prompt("Please select a spell or trap card position on field");
                 Printer.prompt("(a number in range 1 to " + hand.getSize() + ")");
                 response = Utility.getNextLine();
                 if (response.matches("\\d")) break;
@@ -391,7 +411,7 @@ public class Player {
             }
             index = Integer.parseInt(response) - 1;
         }
-        return (SpellCard) hand.getCardsList().get(index);
+        return hand.getCardsList().get(index);
     }
 
     public boolean obtainConfirmation(String promptMassage) {

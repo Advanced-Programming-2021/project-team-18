@@ -7,10 +7,18 @@ import game.Player;
 
 public class SwordsOfRevealingLightEffect extends Effect {
     private int numberOfTurns;
-    private int sourceCardOnFieldPlace;
 
     public void runEffect() {
-
+        MonsterCard[] monstersField = selfPlayer.getOpponent().getMonstersFieldList();
+        for (int i = 1; i <= Player.getFIELD_SIZE(); i++) {
+            if (monstersField[i] != null && !monstersField[i].isFaceUp()) {
+                CardEvent flipEvent = new CardEvent(monstersField[i], CardEventInfo.FLIP, selfCard);
+                if (selfPlayer.getPermissionFromAllEffects(flipEvent)) {
+                    monstersField[i].setFaceUp(true);
+                    selfPlayer.notifyAllEffectsForConsideration(flipEvent);
+                }
+            }
+        }
     }
 
     public boolean permit(Event event) {
@@ -22,15 +30,8 @@ public class SwordsOfRevealingLightEffect extends Effect {
                     || (cardEventInfo == CardEventInfo.FLIP && sourceCard.hasEffect(this) & selfPlayer == null)) {
                 selfPlayer = sourceCard.getPlayer();
                 numberOfTurns = 0;
-                sourceCardOnFieldPlace = selfPlayer.getSpellOrTrapPositionOnBoard(sourceCard);
-                Player opponent = selfPlayer.getOpponent();
-                MonsterCard[] monstersField = opponent.getMonstersFieldList();
-                for (int i = 1; i <= Player.getFIELD_SIZE(); i++) {
-                    if (monstersField[i] != null && !monstersField[i].isFaceUp()) {
-                        //Permit from everyone
-                        monstersField[i].setFaceUp(true);
-                    }
-                }
+                selfCard = sourceCard;
+                runEffect();
             }
         } else if (event instanceof AttackEvent) {
             Card attacker = ((AttackEvent) event).getAttacker();
@@ -41,10 +42,7 @@ public class SwordsOfRevealingLightEffect extends Effect {
             if (((TurnChangeEvent) event).getPlayer().equals(selfPlayer.getOpponent())) {
                 numberOfTurns++;
                 if (numberOfTurns == 3) {
-                    //Permit for destroy
-                    Card sourceCard = selfPlayer.getSpellsAndTrapFieldList()[sourceCardOnFieldPlace];
-                    selfPlayer.getSpellsAndTrapFieldList()[sourceCardOnFieldPlace] = null;
-                    selfPlayer.getGraveyard().addCard(sourceCard);
+                    selfPlayer.forceRemoveCardFromField(selfCard);
                 }
             }
         }
