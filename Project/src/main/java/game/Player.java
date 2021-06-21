@@ -163,12 +163,14 @@ public class Player {
             hand.addCard(newCard);
             Printer.prompt("new card added to the hand: " + newCard.getCardName());
         }
-        // todo event : [phase change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.DRAW , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
-        // todo event : [phase change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.STANDBY , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //      by Pasha
@@ -182,7 +184,9 @@ public class Player {
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
-        // todo event : [phase change event]
+
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN1 , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //          by Kamyar
@@ -196,7 +200,9 @@ public class Player {
             runCommonCommands(command);
             runBattlePhaseCommands(command);
         }
-        // todo event : [phase change event]
+
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.BATTLE , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //          by Pasha
@@ -209,7 +215,8 @@ public class Player {
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
-        // todo event : [phase change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN2 , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //         by KAMYAR
@@ -225,7 +232,8 @@ public class Player {
         hasSummonedMonsterThisTurn = false;
         theSummonedMonsterThisTurn = null;
         Printer.prompt("its " + opponent.getUser().getNickname() + "’s turn");
-        // todo event : [phase change event , turn change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.END , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     public int getSelectedMonsterCardOnFieldID() {
@@ -280,12 +288,14 @@ public class Player {
     // Returns true iff the card has actually been removed
     public boolean removeCardFromField(Card card, Card causedCard) {
         if (card == null) return false;
+
         // event : [card event]
         CardEvent cardEvent = new CardEvent(card, CardEventInfo.DESTROYED, causedCard);
         if (!getPermissionFromAllEffects(cardEvent)) {
             Printer.prompt("monster won't be destroyed");
             return false;
         }
+        notifyAllEffectsForConsideration(cardEvent);
         for (int i = 1; i <= FIELD_SIZE; i++) {
             if (monstersFieldList[i] == card) {
                 monstersFieldList[i] = null;
@@ -300,7 +310,6 @@ public class Player {
             fieldZone = null;
             graveyard.addCard(card);
         }
-        notifyAllEffectsForConsideration(cardEvent);
         return true;
     }
 
@@ -594,7 +603,6 @@ public class Player {
         if (monsterLevel <= 4) {
             summonMonsterLowLevel(place, placeOnField);
             Printer.prompt(SUCCESSFUL_SUMMON);
-            notifyEffectsOfCard(cardEvent, selectedCard);
             notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
@@ -608,7 +616,6 @@ public class Player {
                     "there are no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
             Printer.prompt(SUCCESSFUL_SUMMON);
-            notifyEffectsOfCard(cardEvent, selectedCard);
             notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
@@ -626,7 +633,6 @@ public class Player {
                 "Tributes are the same!")) return;
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
-        notifyEffectsOfCard(cardEvent, selectedCard);
         notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }
@@ -652,7 +658,6 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(true);
         theSummonedMonsterThisTurn = selectedCard;
         Printer.prompt("set successfully");
-        notifyEffectsOfCard(cardEvent, selectedCard);
         notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }

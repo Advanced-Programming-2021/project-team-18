@@ -1,6 +1,6 @@
 package main;
 
-public class Main {
+public class MainGraphic {
     private static ProgramController program;
 
     public static void main(String[] args) {

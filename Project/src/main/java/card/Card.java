@@ -29,7 +29,7 @@ public abstract class Card implements Comparable<Card> {
     @Setter
     private Origin cardOrigin;
     @Setter
-    private ArrayList<Effect> effects;
+    private ArrayList<Effect> effects = new ArrayList<>();
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
@@ -73,7 +73,7 @@ public abstract class Card implements Comparable<Card> {
         card.setCardName(this.getCardName());
         card.setCardNumber(this.getCardNumber());
         card.setCardDescription(this.getCardDescription());
-        card.setEffects(effects);
+        card.setEffects(new ArrayList<>());
     }
 
     public abstract Card cloneCard();
