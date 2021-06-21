@@ -94,6 +94,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new SuijinEffect());
                 break;
             case "Crab Turtle":
+                break;
             case "Skull Guardian":
                 effects.add(new RitualSummonEffect());
                 break;
@@ -223,13 +224,13 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new MindCrushEffect());
                 break;
             case "Trap Hole":
-
+                effects.add(new TrapHoleEffect());
                 break;
             case "Torrential Tribute":
 
                 break;
             case "Time Seal":
-
+                effects.add(new DenyDrawCardEffect());
                 break;
             case "Negate Attack":
 

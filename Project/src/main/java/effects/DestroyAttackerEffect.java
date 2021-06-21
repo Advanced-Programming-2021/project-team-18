@@ -8,6 +8,7 @@ import events.Event;
 
 // by Pasha
 // cards with this effect : [Yomi ship , Exploder dragon]
+// tested yomi ship
 public class DestroyAttackerEffect extends Effect {
 
     public boolean permit(Event event) {

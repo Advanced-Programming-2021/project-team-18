@@ -27,7 +27,6 @@ public class TrapCard extends Card{
         TrapCard card = new TrapCard();
         this.cloneDefaults(card);
         card.setCardTrapType(this.getCardTrapType());
-        card.setEffects(this.getEffects());
         return card;
     }
 }

@@ -22,13 +22,14 @@ public class TrapHoleEffect extends Effect {
         if(response.equals("no")) return ;
         selfPlayer.getOpponent().removeCardFromField(monsterCard , null);
         // effect event
-        // destroy this card
+        selfPlayer.removeCardFromField(selfCard , null);
     }
     public boolean permit(Event event) {
         return true;
     }
 
     public void consider(Event event) {
+        isInConsideration = true;
         initializeSelfCardWithEvent(event);
         if(event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
@@ -39,6 +40,7 @@ public class TrapHoleEffect extends Effect {
                     activateEffect((MonsterCard) card);
                 }
             }
+            isInConsideration = false;
         }
     }
 }

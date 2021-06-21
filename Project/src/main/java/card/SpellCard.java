@@ -27,7 +27,6 @@ public class SpellCard extends Card{
         SpellCard card = new SpellCard();
         this.cloneDefaults(card);
         card.setCardSpellType(this.getCardSpellType());
-        card.setEffects(this.getEffects());
         return card;
     }
 }

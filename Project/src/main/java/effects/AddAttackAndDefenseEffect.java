@@ -14,6 +14,7 @@ import java.rmi.server.RMISocketFactory;
 // by Pasha
 // Note : every time a card with this effect gets summoned it should also call its own permit with its own event
 // cards with this effect : [command knight , Yami , Forest , Closed Forest , UMIRUKA]
+// tested command knight
 public class AddAttackAndDefenseEffect extends Effect {
     private int attackAddValue;
     private int defenseAddValue;
@@ -55,7 +56,6 @@ public class AddAttackAndDefenseEffect extends Effect {
     }
 
     public boolean permit(Event event) {
-
         return true;
     }
 

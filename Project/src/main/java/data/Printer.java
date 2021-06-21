@@ -73,7 +73,7 @@ public class Printer {
         for (int i = 0; i < 5; i++) {
             Card spellOrTrap = player.getSpellsAndTrapFieldList()[playerSequence[i]];
             if (spellOrTrap == null) System.out.print("\tE");
-            else if (spellOrTrap.isFaceUp()) System.out.print("\tO");
+            else if (!spellOrTrap.isFaceUp()) System.out.print("\tO");
             else System.out.print("\tH");
         }
     }

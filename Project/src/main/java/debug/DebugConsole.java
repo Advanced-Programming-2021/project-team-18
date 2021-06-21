@@ -14,8 +14,8 @@ public class DebugConsole {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();
 
-//        for(Card card : Card.getAllCards())
-//            System.out.println("#" + card.getCardName() + "#");
+        for(Card card : Card.getAllCards())
+            System.out.println("#" + card.getCardName() + "#");
         User a = getSampleUser1("a");
         User b = getSampleUser2("b");
         new Game(a , b , 1).runGame();
@@ -23,7 +23,7 @@ public class DebugConsole {
     private static User getSampleUser1(String name) {
         User user = new User(name , name , name);
         GameDeck gameDeck = new GameDeck(name);
-        Card sample = Card.getCardByName("Yomi Ship");
+        Card sample = Card.getCardByName("Trap Hole");
         for(int i = 0;i < 40;++ i)
             gameDeck.getMainDeck().addCard(sample);
         user.addGameDeck(gameDeck);
