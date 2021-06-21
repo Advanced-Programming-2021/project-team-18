@@ -1,6 +1,7 @@
 package effects;
 
 import card.Card;
+import card.SpellCard;
 import data.Printer;
 import events.CardEvent;
 import events.CardEventInfo;
@@ -13,67 +14,31 @@ import utility.Utility;
 public class TwinTwistersEffect extends Effect {
 
     public void runEffect() {
-        int handSize = selfPlayer.getHand().getSize();
-        int index;
-        while (true) {
-            Printer.prompt("Please choose a number from 1 to " + handSize + " so the card would be moved to graveYard and spell would be activated");
-            try {
-                index = Integer.parseInt(Utility.getNextLine());
-            } catch (NumberFormatException e) {
-                Printer.prompt("You didn't input a number");
-                continue;
-            }
-            if (index < 1
-                    || index > handSize
-                    || selfPlayer.getHand().getCardsList().get(index) == null)
-                Printer.prompt("Invalid number try again");
-            else break;
+        Card card = selfPlayer.obtainCardFromHand();
+        if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
+            Printer.prompt("Your opponent does not have anymore spells");
+            return;
         }
-        index--;
-        Card card = selfPlayer.getHand().getCardsList().get(index);
+        SpellCard firstSpell = selfPlayer.getOpponent().obtainSpellCardFromHand();
+        CardEvent firstDestruction = new CardEvent(firstSpell, CardEventInfo.DESTROYED, selfCard);
+        if (selfPlayer.getPermissionFromAllEffects(firstDestruction)) {
+            selfPlayer.getOpponent().removeCardFromHand(firstSpell);
+            selfPlayer.notifyAllEffectsForConsideration(firstDestruction);
+        }
         selfPlayer.removeCardFromHand(card);
-        int firstSpellIndex;
+        selfPlayer.getOpponent().removeCardFromHand(firstSpell);
         if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
             Printer.prompt("Your opponent does not have anymore spells");
             return;
         }
-        while (true) {
-            Printer.prompt("now choose the first opponent's spell card to be destroyed (Your input needs to be a single number between 1 and 5)");
-            try {
-                firstSpellIndex = Integer.parseInt(Utility.getNextLine());
-            } catch (NumberFormatException e) {
-                Printer.prompt("You didn't input a number");
-                continue;
-            }
-            if (firstSpellIndex < 1 || firstSpellIndex > 5 || selfPlayer.getOpponent().getSpellsAndTrapFieldList()[firstSpellIndex] == null)
-                Printer.prompt("Invalid number try again");
-            else {
-                Card firstSpell = selfPlayer.getOpponent().getSpellsAndTrapFieldList()[firstSpellIndex];
-                selfPlayer.getOpponent().removeCardFromField(firstSpell, null);
-                break;
-            }
+        SpellCard secondSpell = selfPlayer.getOpponent().obtainSpellCardFromHand();
+        selfPlayer.getOpponent().removeCardFromHand(secondSpell);
+        CardEvent secondDestruction = new CardEvent(secondSpell,CardEventInfo.DESTROYED,selfCard);
+        if(selfPlayer.getPermissionFromAllEffects(secondDestruction)){
+            selfPlayer.getOpponent().removeCardFromHand(secondSpell);
+            selfPlayer.notifyAllEffectsForConsideration(secondDestruction);
         }
-        if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
-            Printer.prompt("Your opponent does not have anymore spells");
-            return;
-        }
-        int secondSpellIndex;
-        while (true) {
-            Printer.prompt("now choose the second opponent's spell card to be destroyed (Your input needs to be a single number between 1 and 5)");
-            try {
-                secondSpellIndex = Integer.parseInt(Utility.getNextLine());
-            } catch (NumberFormatException e) {
-                Printer.prompt("You didn't input a number");
-                continue;
-            }
-            if (secondSpellIndex < 1 || secondSpellIndex > 5 || selfPlayer.getOpponent().getSpellsAndTrapFieldList()[secondSpellIndex] == null)
-                Printer.prompt("Invalid number try again");
-            else {
-                Card secondSpell = selfPlayer.getOpponent().getSpellsAndTrapFieldList()[secondSpellIndex];
-                selfPlayer.getOpponent().removeCardFromField(secondSpell, null);
-                return;
-            }
-        }
+        selfPlayer.removeCardFromHand(selfCard);
     }
 
     public boolean permit(Event event) {

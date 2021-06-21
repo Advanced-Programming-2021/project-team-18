@@ -373,6 +373,26 @@ public class Player {
         return hand.getCardsList().get(index);
     }
 
+    public SpellCard obtainSpellCardFromHand(){
+        Printer.prompt("Your hand contains these cards: ");
+        for (Card card : hand.getCardsList()) {
+            Printer.showCard(card);
+        }
+        String response;
+        int index = -1;
+        while (!(0 <= index && index < hand.getSize()) && !(hand.getCardsList().get(index) instanceof SpellCard)) {
+            while (true) {
+                Printer.prompt("Please select a spell card position on hand");
+                Printer.prompt("(a number in range 1 to " + hand.getSize() + ")");
+                response = Utility.getNextLine();
+                if (response.matches("\\d")) break;
+                Printer.prompt(Menu.INVALID_COMMAND);
+            }
+            index = Integer.parseInt(response) - 1;
+        }
+        return (SpellCard) hand.getCardsList().get(index);
+    }
+
     public boolean obtainConfirmation(String promptMassage) {
         String response;
         while (true) {
@@ -888,7 +908,7 @@ public class Player {
         }
     }
 
-    private void notifyAllEffectsForConsideration(Event event) {
+    public void notifyAllEffectsForConsideration(Event event) {
         notifyMyEffectsForConsideration(event);
         opponent.notifyMyEffectsForConsideration(event);
     }
