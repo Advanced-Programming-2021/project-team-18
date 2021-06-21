@@ -68,7 +68,6 @@ public class AddAttackAndDefenseEffect extends Effect {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            System.out.println("hello " + cardEventInfo + " " + card);
             if (((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || (cardEventInfo == CardEventInfo.FLIP)) && card.hasEffect(this)) {
                 whenPlayedEffect();
             } else if ((cardEventInfo == CardEventInfo.DESTROYED) && card.hasEffect(this)) {

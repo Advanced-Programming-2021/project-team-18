@@ -8,6 +8,7 @@ import events.Event;
 import utility.Utility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // by Pasha
 // [Trap Hole]
@@ -15,9 +16,7 @@ public class TrapHoleEffect extends Effect {
     private static int minimumAttack = 1000;
     private void activateEffect(MonsterCard monsterCard) {
         String message = "do you want to activate your trap hole by killing opponent " + monsterCard.getCardName() + "?";
-        ArrayList<String> options = new ArrayList<>();
-        options.add("no");
-        options.add("yes");
+        ArrayList<String> options = new ArrayList<>(Arrays.asList("yes" , "no"));
         String response = Utility.askPlayer(selfPlayer , message , options);
         if(response.equals("no")) return ;
         selfPlayer.getOpponent().removeCardFromField(monsterCard , null);
