@@ -80,10 +80,11 @@ public class Player {
             Printer.prompt("lifepoint won't change");
             return false;
         }
-        notifyAllEffectsForConsideration(lifePointChangeEvent);
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
+        notifyAllEffectsForConsideration(lifePointChangeEvent);
+
         return true;
     }
 
@@ -123,7 +124,7 @@ public class Player {
                 return;
             }
             if (selectedCard instanceof MonsterCard) setMonster();
-            else if (selectedCard instanceof SpellCard) setSpellOrTrap();
+            else setSpellOrTrap();
         } else if ((matcher = Utility.getCommandMatcher(command, regexChangePosition)).matches()) {
             changeMonsterPosition(matcher);
         } else if (Utility.getCommandMatcher(command, regexFlipSummon).matches()) {
@@ -159,16 +160,18 @@ public class Player {
                 remainingDeck.addCard(newCard);
                 return;
             }
-            notifyAllEffectsForConsideration(drawCardEvent);
             hand.addCard(newCard);
             Printer.prompt("new card added to the hand: " + newCard.getCardName());
+            notifyAllEffectsForConsideration(drawCardEvent);
         }
-        // todo event : [phase change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.DRAW , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
-        // todo event : [phase change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.STANDBY , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //      by Pasha
@@ -182,7 +185,9 @@ public class Player {
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
-        // todo event : [phase change event]
+
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN1 , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //          by Kamyar
@@ -196,7 +201,9 @@ public class Player {
             runCommonCommands(command);
             runBattlePhaseCommands(command);
         }
-        // todo event : [phase change event]
+
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.BATTLE , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //          by Pasha
@@ -209,7 +216,8 @@ public class Player {
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
-        // todo event : [phase change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN2 , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     //         by KAMYAR
@@ -225,7 +233,8 @@ public class Player {
         hasSummonedMonsterThisTurn = false;
         theSummonedMonsterThisTurn = null;
         Printer.prompt("its " + opponent.getUser().getNickname() + "’s turn");
-        // todo event : [phase change event , turn change event]
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.END , this);
+        notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     public int getSelectedMonsterCardOnFieldID() {
@@ -280,10 +289,11 @@ public class Player {
     // Returns true iff the card has actually been removed
     public boolean removeCardFromField(Card card, Card causedCard) {
         if (card == null) return false;
+
         // event : [card event]
         CardEvent cardEvent = new CardEvent(card, CardEventInfo.DESTROYED, causedCard);
         if (!getPermissionFromAllEffects(cardEvent)) {
-            Printer.prompt("monster won't be destroyed");
+            Printer.prompt("card won't be destroyed");
             return false;
         }
         for (int i = 1; i <= FIELD_SIZE; i++) {
@@ -303,6 +313,24 @@ public class Player {
         notifyAllEffectsForConsideration(cardEvent);
         return true;
     }
+
+    public void forceRemoveCardFromField(Card card){
+        for (int i = 1; i <= FIELD_SIZE; i++) {
+            if(monstersFieldList[i] == card){
+                monstersFieldList[i] = null;
+                graveyard.addCard(card);
+            }
+        }
+        for (int i = 1; i <= FIELD_SIZE ; i++) {
+            spellsAndTrapFieldList[i] = null;
+            graveyard.addCard(card);
+        }
+        if(fieldZone == card){
+            fieldZone = null;
+            graveyard.addCard(card);
+        }
+    }
+
 
     public void addMonsterCardToField(MonsterCard newCard) {
         if (monstersFieldList.length == FIELD_SIZE) return;
@@ -354,6 +382,28 @@ public class Player {
         while (!(0 <= index && index < hand.getSize())) {
             while (true) {
                 Printer.prompt("Please select a card position on hand");
+                Printer.prompt("(a number in range 1 to " + hand.getSize() + ")");
+                response = Utility.getNextLine();
+                if (response.matches("\\d")) break;
+                Printer.prompt(Menu.INVALID_COMMAND);
+            }
+            index = Integer.parseInt(response) - 1;
+        }
+        return hand.getCardsList().get(index);
+    }
+
+    public Card obtainSpellCardFromField(){
+        Printer.prompt( this.getUser().getNickname() + "'s field contains these cards: ");
+        for (Card card : hand.getCardsList()) {
+            Printer.showCard(card);
+        }
+        String response;
+        int index = -1;
+        while (!(0 <= index && index < hand.getSize())
+                && !(hand.getCardsList().get(index) instanceof SpellCard
+                || hand.getCardsList().get(index) instanceof TrapCard)) {
+            while (true) {
+                Printer.prompt("Please select a spell or trap card position on field");
                 Printer.prompt("(a number in range 1 to " + hand.getSize() + ")");
                 response = Utility.getNextLine();
                 if (response.matches("\\d")) break;
@@ -594,7 +644,6 @@ public class Player {
         if (monsterLevel <= 4) {
             summonMonsterLowLevel(place, placeOnField);
             Printer.prompt(SUCCESSFUL_SUMMON);
-            notifyEffectsOfCard(cardEvent, selectedCard);
             notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
@@ -608,7 +657,6 @@ public class Player {
                     "there are no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
             Printer.prompt(SUCCESSFUL_SUMMON);
-            notifyEffectsOfCard(cardEvent, selectedCard);
             notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
@@ -626,7 +674,6 @@ public class Player {
                 "Tributes are the same!")) return;
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         Printer.prompt(SUCCESSFUL_SUMMON);
-        notifyEffectsOfCard(cardEvent, selectedCard);
         notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }
@@ -652,7 +699,6 @@ public class Player {
         ((MonsterCard) selectedCard).setDefenseMode(true);
         theSummonedMonsterThisTurn = selectedCard;
         Printer.prompt("set successfully");
-        notifyEffectsOfCard(cardEvent, selectedCard);
         notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }
@@ -674,11 +720,13 @@ public class Player {
         }
         // event : [flip]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.FLIP, null);
+
         if (!getPermissionFromAllEffects(cardEvent)) {
             Printer.prompt("you can't flip your card");
             return;
         }
-        selectedCard.setFaceUp(false);
+        selectedCard.setFaceUp(true);
+
         notifyAllEffectsForConsideration(cardEvent);
         Printer.prompt("flip summoned successfully");
         Printer.showBoard(this, this.opponent);
@@ -716,7 +764,6 @@ public class Player {
         notifyAllEffectsForConsideration(attackEvent);
         ((MonsterCard) selectedCard).attackTo(opponent.getMonstersFieldList()[positionToAttack], this);
         Printer.showBoard(this, this.opponent);
-
     }
 
     // by Pasha
@@ -790,8 +837,8 @@ public class Player {
                     Printer.prompt("you cant activate this spell");
                     return;
                 }
-                notifyAllEffectsForConsideration(entranceCardEvent);
                 spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
+                notifyAllEffectsForConsideration(entranceCardEvent);
             }
         }
         // event : [cardEvent]
@@ -818,6 +865,7 @@ public class Player {
             return;
         }
         Printer.prompt("set successfully");
+        hand.removeCard(selectedCard);
         if (isFieldSpell) {
             // event :[cardEvent]
             CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
@@ -826,9 +874,9 @@ public class Player {
                 return;
             }
 
-            notifyAllEffectsForConsideration(cardEvent);
             removeCardFromField(fieldZone, null);
             fieldZone = (SpellCard) selectedCard;
+            notifyAllEffectsForConsideration(cardEvent);
             return;
         }
         // event :[cardEvent]
@@ -837,9 +885,8 @@ public class Player {
             Printer.prompt("you cant set this spell");
             return;
         }
-
-        notifyAllEffectsForConsideration(cardEvent);
         spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
+        notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }
 
@@ -864,7 +911,7 @@ public class Player {
     }
 
     public void forfeit() {
-        loser = true; // ENJOY THE DESIGN: THE COMPLICATED FUNCTION "FORFEIT" IS HANDLED IN ONE LINE :)
+        loser = true;
     }
 
     private void notifyEffectsOfCard(Event event, Card card) {
@@ -883,7 +930,7 @@ public class Player {
         }
     }
 
-    private void notifyAllEffectsForConsideration(Event event) {
+    public void notifyAllEffectsForConsideration(Event event) {
         notifyMyEffectsForConsideration(event);
         opponent.notifyMyEffectsForConsideration(event);
     }

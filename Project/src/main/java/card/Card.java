@@ -29,7 +29,7 @@ public abstract class Card implements Comparable<Card> {
     @Setter
     private Origin cardOrigin;
     @Setter
-    private ArrayList<Effect> effects;
+    private ArrayList<Effect> effects = new ArrayList<>();
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
@@ -73,7 +73,7 @@ public abstract class Card implements Comparable<Card> {
         card.setCardName(this.getCardName());
         card.setCardNumber(this.getCardNumber());
         card.setCardDescription(this.getCardDescription());
-        card.setEffects(effects);
+        card.setEffects(new ArrayList<>());
     }
 
     public abstract Card cloneCard();
@@ -94,6 +94,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new SuijinEffect());
                 break;
             case "Crab Turtle":
+                break;
             case "Skull Guardian":
                 effects.add(new RitualSummonEffect());
                 break;
@@ -223,13 +224,13 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new MindCrushEffect());
                 break;
             case "Trap Hole":
-
+                effects.add(new TrapHoleEffect());
                 break;
             case "Torrential Tribute":
 
                 break;
             case "Time Seal":
-
+                effects.add(new DenyDrawCardEffect());
                 break;
             case "Negate Attack":
 

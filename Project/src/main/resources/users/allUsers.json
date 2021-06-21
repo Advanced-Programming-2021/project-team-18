@@ -123,5 +123,23 @@
       }
     ],
     "cardCount": {}
+  },
+  {
+    "username": "ab",
+    "password": "1",
+    "nickname": "abcd",
+    "score": 0,
+    "balance": 100000,
+    "decks": [],
+    "cardCount": {}
+  },
+  {
+    "username": "khiki",
+    "password": "123",
+    "nickname": "",
+    "score": 0,
+    "balance": 100000,
+    "decks": [],
+    "cardCount": {}
   }
 ]

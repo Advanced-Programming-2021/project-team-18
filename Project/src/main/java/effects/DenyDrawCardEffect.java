@@ -5,6 +5,7 @@ import events.*;
 import game.Player;
 // by Pasha
 // cards with this effect : [time seal]
+// tested
 public class DenyDrawCardEffect extends Effect {
     int turnsRemaining = 1;// should be initialized
     boolean isActive = false;
@@ -27,15 +28,14 @@ public class DenyDrawCardEffect extends Effect {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if (card.hasEffect(this) && ((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP)) {
+            if (card.hasEffect(this) && (cardEventInfo == CardEventInfo.ACTIVATE_EFFECT)) {
                 isActive = true;
             }
         }
         if (event instanceof PhaseChangeEvent) {
             PhaseChangeEvent phaseChangeEvent = (PhaseChangeEvent) event;
-            if(phaseChangeEvent.getPhase() == Phase.MAIN1 && isActive) {
+            if(phaseChangeEvent.getPhase() == Phase.DRAW && isActive && phaseChangeEvent.getPlayer() == selfPlayer)
                 -- turnsRemaining;
-            }
         }
         isInConsideration = false;
     }

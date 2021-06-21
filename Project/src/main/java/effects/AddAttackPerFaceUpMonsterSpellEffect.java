@@ -12,22 +12,25 @@ import game.Player;
 public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
     private int attackAmount;
     private int defenseAmount;
-    public AddAttackPerFaceUpMonsterSpellEffect(int attackAmount , int defenseAmount) {
+
+    public AddAttackPerFaceUpMonsterSpellEffect(int attackAmount, int defenseAmount) {
         this.attackAmount = attackAmount;
         this.defenseAmount = defenseAmount;
     }
 
     int positionOnBoard = -1;
+
     private void toggleSelfEffect(int coefficient) {
         int faceUpCount = 0;
-        for(int i = 1;i <= Player.getFIELD_SIZE();++ i) {
+        for (int i = 1; i <= Player.getFIELD_SIZE(); ++i) {
             MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[i];
-            if(monsterCard != null && monsterCard.isFaceUp())
-                ++ faceUpCount;
+            if (monsterCard != null && monsterCard.isFaceUp())
+                ++faceUpCount;
         }
         MonsterCard monsterCard = selfPlayer.getMonstersFieldList()[positionOnBoard];
-        if(monsterCard != null) {
-           monsterCard.setCardAttack(monsterCard.getCardAttack() + coefficient * attackAmount * faceUpCount);
+        if (monsterCard != null) {
+            monsterCard.setCardAttack(monsterCard.getCardAttack() + coefficient * attackAmount * faceUpCount);
+            monsterCard.setCardDefense(monsterCard.getCardDefense() + coefficient * defenseAmount * faceUpCount);
         }
     }
 
