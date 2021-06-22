@@ -85,7 +85,7 @@ public abstract class Card implements Comparable<Card> {
         switch (cardName) {
             case "Command Knight":
                 effects.add(new AddAttackAndDefenseEffect(400, 400, MonsterCardType.ALL, 0));
-                // add disable attacker effect
+                effects.add(new DisableAttackerEffect(2 , 10));
                 break;
             case "Yomi Ship":
                 effects.add(new DestroyAttackerEffect());
@@ -123,7 +123,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new TrapActivationDenialEffect());
                 break;
             case "Herald of Creation":
-                // not written yet
+                effects.add(new HeraldOfCreationEffect());
                 break;
             case "Exploder Dragon":
                 effects.add(new DenyLifePointChangeEffect());

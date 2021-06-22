@@ -735,12 +735,12 @@ public class Player {
     // by Pasha
     public void attack(Matcher matcher) {
         int positionToAttack = Integer.parseInt(matcher.group(1));
-
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
             return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
+        System.out.println(cardID);
         if (cardID <= 0) {
             Printer.prompt("you can’t attack with this card");
             return;
@@ -916,7 +916,8 @@ public class Player {
 
     private void notifyEffectsOfCard(Event event, Card card) {
         for (Effect effect : card.getEffects())
-            effect.consider(event);
+            if(! effect.isInConsideration())
+                effect.consider(event);
     }
 
     private void notifyMyEffectsForConsideration(Event event) {
