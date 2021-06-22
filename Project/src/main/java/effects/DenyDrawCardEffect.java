@@ -3,6 +3,7 @@ package effects;
 import card.Card;
 import events.*;
 import game.Player;
+
 // by Pasha
 // cards with this effect : [time seal]
 // tested
@@ -34,8 +35,8 @@ public class DenyDrawCardEffect extends Effect {
         }
         if (event instanceof PhaseChangeEvent) {
             PhaseChangeEvent phaseChangeEvent = (PhaseChangeEvent) event;
-            if(phaseChangeEvent.getPhase() == Phase.DRAW && isActive && phaseChangeEvent.getPlayer() == selfPlayer)
-                -- turnsRemaining;
+            if (phaseChangeEvent.getPhase() == Phase.DRAW && isActive && phaseChangeEvent.getPlayer() == selfPlayer)
+                --turnsRemaining;
         }
         isInConsideration = false;
     }

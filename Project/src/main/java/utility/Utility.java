@@ -6,10 +6,8 @@ import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +15,7 @@ import java.util.regex.Pattern;
 public class Utility {
 
     private static final Scanner scanner = new Scanner(System.in);
+    private static final Random random = new Random();
 
     // returns null if any command comes multiple times to indicate invalidity
     // if an attribute does not have any arguments, it'll be mapped to null.
@@ -82,14 +81,10 @@ public class Utility {
         return true;
     }
 
-    public static int rollADice() {
-        Random rand = new Random();
-        return rand.nextInt(6) + 1;
-    }
-
-    public static boolean tossACoin() {
-        Random rand = new Random();
-        return rand.nextBoolean();
+    public static int getARandomNumber(int bound){
+        if (bound == 0) return -1;
+        if (random.nextBoolean()) random.setSeed(LocalDateTime.now().getNano());
+        return random.nextInt(bound);
     }
 
     public static Matcher getCommandMatcher(String input, String regex) {
@@ -123,6 +118,8 @@ public class Utility {
     }
 
     public static String askPlayer(Player player, String message, ArrayList<String> options) {
+        if (player == null)
+            return options.get(getARandomNumber(options.size()));
         Printer.prompt(player.getUser().getNickname() + ": " + message);
         System.out.print("your options are (");
         for (String option : options)

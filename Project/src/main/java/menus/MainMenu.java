@@ -16,7 +16,7 @@ public class MainMenu extends Menu {
 
     public void menuEnter(Matcher matcher) {
         String menuName = matcher.group(1).toLowerCase();
-        if (menuName.equals("duel menu") || menuName.equals("duel")) {
+        if (menuName.equals("duel menu" ) || menuName.equals("duel")) {
             new DuelMenu(user).runMenu();
         } else if (menuName.equals("deck menu") || menuName.equals("deck")) {
             new DeckMenu(user).runMenu();

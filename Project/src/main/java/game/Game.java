@@ -62,12 +62,12 @@ public class Game {
 
     private void drawInitialCards(Player player) {
         player.getRemainingDeck().shuffleDeck();
-        for(int i = 0;i < 5;++ i)
+        for (int i = 0; i < 5; ++i)
             player.getHand().addCard(player.getRemainingDeck().pop());
     }
 
     private void makeCardsReady(Player player) {
-        for(Card card : player.getRemainingDeck().getCardsList()) {
+        for (Card card : player.getRemainingDeck().getCardsList()) {
             card.setPlayer(player);
             card.setFaceUp(false);
             card.manageEffect();
@@ -76,7 +76,10 @@ public class Game {
 
     private void startNewDuel() {
         firstPlayer = new Player(firstUser, firstUser.getGameDeckByName(firstUser.getActiveDeckName()).getMainDeck().cloneDeck());
-        secondPlayer = new Player(secondUser, secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
+        if (secondPlayer != null)
+            secondPlayer = new Player(secondUser, secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
+        else
+            secondPlayer = new AI(secondUser, secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
         makeCardsReady(firstPlayer);
         makeCardsReady(secondPlayer);
 
@@ -115,15 +118,9 @@ public class Game {
 
     private void giveAwards(User winner) {
         User loser = (winner.equals(firstUser) ? secondUser : firstUser);
-        if (duelsCount == 1) {
-            winner.increaseBalance(1000 + maxScores.get(winner));
-            winner.increaseScore(1000);
-            loser.increaseBalance(100);
-            return;
-        }
-        winner.increaseBalance(3000 + 3 * maxScores.get(winner));
-        winner.increaseScore(3000);
-        loser.increaseBalance(300);
+        winner.increaseBalance(duelsCount * 1000 + duelsCount * maxScores.get(winner));
+        winner.increaseScore(duelsCount * 1000);
+        loser.increaseBalance(duelsCount * 100);
     }
 
     public void runGame() {

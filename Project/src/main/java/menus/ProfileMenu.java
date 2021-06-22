@@ -24,10 +24,33 @@ public class ProfileMenu extends Menu {
     }
 
 
+    private void changePassword(HashMap<String, String> commandMap) {
+        switch (MenuController.getInstance()
+                .changePassword(commandMap.get("current"), commandMap.get("new"))) {
+            case INVALID_PASSWORD:
+                Printer.prompt("invalid password!");
+                return;
+            case PASSWORD_THE_SAME:
+                Printer.prompt("please enter a NEW  password :)");
+                return;
+            case SUCCESSFUL_OPERATION:
+                Printer.prompt("password changed successfully!");
+        }
+    }
+
+    private void changeNickname(HashMap<String, String> commandMap) {
+        switch (MenuController.getInstance()
+                .changeNickname(commandMap.get("nickname"))) {
+            case NICKNAME_TAKEN:
+                Printer.prompt("nickname is taken!");
+                return;
+            case SUCCESSFUL_OPERATION:
+                Printer.prompt("nickname changed successfully!");
+        }
+    }
+
     // Note: This function WILL NOT WORK until the function "getCommand" is re-implemented
     // Command processing should be improved. Also the function "isCommandValid" should accept null HashMaps
-
-    /*
     public void runMenu() {
         String newLine = Utility.getNextLine();
         HashMap<String, String> commandMap = Utility.getCommand(newLine);
@@ -50,11 +73,5 @@ public class ProfileMenu extends Menu {
             newLine = Utility.getNextLine();
             commandMap = Utility.getCommand(newLine);
         }
-    }
-
-     */
-    // TODO: Update runMenu
-    public void runMenu() {
-
     }
 }

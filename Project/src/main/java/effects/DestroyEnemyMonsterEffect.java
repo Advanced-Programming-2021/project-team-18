@@ -7,7 +7,7 @@ import game.Player;
 // by Pasha
 // cards with this effect : [raigeki , Dark Hole]
 public class DestroyEnemyMonsterEffect extends Effect {
-    private boolean destroyBothPlayers;// should be initialized
+    private boolean destroyBothPlayers; // should be initialized
     public DestroyEnemyMonsterEffect(boolean destroyBothPlayers) { this.destroyBothPlayers = destroyBothPlayers; }
     private void destroyPlayer(Player player) {
         for(int i = 1;i <= Player.getFIELD_SIZE();++ i)

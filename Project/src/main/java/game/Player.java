@@ -7,6 +7,7 @@ import events.*;
 import lombok.Getter;
 import lombok.Setter;
 import menus.Menu;
+import org.jetbrains.annotations.Nullable;
 import utility.Utility;
 
 import java.util.HashMap;
@@ -16,41 +17,41 @@ import java.util.regex.Matcher;
 @Setter
 public class Player {
 
-    private static final String regexSelect = "select.+";
-    private static final String regexShowGraveyard = "show\\sgraveyard";
-    private static final String regexShowSelectedCard = "card\\sshow\\s\\-\\-selected";
-    private static final String regexSummon = "summon";
-    private static final String regexSet = "set";
-    private static final String regexChangePosition = "set\\s--position\\s(.+)";
-    private static final String regexFlipSummon = "flip\\-summon";
-    private static final String regexAttackNormal = "attack\\s(\\d+)";
-    private static final String regexAttackDirect = "attack\\sdirect";
-    private static final String regexActivateEffect = "activate\\seffect";
-    private static final String regexNextPhase = "next\\sphase";
-    private static final String SUCCESSFUL_SUMMON = "summoned successfully";
-    private static final String regexForfeit = "surrender";
-    private static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
-    private static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
-    private static final int HAND_SIZE = 7;
+    protected static final String regexSelect = "select.+";
+    protected static final String regexShowGraveyard = "show\\sgraveyard";
+    protected static final String regexShowSelectedCard = "card\\sshow\\s\\-\\-selected";
+    protected static final String regexSummon = "summon";
+    protected static final String regexSet = "set";
+    protected static final String regexChangePosition = "set\\s--position\\s(.+)";
+    protected static final String regexFlipSummon = "flip\\-summon";
+    protected static final String regexAttackNormal = "attack\\s(\\d+)";
+    protected static final String regexAttackDirect = "attack\\sdirect";
+    protected static final String regexActivateEffect = "activate\\seffect";
+    protected static final String regexNextPhase = "next\\sphase";
+    protected static final String SUCCESSFUL_SUMMON = "summoned successfully";
+    protected static final String regexForfeit = "surrender";
+    protected static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
+    protected static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
+    protected static final int HAND_SIZE = 7;
     @Getter
-    private static final int FIELD_SIZE = 5;
+    protected static final int FIELD_SIZE = 5;
 
     // Initialized in constructor
-    private User user;
-    private Deck graveyard;
-    private Deck remainingDeck;
-    private MonsterCard[] monstersFieldList;
-    private Card[] spellsAndTrapFieldList;
-    private SpellCard fieldZone;
-    private Deck hand;
-    private int lifePoint;
-    private boolean loser;
-    private Card selectedCard;
-    private boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
-    private Card theSummonedMonsterThisTurn;
+    protected User user;
+    protected Deck graveyard;
+    protected Deck remainingDeck;
+    protected MonsterCard[] monstersFieldList;
+    protected Card[] spellsAndTrapFieldList;
+    protected SpellCard fieldZone;
+    protected Deck hand;
+    protected int lifePoint;
+    protected boolean loser;
+    protected Card selectedCard;
+    protected boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
+    protected Card theSummonedMonsterThisTurn;
     // Initialized by setters
-    private Game game;
-    private Player opponent;
+    protected Game game;
+    protected Player opponent;
 
 
     public Player(User user, Deck deck) {
@@ -67,7 +68,7 @@ public class Player {
         hasSummonedMonsterThisTurn = false;
     }
 
-    private void increaseLifePoint(Matcher matcher) {
+    protected void increaseLifePoint(Matcher matcher) {
         int amount = Integer.parseInt(matcher.group(1));
         this.lifePoint += amount;
     }
@@ -88,7 +89,7 @@ public class Player {
         return true;
     }
 
-    private void setDuelWinner(Matcher matcher) {
+    protected void setDuelWinner(Matcher matcher) {
         String nickName = matcher.group(1);
         if (this.getUser().getNickname().equals(nickName)) {
             this.getOpponent().setLoser(true);
@@ -164,13 +165,13 @@ public class Player {
             Printer.prompt("new card added to the hand: " + newCard.getCardName());
             notifyAllEffectsForConsideration(drawCardEvent);
         }
-        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.DRAW , this);
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.DRAW, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
     public void standbyPhase() {
         Printer.prompt("phase: standby phase");
-        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.STANDBY , this);
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.STANDBY, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
@@ -186,7 +187,7 @@ public class Player {
             runMainPhaseCommands(command);
         }
 
-        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN1 , this);
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN1, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
@@ -202,7 +203,7 @@ public class Player {
             runBattlePhaseCommands(command);
         }
 
-        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.BATTLE , this);
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.BATTLE, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
@@ -216,7 +217,7 @@ public class Player {
             runCommonCommands(command);
             runMainPhaseCommands(command);
         }
-        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN2 , this);
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.MAIN2, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
@@ -233,7 +234,7 @@ public class Player {
         hasSummonedMonsterThisTurn = false;
         theSummonedMonsterThisTurn = null;
         Printer.prompt("its " + opponent.getUser().getNickname() + "’s turn");
-        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.END , this);
+        PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.END, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
     }
 
@@ -314,18 +315,18 @@ public class Player {
         return true;
     }
 
-    public void forceRemoveCardFromField(Card card){
+    public void forceRemoveCardFromField(Card card) {
         for (int i = 1; i <= FIELD_SIZE; i++) {
-            if(monstersFieldList[i] == card){
+            if (monstersFieldList[i] == card) {
                 monstersFieldList[i] = null;
                 graveyard.addCard(card);
             }
         }
-        for (int i = 1; i <= FIELD_SIZE ; i++) {
+        for (int i = 1; i <= FIELD_SIZE; i++) {
             spellsAndTrapFieldList[i] = null;
             graveyard.addCard(card);
         }
-        if(fieldZone == card){
+        if (fieldZone == card) {
             fieldZone = null;
             graveyard.addCard(card);
         }
@@ -374,9 +375,7 @@ public class Player {
 
     public Card obtainCardFromHand() {
         Printer.prompt("Your hand contains these cards: ");
-        for (Card card : hand.getCardsList()) {
-            Printer.showCard(card);
-        }
+        for (Card card : hand.getCardsList()) Printer.showCard(card);
         String response;
         int index = -1;
         while (!(0 <= index && index < hand.getSize())) {
@@ -392,11 +391,11 @@ public class Player {
         return hand.getCardsList().get(index);
     }
 
-    public Card obtainSpellCardFromField(){
-        Printer.prompt( this.getUser().getNickname() + "'s field contains these cards: ");
-        for (Card card : hand.getCardsList()) {
-            Printer.showCard(card);
-        }
+
+    // TODO : WHY THE NAME OF METHOD IS OBTAIN FROM "FIELD" INSTEAD OF "HAND" ?!
+    public Card obtainSpellTrapFromField() {
+        Printer.prompt(this.getUser().getNickname() + "'s field contains these cards: ");
+        for (Card card : hand.getCardsList()) Printer.showCard(card);
         String response;
         int index = -1;
         while (!(0 <= index && index < hand.getSize())
@@ -428,9 +427,7 @@ public class Player {
     public Card obtainCardFromDeck(boolean showDeck) {
         if (showDeck) {
             Printer.prompt("You deck contains these cards:");
-            for (Card card : remainingDeck.getCardsList()) {
-                Printer.showCard(card);
-            }
+            for (Card card : remainingDeck.getCardsList()) Printer.showCard(card);
         }
         String response;
         int index = -1;
@@ -547,14 +544,14 @@ public class Player {
 
     }
 
-    private boolean isMonsterAddressInvalid(int address) {
+    protected boolean isMonsterAddressInvalid(int address) {
         if (address < 1) return true;
         if (address > FIELD_SIZE) return true;
         return monstersFieldList[address] == null;
     }
 
     // Used to summon monsters with level less than 5
-    private void summonMonsterLowLevel(int placeOnHand, int placeOnField) {
+    protected void summonMonsterLowLevel(int placeOnHand, int placeOnField) {
         monstersFieldList[placeOnField] = (MonsterCard) selectedCard;
         hand.removeCardAt(placeOnHand);
         hasSummonedMonsterThisTurn = true;
@@ -564,7 +561,7 @@ public class Player {
     }
 
     // Used to summon monsters with level 5 or 6
-    private void summonMonsterMediumLevel(int placeOnHand, int tributeAddress) {
+    protected void summonMonsterMediumLevel(int placeOnHand, int tributeAddress) {
         MonsterCard tributedMonster = monstersFieldList[tributeAddress];
         monstersFieldList[tributeAddress] = null;
         graveyard.getCardsList().add(tributedMonster);
@@ -577,7 +574,7 @@ public class Player {
         hand.removeCardAt(placeOnHand);
     }
 
-    private void changeMonsterPosition(Matcher matcher) {
+    protected void changeMonsterPosition(Matcher matcher) {
         String position = matcher.group(1);
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
@@ -603,7 +600,7 @@ public class Player {
     }
 
     // Used to summon monsters with level greater than 6
-    private void summonMonsterHighLevel(int firstTribute, int secondTribute, int placeOnHand) {
+    protected void summonMonsterHighLevel(int firstTribute, int secondTribute, int placeOnHand) {
         MonsterCard firstTributedCard = monstersFieldList[firstTribute];
         MonsterCard secondTributedCard = monstersFieldList[secondTribute];
         monstersFieldList[firstTribute] = null;
@@ -914,20 +911,18 @@ public class Player {
         loser = true;
     }
 
-    private void notifyEffectsOfCard(Event event, Card card) {
+    protected void notifyEffectsOfCard(Event event, @Nullable Card card) {
+        if (card == null) return;
         for (Effect effect : card.getEffects())
-            if(! effect.isInConsideration())
+            if (!effect.isInConsideration())
                 effect.consider(event);
     }
 
-    private void notifyMyEffectsForConsideration(Event event) {
-        if (fieldZone != null)
-            notifyEffectsOfCard(event, fieldZone);
+    protected void notifyMyEffectsForConsideration(Event event) {
+        notifyEffectsOfCard(event, fieldZone);
         for (int i = 1; i <= FIELD_SIZE; ++i) {
-            if (monstersFieldList[i] != null)
-                notifyEffectsOfCard(event, monstersFieldList[i]);
-            if (spellsAndTrapFieldList[i] != null)
-                notifyEffectsOfCard(event, spellsAndTrapFieldList[i]);
+            notifyEffectsOfCard(event, monstersFieldList[i]);
+            notifyEffectsOfCard(event, spellsAndTrapFieldList[i]);
         }
     }
 
@@ -936,14 +931,14 @@ public class Player {
         opponent.notifyMyEffectsForConsideration(event);
     }
 
-    private boolean getPermissionFromCard(Event event, Card card) {
+    protected boolean getPermissionFromCard(Event event, Card card) {
         boolean permitted = true;
         for (Effect effect : card.getEffects())
             permitted &= effect.permit(event);
         return permitted;
     }
 
-    private boolean getPermissionFromMyEffects(Event event) {
+    protected boolean getPermissionFromMyEffects(Event event) {
         boolean permitted = true;
         if (fieldZone != null)
             permitted = getPermissionFromCard(event, fieldZone);
