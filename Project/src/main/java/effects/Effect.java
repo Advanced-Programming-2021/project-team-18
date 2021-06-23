@@ -20,9 +20,7 @@ public abstract class Effect {
 
     protected void initializeSelfCardWithEvent(Event event) {
         if (event instanceof CardEvent) {
-            CardEvent cardEvent = (CardEvent) event;
-            CardEventInfo cardEventInfo = cardEvent.getInfo();
-            Card card = cardEvent.getCard();
+            Card card = ((CardEvent) event).getCard();
             if (card.hasEffect(this)) {
                 selfCard = card;
                 selfPlayer = card.getPlayer();

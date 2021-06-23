@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class AI extends Player {
 
-    private ArrayList<Integer> indexes;
+    private final ArrayList<Integer> indexes;
 
     public AI(User user, Deck deck) {
         super(user, deck);
@@ -27,7 +27,12 @@ public class AI extends Player {
     }
 
     @Override
+    public void print(String str) {
+    }
+
+    @Override
     public boolean obtainConfirmation(String promptMassage) {
+        if (promptMassage.matches(".*chain.*")) return false;
         return Utility.getARandomNumber(2) == 1;
     }
 
@@ -50,4 +55,28 @@ public class AI extends Player {
     public Card obtainCardFromHand() {
         return getARandomElement(hand);
     }
+
+    @Override
+    public void setSpellOrTrap() {
+    }
+
+    @Override
+    public void mainPhase1() {
+        // Setting spells and traps
+        // Import a monster
+        // Chain: No answer
+        // Attacking: The most powerful monster
+        // NOTE: FOR SIMPLICITY WE DO NOT PUT RITUAL MONSTERS AND SPELLS IN OUR DECK!
+    }
 }
+
+/*
+Set a spell/trap
+Set a monster
+Import a monster (with or without tribute)
+Attack
+Answer opponent's card activations (in chain)
+Activate spell/trap
+Flip a monster
+
+ */
