@@ -34,6 +34,11 @@ public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
         }
     }
 
+    private void checkIfMonsterDestroyed() {
+        if(selfPlayer.getMonstersFieldList()[positionOnBoard] == null) {
+            selfPlayer.removeCardFromField(selfCard , null);
+        }
+    }
     private void whenPlayedEffect() {
         toggleSelfEffect(1);
     }
@@ -60,6 +65,8 @@ public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
                 whenDestroyedEffect();
             }
         }
+
+        checkIfMonsterDestroyed();
         isInConsideration = false;
     }
 }

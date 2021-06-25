@@ -77,10 +77,11 @@ public class Game {
     private void startNewDuel() {
         firstPlayer = new Player(firstUser,
                 firstUser.getGameDeckByName(firstUser.getActiveDeckName()).getMainDeck().cloneDeck());
-        if (secondPlayer != null) secondPlayer = new Player(secondUser,
+        if (secondUser != null) secondPlayer = new Player(secondUser,
                 secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
         else secondPlayer = new AI(secondUser,
                 secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
+
         makeCardsReady(firstPlayer);
         makeCardsReady(secondPlayer);
 

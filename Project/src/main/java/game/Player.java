@@ -101,6 +101,7 @@ public class Player {
 
     public void drawACard(SpellType spellType) {
         Card newCard = null;
+
         if(spellType == null) {
             newCard = remainingDeck.pop();
         } else {
@@ -166,7 +167,7 @@ public class Player {
 
     // By Sina
     public void drawPhase() {
-        Printer.prompt("phase: draw phase");
+        print("phase: draw phase");
         if (!game.isFirstTurn()) {
             if (remainingDeck.isEmpty()) {
                 print("No card is remained in your deck");
@@ -187,6 +188,7 @@ public class Player {
 
     //      by Pasha
     public void mainPhase1() {
+
         print("phase: main phase 1");
         Printer.showBoard(this, this.opponent);
         while (!this.isLoser() && !opponent.isLoser()) {
@@ -480,7 +482,7 @@ public class Player {
         int i = 0;
         for (Card card : deck.getCardsList()) {
             i++;
-            Printer.prompt(i + ". " + card.getCardName() + ": " + card.getCardDescription());
+            print(i + ". " + card.getCardName() + ": " + card.getCardDescription());
         }
         String response;
         int index;
@@ -674,6 +676,7 @@ public class Player {
         selectedCard.setFaceUp(true);
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
         if (!getPermissionFromAllEffects(cardEvent)) {
+
             print("you don't have permission to summon");
             return;
         }
@@ -865,6 +868,7 @@ public class Player {
             return;
         }
         CardEvent activateCardEvent = new CardEvent(selectedCard, CardEventInfo.ACTIVATE_EFFECT, null);
+        SpellTrapActivationEvent spellTrapActivationEvent = new SpellTrapActivationEvent(selectedCard);
         if (getSelectedCardOnHandID() != -1) {
             int firstEmptyPlace = getFirstEmptyPlaceOnSpellsField();
             if (firstEmptyPlace == -1) {
@@ -881,11 +885,12 @@ public class Player {
         }
         // event : [cardEvent]
 
-        if (!getPermissionFromAllEffects(activateCardEvent)) {
+        if (!getPermissionFromAllEffects(activateCardEvent) || ! getPermissionFromAllEffects(spellTrapActivationEvent)) {
             print("you can't activate this spell");
             return;
         }
         notifyAllEffectsForConsideration(activateCardEvent);
+        notifyAllEffectsForConsideration(spellTrapActivationEvent);
         print("spell activated");
         Printer.showBoard(this, this.opponent);
     }
