@@ -28,7 +28,11 @@ public class AttackAndDefenseEquipEffect extends Effect {
     }
     private void activateEffect() { toggleSelfEffect(1); }
     private void deactivateEffect() { toggleSelfEffect(-1); }
-
+    private void checkIfMonsterDestroyed() {
+        if(selfPlayer.getMonstersFieldList()[spellPosition] == null) {
+            selfPlayer.removeCardFromField(selfCard , null);
+        }
+    }
     public boolean permit(Event event) {
         return true;
     }
@@ -49,6 +53,7 @@ public class AttackAndDefenseEquipEffect extends Effect {
                 activateEffect();
             }
         }
+        checkIfMonsterDestroyed();
         isInConsideration = false;
     }
 }

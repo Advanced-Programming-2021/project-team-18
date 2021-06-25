@@ -98,6 +98,29 @@ public class Player {
         else this.setLoser(true);
     }
 
+    public void drawACard(SpellType spellType) {
+        Card newCard = null;
+        if(spellType == null) {
+            newCard = remainingDeck.pop();
+        } else {
+            for(Card card : remainingDeck.getCardsList())
+                if(card instanceof SpellCard && ((SpellCard) card).getCardSpellType() == spellType) {
+                    newCard = card;
+                    break ;
+                }
+            if(newCard == null)
+                return ;
+            remainingDeck.removeCard(newCard);
+        }
+        DrawCardEvent drawCardEvent = new DrawCardEvent(newCard);
+        if (!getPermissionFromAllEffects(drawCardEvent)) {
+            remainingDeck.addCard(newCard);
+            return;
+        }
+        hand.addCard(newCard);
+        print("new card added to the hand: " + newCard.getCardName());
+        notifyAllEffectsForConsideration(drawCardEvent);
+    }
     public void runCommonCommands(String command) {
         Matcher matcher;
         if (Utility.getCommandMatcher(command, regexSelect).matches()) selectCard(command);
@@ -149,15 +172,7 @@ public class Player {
                 loser = true;
                 return;
             }
-            Card newCard = remainingDeck.pop();
-            DrawCardEvent drawCardEvent = new DrawCardEvent(newCard);
-            if (!getPermissionFromAllEffects(drawCardEvent)) {
-                remainingDeck.addCard(newCard);
-                return;
-            }
-            hand.addCard(newCard);
-            print("new card added to the hand: " + newCard.getCardName());
-            notifyAllEffectsForConsideration(drawCardEvent);
+            drawACard(null);
         }
         PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.DRAW, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
@@ -955,7 +970,8 @@ public class Player {
     protected boolean getPermissionFromCard(Event event, Card card) {
         boolean permitted = true;
         for (Effect effect : card.getEffects())
-            permitted &= effect.permit(event);
+            if (!effect.isInConsideration())
+                permitted &= effect.permit(event);
         return permitted;
     }
 
