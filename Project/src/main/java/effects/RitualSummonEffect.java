@@ -41,9 +41,9 @@ public class RitualSummonEffect extends Effect {
 
     private MonsterCard selectRitualMonsterToSummon() {
         Card selectedCard;
+        Printer.prompt("Please select ritual monster to summon.");
+        selectedCard = selfPlayer.obtainCardFromHand();
         while (true) {
-            Printer.prompt("Please select ritual monster to summon.");
-            selectedCard = selfPlayer.obtainCardFromHand();
             if (selectedCard instanceof MonsterCard) {
                 if (((MonsterCard) selectedCard).isRitual()) {
                     return (MonsterCard) selectedCard;
@@ -59,6 +59,9 @@ public class RitualSummonEffect extends Effect {
         if (selfPlayer.getPermissionFromAllEffects(newEvent)) {
             selectAndDeleteTributes(selectedMonster);
             selfPlayer.addMonsterCardToField(selectedMonster);
+            selectedMonster.setFaceUp(true);
+            selectedMonster.setDefenseMode(selfPlayer.obtainConfirmation(
+                    "Do you want to summon the monster in defence position? (yes/no)"));
         }
         selfPlayer.removeCardFromField(selfCard, selfCard);
     }

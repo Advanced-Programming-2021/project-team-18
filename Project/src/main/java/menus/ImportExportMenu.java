@@ -40,10 +40,10 @@ public class ImportExportMenu extends Menu {
 
     @Override
     public void runMenu() {
-        String regexMenuExit = "menu\\sexit";
-        String regexShowCurrentMenu = "menu\\sshow\\-current";
-        String regexImportCard = "import\\scard\\s(.+)";
-        String regexExportCard = "export\\scard\\s(.+)";
+        String regexMenuExit = "menu\\s+exit";
+        String regexShowCurrentMenu = "menu\\s+show\\-current";
+        String regexImportCard = "import\\s+card\\s+(.+)";
+        String regexExportCard = "export\\s+card\\s+(.+)";
         Matcher matcher;
         while(true) {
             String newLine = Utility.getNextLine();

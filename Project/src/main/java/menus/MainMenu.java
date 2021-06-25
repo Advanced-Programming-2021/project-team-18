@@ -35,8 +35,8 @@ public class MainMenu extends Menu {
 
     @Override
     public void runMenu() {
-        String regexMenuEnter = "menu\\senter\\s(\\w+)";
-        String regexUserLogout = "user\\slogout";
+        String regexMenuEnter = "menu\\s+enter\\s(\\w+)";
+        String regexUserLogout = "user\\s+logout";
         Matcher matcher;
         while (true) {
             String input = Utility.getNextLine();

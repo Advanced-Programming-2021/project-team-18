@@ -166,17 +166,17 @@ public class DeckMenu extends Menu {
 
     @Override
     public void runMenu() {
-        String regexMenuExit = "menu\\sexit";
-        String regexShowCurrentMenu = "menu\\sshow\\-current";
-        String regexShowCard = "card\\sshow\\s(\\w+)";
-        String regexCreateDeck = "deck\\screate\\s(\\w+)";
-        String regexDeleteDeck = "deck\\sdelete\\s(\\w+)";
-        String regexSetActiveDeck = "deck\\sset\\-activate\\s(\\w+)";
-        String regexAddCardToDeck = "deck\\sadd-card\\s(.+)";
-        String regexRemoveCardFromDeck = "deck\\srm-card\\s(.+)";
-        String regexDeckShowAll = "deck\\sshow\\s--all";
-        String regexShowDeckCards = "deck\\sshow\\s--cards";
-        String regexShowDeck = "deck\\sshow\\s(.+)";
+        String regexMenuExit = "menu\\s+exit";
+        String regexShowCurrentMenu = "menu\\s+show\\-current";
+        String regexShowCard = "card\\s+show\\s+(\\w+)";
+        String regexCreateDeck = "deck\\s+create\\s+(\\w+)";
+        String regexDeleteDeck = "deck\\s+delete\\s+(\\w+)";
+        String regexSetActiveDeck = "deck\\s+set\\-activate\\s+(\\w+)";
+        String regexAddCardToDeck = "deck\\s+add-card\\s+(.+)";
+        String regexRemoveCardFromDeck = "deck\\s+rm-card\\s+(.+)";
+        String regexDeckShowAll = "deck\\s+show\\s+--all";
+        String regexShowDeckCards = "deck\\s+show\\s+--cards";
+        String regexShowDeck = "deck\\s+show\\s+(.+)";
 
         Matcher matcher;
         while (true) {

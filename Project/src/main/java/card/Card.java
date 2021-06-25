@@ -95,9 +95,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new SuijinEffect());
                 break;
             case "Crab Turtle":
-                break;
             case "Skull Guardian":
-                effects.add(new RitualSummonEffect());
                 break;
             case "Man-Eater Bug":
                 effects.add(new ManEaterBugEffect());

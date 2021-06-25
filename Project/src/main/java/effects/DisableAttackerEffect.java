@@ -8,8 +8,8 @@ import game.Player;
 // cards with this effect [Command Knight]
 // tested Command Knight
 public class DisableAttackerEffect extends Effect{
-    private int requiredCountMonsters;
-    private int maximumTimesPerTurn;
+    private final int requiredCountMonsters;
+    private final int maximumTimesPerTurn;
     private int timesPerThisTurn;
     public DisableAttackerEffect(int requiredCountMonsters , int maximumTimesPerTurn) {
         this.requiredCountMonsters = requiredCountMonsters;

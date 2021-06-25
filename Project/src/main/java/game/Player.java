@@ -18,20 +18,20 @@ import java.util.regex.Matcher;
 public class Player {
 
     protected static final String regexSelect = "select.+";
-    protected static final String regexShowGraveyard = "show\\sgraveyard";
-    protected static final String regexShowSelectedCard = "card\\sshow\\s\\-\\-selected";
+    protected static final String regexShowGraveyard = "show\\s+graveyard";
+    protected static final String regexShowSelectedCard = "card\\s+show\\s+\\-\\-selected";
     protected static final String regexSummon = "summon";
     protected static final String regexSet = "set";
-    protected static final String regexChangePosition = "set\\s--position\\s(.+)";
+    protected static final String regexChangePosition = "set\\s+--position\\s(.+)";
     protected static final String regexFlipSummon = "flip\\-summon";
-    protected static final String regexAttackNormal = "attack\\s(\\d+)";
-    protected static final String regexAttackDirect = "attack\\sdirect";
-    protected static final String regexActivateEffect = "activate\\seffect";
-    protected static final String regexNextPhase = "next\\sphase";
+    protected static final String regexAttackNormal = "attack\\s+(\\d+)";
+    protected static final String regexAttackDirect = "attack\\s+direct";
+    protected static final String regexActivateEffect = "activate\\s+effect";
+    protected static final String regexNextPhase = "next\\s+phase";
     protected static final String SUCCESSFUL_SUMMON = "summoned successfully";
     protected static final String regexForfeit = "surrender";
-    protected static final String regexIncreaseLifePoint = "increase\\s--LP\\s(\\d+)";
-    protected static final String regexSetDuelWinner = "duel\\sset-winner\\s(.+)";
+    protected static final String regexIncreaseLifePoint = "increase\\s+--LP\\s+(\\d+)";
+    protected static final String regexSetDuelWinner = "duel\\s+set-winner\\s+(.+)";
     protected static final int HAND_SIZE = 7;
     @Getter
     protected static final int FIELD_SIZE = 5;

@@ -82,9 +82,9 @@ public class DuelMenu extends Menu {
 
     @Override
     public void runMenu() {
-        String regexShowCard = "card\\sshow\\s(.+)";
-        String regexDuelOtherPlayer = "duel\\s\\-\\-new\\s(.+)";
-        String regexDuelAI = "duel\\s\\-\\-new\\s\\-\\-ai\\s(.+)";
+        String regexShowCard = "card\\s+show\\s+(.+)";
+        String regexDuelOtherPlayer = "duel\\s+\\-\\-new\\s+(.+)";
+        String regexDuelAI = "duel\\s+\\-\\-new\\s+\\-\\-ai\\s+(.+)";
         Matcher matcher;
         while (true) {
             String input = Utility.getNextLine();
