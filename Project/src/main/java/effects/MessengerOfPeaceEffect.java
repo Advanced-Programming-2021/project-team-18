@@ -4,7 +4,7 @@ import data.Printer;
 import events.AttackEvent;
 import events.Event;
 import events.Phase;
-import events.PhaseChangeEvent;
+import events.PhaseEndedEvent;
 import utility.Utility;
 
 
@@ -44,8 +44,8 @@ public class MessengerOfPeaceEffect extends Effect {
     }
 
     public void consider(Event event) {
-        if (event instanceof PhaseChangeEvent) {
-            if (((PhaseChangeEvent) event).getPhase() == Phase.STANDBY) {
+        if (event instanceof PhaseEndedEvent) {
+            if (((PhaseEndedEvent) event).getPhase() == Phase.STANDBY) {
                 consumeLP();
             }
         }

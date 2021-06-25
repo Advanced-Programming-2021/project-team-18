@@ -23,7 +23,7 @@ public abstract class Card implements Comparable<Card> {
     @Setter
     private String cardDescription;
     @Setter
-    private boolean isFaceUp = true;
+    private boolean isFaceUp = false;
     @Setter
     private Player player;
     @Setter

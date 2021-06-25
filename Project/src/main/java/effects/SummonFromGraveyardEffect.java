@@ -17,7 +17,7 @@ public class SummonFromGraveyardEffect extends Effect {
             summonOrigin = selfPlayer.getOpponent().getGraveyard();
         if (selfPlayer.getOpponent().getGraveyard().isEmpty()) {
             if (summonOrigin != null) {
-                selfPlayer.print("Sorry, both graveyards are empty!");
+                Printer.prompt("Sorry, both graveyards are empty!");
                 return;
             }
             summonOrigin = selfPlayer.getGraveyard();

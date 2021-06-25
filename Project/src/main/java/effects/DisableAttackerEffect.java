@@ -2,7 +2,7 @@ package effects;
 
 import events.Event;
 import events.Phase;
-import events.PhaseChangeEvent;
+import events.PhaseEndedEvent;
 import game.Player;
 // by pasha
 // cards with this effect [Command Knight]
@@ -22,15 +22,13 @@ public class DisableAttackerEffect extends Effect{
         for(int i = 1;i <= Player.getFIELD_SIZE();++ i)
             if(selfPlayer.getMonstersFieldList()[i] != null)
                 ++ countMonsters;
-        if(countMonsters >= requiredCountMonsters && timesPerThisTurn ++ < maximumTimesPerTurn)
-            return false;
-        return true;
+        return countMonsters < requiredCountMonsters || timesPerThisTurn++ >= maximumTimesPerTurn;
     }
 
     public void consider(Event event) {
         isInConsideration = true;
         initializeSelfCardWithEvent(event);
-        if(event instanceof PhaseChangeEvent && ((PhaseChangeEvent) event).getPhase() == Phase.DRAW)
+        if(event instanceof PhaseEndedEvent && ((PhaseEndedEvent) event).getPhase() == Phase.DRAW)
             timesPerThisTurn = 0;
         isInConsideration = false;
     }

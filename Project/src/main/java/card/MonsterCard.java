@@ -23,6 +23,7 @@ public class MonsterCard extends Card {
     }
 
     public void attackTo(MonsterCard attackedMonster, Player owner) {
+        if (hasAttackedThisTurn) return;
         if (attackedMonster.isDefenseMode()) {
             owner.getOpponent().flipMonsterOnDefense(attackedMonster, this);
             if (this.getCardAttack() == attackedMonster.getCardDefense()) {
@@ -49,6 +50,7 @@ public class MonsterCard extends Card {
                 owner.removeCardFromField(this, attackedMonster);
             }
         }
+        hasAttackedThisTurn = true;
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 
 public class Game {
+    private static Player activePlayer;
     private final User firstUser, secondUser;
     private final ArrayList<Event> eventsList;
     private final ArrayList<Card> cardChain;
@@ -19,6 +20,10 @@ public class Game {
     private Player firstPlayer, secondPlayer;
     private int turn;
     private boolean isGameFinished;
+
+    public static Player getActivePlayer() {
+        return activePlayer;
+    }
 
     // Note: A Game consists of some duels (namely, consists of "duelsCount" duels)
     // If secondUser is null, the game starts between firstUser and Computer
@@ -79,7 +84,7 @@ public class Game {
                 firstUser.getGameDeckByName(firstUser.getActiveDeckName()).getMainDeck().cloneDeck());
         if (secondPlayer != null) secondPlayer = new Player(secondUser,
                 secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
-        else secondPlayer = new AI(secondUser,
+        else secondPlayer = new AIPlayer(secondUser,
                 secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
         makeCardsReady(firstPlayer);
         makeCardsReady(secondPlayer);
@@ -96,7 +101,7 @@ public class Game {
     }
 
     private void runDuel() {
-        Player activePlayer = firstPlayer;
+        activePlayer = firstPlayer;
         while (!isDuelFinished()) {
             turn++;
             activePlayer.drawPhase();

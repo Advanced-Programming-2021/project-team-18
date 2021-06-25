@@ -34,7 +34,10 @@ public class MindCrushEffect extends Effect {
             Printer.prompt(Menu.INVALID_COMMAND);
         }
         Card selectedCard = selfPlayer.getOpponent().getHand().getCardByName(selectedCardName);
-        if (selfPlayer.getOpponent().removeCardFromHand(selectedCard)) return;
+        boolean opponentContainsThisCard = false;
+        while (selfPlayer.getOpponent().removeCardFromHand(selectedCard))
+            opponentContainsThisCard = true;
+        if (opponentContainsThisCard)
         selfPlayer.removeCardFromHand(selfPlayer.getHand().getRandomCard());
     }
 

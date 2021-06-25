@@ -4,10 +4,7 @@ import card.Card;
 import card.MonsterCard;
 import card.SpellCard;
 import card.TrapCard;
-import game.Deck;
-import game.GameDeck;
-import game.Player;
-import game.User;
+import game.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,10 +20,16 @@ public class Printer {
     }
 
     public static void prompt(String message) {
+        if (Game.getActivePlayer() instanceof AIPlayer) return;
+        System.out.println(message);
+    }
+
+    public static void forcePrompt(String message) {
         System.out.println(message);
     }
 
     public static void showBoard(Player player, Player opponent) {
+        if (player instanceof AIPlayer) return;
         System.out.println(opponent.getUser().getNickname() + ":" + opponent.getLifePoint());
         int handSize = opponent.getHand().getCardsList().size();
         for (int i = 0; i < handSize; i++) System.out.print("\tC");

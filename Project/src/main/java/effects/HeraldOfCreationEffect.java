@@ -5,7 +5,7 @@ import card.MonsterCard;
 import data.Printer;
 import events.Event;
 import events.Phase;
-import events.PhaseChangeEvent;
+import events.PhaseEndedEvent;
 import utility.Utility;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class HeraldOfCreationEffect extends Effect {
     public void consider(Event event) {
         isInConsideration = true;
         initializeSelfCardWithEvent(event);
-        if(event instanceof PhaseChangeEvent && selfCard.isFaceUp() &&((PhaseChangeEvent) event).getPhase() == Phase.DRAW && ((PhaseChangeEvent) event).getPlayer() == selfPlayer) {
+        if(event instanceof PhaseEndedEvent && selfCard.isFaceUp() &&((PhaseEndedEvent) event).getPhase() == Phase.DRAW && ((PhaseEndedEvent) event).getPlayer() == selfPlayer) {
             activateEffect();
         }
         isInConsideration = false;
