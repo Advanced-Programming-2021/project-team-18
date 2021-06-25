@@ -48,6 +48,7 @@ public class Player {
     protected boolean loser;
     protected Card selectedCard;
     protected boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
+    protected boolean isAttackPhaseEndedByEffect = false;
     protected Card theSummonedMonsterThisTurn;
     // Initialized by setters
     protected Game game;
@@ -204,16 +205,20 @@ public class Player {
     public void battlePhase() {
         print("phase: battle phase");
         if (game.isFirstTurn()) return;
-        while (!this.isLoser() && !opponent.isLoser()) {
+        while (!this.isLoser() && !opponent.isLoser() && !isAttackPhaseEndedByEffect) {
             String command = Utility.getNextLine();
             if (Utility.getCommandMatcher(command, regexNextPhase).matches())
                 break;
             runCommonCommands(command);
             runBattlePhaseCommands(command);
         }
-
+        if (isAttackPhaseEndedByEffect) isAttackPhaseEndedByEffect = false;
         PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.BATTLE, this);
         notifyAllEffectsForConsideration(phaseChangeEvent);
+    }
+
+    public void endBattlePhaseByEffect(){
+        isAttackPhaseEndedByEffect = true;
     }
 
     //          by Pasha
