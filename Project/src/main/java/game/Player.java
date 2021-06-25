@@ -206,13 +206,14 @@ public class Player {
     //          by Kamyar
     public void battlePhase() {
         print("phase: battle phase");
-        if (game.isFirstTurn()) return;
-        while (!this.isLoser() && !opponent.isLoser() && !isAttackPhaseEndedByEffect) {
-            String command = Utility.getNextLine();
-            if (Utility.getCommandMatcher(command, regexNextPhase).matches())
-                break;
-            runCommonCommands(command);
-            runBattlePhaseCommands(command);
+        if (game.isFirstTurn()) {
+            while (!this.isLoser() && !opponent.isLoser() && !isAttackPhaseEndedByEffect) {
+                String command = Utility.getNextLine();
+                if (Utility.getCommandMatcher(command, regexNextPhase).matches())
+                    break;
+                runCommonCommands(command);
+                runBattlePhaseCommands(command);
+            }
         }
         if (isAttackPhaseEndedByEffect) isAttackPhaseEndedByEffect = false;
         PhaseChangeEvent phaseChangeEvent = new PhaseChangeEvent(Phase.BATTLE, this);
