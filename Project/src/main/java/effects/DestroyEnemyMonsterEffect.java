@@ -18,6 +18,7 @@ public class DestroyEnemyMonsterEffect extends Effect {
         destroyPlayer(selfPlayer.getOpponent());
         if(destroyBothPlayers)
             destroyPlayer(selfPlayer);
+        selfPlayer.removeCardFromField(selfCard , null);
     }
     public boolean permit(Event event) {
         return true;

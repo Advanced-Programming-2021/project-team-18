@@ -48,6 +48,7 @@ public class Player {
     protected boolean loser;
     protected Card selectedCard;
     protected boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
+    protected boolean isAttackPhaseEndedByEffect = false;
     protected Card theSummonedMonsterThisTurn;
     // Initialized by setters
     protected Game game;
@@ -66,6 +67,10 @@ public class Player {
         loser = false;
         selectedCard = null;
         hasSummonedMonsterThisTurn = false;
+    }
+
+    public void print(String str) {
+        Printer.prompt(str);
     }
 
     protected void increaseLifePoint(Matcher matcher) {
@@ -94,6 +99,30 @@ public class Player {
         else this.setLoser(true);
     }
 
+    public void drawACard(SpellType spellType) {
+        Card newCard = null;
+
+        if(spellType == null) {
+            newCard = remainingDeck.pop();
+        } else {
+            for(Card card : remainingDeck.getCardsList())
+                if(card instanceof SpellCard && ((SpellCard) card).getCardSpellType() == spellType) {
+                    newCard = card;
+                    break ;
+                }
+            if(newCard == null)
+                return ;
+            remainingDeck.removeCard(newCard);
+        }
+        DrawCardEvent drawCardEvent = new DrawCardEvent(newCard);
+        if (!getPermissionFromAllEffects(drawCardEvent)) {
+            remainingDeck.addCard(newCard);
+            return;
+        }
+        hand.addCard(newCard);
+        print("new card added to the hand: " + newCard.getCardName());
+        notifyAllEffectsForConsideration(drawCardEvent);
+    }
     public void runCommonCommands(String command) {
         Matcher matcher;
         if (Utility.getCommandMatcher(command, regexSelect).matches()) selectCard(command);
@@ -145,15 +174,7 @@ public class Player {
                 loser = true;
                 return;
             }
-            Card newCard = remainingDeck.pop();
-            DrawCardEvent drawCardEvent = new DrawCardEvent(newCard);
-            if (!getPermissionFromAllEffects(drawCardEvent)) {
-                remainingDeck.addCard(newCard);
-                return;
-            }
-            hand.addCard(newCard);
-            Printer.prompt("new card added to the hand: " + newCard.getCardName());
-            notifyAllEffectsForConsideration(drawCardEvent);
+            drawACard(null);
         }
         PhaseEndedEvent phaseEndedEvent = new PhaseEndedEvent(Phase.DRAW, this);
         notifyAllEffectsForConsideration(phaseEndedEvent);
@@ -167,6 +188,7 @@ public class Player {
 
     //      by Pasha
     public void mainPhase1() {
+
         Printer.forcePrompt("phase: main phase 1");
         Printer.showBoard(this, this.opponent);
         while (!this.isLoser() && !opponent.isLoser()) {
@@ -184,17 +206,23 @@ public class Player {
     //          by Kamyar
     public void battlePhase() {
         Printer.forcePrompt("phase: battle phase");
-        if (game.isFirstTurn()) return;
-        while (!this.isLoser() && !opponent.isLoser()) {
-            String command = Utility.getNextLine();
-            if (Utility.getCommandMatcher(command, regexNextPhase).matches())
-                break;
-            runCommonCommands(command);
-            runBattlePhaseCommands(command);
+        if (game.isFirstTurn()) {
+            while (!this.isLoser() && !opponent.isLoser() && !isAttackPhaseEndedByEffect) {
+                String command = Utility.getNextLine();
+                if (Utility.getCommandMatcher(command, regexNextPhase).matches())
+                    break;
+                runCommonCommands(command);
+                runBattlePhaseCommands(command);
+            }
         }
 
+        isAttackPhaseEndedByEffect = false;
         PhaseEndedEvent phaseEndedEvent = new PhaseEndedEvent(Phase.BATTLE, this);
         notifyAllEffectsForConsideration(phaseEndedEvent);
+    }
+
+    public void endBattlePhaseByEffect(){
+        isAttackPhaseEndedByEffect = true;
     }
 
     //          by Pasha
@@ -636,6 +664,7 @@ public class Player {
         // event : [summon]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
         if (!getPermissionFromAllEffects(cardEvent)) {
+
             Printer.prompt("you don't have permission to summon");
             return false;
         }
@@ -826,6 +855,7 @@ public class Player {
             return;
         }
         CardEvent activateCardEvent = new CardEvent(selectedCard, CardEventInfo.ACTIVATE_EFFECT, null);
+        SpellTrapActivationEvent spellTrapActivationEvent = new SpellTrapActivationEvent(selectedCard);
         if (getSelectedCardOnHandID() != -1) {
             int firstEmptyPlace = getFirstEmptyPlaceOnSpellsField();
             if (firstEmptyPlace == -1) {
@@ -842,11 +872,12 @@ public class Player {
         }
         // event : [cardEvent]
 
-        if (!getPermissionFromAllEffects(activateCardEvent)) {
+        if (!getPermissionFromAllEffects(activateCardEvent) || ! getPermissionFromAllEffects(spellTrapActivationEvent)) {
             Printer.prompt("you can't activate this spell");
             return;
         }
         notifyAllEffectsForConsideration(activateCardEvent);
+        notifyAllEffectsForConsideration(spellTrapActivationEvent);
         Printer.prompt("spell activated");
         Printer.showBoard(this, this.opponent);
     }
@@ -939,7 +970,8 @@ public class Player {
     protected boolean getPermissionFromCard(Event event, Card card) {
         boolean permitted = true;
         for (Effect effect : card.getEffects())
-            permitted &= effect.permit(event);
+            if (!effect.isInConsideration())
+                permitted &= effect.permit(event);
         return permitted;
     }
 

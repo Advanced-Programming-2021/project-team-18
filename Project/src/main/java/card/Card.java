@@ -1,6 +1,7 @@
 package card;
 
 import effects.*;
+import events.DrawCardEvent;
 import game.Player;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -105,7 +106,7 @@ public abstract class Card implements Comparable<Card> {
                 // not written yet
                 break;
             case "Scanner":
-                // not written yet
+                effects.add(new ScannerEffect());
                 break;
             case "Marshmallon":
                 effects.add(new MarshmallonEffect());
@@ -130,7 +131,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new DestroyAttackerEffect());
                 break;
             case "Terratiger the Empowered Warrior":
-                // not written yet
+                effects.add(new SummonDefensePositionMonsterEffect());
                 break;
             case "The Tricky":
                 // not written yet
@@ -141,13 +142,13 @@ public abstract class Card implements Comparable<Card> {
     private void manageSpellAndTrapEffects() {
         switch (cardName) {
             case "Monster Reborn":
-
+                effects.add(new SummonFromGraveyardEffect());
                 break;
             case "Terraforming":
-
+                effects.add(new DrawEffect(1 , SpellType.FIELD));
                 break;
             case "Pot of Greed":
-
+                effects.add(new DrawEffect(2 , null));
                 break;
             case "Raigeki":
                 effects.add(new DestroyEnemyMonsterEffect(false));
@@ -159,22 +160,22 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new HarpiesFeatherEffect());
                 break;
             case "Swords of Revealing Light":
-
+                effects.add(new SwordsOfRevealingLightEffect());
                 break;
             case "Dark Hole":
                 effects.add(new DestroyEnemyMonsterEffect(true));
                 break;
             case "Supply Squad":
-
+                effects.add(new SupplySquadEffect());
                 break;
             case "Spell Absorption":
-
+                effects.add(new SpellAbsorptionEffect());
                 break;
             case "Messenger of peace":
                 effects.add(new MessengerOfPeaceEffect());
                 break;
             case "Twin Twisters":
-
+                effects.add(new TwinTwistersEffect());
                 break;
             case "Mystical space typhoon":
 
@@ -212,13 +213,13 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new MagnumShieldEffect());
                 break;
             case "Advanced Ritual Art":
-
+                effects.add(new RitualSummonEffect());
                 break;
             case "Magic Cylinder":
                 effects.add(new MagicCylinderEffect());
                 break;
             case "Mirror Force":
-
+                effects.add(new MirrorForceEffect());
                 break;
             case "Mind Crush":
                 effects.add(new MindCrushEffect());
@@ -227,7 +228,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new TrapHoleEffect());
                 break;
             case "Torrential Tribute":
-
+                effects.add(new TorrentialTributeEffect());
                 break;
             case "Time Seal":
                 effects.add(new DenyDrawCardEffect());
@@ -240,6 +241,9 @@ public abstract class Card implements Comparable<Card> {
                 break;
             case "Magic Jammer":
                 effects.add(new MagicJammerEffect());
+                break;
+            case "Call of The Haunted":
+
                 break;
         }
     }

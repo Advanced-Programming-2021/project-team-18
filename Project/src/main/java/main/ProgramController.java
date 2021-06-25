@@ -5,7 +5,6 @@ import menus.LoginMenu;
 import view.App;
 import view.Starter;
 
-// TODO : Pasha
 public class ProgramController {
 
     public void runConsole() {

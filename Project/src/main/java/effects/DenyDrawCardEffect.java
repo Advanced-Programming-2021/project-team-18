@@ -35,6 +35,8 @@ public class DenyDrawCardEffect extends Effect {
             if (phaseEndedEvent.getPhase() == Phase.DRAW && isActive && phaseEndedEvent.getPlayer() == selfPlayer)
                 --turnsRemaining;
         }
+        if(turnsRemaining == 0)
+            selfPlayer.removeCardFromField(selfCard , null);
         isInConsideration = false;
     }
 }

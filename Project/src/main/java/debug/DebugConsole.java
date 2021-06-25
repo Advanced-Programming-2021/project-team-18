@@ -23,8 +23,11 @@ public class DebugConsole {
     private static User getSampleUser1(String name) {
         User user = new User(name , name , name);
         GameDeck gameDeck = new GameDeck(name);
-        Card sample = Card.getCardByName("Command Knight");
-        for(int i = 0;i < 40;++ i)
+        Card sample = Card.getCardByName("Raigeki");
+        for(int i = 0;i < 20;++ i)
+            gameDeck.getMainDeck().addCard(sample);
+        sample = Card.getCardByName("Horn Imp");
+        for(int i = 0;i < 20;++ i)
             gameDeck.getMainDeck().addCard(sample);
         user.addGameDeck(gameDeck);
         user.setActiveDeckName(gameDeck.getName());
