@@ -12,13 +12,13 @@ public class TwinTwistersEffect extends Effect {
 
     public void runEffect() {
         Card card = selfPlayer.obtainCardFromHand();
-        if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
+        if (selfPlayer.getOpponent().getSpellCountOnField() == 0) {
             Printer.prompt("Your opponent does not have anymore spells");
             return;
         }
         Card firstSpell = selfPlayer.getOpponent().obtainSpellTrapFromField();
         selfPlayer.getOpponent().removeCardFromField(firstSpell, selfCard);
-        if (selfPlayer.getOpponent().getFirstEmptyPlaceOnSpellsField() == 1) {
+        if (selfPlayer.getOpponent().getSpellCountOnField() == 0) {
             Printer.prompt("Your opponent does not have anymore spells");
             return;
         }
