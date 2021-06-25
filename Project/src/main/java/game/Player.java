@@ -649,24 +649,24 @@ public class Player {
     }
 
     // by Kamyar
-    public boolean summonMonster() {
+    public void summonMonster() {
 //      Note: This function should be modified later to support
         if (Utility.checkAndPrompt(selectedCard == null,
-                "no card is selected yet")) return false;
+                "no card is selected yet")) return;
         int place = getSelectedCardOnHandID();
         if (Utility.checkAndPrompt(!(selectedCard instanceof MonsterCard) || place == -1,
-                "you can’t summon this card")) return false;
+                "you can’t summon this card")) return;
         int placeOnField = getFirstEmptyPlaceOnMonstersField();
         if (Utility.checkAndPrompt(placeOnField == -1,
-                "monster card zone is full")) return false;
+                "monster card zone is full")) return;
         if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn,
-                "you already summoned/set on this turn")) return false;
+                "you already summoned/set on this turn")) return;
         // event : [summon]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
         if (!getPermissionFromAllEffects(cardEvent)) {
 
             Printer.prompt("you don't have permission to summon");
-            return false;
+            return;
         }
         selectedCard.setFaceUp(true);
         int monsterLevel = ((MonsterCard) selectedCard).getCardLevel();
@@ -675,36 +675,35 @@ public class Player {
             Printer.prompt(SUCCESSFUL_SUMMON);
             notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
-            return true;
+            return;
         }
         if (monsterLevel <= 6) {
             if (Utility.checkAndPrompt(placeOnField == 1,
-                    "there are not enough cards for tribute")) return false;
+                    "there are not enough cards for tribute")) return;
             Printer.prompt("input the address of the card you want to tribute:");
             int address = Integer.parseInt(Utility.getNextLine());
             if (Utility.checkAndPrompt(isMonsterAddressInvalid(address),
-                    "there are no monsters on this address")) return false;
+                    "there are no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
             notifyAllEffectsForConsideration(cardEvent);
             Printer.prompt(SUCCESSFUL_SUMMON);
             Printer.showBoard(this, this.opponent);
-            return true;
+            return;
         }
 
         if (Utility.checkAndPrompt(placeOnField == 1 || placeOnField == 2,
-                "there are not enough cards for tribute")) return false;
+                "there are not enough cards for tribute")) return;
         Printer.prompt("input two addresses for the cards you want to tribute in TWO DIFFERENT LINES:");
         int firstTribute = Integer.parseInt(Utility.getNextLine());
         int secondTribute = Integer.parseInt(Utility.getNextLine());
         if (Utility.checkAndPrompt(isMonsterAddressInvalid(firstTribute) || isMonsterAddressInvalid(secondTribute),
-                "there is no monster on one of these addresses")) return false;
+                "there is no monster on one of these addresses")) return;
         if (Utility.checkAndPrompt(firstTribute == secondTribute,
-                "Tributes are the same!")) return false;
+                "Tributes are the same!")) return;
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         notifyAllEffectsForConsideration(cardEvent);
         Printer.prompt(SUCCESSFUL_SUMMON);
         Printer.showBoard(this, this.opponent);
-        return true;
     }
 
     // by Kamyar
