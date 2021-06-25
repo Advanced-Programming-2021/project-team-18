@@ -401,23 +401,35 @@ public class Player {
     // TODO : WHY THE NAME OF METHOD IS OBTAIN FROM "FIELD" INSTEAD OF "HAND" ?!
     public Card obtainSpellTrapFromField() {
         Printer.prompt(this.getUser().getNickname() + "'s field contains these cards: ");
-        for (Card card : hand.getCardsList()) Printer.showCard(card);
+        for (int i = 1; i <= FIELD_SIZE ; i++) {
+            Printer.showCard(spellsAndTrapFieldList[i]);
+        }
         String response;
         int index = -1;
-        while (!(0 <= index && index < hand.getSize())
-                && !(hand.getCardsList().get(index) instanceof SpellCard
-                || hand.getCardsList().get(index) instanceof TrapCard)) {
+        while (!(1 <= index && index <= FIELD_SIZE)
+                || spellsAndTrapFieldList[index] == null
+                && !(spellsAndTrapFieldList[index] instanceof SpellCard
+                || spellsAndTrapFieldList[index] instanceof TrapCard)) {
             while (true) {
                 Printer.prompt("Please select a spell or trap card position on field");
-                Printer.prompt("(a number in range 1 to " + hand.getSize() + ")");
+                Printer.prompt("(a number in range 1 to " + 5 + ")");
                 response = Utility.getNextLine();
                 if (response.matches("\\d")) break;
                 Printer.prompt(Menu.INVALID_COMMAND);
             }
-            index = Integer.parseInt(response) - 1;
+            index = Integer.parseInt(response);
         }
-        return hand.getCardsList().get(index);
+        return spellsAndTrapFieldList[index];
     }
+
+    public int getSpellCountOnField(){
+        int count = 0;
+        for (int i = 1; i < FIELD_SIZE ; i++) {
+            if (spellsAndTrapFieldList[i] != null) count++;
+        }
+        return count;
+    }
+
 
     public boolean obtainConfirmation(String promptMassage) {
         String response;

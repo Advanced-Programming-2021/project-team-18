@@ -13,7 +13,7 @@ import java.util.List;
 public class Printer {
     public static void showCard(Card card) {
         if (card == null) {
-            Printer.prompt("There is no card with this name");
+            Printer.prompt("no card");
         } else {
             card.showCard();
         }
