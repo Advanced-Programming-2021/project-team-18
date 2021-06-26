@@ -234,7 +234,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new DenyDrawCardEffect());
                 break;
             case "Negate Attack":
-
+                effects.add(new NegateAttackEffect());
                 break;
             case "Solemn Warning":
                 effects.add(new SolemnWarningEffect());
