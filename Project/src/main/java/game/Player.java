@@ -206,7 +206,7 @@ public class Player {
     //          by Kamyar
     public void battlePhase() {
         Printer.forcePrompt("phase: battle phase");
-        if (game.isFirstTurn()) {
+        if (!game.isFirstTurn()) {
             while (!this.isLoser() && !opponent.isLoser() && !isAttackPhaseEndedByEffect) {
                 String command = Utility.getNextLine();
                 if (Utility.getCommandMatcher(command, regexNextPhase).matches())
@@ -961,8 +961,13 @@ public class Player {
     protected void notifyEffectsOfCard(Event event, @Nullable Card card) {
         if (card == null) return;
         for (Effect effect : card.getEffects())
-            if (!effect.isInConsideration())
-                effect.consider(event);
+            if (!effect.isInConsideration()) {
+                try {
+                    effect.consider(event);
+                } catch(Exception e) {
+
+                }
+            }
     }
 
     protected void notifyMyEffectsForConsideration(Event event) {
@@ -981,8 +986,13 @@ public class Player {
     protected boolean getPermissionFromCard(Event event, Card card) {
         boolean permitted = true;
         for (Effect effect : card.getEffects())
-            if (!effect.isInConsideration())
-                permitted &= effect.permit(event);
+            if (!effect.isInConsideration()) {
+                try {
+                    permitted &= effect.permit(event);
+                } catch (Exception e) {
+
+                }
+            }
         return permitted;
     }
 

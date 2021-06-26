@@ -8,7 +8,7 @@ import events.Event;
 import game.Player;
 
 public class SpellAbsorptionEffect extends Effect {
-
+    private boolean isActivated = false;
 
     public void runEffect() {
 
@@ -20,6 +20,7 @@ public class SpellAbsorptionEffect extends Effect {
             CardEventInfo info = ((CardEvent) event).getInfo();
             if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard.hasEffect(this) && selfPlayer == null) {
                 selfPlayer = sourceCard.getPlayer();
+                isActivated = true;
                 return true;
             }
         }
@@ -27,7 +28,7 @@ public class SpellAbsorptionEffect extends Effect {
     }
 
     public void consider(Event event) {
-        if (event instanceof CardEvent) {
+        if (event instanceof CardEvent && isActivated) {
             Card sourceCard = ((CardEvent) event).getCard();
             CardEventInfo info = ((CardEvent) event).getInfo();
             if (info == CardEventInfo.ACTIVATE_EFFECT && sourceCard instanceof SpellCard) {

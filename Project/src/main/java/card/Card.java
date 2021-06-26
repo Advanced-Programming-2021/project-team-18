@@ -176,10 +176,8 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new TwinTwistersEffect());
                 break;
             case "Mystical space typhoon":
-
                 break;
             case "Ring of defense":
-
                 break;
             case "Yami":
                 effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.FIEND, 0));
@@ -232,7 +230,7 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new DenyDrawCardEffect());
                 break;
             case "Negate Attack":
-
+                effects.add(new NegateAttackEffect());
                 break;
             case "Solemn Warning":
                 effects.add(new SolemnWarningEffect());
@@ -241,7 +239,6 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new MagicJammerEffect());
                 break;
             case "Call of The Haunted":
-
                 break;
         }
     }
