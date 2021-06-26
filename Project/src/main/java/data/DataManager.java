@@ -212,8 +212,7 @@ public class DataManager {
     public static void initializeAIDeck() {
         String fileContent = "";
         try {
-            fileContent = new String(Files.readAllBytes(Paths.get(System.getProperty(
-                    "user.dir") + "/Project/src/main/resources/cards/AIDeck")));
+            fileContent = new String(Files.readAllBytes(Paths.get(DataManager.class.getResource("/cards/AIDeck").getFile().substring(1))));
         } catch (IOException e) {
             e.printStackTrace();
         }
