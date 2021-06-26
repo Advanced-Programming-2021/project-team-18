@@ -5,7 +5,7 @@ import card.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-//import com.sun.org.apache.bcel.internal.classfile.Utility;
+import game.AIPlayer;
 import game.AIPlayer;
 import game.Deck;
 import game.GameDeck;
@@ -13,6 +13,7 @@ import game.User;
 import lombok.SneakyThrows;
 import utility.Utility;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -212,8 +213,7 @@ public class DataManager {
     public static void initializeAIDeck() {
         String fileContent = "";
         try {
-            fileContent = new String(Files.readAllBytes(Paths.get(System.getProperty(
-                    "user.dir") + "/Project/src/main/resources/cards/AIDeck")));
+            fileContent = new String(Files.readAllBytes((Paths.get((new File(DataManager.class.getResource("/cards/AIDeck").getPath())).getAbsolutePath()))));
         } catch (IOException e) {
             e.printStackTrace();
         }
