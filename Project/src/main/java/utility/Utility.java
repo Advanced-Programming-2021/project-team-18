@@ -21,7 +21,7 @@ public class Utility {
     // if an attribute does not have any arguments, it'll be mapped to null.
     public static HashMap<String, String> getCommand(String command) {
         HashMap<String, String> map = new HashMap<>();
-        String regex = "--([\\w|-]+)\\s([^-]*)";
+        String regex = "--([\\w|-]+)\\s([^-]+)";
         Matcher matcher = getCommandMatcher(command, regex);
         while (matcher.find()) {
             String attribute = matcher.group(1);
@@ -29,7 +29,7 @@ public class Utility {
             if (map.containsKey(attribute)) return null;
             map.put(attribute, value);
         }
-        command = command.replaceAll("--([\\w|-]+)\\s([^-]*)", "");
+        command = command.replaceAll("--([\\w|-]+)\\s([^-]+)", "");
         matcher = getCommandMatcher(command, "--(\\w+)");
         while (matcher.find()) {
             String attribute = matcher.group(1);
