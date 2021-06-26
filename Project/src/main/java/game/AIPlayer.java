@@ -13,9 +13,14 @@ import java.util.ArrayList;
 public class AIPlayer extends Player {
 
     private final ArrayList<Integer> indexes;
+    private static Deck AIDeck;
 
-    public AIPlayer(User user, Deck deck) {
-        super(user, deck);
+    public static void setAIDeck(Deck AIDeck) {
+        AIPlayer.AIDeck = AIDeck;
+    }
+
+    public AIPlayer() {
+        super(User.getDummyUser(), AIDeck);
         indexes = new ArrayList<>();
     }
 

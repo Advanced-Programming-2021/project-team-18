@@ -24,10 +24,6 @@ public class Deck {
         return cardsList.isEmpty();
     }
 
-    public boolean contains(Card card) {
-        return cardsList.contains(card);
-    }
-
     public Card getCardByName(String cardName) {
         for (Card card : cardsList) {
             if (card.getCardName().equals(cardName)) return card;
@@ -56,9 +52,9 @@ public class Deck {
         cardsList.add(newCard);
     }
 
-    public Card removeCardAt(int index) {
-        if (index >= cardsList.size() || index < 0) return null;
-        return cardsList.remove(index);
+    public void removeCardAt(int index) {
+        if (index >= cardsList.size() || index < 0) return;
+        cardsList.remove(index);
     }
 
     public boolean removeCard(Card card) {

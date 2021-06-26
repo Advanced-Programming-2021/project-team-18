@@ -10,6 +10,7 @@ import java.util.*;
 public class User implements Comparable<User>, Serializable {
     @Setter
     private static ArrayList<User> allUsers = new ArrayList<>();
+    private static final User dummyUser = new User();
 
     @Setter
     @Getter
@@ -60,6 +61,18 @@ public class User implements Comparable<User>, Serializable {
         }
     }
 
+    public static User getDummyUser() {
+        return dummyUser;
+    }
+
+    private User() {
+        username = "The Computer";
+        password = null;
+        nickname = "AI";
+        balance = 0;
+        decks = new ArrayList<>();
+        cardCount = new HashMap<>();
+    }
 
     public User(String username, String password, String nickname) {
         setUsername(username);
@@ -82,9 +95,9 @@ public class User implements Comparable<User>, Serializable {
         decks.add(deck);
     }
 
-    public boolean removeGameDeck(GameDeck deck) {
+    public void removeGameDeck(GameDeck deck) {
         if (deck.getName().equals(activeDeckName)) activeDeckName = null;
-        return decks.remove(deck);
+        decks.remove(deck);
     }
 
     public boolean isPasswordCorrect(String password) {
@@ -100,13 +113,11 @@ public class User implements Comparable<User>, Serializable {
     }
 
     // Returns true iff user did not have enough balance
-    public boolean decreaseBalance(int amount) {
+    public void decreaseBalance(int amount) {
         balance -= amount;
         if (balance < 0) {
             balance = 0;
-            return true;
         }
-        return false;
     }
 
     public void addCardBalance(String cardName) {

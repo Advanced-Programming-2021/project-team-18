@@ -2,17 +2,13 @@ package game;
 
 import card.Card;
 import data.Printer;
-import events.Event;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class Game {
     private static Player activePlayer;
     private final User firstUser, secondUser;
-    private final ArrayList<Event> eventsList;
-    private final ArrayList<Card> cardChain;
     private final HashMap<User, Integer> scores;
     private final HashMap<User, Integer> maxScores;
     private final int duelsCount;
@@ -32,16 +28,14 @@ public class Game {
         this.secondUser = secondUser;
         isGameFinished = false;
         this.duelsCount = duelsCount;
-        eventsList = new ArrayList<>();
-        cardChain = new ArrayList<>();
         scores = new HashMap<>();
         maxScores = new HashMap<>();
         maxScores.put(firstUser, 0);
         maxScores.put(secondUser, 0);
     }
 
-    boolean isFirstTurn() {
-        return turn == 1;
+    boolean isNotFirstTurn() {
+        return turn != 1;
     }
 
     public boolean isDuelFinished() {
@@ -84,8 +78,7 @@ public class Game {
                 firstUser.getGameDeckByName(firstUser.getActiveDeckName()).getMainDeck().cloneDeck());
         if (secondUser != null) secondPlayer = new Player(secondUser,
                 secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
-        else secondPlayer = new AIPlayer(secondUser,
-                secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
+        else secondPlayer = new AIPlayer();
 
         makeCardsReady(firstPlayer);
         makeCardsReady(secondPlayer);

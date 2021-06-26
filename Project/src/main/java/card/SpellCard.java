@@ -18,7 +18,7 @@ public class SpellCard extends Card{
         String result = "Name: " + this.getCardName() + "\n";
         result += "Spell\n";
         result += "Type: " + this.getCardSpellType() + "\n";
-        result += "Description " + this.getCardDescription() + "\n";
+        result += "Description: " + this.getCardDescription() + "\n";
         Printer.prompt(result);
     }
 

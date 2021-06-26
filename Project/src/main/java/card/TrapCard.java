@@ -18,7 +18,7 @@ public class TrapCard extends Card{
         String result = "Name: " + this.getCardName() + "\n";
         result += "Trap\n";
         result += "Type: " + this.getCardTrapType() + "\n";
-        result += "Description " + this.getCardDescription() + "\n";
+        result += "Description: " + this.getCardDescription() + "\n";
         Printer.prompt(result);
     }
 

@@ -60,7 +60,7 @@ public class MonsterCard extends Card {
         result += "Type: " + this.getMonsterType() + "\n";
         result += "ATK: " + this.getCardAttack() + "\n";
         result += "DEF: " + this.getCardDefense() + "\n";
-        result += "Description " + this.getCardDescription() + "\n";
+        result += "Description: " + this.getCardDescription() + "\n";
         Printer.prompt(result);
     }
 

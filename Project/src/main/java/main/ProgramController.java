@@ -3,13 +3,13 @@ package main;
 import data.DataManager;
 import menus.LoginMenu;
 import view.App;
-import view.Starter;
 
 public class ProgramController {
 
     public void runConsole() {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();
+        DataManager.initializeAIDeck();
         new LoginMenu().runMenu();
         DataManager.saveUsersData();
     }
