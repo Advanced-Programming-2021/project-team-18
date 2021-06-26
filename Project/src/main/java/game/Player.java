@@ -206,7 +206,7 @@ public class Player {
     //          by Kamyar
     public void battlePhase() {
         Printer.forcePrompt("phase: battle phase");
-        if (game.isFirstTurn()) {
+        if (!game.isFirstTurn()) {
             while (!this.isLoser() && !opponent.isLoser() && !isAttackPhaseEndedByEffect) {
                 String command = Utility.getNextLine();
                 if (Utility.getCommandMatcher(command, regexNextPhase).matches())
