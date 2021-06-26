@@ -12,6 +12,7 @@ import utility.Utility;
 
 public class ScannerEffect extends Effect {
     private int placeOnField;
+    private boolean isActivated = false;
 
     public void runEffect() {
 
@@ -41,11 +42,12 @@ public class ScannerEffect extends Effect {
                     && card.hasEffect(this)
                     && selfCard == null) {
                 selfCard = card;
+                isActivated = true;
                 placeOnField = card.getPlayer().getMonsterPositionOnBoard((MonsterCard) card);
                 selfPlayer = selfCard.getPlayer();
             }
         }
-        if (event instanceof TurnChangeEvent) {
+        if (event instanceof TurnChangeEvent && isActivated) {
             int graveyardMonsterSize = selfCard.getPlayer().getOpponent().getNumberOfMonstersInGraveyard();
             if (graveyardMonsterSize == 0) {
                 Printer.prompt("Opponent does not have any monster cards in their graveyard, so the Scanner cannot activate its effect");
