@@ -6,6 +6,7 @@ import game.Player;
 
 // by Pasha
 // cards with this effect : [raigeki , Dark Hole]
+// tested raigeki
 public class DestroyEnemyMonsterEffect extends Effect {
     private boolean destroyBothPlayers; // should be initialized
     public DestroyEnemyMonsterEffect(boolean destroyBothPlayers) { this.destroyBothPlayers = destroyBothPlayers; }

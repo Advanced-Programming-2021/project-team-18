@@ -97,7 +97,6 @@ public abstract class Card implements Comparable<Card> {
             case "Crab Turtle":
                 break;
             case "Skull Guardian":
-                effects.add(new RitualSummonEffect());
                 break;
             case "Man-Eater Bug":
                 effects.add(new ManEaterBugEffect());
@@ -178,10 +177,8 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new TwinTwistersEffect());
                 break;
             case "Mystical space typhoon":
-
                 break;
             case "Ring of defense":
-
                 break;
             case "Yami":
                 effects.add(new AddAttackAndDefenseEffect(200, 200, MonsterCardType.FIEND, 0));
@@ -243,7 +240,6 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new MagicJammerEffect());
                 break;
             case "Call of The Haunted":
-
                 break;
         }
     }
