@@ -2,6 +2,7 @@ package effects;
 
 import card.Card;
 import card.MonsterCard;
+import data.Printer;
 import events.*;
 import game.Player;
 
@@ -17,6 +18,9 @@ public class SwordsOfRevealingLightEffect extends Effect {
                     monstersField[i].setFaceUp(true);
                     selfPlayer.notifyAllEffectsForConsideration(flipEvent);
                 }
+                else{
+                    Printer.prompt("an effect prevented flip!");
+                }
             }
         }
     }
@@ -26,7 +30,7 @@ public class SwordsOfRevealingLightEffect extends Effect {
             CardEvent cardEvent = (CardEvent) event;
             Card sourceCard = cardEvent.getCard();
             CardEventInfo cardEventInfo = cardEvent.getInfo();
-            if ((cardEventInfo == CardEventInfo.ENTRANCE && sourceCard.hasEffect(this) && selfPlayer == null)
+            if ((cardEventInfo == CardEventInfo.ACTIVATE_EFFECT && sourceCard.hasEffect(this) && selfPlayer == null)
                     || (cardEventInfo == CardEventInfo.FLIP && sourceCard.hasEffect(this) & selfPlayer == null)) {
                 selfPlayer = sourceCard.getPlayer();
                 numberOfTurns = 0;
