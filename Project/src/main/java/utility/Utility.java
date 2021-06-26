@@ -1,6 +1,7 @@
 package utility;
 
 import data.Printer;
+import game.AIPlayer;
 import game.Player;
 import lombok.SneakyThrows;
 
@@ -65,20 +66,20 @@ public class Utility {
         return (mapSize == 0);
     }
 
-    public static boolean areAttributesValid(HashMap<String, String> map, String[] attributesWithArgument, String[] attributesWithoutAnArgument) {
+    public static boolean areAttributesInvalid(HashMap<String, String> map, String[] attributesWithArgument, String[] attributesWithoutAnArgument) {
         if (attributesWithArgument != null) {
             for (String i : attributesWithArgument) {
                 if (!map.containsKey(i)
-                        || map.get(i) == null) return false;
+                        || map.get(i) == null) return true;
             }
         }
         if (attributesWithoutAnArgument != null) {
             for (String i : attributesWithoutAnArgument) {
                 if (!map.containsKey(i)
-                        || map.get(i) != null) return false;
+                        || map.get(i) != null) return true;
             }
         }
-        return true;
+        return false;
     }
 
     public static int getARandomNumber(int bound){
@@ -118,7 +119,7 @@ public class Utility {
     }
 
     public static String askPlayer(Player player, String message, ArrayList<String> options) {
-        if (player == null)
+        if (player instanceof AIPlayer || player == null)
             return options.get(getARandomNumber(options.size()));
         Printer.prompt(player.getUser().getNickname() + ": " + message);
         System.out.print("your options are (");

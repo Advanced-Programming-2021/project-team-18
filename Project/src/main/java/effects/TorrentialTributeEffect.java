@@ -14,20 +14,17 @@ import java.util.Arrays;
 public class TorrentialTributeEffect extends Effect {
 
     private void destroyPlayer(Player player) {
-        for(int i = 1;i <= Player.getFIELD_SIZE();++ i)
-            if(player.getMonstersFieldList()[i] != null)
-                player.removeCardFromField(player.getMonstersFieldList()[i] , selfCard);
+        for (int i = 1; i <= Player.getFIELD_SIZE(); ++i)
+            if (player.getMonstersFieldList()[i] != null)
+                player.removeCardFromField(player.getMonstersFieldList()[i], selfCard);
     }
 
     private void activateEffect() {
-        String message = "do you want to activate your torrential Tribute ?";
-        ArrayList<String> options = new ArrayList<>(Arrays.asList("yes" , "no"));
-        String response = Utility.askPlayer(selfPlayer , message , options);
-        if(response.equals("no"))
-            return ;
+        if (!selfPlayer.obtainConfirmation("do you want to activate" +
+                " your torrential Tribute ? (yes/no)")) return;
         destroyPlayer(selfPlayer);
         destroyPlayer(selfPlayer.getOpponent());
-        selfPlayer.removeCardFromField(selfCard , null);
+        selfPlayer.removeCardFromField(selfCard, null);
     }
 
     public boolean permit(Event event) {
@@ -41,9 +38,9 @@ public class TorrentialTributeEffect extends Effect {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if(cardEventInfo == CardEventInfo.ENTRANCE && card instanceof MonsterCard) {
+            if (cardEventInfo == CardEventInfo.ENTRANCE && card instanceof MonsterCard) {
                 MonsterCard monsterCard = (MonsterCard) card;
-                if(monsterCard.isFaceUp()) {
+                if (monsterCard.isFaceUp()) {
                     activateEffect();
                 }
             }

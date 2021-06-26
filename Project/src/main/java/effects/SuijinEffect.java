@@ -27,14 +27,8 @@ public class SuijinEffect extends Effect {
     private boolean hasBeenCounteracted = true;
 
     private boolean obtainConfirmation() {
-        String response;
-        while (true) {
-            Printer.prompt("Do you want to activate the Suijin Effect? (yes/no)");
-            response = Utility.getNextLine();
-            if (response.equals("yes")) return true;
-            if (response.equals("no")) return false;
-            Printer.prompt("invalid input");
-        }
+        return selfPlayer.obtainConfirmation(
+                "Do you want to activate the Suijin Effect? (yes/no)");
     }
 
     private boolean hasDoneSinceLastFaceUp() {

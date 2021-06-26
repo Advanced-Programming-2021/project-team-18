@@ -4,7 +4,7 @@ import events.AttackEvent;
 import events.Event;
 
 // By Sina
-public class MagicCylinderEffect extends Effect {
+public class  MagicCylinderEffect extends Effect {
 
     private boolean obtainConfirmation() {
         return selfPlayer.obtainConfirmation(

@@ -14,7 +14,6 @@ public class HarpiesFeatherEffect extends Effect {
         for (int i = 1; i < list.length; i++) {
             opponent.removeCardFromField(list[i] , selfCard);
         }
-        // Add the event of effect done
     }
 
     public boolean permit(Event event) {

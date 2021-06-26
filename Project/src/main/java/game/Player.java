@@ -445,6 +445,7 @@ public class Player {
     }
 
 
+    // Asks player a yes/no question. returns true iff player's answer was 'yes'
     public boolean obtainConfirmation(String promptMassage) {
         String response;
         while (true) {
@@ -517,6 +518,23 @@ public class Player {
         }
     }
 
+    // Obtains a number in range [l, r), prompting the player first.
+    // returns 0/0 if r <= l
+    public int obtainNumberInRange(int l, int r, String prompt) {
+        int number;
+        while (true) {
+            System.out.println(prompt);
+            try {
+                number = Integer.parseInt(Utility.getNextLine());
+            } catch (NumberFormatException ignored) {
+                System.out.println("not a number!");
+                continue;
+            }
+            if (l <= number && number < r) return number;
+            System.out.println("number out of range!");
+        }
+    }
+
     // by Kamyar
     public void selectCard(String command) {
         if (command.matches("select -d")) {
@@ -538,12 +556,12 @@ public class Player {
         int placeID;
         if (Utility.isCommandValid(map, new String[]{"monster"}, new String[]{"opponent"})) {
             if (map.containsKey("opponent")) {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"monster"}), "invalid selection"))
+                if (Utility.checkAndPrompt(Utility.areAttributesInvalid(map, new String[]{"opponent"}, new String[]{"monster"}), "invalid selection"))
                     return;
                 place = map.get("opponent");
                 isOpponentsCard = true;
             } else {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"monster"}, null), "invalid selection"))
+                if (Utility.checkAndPrompt(Utility.areAttributesInvalid(map, new String[]{"monster"}, null), "invalid selection"))
                     return;
                 place = map.get("monster");
             }
@@ -556,12 +574,12 @@ public class Player {
             Printer.prompt("card selected");
         } else if (Utility.isCommandValid(map, new String[]{"spell"}, new String[]{"opponent"})) {
             if (map.containsKey("opponent")) {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"spell"}), "invalid selection"))
+                if (Utility.checkAndPrompt(Utility.areAttributesInvalid(map, new String[]{"opponent"}, new String[]{"spell"}), "invalid selection"))
                     return;
                 place = map.get("opponent");
                 isOpponentsCard = true;
             } else {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"spell"}, null), "invalid selection"))
+                if (Utility.checkAndPrompt(Utility.areAttributesInvalid(map, new String[]{"spell"}, null), "invalid selection"))
                     return;
                 place = map.get("spell");
             }
@@ -574,11 +592,11 @@ public class Player {
             Printer.prompt("card selected");
         } else if (Utility.isCommandValid(map, new String[]{"field"}, new String[]{"opponent"})) {
             if (map.containsKey("opponent")) {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, null, new String[]{"field", "opponent"}), "invalid selection"))
+                if (Utility.checkAndPrompt(Utility.areAttributesInvalid(map, null, new String[]{"field", "opponent"}), "invalid selection"))
                     return;
                 isOpponentsCard = true;
             } else {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, null, new String[]{"field"}), "invalid selection"))
+                if (Utility.checkAndPrompt(Utility.areAttributesInvalid(map, null, new String[]{"field"}), "invalid selection"))
                     return;
             }
             Card selectCandidateCard = (isOpponentsCard ? opponent.fieldZone : fieldZone);
@@ -586,7 +604,7 @@ public class Player {
             selectedCard = selectCandidateCard;
             Printer.prompt("card selected");
         } else if (Utility.isCommandValid(map, new String[]{"hand"}, null)) {
-            if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"hand"}, null), "invalid selection"))
+            if (Utility.checkAndPrompt(Utility.areAttributesInvalid(map, new String[]{"hand"}, null), "invalid selection"))
                 return;
             place = map.get("hand");
             if (Utility.checkAndPrompt((!place.matches("\\d+")), "invalid selection")) return;

@@ -14,15 +14,15 @@ import java.util.Arrays;
 // [Trap Hole]
 public class TrapHoleEffect extends Effect {
     private static int minimumAttack = 1000;
+
     private void activateEffect(MonsterCard monsterCard) {
-        String message = "do you want to activate your trap hole by killing opponent " + monsterCard.getCardName() + "?";
-        ArrayList<String> options = new ArrayList<>(Arrays.asList("yes" , "no"));
-        String response = Utility.askPlayer(selfPlayer , message , options);
-        if(response.equals("no")) return ;
-        selfPlayer.getOpponent().removeCardFromField(monsterCard , null);
+        if (!selfPlayer.obtainConfirmation("do you want to activate your trap hole " +
+                "by killing opponent " + monsterCard.getCardName() + "? (yes/no)")) return;
+        selfPlayer.getOpponent().removeCardFromField(monsterCard, null);
         // effect event
-        selfPlayer.removeCardFromField(selfCard , null);
+        selfPlayer.removeCardFromField(selfCard, null);
     }
+
     public boolean permit(Event event) {
         return true;
     }
@@ -30,12 +30,12 @@ public class TrapHoleEffect extends Effect {
     public void consider(Event event) {
         isInConsideration = true;
         initializeSelfCardWithEvent(event);
-        if(event instanceof CardEvent) {
+        if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
-            if(((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP) && card.getPlayer() != selfPlayer) {
-                if(card instanceof MonsterCard && ((MonsterCard) card).getCardAttack() >= minimumAttack) {
+            if (((cardEventInfo == CardEventInfo.ENTRANCE && card.isFaceUp()) || cardEventInfo == CardEventInfo.FLIP) && card.getPlayer() != selfPlayer) {
+                if (card instanceof MonsterCard && ((MonsterCard) card).getCardAttack() >= minimumAttack) {
                     activateEffect((MonsterCard) card);
                 }
             }

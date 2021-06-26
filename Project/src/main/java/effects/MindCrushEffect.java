@@ -14,31 +14,20 @@ public class MindCrushEffect extends Effect {
     private boolean hasEnteredThisTurn = true;
 
     private void runEffect() {
-        String selectedCardName;
         int index = 0;
         int cardSize = Card.getAllCardNames().size();
         for (String cardName : Card.getAllCardNames()) {
             index++;
             Printer.prompt(index + ". " + cardName);
         }
-        String response;
-        while (true) {
-            Printer.prompt("Please enter a card number (in range 1 - " + cardSize + " )");
-            response = Utility.getNextLine();
-            if (response.matches("\\d{1,3}")) {
-                if ((index = Integer.parseInt(response)) <= cardSize) {
-                    selectedCardName = Card.getAllCardNames().get(index - 1);
-                    break;
-                }
-            }
-            Printer.prompt(Menu.INVALID_COMMAND);
-        }
+        String selectedCardName = Card.getAllCardNames().get(selfPlayer.obtainNumberInRange(
+                1, cardSize + 1, "Please enter a card number (in range 1 - " + cardSize + " )"));
         Card selectedCard = selfPlayer.getOpponent().getHand().getCardByName(selectedCardName);
         boolean opponentContainsThisCard = false;
         while (selfPlayer.getOpponent().removeCardFromHand(selectedCard))
             opponentContainsThisCard = true;
-        if (opponentContainsThisCard)
-        selfPlayer.removeCardFromHand(selfPlayer.getHand().getRandomCard());
+        if (!opponentContainsThisCard)
+            selfPlayer.removeCardFromHand(selfPlayer.getHand().getRandomCard());
     }
 
     public boolean permit(Event event) {

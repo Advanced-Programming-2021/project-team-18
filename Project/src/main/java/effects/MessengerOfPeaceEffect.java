@@ -15,20 +15,10 @@ public class MessengerOfPeaceEffect extends Effect {
             selfPlayer.removeCardFromField(selfCard , null);
             return;
         }
-        String response;
-        while (true) {
-            Printer.prompt("Would you like to spend 100 LPs, or destruct this card? (1 for LP, 2 for destruction)");
-            response = Utility.getNextLine();
-            if (response.equals("1")) {
-                selfPlayer.decreaseLifePoint(100 , null);
-                return;
-            }
-            if (response.equals("2")) {
-                selfPlayer.removeCardFromField(selfCard , null);
-                return;
-            }
-            Printer.prompt("invalid input");
-        }
+        if (selfPlayer.obtainConfirmation("Would you like to spend 100 LPs," +
+                " or destruct this card? (yes for LP, no for destruction)"))
+            selfPlayer.decreaseLifePoint(100 , null);
+        else selfPlayer.removeCardFromField(selfCard , null);
     }
 
     public boolean permit(Event event) {
