@@ -70,6 +70,7 @@ public class User implements Comparable<User>, Serializable {
         password = null;
         nickname = "AI";
         balance = 0;
+        score = 0;
         decks = new ArrayList<>();
         cardCount = new HashMap<>();
     }

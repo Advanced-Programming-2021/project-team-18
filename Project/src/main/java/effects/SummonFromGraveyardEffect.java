@@ -28,7 +28,10 @@ public class SummonFromGraveyardEffect extends Effect {
             else summonOrigin = selfPlayer.getOpponent().getGraveyard();
         }
         MonsterCard monsterCard = selfPlayer.obtainMonsterCard(summonOrigin);
-        // TODO : Ritual monsters should first be summoned ritually!
+        if (monsterCard.isRitual()) {
+            System.out.println("Sorry, cannot summon ritual monsters!");
+            return;
+        }
         if (!selfPlayer.addMonsterCardToField(monsterCard)) {
             Printer.prompt("Sorry, you don't have enough space for new monster cards!");
             return;

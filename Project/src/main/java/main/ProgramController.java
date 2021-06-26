@@ -1,12 +1,14 @@
 package main;
 
 import data.DataManager;
+import data.Printer;
 import menus.LoginMenu;
 import view.App;
 
 public class ProgramController {
 
     public void runConsole() {
+        Printer.greetings();
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();
         DataManager.initializeAIDeck();

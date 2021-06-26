@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -139,7 +140,6 @@ public class DataManager {
     }
 
     public static void loadCardsIntoAllCards() {
-        System.out.println("Loading cards ...");
         loadMonsterCardsIntoAllCards();
         loadSpellCardsIntoAllCards();
         loadTrapCardsIntoAllCards();
@@ -213,7 +213,8 @@ public class DataManager {
     public static void initializeAIDeck() {
         String fileContent = "";
         try {
-            fileContent = new String(Files.readAllBytes((Paths.get((new File(DataManager.class.getResource("/cards/AIDeck").getPath())).getAbsolutePath()))));
+            fileContent = new String(Files.readAllBytes((Paths.get((new File(Objects.requireNonNull(
+                    DataManager.class.getResource("/cards/AIDeck")).getPath())).getAbsolutePath()))));
         } catch (IOException e) {
             e.printStackTrace();
         }

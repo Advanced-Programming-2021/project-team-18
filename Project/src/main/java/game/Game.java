@@ -10,7 +10,7 @@ public class Game {
     private static Player activePlayer;
     private final User firstUser, secondUser;
     private final HashMap<User, Integer> scores;
-    private final HashMap<User, Integer> maxScores;
+    private final HashMap<User, Integer> maxLP;
     private final int duelsCount;
 
     private Player firstPlayer, secondPlayer;
@@ -25,13 +25,16 @@ public class Game {
     // If secondUser is null, the game starts between firstUser and Computer
     public Game(User firstUser, User secondUser, int duelsCount) {
         this.firstUser = firstUser;
-        this.secondUser = secondUser;
+        if (secondUser == null) this.secondUser = User.getDummyUser();
+        else this.secondUser = secondUser;
         isGameFinished = false;
         this.duelsCount = duelsCount;
         scores = new HashMap<>();
-        maxScores = new HashMap<>();
-        maxScores.put(firstUser, 0);
-        maxScores.put(secondUser, 0);
+        scores.put(this.firstUser, 0);
+        scores.put(this.secondUser, 0);
+        maxLP = new HashMap<>();
+        maxLP.put(this.firstUser, 0);
+        maxLP.put(this.secondUser, 0);
     }
 
     boolean isNotFirstTurn() {
@@ -44,6 +47,7 @@ public class Game {
 
     private void endGame(Player winner) {
         scores.put(winner.getUser(), scores.get(winner.getUser()) + 1);
+        maxLP.put(winner.getUser(), Math.max(maxLP.get(winner.getUser()), winner.getLifePoint()));
         Printer.prompt(winner.getUser().getUsername() + " won the game and the score is: <" +
                 scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
         );
@@ -54,9 +58,6 @@ public class Game {
             isGameFinished = true;
             giveAwards(winner.getUser());
         }
-
-        maxScores.put(firstUser, Math.max(maxScores.get(firstUser), scores.get(firstUser)));
-        maxScores.put(secondUser, Math.max(maxScores.get(secondUser), scores.get(secondUser)));
     }
 
     private void drawInitialCards(Player player) {
@@ -76,7 +77,7 @@ public class Game {
     private void startNewDuel() {
         firstPlayer = new Player(firstUser,
                 firstUser.getGameDeckByName(firstUser.getActiveDeckName()).getMainDeck().cloneDeck());
-        if (secondUser != null) secondPlayer = new Player(secondUser,
+        if (secondUser != User.getDummyUser()) secondPlayer = new Player(secondUser,
                 secondUser.getGameDeckByName(secondUser.getActiveDeckName()).getMainDeck().cloneDeck());
         else secondPlayer = new AIPlayer();
 
@@ -87,8 +88,6 @@ public class Game {
         secondPlayer.setGame(this);
         firstPlayer.setOpponent(secondPlayer);
         secondPlayer.setOpponent(firstPlayer);
-        scores.put(firstUser, 0);
-        scores.put(secondUser, 0);
         drawInitialCards(firstPlayer);
         drawInitialCards(secondPlayer);
         turn = 0;
@@ -118,7 +117,7 @@ public class Game {
 
     private void giveAwards(User winner) {
         User loser = (winner.equals(firstUser) ? secondUser : firstUser);
-        winner.increaseBalance(duelsCount * 1000 + duelsCount * maxScores.get(winner));
+        winner.increaseBalance(duelsCount * 1000 + duelsCount * maxLP.get(winner));
         winner.increaseScore(duelsCount * 1000);
         loser.increaseBalance(duelsCount * 100);
     }
@@ -128,5 +127,6 @@ public class Game {
             startNewDuel();
             runDuel();
         }
+        Printer.prompt("-------------------------------");
     }
 }

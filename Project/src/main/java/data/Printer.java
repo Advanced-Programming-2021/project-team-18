@@ -116,4 +116,7 @@ public class Printer {
         }
     }
 
+    public static void greetings() {
+        System.out.println("Welcome to the Yu-Gi-Oh Project");
+    }
 }
