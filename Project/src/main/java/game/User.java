@@ -81,6 +81,10 @@ public class User implements Comparable<User>, Serializable {
         setBalance(100 * 1000);
         cardCount = new HashMap<>();
         decks = new ArrayList<>();
+        GameDeck defaultDeck = new GameDeck("default");
+        defaultDeck.setMainDeck(AIPlayer.getAIDeck());
+        defaultDeck.setSideDeck(new Deck(15));
+        decks.add(defaultDeck);
         allUsers.add(this);
     }
 
@@ -142,8 +146,8 @@ public class User implements Comparable<User>, Serializable {
 
     @Override
     public int compareTo(User anotherUser) {
-        if (this.score > anotherUser.score) return 1;
-        if (this.score < anotherUser.score) return -1;
+        if (this.score > anotherUser.score) return -1;
+        if (this.score < anotherUser.score) return 1;
         return this.nickname.compareTo(anotherUser.nickname);
     }
 }

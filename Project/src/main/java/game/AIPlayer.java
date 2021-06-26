@@ -19,6 +19,10 @@ public class AIPlayer extends Player {
         AIPlayer.AIDeck = AIDeck;
     }
 
+    public static Deck getAIDeck() {
+        return AIDeck;
+    }
+
     public AIPlayer() {
         super(User.getDummyUser(), AIDeck);
         indexes = new ArrayList<>();
