@@ -61,7 +61,7 @@ public class DuelMenu extends Menu {
         HashMap<String, String> map = Utility.getCommand(matcher.group(1));
         String[] mustAttributes = {"rounds"};
         if (!Utility.isCommandValid(map, mustAttributes, null)) {
-            Printer.prompt("Invalid command!");
+            Printer.prompt(Menu.INVALID_COMMAND);
             return;
         }
         int roundsCount = Integer.parseInt(map.get("rounds"));
@@ -84,7 +84,7 @@ public class DuelMenu extends Menu {
     public void runMenu() {
         String regexShowCard = "card\\s+show\\s+(.+)";
         String regexDuelOtherPlayer = "duel\\s+\\-\\-new\\s+(.+)";
-        String regexDuelAI = "duel\\s+\\-\\-new\\s+\\-\\-ai\\s+(.+)";
+        String regexDuelAI = "duel\\s+--new\\s+--ai\\s+(.+)";
         Matcher matcher;
         while (true) {
             String input = Utility.getNextLine();
@@ -94,10 +94,10 @@ public class DuelMenu extends Menu {
                 Printer.prompt("Duel Menu");
             } else if ((matcher = Utility.getCommandMatcher(input, regexShowCard)).matches()) {
                 showCard(matcher);
-            } else if ((matcher = Utility.getCommandMatcher(input, regexDuelOtherPlayer)).matches()) {
-                duelOtherPlayer(matcher);
             } else if ((matcher = Utility.getCommandMatcher(input, regexDuelAI)).matches()) {
                 duelAI(matcher);
+            } else if ((matcher = Utility.getCommandMatcher(input, regexDuelOtherPlayer)).matches()) {
+                duelOtherPlayer(matcher);
             } else {
                 Printer.prompt(INVALID_COMMAND);
             }

@@ -5,9 +5,6 @@ import data.DataManager;
 import game.Game;
 import game.GameDeck;
 import game.User;
-import utility.Utility;
-
-import java.util.HashMap;
 
 public class DebugConsole {
     public static void main(String[] args) {

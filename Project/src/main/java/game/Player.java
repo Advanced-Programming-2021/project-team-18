@@ -19,7 +19,7 @@ public class Player {
 
     protected static final String regexSelect = "select.+";
     protected static final String regexShowGraveyard = "show\\s+graveyard";
-    protected static final String regexShowSelectedCard = "card\\s+show\\s+\\-\\-selected";
+    protected static final String regexShowSelectedCard = "card\\s+show\\s+--selected";
     protected static final String regexSummon = "summon";
     protected static final String regexSet = "set";
     protected static final String regexChangePosition = "set\\s+--position\\s(.+)";
