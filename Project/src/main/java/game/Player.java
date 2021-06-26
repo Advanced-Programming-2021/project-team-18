@@ -186,7 +186,7 @@ public class Player {
             activateEffect();
             return true;
         }
-        System.out.println("command:" + command  + ". (which does not match:" + regexAttackDirect + ")");
+        System.out.println("command:" + command + ". (which does not match:" + regexAttackDirect + ")");
         return false;
     }
 
@@ -415,7 +415,7 @@ public class Player {
     // TODO : WHY THE NAME OF METHOD IS OBTAIN FROM "FIELD" INSTEAD OF "HAND" ?!
     public Card obtainSpellTrapFromField() {
         Printer.prompt(this.getUser().getNickname() + "'s field contains these cards: ");
-        for (int i = 1; i <= FIELD_SIZE ; i++) {
+        for (int i = 1; i <= FIELD_SIZE; i++) {
             Printer.showCard(spellsAndTrapFieldList[i]);
         }
         String response;
@@ -436,9 +436,9 @@ public class Player {
         return spellsAndTrapFieldList[index];
     }
 
-    public int getSpellCountOnField(){
+    public int getSpellCountOnField() {
         int count = 0;
-        for (int i = 1; i < FIELD_SIZE ; i++) {
+        for (int i = 1; i < FIELD_SIZE; i++) {
             if (spellsAndTrapFieldList[i] != null) count++;
         }
         return count;
@@ -574,11 +574,11 @@ public class Player {
             Printer.prompt("card selected");
         } else if (Utility.isCommandValid(map, new String[]{"field"}, new String[]{"opponent"})) {
             if (map.containsKey("opponent")) {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"opponent"}, new String[]{"field"}), "invalid selection"))
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, null, new String[]{"field", "opponent"}), "invalid selection"))
                     return;
                 isOpponentsCard = true;
             } else {
-                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, new String[]{"field"}, null), "invalid selection"))
+                if (Utility.checkAndPrompt(!Utility.areAttributesValid(map, null, new String[]{"field"}), "invalid selection"))
                     return;
             }
             Card selectCandidateCard = (isOpponentsCard ? opponent.fieldZone : fieldZone);
@@ -978,7 +978,7 @@ public class Player {
             if (!effect.isInConsideration()) {
                 try {
                     effect.consider(event);
-                } catch(Exception ignored) {
+                } catch (Exception ignored) {
                     System.out.println("Sorry, some problems occurred in handling effects :(");
                 }
             }
