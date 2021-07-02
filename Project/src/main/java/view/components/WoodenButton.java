@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,14 +82,14 @@ public class WoodenButton extends StackPane implements Initializable {
         text.setFont(new Font("Times Roman", fontSize));
         text.setFill(Color.valueOf("#151b37"));
     }
-
+    @SneakyThrows
     private void onMouseEntered() {
-        File file = new File("src/main/resources/background/button_hovered.png");
+        File file = new File(getClass().getResource("/background/button_hovered.png").toURI());
         imageView.setImage(new Image(file.toURI().toString()));
     }
-
+    @SneakyThrows
     private void onMouseExited() {
-        File file = new File("src/main/resources/background/button.png");
+        File file = new File(getClass().getResource("/background/button.png").toURI());
         imageView.setImage(new Image(file.toURI().toString()));
     }
 

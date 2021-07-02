@@ -29,9 +29,9 @@ import java.util.regex.Pattern;
 // by Pasha
 
 public class DataManager {
-    private static final String MONSTER_CARDS_PATH = "src/main/resources/cards/Monster.csv";
-    private static final String SPELL_AND_TRAP_CARDS_PATH = "src/main/resources/cards/SpellTrap.csv";
-    private static final String USERS_DATA_PATH = "src/main/resources/users/allUsers.json";
+    private static final String MONSTER_CARDS_PATH = "/cards/Monster.csv";
+    private static final String SPELL_AND_TRAP_CARDS_PATH = "/cards/SpellTrap.csv";
+    private static final String USERS_DATA_PATH = "/users/allUsers.json";
 
     public static void loadMonsterCardsIntoAllCards() {
         ArrayList<String[]> cards = Utility.getArrayListFromCSV(MONSTER_CARDS_PATH);

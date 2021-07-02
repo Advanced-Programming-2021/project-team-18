@@ -12,6 +12,7 @@
          </image>
       </ImageView>
       <Button layoutX="51.0" layoutY="188.0" mnemonicParsing="false" onAction="#leftMainDeck" text="&lt;" />
+      <ImageView fx:id="mainDeckImageView" fitHeight="196.0" fitWidth="133.0" layoutX="94.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" />
       <Button layoutX="236.0" layoutY="189.0" mnemonicParsing="false" onAction="#rightMainDeck" text="&gt;" />
       <Button layoutX="330.0" layoutY="189.0" mnemonicParsing="false" onAction="#leftSideDeck" text="&lt;" />
       <ImageView fx:id="sideDeckImageView" fitHeight="196.0" fitWidth="133.0" layoutX="373.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true" />

@@ -6,6 +6,7 @@ import data.Printer;
 import lombok.SneakyThrows;
 import utility.Utility;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,12 +14,13 @@ import java.util.regex.Matcher;
 
 // by Pasha
 public class ImportExportMenu extends Menu {
-    private static final String PATH ="src/main/resources/cards";
+    private static final String PATH ="/cards";
     @SneakyThrows
     private void importCard(Matcher matcher) {
         String cardName = matcher.group(1);
         Gson gson = new Gson();
-        String text = new String(Files.readAllBytes(Paths.get(PATH + cardName + ".json")));
+        File file = new File(getClass().getResource(PATH + cardName + ".json").toURI());
+        String text = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
         Card card = gson.fromJson(text , Card.class);
         Card.getAllCards().add(card);
     }
@@ -31,7 +33,8 @@ public class ImportExportMenu extends Menu {
             return ;
         }
         card.setPlayer(null);
-        FileWriter fileWriter = new FileWriter(PATH + cardName + ".json");
+        File file = new File(getClass().getResource(PATH + cardName + ".json").toURI());
+        FileWriter fileWriter = new FileWriter(file.getAbsolutePath());
         Gson gson = new Gson();
         String json = gson.toJson(card);
         fileWriter.write(json);

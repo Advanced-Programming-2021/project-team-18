@@ -6,6 +6,7 @@ import game.Player;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -94,7 +95,8 @@ public class Utility {
 
     @SneakyThrows
     public static ArrayList<String[]> getArrayListFromCSV(String fileLocation) {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation));
+        File file = new File(Utility.class.getResource(fileLocation).toURI());
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         ArrayList<String[]> result = new ArrayList<>();
         String newLine;
         while ((newLine = bufferedReader.readLine()) != null)

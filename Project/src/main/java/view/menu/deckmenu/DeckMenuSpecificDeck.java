@@ -1,6 +1,5 @@
 package view.menu.deckmenu;
 
-import game.Deck;
 import game.GameDeck;
 import game.User;
 import javafx.event.ActionEvent;
@@ -10,12 +9,8 @@ import javafx.scene.image.ImageView;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import view.View;
-import view.menu.mainmenu.MainMenuView;
-
-import java.awt.*;
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class DeckMenuSpecificDeck extends View implements Initializable {
@@ -102,22 +97,24 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
             sideDeckSelectId = -1;
         updateMainDeckImageView();
     }
+    @SneakyThrows
     private void updateMainDeckImageView() {
         mainDeckImageView.setImage(null);
         if(mainDeckSelectId < 0)
             return ;
         String cardName = currentDeck.getMainDeck().getCardsList().get(mainDeckSelectId).getCardName();
         cardName = cardName.replaceAll(" " , "_");
-        File file = new File("src/main/resources/cards_images/" + cardName + ".jpg");
+        File file = new File(getClass().getResource("/cards_images/" + cardName + ".jpg").toURI());
         mainDeckImageView.setImage(new Image(file.toURI().toString()));
     }
+    @SneakyThrows
     private void updateSideDeckImageView() {
         sideDeckImageView.setImage(null);
         if(sideDeckSelectId < 0)
             return ;
         String cardName = currentDeck.getSideDeck().getCardsList().get(sideDeckSelectId).getCardName();
         cardName = cardName.replaceAll(" " , "_");
-        File file = new File("src/main/resources/cards_images/" + cardName + ".jpg");
+        File file = new File(getClass().getResource("/cards_images/" + cardName + ".jpg").toURI());
         mainDeckImageView.setImage(new Image(file.toURI().toString()));
     }
 

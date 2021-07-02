@@ -53,11 +53,12 @@ public class DeckMenuCardSelection extends View implements Initializable {
         loadView("deckView");
     }
 
+    @SneakyThrows
     private void updateImageView() {
         imageView.setImage(null);
         String cardName = Card.getAllCards().get(currentCardId).getCardName();
         cardName = cardName.replaceAll(" " , "_");
-        File file = new File("src/main/resources/cards_images/" + cardName + ".jpg");
+        File file = new File((getClass().getResource("/cards_images/" + cardName + ".jpg")).toURI());
         imageView.setImage(new Image(file.toURI().toString()));
     }
     @Override
