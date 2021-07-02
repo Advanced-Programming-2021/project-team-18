@@ -185,7 +185,8 @@ public class DataManager {
     public static void saveUsersData() {
 
         prepareUsersDataForSaving();
-        FileWriter fileWriter = new FileWriter(USERS_DATA_PATH);
+        File file = new File(DataManager.class.getResource(USERS_DATA_PATH).toURI());
+        FileWriter fileWriter = new FileWriter(file);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(User.getAllUsers());
         fileWriter.write(json);
