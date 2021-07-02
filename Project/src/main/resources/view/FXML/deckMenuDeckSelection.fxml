@@ -2,19 +2,20 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.deckmenu.DeckMenuDeckSelectionView">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.deckmenu.DeckMenuDeckSelectionView">
    <children>
-      <ListView fx:id="listView" layoutX="121.0" layoutY="56.0" prefHeight="200.0" prefWidth="274.0" />
-      <Button onAction="#onRemoveButton" layoutX="75.0" layoutY="263.0" mnemonicParsing="false" text="remove" />
-      <Button onAction="#onBackButton" layoutX="163.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" text="back" />
-      <Button onAction="#onEditButton" layoutX="255.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" text="edit" />
-      <Button onAction="#onAddNewDeckButton" layoutX="351.0" layoutY="263.0" mnemonicParsing="false" text="add new deck" />
-      <Text layoutX="217.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="decks list" wrappingWidth="80.86590576171875">
+      <ImageView fitHeight="600.0" fitWidth="860.0" pickOnBounds="true" preserveRatio="true" />
+      <ListView fx:id="listView" layoutX="72.0" layoutY="65.0" prefHeight="469.0" prefWidth="751.0" />
+      <Button layoutX="167.0" layoutY="541.0" mnemonicParsing="false" onAction="#onRemoveButton" text="remove deck" />
+      <Button layoutX="694.0" layoutY="541.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0" prefWidth="56.0" text="back" />
+      <Button layoutX="348.0" layoutY="541.0" mnemonicParsing="false" onAction="#onEditButton" prefHeight="25.0" prefWidth="81.0" text="edit deck" />
+      <Button layoutX="500.0" layoutY="541.0" mnemonicParsing="false" onAction="#onAddNewDeckButton" text="add new deck" />
+      <Text layoutX="419.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="decks list" wrappingWidth="80.86590576171875">
          <font>
             <Font size="16.0" />
          </font>

@@ -5,10 +5,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import view.components.WoodenButton?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="88.0" prefWidth="282.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.UtilityView">
    <children>
       <Label layoutX="21.0" layoutY="22.0" prefHeight="22.0" prefWidth="88.0" text="message:" />
       <TextField layoutX="121.0" layoutY="20.0" />
-      <Button layoutX="109.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="do" />
+      <WoodenButton layoutX="109.0" layoutY="52.0" initialHeight="35.0" initialWidth="61.0" fontSize="13" text="do" />
    </children>
 </AnchorPane>

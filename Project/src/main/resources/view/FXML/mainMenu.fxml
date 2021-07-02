@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="view.menu.mainmenu.MainMenuView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="353.0" prefWidth="477.0"
-      alignment="CENTER" spacing="15">
-    <Button prefWidth="Infinity" text="duel menu" onAction="#enterDuelMenu"/>
-    <Button prefWidth="Infinity" text="deck menu" onAction="#enterDeckMenu"/>
-    <Button prefWidth="Infinity" text="scoreboard menu" onAction="#enterScoreboardMenu"/>
-    <Button prefWidth="Infinity" text="profile menu" onAction="#enterProfileMenu"/>
-    <Button prefWidth="Infinity" text="shop menu" onAction="#enterShopMenu"/>
-    <Button prefWidth="Infinity" text="import/export menu" onAction="#enterImportExportMenu"/>
-</VBox>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import view.components.WoodenButton?>
+<AnchorPane prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.mainmenu.MainMenuView">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="860.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../background/background.jpg" />
+         </image>
+      </ImageView>
+       <WoodenButton layoutX="348.0" layoutY="508.0" onMouseClicked="#enterShopMenu" initialHeight="35.0" fontSize="13" initialWidth="165.0" text="shop menu" />
+       <WoodenButton layoutX="348.0" layoutY="548.0" onMouseClicked="#enterImportExportMenu" initialHeight="35.0" fontSize="13" initialWidth="165.0" text="import/export menu" />
+       <WoodenButton layoutX="347.0" layoutY="468.0" onMouseClicked="#enterDeckMenu" initialHeight="35.0" fontSize="13" initialWidth="165.0" text="deck menu" />
+       <WoodenButton layoutX="347.0" layoutY="387.0" onMouseClicked="#enterDuelMenu" initialHeight="35.0" fontSize="13" initialWidth="165.0" text="duel menu" />
+       <WoodenButton layoutX="348.0" layoutY="431.0" onMouseClicked="#enterScoreboardMenu" initialHeight="35.0" fontSize="13" initialWidth="165.0" text="scoreboard menu" />
+       <WoodenButton layoutX="348.0" layoutY="348.0" onMouseClicked="#enterProfileMenu" initialHeight="35.0" fontSize="13" initialWidth="165.0" text="profile menu" />
+   </children>
+</AnchorPane>
