@@ -1,5 +1,6 @@
 package game;
 
+import card.Card;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +36,7 @@ public class User implements Comparable<User>, Serializable {
 
 
     public static List<User> getAllUsers() {
-        return Collections.unmodifiableList(allUsers);
+         return Collections.unmodifiableList(allUsers);
     }
 
     public static User getUserByUsername(String username) {
@@ -131,6 +132,11 @@ public class User implements Comparable<User>, Serializable {
 
     public int getCardBalance(String cardName) {
         return cardCount.getOrDefault(cardName, 0);
+    }
+
+    public int getCardBalance(Card card) {
+        if (card == null) return 0;
+        return getCardBalance(card.getCardName());
     }
 
     public List<GameDeck> getDecks() {

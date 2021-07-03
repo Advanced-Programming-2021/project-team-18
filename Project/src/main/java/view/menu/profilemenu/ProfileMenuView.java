@@ -37,8 +37,9 @@ public class ProfileMenuView extends View {
         try {
             username.setText(controller.getUser().getUsername());
             nickname.setText(controller.getUser().getNickname());
-        } catch (Exception ignored) {
+        } catch (Exception e) {
             System.out.println("Sorry, some problem occurred in initialization :(");
+            System.out.println("Error message: " + e.getMessage());
         }
     }
 

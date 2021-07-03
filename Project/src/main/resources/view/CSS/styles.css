@@ -1,0 +1,28 @@
+/* IAWT */
+
+
+
+.normal-button {
+    -fx-text-fill: black;
+	-fx-font-family: "Times";
+    -fx-background-image: url("../../background/button.png");
+	-fx-background-size: cover;
+    -fx-cursor: hand;
+}
+
+.normal-button: hover {
+    -fx-background-image: url("../../background/button_hovered.png");
+}
+
+.inactive-button {
+    -fx-background-color: darkgray;
+    -fx-text-fill: lightgray;
+    -fx-cursor: none;
+}
+
+.label {
+    -fx-background-fill: yellow;
+    -fx-font-family: "Times";
+    -fx-font-size: 1.5em;
+    -fx-text-alignment: center;
+}

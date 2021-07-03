@@ -2,12 +2,9 @@ package view.menu.scoreboard;
 
 import game.User;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import lombok.Setter;
-import menus.Menu;
 import menus.MenuController;
 import view.View;
 import view.menu.mainmenu.MainMenuView;
@@ -19,12 +16,16 @@ import java.util.List;
 
 public class ScoreboardView extends View {
     public GridPane gridPane;
-    @Setter
     private static User user;
+
+    public static void setUser(User user) {
+        ScoreboardView.user = user;
+        MenuController.getInstance().setUser(user);
+    }
 
     @FXML
     public void initialize() {
-        List<User> usersList = new ArrayList<User>(User.getAllUsers());
+        List<User> usersList = new ArrayList<>(User.getAllUsers());
         Collections.sort(usersList);
         Collections.reverse(usersList);
         int size = Math.min(usersList.size(), 20);
@@ -48,11 +49,10 @@ public class ScoreboardView extends View {
     }
 
     private Text textMaker(String context) {
-        Text text = new Text(context);
-        return text;
+        return new Text(context);
     }
 
-    public void back(MouseEvent mouseEvent) throws IOException {
+    public void back() throws IOException {
         MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
         loadView("main_menu");
     }

@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import menus.MenuController;
 import view.UtilityView;
 import view.View;
 import view.menu.mainmenu.MainMenuView;
@@ -17,12 +18,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DeckMenuDeckSelectionView extends View implements Initializable {
-    @Setter private static User currentUser;
+    private static User currentUser;
+
+    public static void setCurrentUser(User currentUser) {
+        DeckMenuDeckSelectionView.currentUser = currentUser;
+        MenuController.getInstance().setUser(currentUser);
+    }
 
     @FXML
     private ListView<String> listView;
 
-    {
+    static {
         System.out.println("Constructed!");
         System.out.println("currentUser: " + currentUser);
     }

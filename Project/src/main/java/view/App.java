@@ -4,17 +4,34 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class App extends Application {
-    public static void main(String[] args) {launch(args);}
+    private static boolean loginFirst;
+
+    public static void main(String[] args) {
+        loginFirst = false;
+        if (args.length > 0)
+            if (args[0].matches(".*log.*")) loginFirst = true;
+        launch(args);
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/register.fxml"));
+        FXMLLoader loader;
+        if (loginFirst)
+            loader = new FXMLLoader(getClass().getResource("/view/FXML/login.fxml"));
+        else
+            loader = new FXMLLoader(getClass().getResource("/view/FXML/register.fxml"));
         Parent root = loader.load();
-        ((View) (loader.getController())).setStage(stage);
-        stage.setScene(new Scene(root));
-        stage.setTitle("The Yu-Gi-oh! :)");
+        View.setStage(stage);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        // stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setTitle("The Yu-Gi-Oh! :)");
         stage.show();
     }
 }

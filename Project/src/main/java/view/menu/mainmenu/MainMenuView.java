@@ -1,21 +1,49 @@
 package view.menu.mainmenu;
 
 import game.User;
-import javafx.event.ActionEvent;
-import lombok.Setter;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import lombok.SneakyThrows;
+import menus.MenuController;
 import view.View;
 import view.menu.deckmenu.DeckMenuDeckSelectionView;
 import view.menu.scoreboard.ScoreboardView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainMenuView extends View {
-    @Setter private static User currentUser; // note : has to be set when entered
+    private static User currentUser; // note : has to be set when entered
+    public StackPane root;
+
+    @SneakyThrows
+    @FXML
+    public void initialize() {
+        File file = new File(getClass().getResource("/background/background.jpg").toURI());
+        Image image = new Image(file.toURI().toString());
+        BackgroundImage backgroundimage = new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+
+        Background background = new Background(backgroundimage);
+        stage.getScene().setFill(Color.TRANSPARENT);
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        MainMenuView.currentUser = currentUser;
+        MenuController.getInstance().setUser(currentUser);
+    }
 
     public void enterDuelMenu() {
 
     }
+
     @SneakyThrows
     public void enterDeckMenu() {
         DeckMenuDeckSelectionView.setCurrentUser(currentUser);
@@ -41,7 +69,7 @@ public class MainMenuView extends View {
 
     @SneakyThrows
     public void logout() {
-        currentUser = null;
+        setCurrentUser(null);
         loadView("login_menu");
     }
 }

@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import game.AIPlayer;
-import game.AIPlayer;
 import game.Deck;
 import game.GameDeck;
 import game.User;
@@ -29,9 +28,10 @@ import java.util.regex.Pattern;
 // by Pasha
 
 public class DataManager {
-    private static final String MONSTER_CARDS_PATH = "/cards/Monster.csv";
-    private static final String SPELL_AND_TRAP_CARDS_PATH = "/cards/SpellTrap.csv";
-    private static final String USERS_DATA_PATH = "/users/allUsers.json";
+    private static final String PRE = "";//System.getProperty("user.dir") + "/Project/";
+    private static final String MONSTER_CARDS_PATH = PRE + "/cards/Monster.csv";
+    private static final String SPELL_AND_TRAP_CARDS_PATH = PRE + "/cards/SpellTrap.csv";
+    private static final String USERS_DATA_PATH = PRE + "/users/allUsers.json";
 
     public static void loadMonsterCardsIntoAllCards() {
         ArrayList<String[]> cards = Utility.getArrayListFromCSV(MONSTER_CARDS_PATH);
@@ -185,7 +185,8 @@ public class DataManager {
     public static void saveUsersData() {
 
         prepareUsersDataForSaving();
-        File file = new File(DataManager.class.getResource(USERS_DATA_PATH).toURI());
+        File file = new File(Objects.requireNonNull(
+                DataManager.class.getResource(USERS_DATA_PATH)).toURI());
         FileWriter fileWriter = new FileWriter(file);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(User.getAllUsers());
@@ -197,7 +198,8 @@ public class DataManager {
     public static void loadUsersData() {
         try {
             Gson gson = new Gson();
-            String text = new String(Files.readAllBytes(Paths.get(USERS_DATA_PATH)));
+            String text = new String(Files.readAllBytes(Paths.get((new File(Objects.requireNonNull(
+                    DataManager.class.getResource(USERS_DATA_PATH)).getPath())).getAbsolutePath())));
             ArrayList<User> users = gson.fromJson(text, new TypeToken<List<User>>() {
             }.getType());
             if (users == null) {

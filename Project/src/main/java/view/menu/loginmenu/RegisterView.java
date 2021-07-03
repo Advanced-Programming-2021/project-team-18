@@ -36,8 +36,9 @@ public class RegisterView extends View {
                 MenuController.getInstance().setUser(User.getUserByUsername(usernameInput.getText()));
                 // TODO: CHOOSE PROFILE PHOTO
         }
-        if (result == ProfileResult.SUCCESSFUL_OPERATION)
+        if (result == ProfileResult.SUCCESSFUL_OPERATION) {
             MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
             loadView("main_menu");
+        }
     }
 }

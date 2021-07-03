@@ -8,18 +8,25 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import menus.MenuController;
 import view.View;
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DeckMenuSpecificDeck extends View implements Initializable {
     @Setter private static GameDeck currentDeck; // Note : has to be set when entered
-    @Setter private static User currentUser; // Note : has to be set when entered
+    private static User currentUser; // Note : has to be set when entered
     private static int mainDeckSelectId;
     private static int sideDeckSelectId;
     public ImageView mainDeckImageView;
     public ImageView sideDeckImageView;
+
+    public static void setCurrentUser(User currentUser) {
+        DeckMenuSpecificDeck.currentUser = currentUser;
+        MenuController.getInstance().setUser(currentUser);
+    }
 
     public void leftMainDeck(ActionEvent actionEvent) {
         if(mainDeckSelectId > 0)
@@ -104,7 +111,8 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
             return ;
         String cardName = currentDeck.getMainDeck().getCardsList().get(mainDeckSelectId).getCardName();
         cardName = cardName.replaceAll(" " , "_");
-        File file = new File(getClass().getResource("/cards_images/" + cardName + ".jpg").toURI());
+        File file = new File(Objects.requireNonNull(getClass().getResource(
+                "/cards_images/" + cardName + ".jpg")).toURI());
         mainDeckImageView.setImage(new Image(file.toURI().toString()));
     }
     @SneakyThrows
@@ -114,7 +122,8 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
             return ;
         String cardName = currentDeck.getSideDeck().getCardsList().get(sideDeckSelectId).getCardName();
         cardName = cardName.replaceAll(" " , "_");
-        File file = new File(getClass().getResource("/cards_images/" + cardName + ".jpg").toURI());
+        File file = new File(Objects.requireNonNull(getClass().getResource(
+                "/cards_images/" + cardName + ".jpg")).toURI());
         mainDeckImageView.setImage(new Image(file.toURI().toString()));
     }
 
