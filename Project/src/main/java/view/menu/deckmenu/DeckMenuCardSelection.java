@@ -13,6 +13,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import view.UtilityView;
 import view.View;
+import view.components.CardComponent;
 
 import java.io.File;
 import java.net.URL;
@@ -24,24 +25,16 @@ public class DeckMenuCardSelection extends View implements Initializable {
     @Setter private static GameDeck currentGameDeck;
     @Getter private static Card lastPickedCard;
     private static int currentCardId;
-    public ImageView imageView;
-
-
-    public void leftButton(ActionEvent actionEvent) {
-        if(currentCardId > 0)
-            -- currentCardId;
-        updateImageView();
-    }
-
-    public void rightButton(ActionEvent actionEvent) {
-        if(currentCardId < Card.getAllCards().size() - 1)
-            ++ currentCardId;
-        updateImageView();
-    }
+    public CardComponent cardComponent;
 
     @SneakyThrows
     public void selectCard(ActionEvent actionEvent) {
-        lastPickedCard = Card.getAllCards().get(currentCardId);
+        if(cardComponent.getSelectedCardName() == null) {
+            UtilityView.displayMessage("no card was selected");
+            loadView("deck_view");
+            return ;
+        }
+        lastPickedCard = Card.getCardByName(cardComponent.getSelectedCardName());
         if(currentDeck.getCardCount(lastPickedCard.getCardName()) == 3) {
             UtilityView.displayMessage("you can't add more than 3 cards of a type");
         } else if(currentUser.getCardBalance(lastPickedCard.getCardName()) == currentGameDeck.getMainDeck().getCardCount(lastPickedCard.getCardName()) + currentGameDeck.getSideDeck().getCardCount(lastPickedCard.getCardName())) {
@@ -53,17 +46,13 @@ public class DeckMenuCardSelection extends View implements Initializable {
         loadView("deck_view");
     }
 
-    @SneakyThrows
-    private void updateImageView() {
-        imageView.setImage(null);
-        String cardName = Card.getAllCards().get(currentCardId).getCardName();
-        cardName = cardName.replaceAll(" " , "_");
-        File file = new File((getClass().getResource("/cards_images/" + cardName + ".jpg")).toURI());
-        imageView.setImage(new Image(file.toURI().toString()));
-    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currentCardId = 0;
-        updateImageView();
+        for(Card card : Card.getAllCards()) {
+            int count = currentUser.getCardBalance(card.getCardName());
+            for(int i = 0;i < count;++ i)
+                cardComponent.addCard(card);
+        }
     }
 }

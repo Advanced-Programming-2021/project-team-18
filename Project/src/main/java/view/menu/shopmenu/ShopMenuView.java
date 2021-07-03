@@ -30,7 +30,7 @@ public class ShopMenuView extends View {
             card = Card.getCardByName(cardName);
             assert card != null;
             try {
-                cardImage = card.getImage();
+                cardImage = new ImageView(card.getImage());
                 cardImage.setFitWidth(150);
                 cardImage.setPreserveRatio(true);
                 Card finalCard = card;

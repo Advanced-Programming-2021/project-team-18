@@ -26,4 +26,5 @@
             <Label alignment="CENTER" fx:id="response"/>
         </VBox>
     </center>
+
 </BorderPane>

@@ -31,6 +31,7 @@ public abstract class Card implements Comparable<Card> {
     private Origin cardOrigin;
     @Setter
     private ArrayList<Effect> effects = new ArrayList<>();
+    private Image image;
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
@@ -57,11 +58,14 @@ public abstract class Card implements Comparable<Card> {
         return effects.contains(effect);
     }
 
-    public ImageView getImage() {
+    public Image getImage() {
+        if(image != null)
+            return image;
         String path = "/cards_images/" + cardName.replaceAll(" ", "_") + ".jpg";
         try{
-            return new ImageView(new Image(Objects.requireNonNull(
-                    getClass().getResource(path)).toExternalForm()));
+            image = new Image(Objects.requireNonNull(
+                    getClass().getResource(path)).toExternalForm());
+            return image;
         }
         catch (Exception e) {
             System.out.print(cardName.replaceAll(" ", "_") + ".jpg ");
