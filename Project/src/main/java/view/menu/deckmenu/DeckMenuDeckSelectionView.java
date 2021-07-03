@@ -44,7 +44,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     @FXML
     private void onBackButton() {
         MainMenuView.setCurrentUser(currentUser);
-        loadView("mainMenu");
+        loadView("main_menu");
     }
 
     @SneakyThrows
@@ -57,7 +57,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
         }
         DeckMenuSpecificDeck.setCurrentDeck(currentUser.getGameDeckByName(list.get(0)));
         DeckMenuSpecificDeck.setCurrentUser(currentUser);
-        loadView("deckView");
+        loadView("deck_view");
     }
 
     @FXML

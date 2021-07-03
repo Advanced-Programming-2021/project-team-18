@@ -51,7 +51,7 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
         DeckMenuCardSelection.setCurrentDeck(currentDeck.getMainDeck());
         DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
         DeckMenuCardSelection.setCurrentUser(currentUser);
-        loadView("deckMenuSelectCard");
+        loadView("deck_menu_select_card");
     }
 
     @SneakyThrows
@@ -59,7 +59,7 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
         DeckMenuCardSelection.setCurrentDeck(currentDeck.getSideDeck());
         DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
         DeckMenuCardSelection.setCurrentUser(currentUser);
-        loadView("deckMenuSelectCard");
+        loadView("deck_menu_select_card");
     }
 
     public void onRemoveMainDeckButton(ActionEvent actionEvent) {
@@ -84,7 +84,7 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
     @SneakyThrows
     public void onBackButton(ActionEvent actionEvent) {
         DeckMenuDeckSelectionView.setCurrentUser(currentUser);
-        loadView("deckMenuDeckSelection");
+        loadView("deck_menu_deck_selection");
     }
 
     @Override

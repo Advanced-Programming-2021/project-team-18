@@ -10,7 +10,7 @@ public class DebugApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/mainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/main_menu.fxml"));
         Parent root = loader.load();
         ((View) (loader.getController())).setStage(stage);
         stage.setScene(new Scene(root));

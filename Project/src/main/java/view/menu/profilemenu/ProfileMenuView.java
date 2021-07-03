@@ -24,11 +24,11 @@ public class ProfileMenuView extends View {
     public TextField nicknameInput;
 
     public void loadChangePasswordPage() throws IOException {
-        loadView("changePassword");
+        loadView("change_password");
     }
 
     public void loadChangeNicknamePage() throws IOException {
-        loadView("changeNickname");
+        loadView("change_nickname");
     }
     
     @FXML
@@ -65,7 +65,7 @@ public class ProfileMenuView extends View {
         instant = instant.add(Duration.seconds(1));
         timeline.getKeyFrames().add(new KeyFrame(instant, actionEvent -> {
             try {
-                loadView("profileMenu");
+                loadView("profile_menu");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -75,6 +75,6 @@ public class ProfileMenuView extends View {
 
     public void changeNickname() throws IOException {
         MenuController.getInstance().getUser().setNickname(nicknameInput.getText());
-        loadView("profileMenu");
+        loadView("profile_menu");
     }
 }

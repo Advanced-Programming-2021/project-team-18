@@ -19,7 +19,7 @@ public class MainMenuView extends View {
     @SneakyThrows
     public void enterDeckMenu() {
         DeckMenuDeckSelectionView.setCurrentUser(currentUser);
-        loadView("deckMenuDeckSelection");
+        loadView("deck_menu_deck_selection");
     }
 
     public void enterScoreboardMenu() throws IOException {
@@ -28,11 +28,11 @@ public class MainMenuView extends View {
     }
 
     public void enterProfileMenu() throws IOException {
-        loadView("profileMenu");
+        loadView("profile_menu");
     }
 
     public void enterShopMenu() throws IOException {
-        loadView("shopMenu");
+        loadView("shop_menu");
     }
 
     public void enterImportExportMenu() {
@@ -42,6 +42,6 @@ public class MainMenuView extends View {
     @SneakyThrows
     public void logout() {
         currentUser = null;
-        loadView("loginMenu");
+        loadView("login_menu");
     }
 }

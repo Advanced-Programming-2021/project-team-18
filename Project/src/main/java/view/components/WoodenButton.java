@@ -1,18 +1,14 @@
 package view.components;
 
-import javafx.animation.Animation;
-import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -32,7 +28,7 @@ public class WoodenButton extends StackPane implements Initializable {
     public WoodenButton() throws IOException {
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/woodenButton.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/wooden_button.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         loader.load();

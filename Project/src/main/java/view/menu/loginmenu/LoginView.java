@@ -22,7 +22,7 @@ public class LoginView extends View {
         }
         else{
             MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
-            loadView("mainMenu");
+            loadView("main_menu");
         }
     }
 }

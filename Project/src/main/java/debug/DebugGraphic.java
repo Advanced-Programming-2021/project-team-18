@@ -14,7 +14,7 @@ public class DebugGraphic {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();
 
-        User a = getSampleUser("a");
+        User a = getSampleUser("asdffdsa");
         MainMenuView.setCurrentUser(a);
         DebugStarter.main(args);
     }

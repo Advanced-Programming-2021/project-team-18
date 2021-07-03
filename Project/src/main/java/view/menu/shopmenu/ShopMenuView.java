@@ -29,13 +29,17 @@ public class ShopMenuView extends View {
         for (String cardName : Card.getAllCardNames()) {
             card = Card.getCardByName(cardName);
             assert card != null;
-            cardImage = card.getImage();
-            cardImage.setFitWidth(150);
-            cardImage.setPreserveRatio(true);
-            Card finalCard = card;
-            cardImage.setOnMouseClicked(mouseEvent -> cardNameText.setText(finalCard.getCardName()));
-            grid.add(cardImage, i % rowSize, i / rowSize);
-            i ++;
+            try {
+                cardImage = card.getImage();
+                cardImage.setFitWidth(150);
+                cardImage.setPreserveRatio(true);
+                Card finalCard = card;
+                cardImage.setOnMouseClicked(mouseEvent -> cardNameText.setText(finalCard.getCardName()));
+                grid.add(cardImage, i % rowSize, i / rowSize);
+                i++;
+            } catch (Exception e) {
+                System.out.println(cardName);
+            }
         }
     }
 }

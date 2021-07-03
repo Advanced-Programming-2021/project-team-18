@@ -50,7 +50,7 @@ public class DeckMenuCardSelection extends View implements Initializable {
             UtilityView.displayMessage("card added successfully");
             currentDeck.addCard(lastPickedCard);
         }
-        loadView("deckView");
+        loadView("deck_view");
     }
 
     @SneakyThrows

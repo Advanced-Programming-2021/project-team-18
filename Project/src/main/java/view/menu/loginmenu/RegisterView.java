@@ -38,6 +38,6 @@ public class RegisterView extends View {
         }
         if (result == ProfileResult.SUCCESSFUL_OPERATION)
             MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
-            loadView("mainMenu");
+            loadView("main_menu");
     }
 }

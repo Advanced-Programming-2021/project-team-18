@@ -54,6 +54,6 @@ public class ScoreboardView extends View {
 
     public void back(MouseEvent mouseEvent) throws IOException {
         MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
-        loadView("mainMenu");
+        loadView("main_menu");
     }
 }
