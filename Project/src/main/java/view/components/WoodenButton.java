@@ -31,10 +31,10 @@ public class WoodenButton extends StackPane implements Initializable {
 
     public WoodenButton() throws IOException {
 
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/woodenButton.fxml"));
         loader.setRoot(this);
         loader.setController(this);
-        loader.setClassLoader(getClass().getClassLoader());
         loader.load();
 
     }
