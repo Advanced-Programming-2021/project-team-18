@@ -35,7 +35,7 @@ public class MainMenuView extends View {
                 BackgroundSize.DEFAULT);
 
         Background background = new Background(backgroundimage);
-        stage.getScene().setFill(Color.TRANSPARENT);
+        //stage.getScene().setFill(Color.TRANSPARENT);
     }
 
     public static void setCurrentUser(User currentUser) {
