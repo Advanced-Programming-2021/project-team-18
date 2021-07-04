@@ -41,7 +41,7 @@ public class ShopMenuView extends View {
             card = Card.getCardByName(cardName);
             assert card != null;
             try {
-                cardImage = card.getImage();
+                cardImage = new ImageView(card.getImage());
                 cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.66/rowSize));
                 cardImage.setPreserveRatio(true);
                 Card finalCard = card;

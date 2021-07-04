@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.deckmenu.DeckMenuDeckSelectionView">
+<?import view.components.WoodenButton?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.deckmenu.DeckMenuDeckSelectionView">
    <children>
       <ImageView fitHeight="600.0" fitWidth="860.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../background/background_simple.jpg" />
          </image></ImageView>
       <ListView fx:id="listView" layoutX="165.0" layoutY="65.0" prefHeight="469.0" prefWidth="585.0" />
-      <Button layoutX="165.0" layoutY="553.0" mnemonicParsing="false" onAction="#onRemoveButton" text="remove deck" />
-      <Button layoutX="694.0" layoutY="553.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0" prefWidth="56.0" text="back" />
-      <Button layoutX="348.0" layoutY="553.0" mnemonicParsing="false" onAction="#onEditButton" prefHeight="25.0" prefWidth="81.0" text="edit deck" />
-      <Button layoutX="500.0" layoutY="553.0" mnemonicParsing="false" onAction="#onAddNewDeckButton" text="add new deck" />
+      <WoodenButton layoutX="165.0" layoutY="553.0" onMouseClicked="#onRemoveButton" initialHeight="25.0" initialWidth="81.0" text="remove deck" />
+      <WoodenButton layoutX="694.0" layoutY="553.0" onMouseClicked="#onBackButton" initialHeight="25.0" initialWidth="56.0" text="back" />
+      <WoodenButton layoutX="348.0" layoutY="553.0" onMouseClicked="#onEditButton" initialHeight="25.0" initialWidth="81.0" text="edit deck" />
+      <WoodenButton layoutX="500.0" layoutY="553.0"  onMouseClicked="#onAddNewDeckButton" initialHeight="25.0" initialWidth="81.0" text="add new deck" />
       <Text layoutX="419.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="decks list" wrappingWidth="80.86590576171875">
          <font>
             <Font size="16.0" />

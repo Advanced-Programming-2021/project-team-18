@@ -25,7 +25,8 @@ public class WoodenButton extends StackPane implements Initializable {
     @FXML
     private Text text;
 
-    public WoodenButton() throws IOException {
+    @SneakyThrows
+    public WoodenButton() {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/wooden_button.fxml"));
@@ -95,6 +96,6 @@ public class WoodenButton extends StackPane implements Initializable {
 
     public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
-        this.text.setFont(new Font("", fontSize));
+        this.text.setFont(new Font("Times Roman", fontSize));
     }
 }
