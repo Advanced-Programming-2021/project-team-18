@@ -10,6 +10,7 @@ import view.menu.mainmenu.MainMenuView;
 public class DebugGraphic {
     public static void main(String[] args) {
         DataManager.loadCardsIntoAllCards();
+        DataManager.initializeAIDeck();
         DataManager.loadUsersData();
 
         User a = getSampleUser("asdffdsa");

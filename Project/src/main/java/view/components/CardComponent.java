@@ -75,7 +75,6 @@ public class CardComponent extends SplitPane implements Initializable {
         if (indexToRemove >= 0)
             cardsInGridList.remove(indexToRemove);
         selectedCardName = null;
-        System.out.println("WOW" + indexToRemove);
         refreshGrid();
     }
 

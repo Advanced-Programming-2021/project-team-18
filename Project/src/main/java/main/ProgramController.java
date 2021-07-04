@@ -10,6 +10,7 @@ public class ProgramController {
     public void runConsole() {
         Printer.greetings();
         DataManager.loadCardsIntoAllCards();
+        DataManager.initializeAIDeck();
         DataManager.loadUsersData();
         DataManager.initializeAIDeck();
         new LoginMenu().runMenu();
@@ -18,6 +19,7 @@ public class ProgramController {
 
     public void runGraphic(String[] args) {
         DataManager.loadCardsIntoAllCards();
+        DataManager.initializeAIDeck();
         DataManager.loadUsersData();
         DataManager.initializeAIDeck();
         App.main(args);
