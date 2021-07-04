@@ -1,22 +1,16 @@
 package view.menu.shopmenu;
 
 import card.Card;
-import data.Printer;
 import game.User;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import menus.Menu;
 import menus.MenuController;
 import view.UtilityView;
 import view.View;
@@ -59,7 +53,7 @@ public class ShopMenuView extends View {
         VBox cardPane = new VBox();
         cardPane.setPrefWidth(stage.getWidth() * .33);
         cardPane.minWidthProperty().bind(stage.widthProperty().multiply(.33));
-        ImageView cardImage = card.getImage();
+        ImageView cardImage = new ImageView(card.getImage());
         cardPane.spacingProperty().bind(cardImage.fitHeightProperty().multiply(.2));
         cardImage.fitWidthProperty().bind(cardPane.widthProperty().multiply(.8));
         cardImage.setPreserveRatio(true);

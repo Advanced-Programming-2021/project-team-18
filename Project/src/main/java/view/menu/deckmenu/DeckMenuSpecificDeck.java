@@ -1,57 +1,26 @@
 package view.menu.deckmenu;
 
+import card.Card;
 import game.GameDeck;
 import game.User;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import menus.MenuController;
+import view.UtilityView;
 import view.View;
 import view.components.CardComponent;
 
-import java.io.File;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DeckMenuSpecificDeck extends View implements Initializable {
     @Setter
     private static GameDeck currentDeck; // Note : has to be set when entered
+    @Setter
     private static User currentUser; // Note : has to be set when entered
-    private static int mainDeckSelectId;
-    private static int sideDeckSelectId;
-    public ImageView mainDeckImageView;
-    public ImageView sideDeckImageView;
-
-    public static void setCurrentUser(User currentUser) {
-        DeckMenuSpecificDeck.currentUser = currentUser;
-        MenuController.getInstance().setUser(currentUser);
-    }
-
-    public void leftMainDeck(ActionEvent actionEvent) {
-        if(mainDeckSelectId > 0)
-            -- mainDeckSelectId;
-        updateMainDeckImageView();
-    }
-
-    public void rightMainDeck(ActionEvent actionEvent) {
-        if(mainDeckSelectId < currentDeck.getMainDeck().getCardsList().size() - 1)
-            ++ mainDeckSelectId;
-        updateMainDeckImageView();
-    }
-
-    public void leftSideDeck(ActionEvent actionEvent) {
-        if(sideDeckSelectId > 0)
-            -- sideDeckSelectId;
-        updateSideDeckImageView();
-    }
-
-    public void rightSideDeck(ActionEvent actionEvent) {
-        if(sideDeckSelectId < currentDeck.getSideDeck().getCardsList().size() - 1)
-            ++ sideDeckSelectId;
-        updateSideDeckImageView();
-    }
+    public CardComponent sideDeckCardComponent;
+    public CardComponent mainDeckCardComponent;
 
     @SneakyThrows
     public void addCardToMainDeck(MouseEvent actionEvent) {
