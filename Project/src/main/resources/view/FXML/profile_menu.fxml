@@ -15,10 +15,13 @@
             <Label GridPane.rowIndex="1" GridPane.columnIndex="0" >Nickname</Label>
             <Label GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="nickname"/>
         </GridPane>
-    <HBox spacing="10" alignment="CENTER">
-        <Button GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#loadChangeNicknamePage">Change Your Nickname</Button>
-        <Button GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#loadChangePasswordPage">Change Your Password</Button>
-    </HBox>
+    <VBox alignment="CENTER" spacing="10">
+        <HBox spacing="10" alignment="CENTER">
+            <Button onAction="#loadChangeNicknamePage">Change Your Nickname</Button>
+            <Button onAction="#loadChangePasswordPage">Change Your Password</Button>
+        </HBox>
+        <Button onAction="#backToMain">Back</Button>
+    </VBox>
     <stylesheets>
         <URL value="@../CSS/styles.css"/>
     </stylesheets>

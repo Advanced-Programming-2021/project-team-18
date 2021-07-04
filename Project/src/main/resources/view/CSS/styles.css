@@ -1,15 +1,20 @@
 /* IAWT */
 
 .button {
-    -fx-text-fill: black;
-    -fx-font-family: "Times";
-    -fx-background-image: url("../../background/button.png");
-    -fx-background-size: cover;
-    -fx-cursor: hand;
-}
+     -fx-text-fill: black;
+     -fx-font-family: "Times";
+     -fx-alignment: center;
+     -fx-background-image: url("../../background/button.png");
+     -fx-background-size: cover;
+     -fx-cursor: hand;
+ }
 
 .button: hover {
-    -fx-background-image: url("../../background/button_hovered.png");
+     -fx-background-image: url("../../background/button_hovered.png");
+}
+
+.button: pressed {
+    -fx-translate-y: 2;
 }
 
 
@@ -18,6 +23,7 @@
 	-fx-font-family: "Times";
     -fx-background-image: url("../../background/button.png");
 	-fx-background-size: cover;
+	-fx-alignment: center;
     -fx-cursor: hand;
 }
 
@@ -25,10 +31,21 @@
     -fx-background-image: url("../../background/button_hovered.png");
 }
 
+.normal-button: pressed {
+    -fx-translate-y: 2;
+}
+
 .inactive-button {
     -fx-background-color: darkgray;
     -fx-text-fill: lightgray;
+    -fx-alignment: center;
+    -fx-background-radius: 10;
+    -fx-font-family: "Times";
     -fx-cursor: none;
+}
+
+.inactive-button:pressed {
+    -fx-background-color: darkred;
 }
 
 .label {

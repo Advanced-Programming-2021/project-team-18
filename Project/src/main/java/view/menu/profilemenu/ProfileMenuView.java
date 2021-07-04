@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import menus.MenuController;
 import menus.ProfileResult;
-import utility.Utility;
 import view.UtilityView;
 import view.View;
 
@@ -42,9 +41,7 @@ public class ProfileMenuView extends View {
             username.setText(controller.getUser().getUsername());
             nickname.setText(controller.getUser().getNickname());
             avatarImage.setImage(UtilityView.getAvatarImage(controller.getUser().getAvatarID()));
-        } catch (Exception e) {
-            System.out.println("Sorry, some problem occurred in initialization :(");
-            System.out.println("Error message: " + e.getMessage());
+        } catch (Exception ignored) {
         }
     }
 
@@ -81,8 +78,17 @@ public class ProfileMenuView extends View {
         timeline.play();
     }
 
+    public void backToMain() throws IOException {
+        loadView("main_menu");
+    }
+
     public void changeNickname() throws IOException {
         MenuController.getInstance().getUser().setNickname(nicknameInput.getText());
+        backToProfileMenu();
+    }
+
+
+    public void backToProfileMenu() throws IOException {
         loadView("profile_menu");
     }
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
@@ -13,10 +12,9 @@
             fx:id="mainPane"
 >
     <left>
-        <StackPane>
-            <Rectangle fx:id="textBox" fill="lightseagreen"/>
-            <Text fx:id="cardNameText"/>
-        </StackPane>
+        <VBox alignment="CENTER" fx:id="initialVBox">
+            <Button fx:id="initialBackButton" onAction="#back"> Back </Button>
+        </VBox>
     </left>
     <center>
         <ScrollPane fx:id="scrollPane">
