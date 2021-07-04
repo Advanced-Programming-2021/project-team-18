@@ -8,7 +8,7 @@ import game.Player;
 
 // By Sina
 // This effect has similarities with SolemnWarningEffect
-public class MarshmallonEffect extends Effect{
+public class MarshmallonEffect extends Effect {
     public boolean permit(Event event) {
         initializeSelfCardWithEvent(event);
         if (event instanceof CardEvent) {

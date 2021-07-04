@@ -4,7 +4,6 @@ import card.Card;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
-import game.Player;
 
 //Change of Heart
 public class StealMonsterEffect extends Effect {

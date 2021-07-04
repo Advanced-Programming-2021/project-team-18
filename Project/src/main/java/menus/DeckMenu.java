@@ -141,7 +141,7 @@ public class DeckMenu extends Menu {
     public void showDeck(Matcher matcher) {
         System.out.println(matcher.group(1));
         HashMap<String, String> map = Utility.getCommand(matcher.group(1));
-        for(String x : map.keySet())
+        for (String x : map.keySet())
             System.out.println(x + " : " + map.get(x));
         if (!Utility.isCommandValid(map, new String[]{"deck-name"}, new String[]{"side"})) {
             Printer.prompt(Menu.INVALID_COMMAND);

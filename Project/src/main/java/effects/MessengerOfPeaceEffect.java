@@ -1,24 +1,22 @@
 package effects;
 
-import data.Printer;
 import events.AttackEvent;
 import events.Event;
 import events.Phase;
 import events.PhaseEndedEvent;
-import utility.Utility;
 
 
 // By Sina
 public class MessengerOfPeaceEffect extends Effect {
     private void consumeLP() {
         if (selfPlayer.getLifePoint() < 100) {
-            selfPlayer.removeCardFromField(selfCard , null);
+            selfPlayer.removeCardFromField(selfCard, null);
             return;
         }
         if (selfPlayer.obtainConfirmation("Would you like to spend 100 LPs," +
                 " or destruct this card? (yes for LP, no for destruction)"))
-            selfPlayer.decreaseLifePoint(100 , null);
-        else selfPlayer.removeCardFromField(selfCard , null);
+            selfPlayer.decreaseLifePoint(100, null);
+        else selfPlayer.removeCardFromField(selfCard, null);
     }
 
     public boolean permit(Event event) {

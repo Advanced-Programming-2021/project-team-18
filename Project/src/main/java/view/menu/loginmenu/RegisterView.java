@@ -25,11 +25,14 @@ public class RegisterView extends View {
         response.setTextFill(Color.INDIANRED);
         switch (result) {
             case BLANK_USERNAME:
-                response.setText("Username is blank!"); return;
+                response.setText("Username is blank!");
+                return;
             case USERNAME_TAKEN:
-                response.setText("Username is taken!"); return;
+                response.setText("Username is taken!");
+                return;
             case NICKNAME_TAKEN:
-                response.setText("Nickname is taken!"); return;
+                response.setText("Nickname is taken!");
+                return;
             case SUCCESSFUL_OPERATION:
                 response.setTextFill(Color.DARKGREEN);
                 response.setText("Registered successfully!");
@@ -38,6 +41,6 @@ public class RegisterView extends View {
         }
         if (result == ProfileResult.SUCCESSFUL_OPERATION)
             MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
-            loadView("main_menu");
+        loadView("main_menu");
     }
 }

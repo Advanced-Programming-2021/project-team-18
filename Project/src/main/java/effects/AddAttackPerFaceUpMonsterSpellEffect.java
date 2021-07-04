@@ -35,10 +35,11 @@ public class AddAttackPerFaceUpMonsterSpellEffect extends Effect {
     }
 
     private void checkIfMonsterDestroyed() {
-        if(selfPlayer.getMonstersFieldList()[positionOnBoard] == null) {
-            selfPlayer.removeCardFromField(selfCard , null);
+        if (selfPlayer.getMonstersFieldList()[positionOnBoard] == null) {
+            selfPlayer.removeCardFromField(selfCard, null);
         }
     }
+
     private void whenPlayedEffect() {
         toggleSelfEffect(1);
     }

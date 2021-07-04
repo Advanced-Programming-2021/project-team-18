@@ -12,7 +12,6 @@ import javafx.scene.text.Text;
 import lombok.SneakyThrows;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -79,11 +78,13 @@ public class WoodenButton extends StackPane implements Initializable {
         text.setFont(new Font("Times Roman", fontSize));
         text.setFill(Color.valueOf("#151b37"));
     }
+
     @SneakyThrows
     private void onMouseEntered() {
         File file = new File(getClass().getResource("/background/button_hovered.png").toURI());
         imageView.setImage(new Image(file.toURI().toString()));
     }
+
     @SneakyThrows
     private void onMouseExited() {
         File file = new File(getClass().getResource("/background/button.png").toURI());

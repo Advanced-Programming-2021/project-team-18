@@ -18,8 +18,7 @@ public class SwordsOfRevealingLightEffect extends Effect {
                 if (selfPlayer.getPermissionFromAllEffects(flipEvent)) {
                     monstersField[i].setFaceUp(true);
                     selfPlayer.notifyAllEffectsForConsideration(flipEvent);
-                }
-                else{
+                } else {
                     Printer.prompt("an effect prevented flip!");
                 }
             }

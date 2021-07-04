@@ -21,7 +21,7 @@ public class ShopMenu extends Menu {
 
     public ShopMenu(User user) {
         this.user = user;
-        if (cardsPrice.isEmpty()){
+        if (cardsPrice.isEmpty()) {
             for (Card card : Card.getAllCards()) {
                 cardsPrice.put(card.getCardName(), card.getPrice());
                 allCardNames.add(card.getCardName());
@@ -69,7 +69,7 @@ public class ShopMenu extends Menu {
                 showAllCardsAndPrices();
             } else if (newLine.matches("enter menu .*")) {
                 Printer.prompt(NAVIGATION_DENIED);
-            } else if ((matcher = Utility.getCommandMatcher(newLine , "(\"increase\\\\smoney\\\\s(\\\\d+)\")")).matches()) {
+            } else if ((matcher = Utility.getCommandMatcher(newLine, "(\"increase\\\\smoney\\\\s(\\\\d+)\")")).matches()) {
                 increaseMoney(matcher);
             } else Printer.prompt(INVALID_COMMAND);
             newLine = Utility.getNextLine();

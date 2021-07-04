@@ -16,11 +16,10 @@ public class LoginView extends View {
 
     public void login(ActionEvent mouseEvent) throws IOException {
         boolean result = MenuController.getInstance().isLoginValid(usernameField.getText(), passwordField.getText());
-        if(!result){
+        if (!result) {
             UtilityView.showError("username and password didn't match!");
             loadView("login");
-        }
-        else{
+        } else {
             MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
             loadView("main_menu");
         }

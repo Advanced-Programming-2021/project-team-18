@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import game.AIPlayer;
-import game.AIPlayer;
 import game.Deck;
 import game.GameDeck;
 import game.User;

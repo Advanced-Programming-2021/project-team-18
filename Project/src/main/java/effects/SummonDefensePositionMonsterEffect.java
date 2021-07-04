@@ -14,12 +14,12 @@ public class SummonDefensePositionMonsterEffect extends Effect {
 
     public void runEffect() {
         Card card = selfPlayer.obtainCardFromHand();
-        if (!(card instanceof MonsterCard) || ((MonsterCard) card).getCardLevel() > 4){
+        if (!(card instanceof MonsterCard) || ((MonsterCard) card).getCardLevel() > 4) {
             Printer.prompt("invalid command!");
             return;
         }
         int placeOnField = selfPlayer.getFirstEmptyPlaceOnMonstersField();
-        if(!selfPlayer.getPermissionFromAllEffects(new CardEvent(card, CardEventInfo.ENTRANCE,selfCard)) || placeOnField == -1){
+        if (!selfPlayer.getPermissionFromAllEffects(new CardEvent(card, CardEventInfo.ENTRANCE, selfCard)) || placeOnField == -1) {
             Printer.prompt("you can't summon this card!");
             return;
         }
@@ -40,11 +40,10 @@ public class SummonDefensePositionMonsterEffect extends Effect {
             if (!((SummonEvent) event).isSpecial() && selfPlayer == null) {
                 selfPlayer = card.getPlayer();
                 selfCard = card;
-                while (true){
-                    if(selfPlayer.obtainConfirmation("Do you want to activate Terratiger, the Empowered Warrior's effect?")){
+                while (true) {
+                    if (selfPlayer.obtainConfirmation("Do you want to activate Terratiger, the Empowered Warrior's effect?")) {
                         runEffect();
-                    }
-                    else return;
+                    } else return;
                 }
             }
         }

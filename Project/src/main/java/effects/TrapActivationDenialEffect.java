@@ -5,7 +5,6 @@ import card.TrapCard;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
-import game.Player;
 
 //Mirage Dragon
 public class TrapActivationDenialEffect extends Effect {

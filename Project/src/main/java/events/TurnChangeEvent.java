@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class TurnChangeEvent extends Event{
+public class TurnChangeEvent extends Event {
     private Player player;
 }

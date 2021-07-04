@@ -77,7 +77,7 @@ public class MagnumShieldEffect extends Effect {
             if (partEvent.getCard() == equippedMonster) {
                 if (partEvent.getInfo() == CardEventInfo.DESTROYED) {
                     counterAct();
-                    selfPlayer.removeCardFromField(selfCard , null);
+                    selfPlayer.removeCardFromField(selfCard, null);
                 }
             }
         }

@@ -7,8 +7,6 @@ import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
 import events.TurnChangeEvent;
-import game.Player;
-import utility.Utility;
 
 public class ScannerEffect extends Effect {
     private int placeOnField;

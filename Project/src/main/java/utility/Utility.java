@@ -9,7 +9,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,7 +86,7 @@ public class Utility {
         return false;
     }
 
-    public static int getARandomNumber(int bound){
+    public static int getARandomNumber(int bound) {
         if (bound == 0) return -1;
         if (random.nextBoolean()) random.setSeed(LocalDateTime.now().getNano());
         return random.nextInt(bound);

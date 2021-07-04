@@ -1,6 +1,5 @@
 package view.menu.deckmenu;
 
-import game.Deck;
 import game.GameDeck;
 import game.User;
 import javafx.collections.ObservableList;
@@ -17,7 +16,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DeckMenuDeckSelectionView extends View implements Initializable {
-    @Setter private static User currentUser;
+    @Setter
+    private static User currentUser;
 
     @FXML
     private ListView<String> listView;
@@ -30,9 +30,9 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     @FXML
     private void onRemoveButton() {
         ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
-        if(list.size() != 1) {
+        if (list.size() != 1) {
             UtilityView.displayMessage("no deck was selected");
-            return ;
+            return;
         }
         String deckName = list.get(0);
         GameDeck gameDeck = currentUser.getGameDeckByName(deckName);
@@ -51,9 +51,9 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     @FXML
     private void onEditButton() {
         ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
-        if(list.size() != 1) {
+        if (list.size() != 1) {
             UtilityView.displayMessage("no deck was selected");
-            return ;
+            return;
         }
         DeckMenuSpecificDeck.setCurrentDeck(currentUser.getGameDeckByName(list.get(0)));
         DeckMenuSpecificDeck.setCurrentUser(currentUser);
@@ -63,9 +63,9 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     @FXML
     private void onAddNewDeckButton() {
         String name = UtilityView.obtainInformation("enter a name for your deck");
-        while(currentUser.getGameDeckByName(name) != null) {
+        while (currentUser.getGameDeckByName(name) != null) {
             UtilityView.displayMessage("deck with this name already exists");
-            return ;
+            return;
         }
         currentUser.addGameDeck(new GameDeck(name));
         updateListView();
@@ -75,9 +75,10 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateListView();
     }
+
     private void updateListView() {
         listView.getItems().clear();
-        for(GameDeck gameDeck : currentUser.getDecks())
+        for (GameDeck gameDeck : currentUser.getDecks())
             listView.getItems().add(gameDeck.getName());
     }
 }

@@ -1,9 +1,7 @@
 package effects;
 
 import card.MonsterCard;
-import data.Printer;
 import events.*;
-import utility.Utility;
 
 // By Sina
 

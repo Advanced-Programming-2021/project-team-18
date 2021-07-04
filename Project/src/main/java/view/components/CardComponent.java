@@ -38,7 +38,7 @@ public class CardComponent extends SplitPane implements Initializable {
         gridPane.getChildren().clear();
 
         count = 0;
-        for(String cardName : cardsInGridList) {
+        for (String cardName : cardsInGridList) {
             Card card = Card.getCardByName(cardName);
             ImageView cardImageView = new ImageView(card.getImage());
             cardImageView.setFitWidth(100);
@@ -48,7 +48,7 @@ public class CardComponent extends SplitPane implements Initializable {
                 selectedCardName = card.getCardName();
             });
             gridPane.add(cardImageView, count % ROW_COUNT, count / ROW_COUNT);
-            ++ count;
+            ++count;
         }
     }
 
@@ -69,17 +69,18 @@ public class CardComponent extends SplitPane implements Initializable {
 
     public void removeCard(Card card) {
         int indexToRemove = -1;
-        for(int i = 0;i < count;++ i)
-            if(cardsInGridList.get(i).equals(card.getCardName()))
+        for (int i = 0; i < count; ++i)
+            if (cardsInGridList.get(i).equals(card.getCardName()))
                 indexToRemove = i;
-        if(indexToRemove >= 0)
+        if (indexToRemove >= 0)
             cardsInGridList.remove(indexToRemove);
         selectedCardName = null;
         System.out.println("WOW" + indexToRemove);
         refreshGrid();
     }
+
     @Override
-    public void initialize(URL url , ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         scrollPane.setVmax(600);
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
         scrollPane.setFitToWidth(true);

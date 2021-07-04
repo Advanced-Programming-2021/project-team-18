@@ -69,7 +69,7 @@ public class AIPlayer extends Player {
 
     @Override
     public int obtainNumberInRange(int l, int r, String prompt) {
-        if (r <= l) return 0/0;
+        if (r <= l) return 0 / 0;
         return l + Utility.getARandomNumber(r - l);
     }
 

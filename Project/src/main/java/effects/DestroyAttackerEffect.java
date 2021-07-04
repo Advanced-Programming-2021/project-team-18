@@ -18,13 +18,13 @@ public class DestroyAttackerEffect extends Effect {
     public void consider(Event event) {
         isInConsideration = true;
         initializeSelfCardWithEvent(event);
-        if(event instanceof CardEvent) {
+        if (event instanceof CardEvent) {
             CardEvent cardEvent = (CardEvent) event;
             CardEventInfo cardEventInfo = cardEvent.getInfo();
             Card card = cardEvent.getCard();
             Card causedByCard = cardEvent.getCausedByCard();
-            if(cardEventInfo == CardEventInfo.DESTROYED && card == selfCard && causedByCard != null) {
-                selfPlayer.getOpponent().removeCardFromField((MonsterCard) causedByCard , selfCard);
+            if (cardEventInfo == CardEventInfo.DESTROYED && card == selfCard && causedByCard != null) {
+                selfPlayer.getOpponent().removeCardFromField((MonsterCard) causedByCard, selfCard);
             }
         }
         isInConsideration = false;

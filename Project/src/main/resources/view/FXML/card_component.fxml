@@ -2,10 +2,9 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.GridPane?>
-
-<?import javafx.scene.image.Image?>
 <fx:root type="javafx.scene.control.SplitPane" dividerPositions="0.5" prefHeight="300" prefWidth="500"
          xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx">
     <items>

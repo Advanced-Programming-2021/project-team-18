@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 public class UtilityView {
     static String answer;
+
     public static void displayMessage(String message) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -21,12 +22,13 @@ public class UtilityView {
         Button closeButton = new Button("ok");
         closeButton.setOnAction(e -> stage.close());
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label , closeButton);
+        layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         stage.setScene(scene);
         stage.showAndWait();
     }
+
     public static String obtainInformation(String message) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -35,9 +37,12 @@ public class UtilityView {
         label.setText(message);
         TextField textField = new TextField();
         Button closeButton = new Button("submit");
-        closeButton.setOnAction(e -> { answer = textField.getText(); stage.close(); });
+        closeButton.setOnAction(e -> {
+            answer = textField.getText();
+            stage.close();
+        });
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label , textField , closeButton);
+        layout.getChildren().addAll(label, textField, closeButton);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         stage.setScene(scene);
@@ -45,7 +50,7 @@ public class UtilityView {
         return answer;
     }
 
-    public static void showError(String message){
+    public static void showError(String message) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
