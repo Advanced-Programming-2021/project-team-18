@@ -3,6 +3,7 @@ package view.components;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -13,6 +14,7 @@ import lombok.SneakyThrows;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class WoodenButton extends StackPane implements Initializable {
@@ -81,13 +83,15 @@ public class WoodenButton extends StackPane implements Initializable {
 
     @SneakyThrows
     private void onMouseEntered() {
-        File file = new File(getClass().getResource("/background/button_hovered.png").toURI());
+        File file = new File(Objects.requireNonNull(getClass().getResource(
+                "/background/button_hovered.png")).toURI());
         imageView.setImage(new Image(file.toURI().toString()));
     }
 
     @SneakyThrows
     private void onMouseExited() {
-        File file = new File(getClass().getResource("/background/button.png").toURI());
+        File file = new File(Objects.requireNonNull(getClass().getResource(
+                "/background/button.png")).toURI());
         imageView.setImage(new Image(file.toURI().toString()));
     }
 

@@ -21,8 +21,14 @@
 }
 
 .label {
-    -fx-background-fill: yellow;
+    -fx-background-color: white;
     -fx-font-family: "Times";
     -fx-font-size: 1.5em;
     -fx-text-alignment: center;
+}
+
+.popup-container {
+    -fx-background-color: black;
+    -fx-alignment: center;
+    -fx-spacing: 2em;
 }
