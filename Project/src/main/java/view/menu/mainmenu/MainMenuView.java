@@ -5,9 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.input.MouseEvent;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import menus.MenuController;
 import view.View;
+import view.menu.cardcreatormenu.CardCreatorView;
 import view.menu.deckmenu.DeckMenuDeckSelectionView;
 import view.menu.scoreboard.ScoreboardView;
 
@@ -71,5 +74,10 @@ public class MainMenuView extends View {
     public void logout() {
         setCurrentUser(null);
         loadView("login_menu");
+    }
+    @SneakyThrows
+    public void enterCardCreatorMenu(MouseEvent mouseEvent) {
+        CardCreatorView.setCurrentUser(currentUser);
+        loadView("card_creator_menu");
     }
 }

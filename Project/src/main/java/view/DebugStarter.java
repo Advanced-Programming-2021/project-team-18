@@ -8,9 +8,11 @@ import lombok.SneakyThrows;
 public class DebugStarter extends Application {
     @Getter
     private static Stage stage;
+
     public static void main(String[] args) {
         launch(args);
     }
+
     @SneakyThrows
     @Override
     public void start(Stage stage) {

@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 // By Sina
 public class User implements Comparable<User>, Serializable {
@@ -55,7 +58,7 @@ public class User implements Comparable<User>, Serializable {
 
     public static void removeUser(String username) {
         for (User user : allUsers) {
-            if(user.getUsername().contentEquals(username)){
+            if (user.getUsername().contentEquals(username)) {
                 allUsers.remove(user);
                 return;
             }

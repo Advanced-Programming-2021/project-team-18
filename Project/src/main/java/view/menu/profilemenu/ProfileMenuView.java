@@ -30,7 +30,7 @@ public class ProfileMenuView extends View {
     public void loadChangeNicknamePage() throws IOException {
         loadView("change_nickname");
     }
-    
+
     @FXML
     public void initialize() {
         MenuController controller = MenuController.getInstance();
@@ -49,9 +49,11 @@ public class ProfileMenuView extends View {
         ProfileResult result = controller.changePassword(oldPassword.getText(), newPassword.getText());
         switch (result) {
             case INVALID_PASSWORD:
-                response.setText("Password is invalid!"); break;
+                response.setText("Password is invalid!");
+                break;
             case PASSWORD_THE_SAME:
-                response.setText("Please input a DIFFERENT password!"); break;
+                response.setText("Please input a DIFFERENT password!");
+                break;
             case SUCCESSFUL_OPERATION:
                 promptSuccessAndBack();
         }

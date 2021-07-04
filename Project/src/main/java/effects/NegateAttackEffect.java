@@ -24,8 +24,7 @@ public class NegateAttackEffect extends Effect {
                 if (getPermissionFromAllEffects(activationEvent)) {
                     player.getOpponent().endBattlePhaseByEffect();
                     return false;
-                }
-                else Printer.prompt("some effect prevented trap activation");
+                } else Printer.prompt("some effect prevented trap activation");
             }
         }
         return true;

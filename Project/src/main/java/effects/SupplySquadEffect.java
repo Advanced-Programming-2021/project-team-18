@@ -4,18 +4,17 @@ import card.Card;
 import card.MonsterCard;
 import data.Printer;
 import events.*;
-import game.Player;
 
 public class SupplySquadEffect extends Effect {
     boolean hasActivatedEffectThisTurn;
 
     public void runEffect() {
         hasActivatedEffectThisTurn = true;
-        if(selfPlayer.getRemainingDeck().isEmpty()){
+        if (selfPlayer.getRemainingDeck().isEmpty()) {
             Printer.prompt("Your deck is empty so Supply Squad cannot draw a card for you");
             return;
         }
-        if(selfPlayer.getHand().getCardsList().size() == 6){
+        if (selfPlayer.getHand().getCardsList().size() == 6) {
             Printer.prompt("Your hand is full so Supply Squad cannot draw a card for you");
             return;
         }
@@ -44,7 +43,7 @@ public class SupplySquadEffect extends Effect {
                 runEffect();
             }
         }
-        if(event instanceof TurnChangeEvent){
+        if (event instanceof TurnChangeEvent) {
             hasActivatedEffectThisTurn = false;
         }
         return true;

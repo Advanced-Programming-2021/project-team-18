@@ -1,15 +1,15 @@
 package card;
 
 import effects.*;
-import events.DrawCardEvent;
 import game.Player;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.ImagePattern;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 @Getter
 
@@ -46,8 +46,8 @@ public abstract class Card implements Comparable<Card> {
         return null;
     }
 
-    public static List<String> getAllCardNames() {
-        return Collections.unmodifiableList(allCardNames);
+    public static ArrayList<String> getAllCardNames() {
+        return allCardNames;
     }
 
     public static ArrayList<Card> getAllCards() {
@@ -59,15 +59,14 @@ public abstract class Card implements Comparable<Card> {
     }
 
     public Image getImage() {
-        if(image != null)
+        if (image != null)
             return image;
         String path = "/cards_images/" + cardName.replaceAll(" ", "_") + ".jpg";
-        try{
+        try {
             image = new Image(Objects.requireNonNull(
                     getClass().getResource(path)).toExternalForm());
             return image;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.print(cardName.replaceAll(" ", "_") + ".jpg ");
             return null;
         }
@@ -90,7 +89,7 @@ public abstract class Card implements Comparable<Card> {
         switch (cardName) {
             case "Command Knight":
                 effects.add(new AddAttackAndDefenseEffect(400, 400, MonsterCardType.ALL, 0));
-                effects.add(new DisableAttackerEffect(2 , 10));
+                effects.add(new DisableAttackerEffect(2, 10));
                 break;
             case "Yomi Ship":
                 effects.add(new DestroyAttackerEffect());
@@ -147,10 +146,10 @@ public abstract class Card implements Comparable<Card> {
                 effects.add(new SummonFromGraveyardEffect());
                 break;
             case "Terraforming":
-                effects.add(new DrawEffect(1 , SpellType.FIELD));
+                effects.add(new DrawEffect(1, SpellType.FIELD));
                 break;
             case "Pot of Greed":
-                effects.add(new DrawEffect(2 , null));
+                effects.add(new DrawEffect(2, null));
                 break;
             case "Raigeki":
                 effects.add(new DestroyEnemyMonsterEffect(false));

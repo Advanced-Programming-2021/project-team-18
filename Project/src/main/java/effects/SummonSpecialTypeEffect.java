@@ -3,7 +3,7 @@ package effects;
 import card.MonsterCardType;
 import events.Event;
 
-public class SummonSpecialTypeEffect extends Effect{
+public class SummonSpecialTypeEffect extends Effect {
     private MonsterCardType monsterType;
     private boolean handAllowed;
     private boolean deckAllowed;

@@ -5,10 +5,6 @@ import card.MonsterCard;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
-import utility.Utility;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 // by Pasha
 // [Trap Hole]

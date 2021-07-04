@@ -36,7 +36,8 @@ public class LoginMenuTests {
         loginMap.put("username", "sampleUsername");
         loginMap.put("password", "samplePassword");
         User user = loginMenu.login(map);
-        if(user != null && user.getUsername().contentEquals("sampleUsername") && user.getPassword().contentEquals("samplePassword")) finalResult = true;
-        Assertions.assertEquals(finalResult , true);
+        if (user != null && user.getUsername().contentEquals("sampleUsername") && user.getPassword().contentEquals("samplePassword"))
+            finalResult = true;
+        Assertions.assertEquals(finalResult, true);
     }
 }

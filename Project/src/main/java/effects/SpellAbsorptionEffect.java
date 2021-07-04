@@ -5,7 +5,6 @@ import card.SpellCard;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
-import game.Player;
 
 public class SpellAbsorptionEffect extends Effect {
     private boolean isActivated = false;

@@ -15,6 +15,7 @@ public class ProgramController {
         new LoginMenu().runMenu();
         DataManager.saveUsersData();
     }
+
     public void runGraphic(String[] args) {
         DataManager.loadCardsIntoAllCards();
         DataManager.loadUsersData();

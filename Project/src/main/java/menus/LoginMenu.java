@@ -72,7 +72,7 @@ public class LoginMenu extends Menu {
             } else if (input.matches(menuNavigation)) {
                 Printer.prompt("please login first");
             } else if (input.matches(exitMenuPattern)) {
-                return ;
+                return;
             } else {
                 Printer.prompt("Invalid command!");
             }

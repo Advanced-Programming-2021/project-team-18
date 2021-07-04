@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import view.components.CardComponent?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import view.components.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
             prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="view.menu.deckmenu.DeckMenuSpecificDeck">
@@ -14,18 +14,18 @@
             </image>
         </ImageView>
         <AnchorPane prefHeight="200.0" prefWidth="200.0"/>
-        <Button layoutX="100.0" layoutY="367.0" mnemonicParsing="false" onAction="#addCardToMainDeck"
-                text="add card to main deck"/>
-        <Button layoutX="612.0" layoutY="367.0" mnemonicParsing="false" onAction="#addCardToSideDeck"
-                text="add card to side deck"/>
-        <Button layoutX="399.0" layoutY="461.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="25.0"
-                prefWidth="47.0" text="back"/>
-        <Button layoutX="376.0" layoutY="501.0" mnemonicParsing="false" onAction="#setAsActiveDeck" prefHeight="25.0"
-                prefWidth="94.0" text="set as active"/>
-        <Button layoutX="62.0" layoutY="408.0" mnemonicParsing="false" onAction="#onRemoveMainDeckButton"
-                text="remove current card from main deck"/>
-        <Button layoutX="575.0" layoutY="408.0" mnemonicParsing="false" onAction="#onRemoveSideDeckButton"
-                text="remove current card from side deck"/>
+        <WoodenButton layoutX="100.0" layoutY="367.0" onMouseClicked="#addCardToMainDeck"
+                      text="add card to main deck" initialHeight="35" initialWidth="140"/>
+        <WoodenButton layoutX="612.0" layoutY="367.0" onMouseClicked="#addCardToSideDeck"
+                      text="add card to side deck" initialHeight="35" initialWidth="140"/>
+        <WoodenButton layoutX="399.0" layoutY="461.0" onMouseClicked="#onBackButton" prefHeight="25.0"
+                      prefWidth="47.0" text="back" initialHeight="35" initialWidth="50"/>
+        <WoodenButton layoutX="376.0" layoutY="501.0" onMouseClicked="#setAsActiveDeck" prefHeight="25.0"
+                      prefWidth="94.0" text="set as active" initialHeight="35" initialWidth="100"/>
+        <WoodenButton layoutX="62.0" layoutY="408.0" onMouseClicked="#onRemoveMainDeckButton"
+                      text="remove current card from main deck" initialHeight="35" initialWidth="220"/>
+        <WoodenButton layoutX="575.0" layoutY="408.0" onMouseClicked="#onRemoveSideDeckButton"
+                      text="remove current card from side deck" initialHeight="35" initialWidth="220"/>
         <CardComponent layoutX="430.0" layoutY="36.0" prefHeight="300" prefWidth="400" fx:id="sideDeckCardComponent"/>
         <CardComponent layoutX="14.0" layoutY="36.0" prefHeight="300" prefWidth="400" fx:id="mainDeckCardComponent"/>
     </children>

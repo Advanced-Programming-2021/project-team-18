@@ -6,8 +6,6 @@ import game.GameDeck;
 import game.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -16,7 +14,6 @@ import menus.MenuController;
 import view.UtilityView;
 import view.View;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;

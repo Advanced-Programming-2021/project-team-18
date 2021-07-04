@@ -2,21 +2,22 @@ package view.menu.deckmenu;
 
 import game.GameDeck;
 import game.User;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import menus.MenuController;
 import view.View;
+import view.components.CardComponent;
+
 import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DeckMenuSpecificDeck extends View implements Initializable {
-    @Setter private static GameDeck currentDeck; // Note : has to be set when entered
+    @Setter
+    private static GameDeck currentDeck; // Note : has to be set when entered
     private static User currentUser; // Note : has to be set when entered
     private static int mainDeckSelectId;
     private static int sideDeckSelectId;
@@ -52,9 +53,8 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
         updateSideDeckImageView();
     }
 
-
     @SneakyThrows
-    public void addCardToMainDeck(ActionEvent actionEvent) {
+    public void addCardToMainDeck(MouseEvent actionEvent) {
         DeckMenuCardSelection.setCurrentDeck(currentDeck.getMainDeck());
         DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
         DeckMenuCardSelection.setCurrentUser(currentUser);
@@ -62,71 +62,41 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
     }
 
     @SneakyThrows
-    public void addCardToSideDeck(ActionEvent actionEvent) {
+    public void addCardToSideDeck(MouseEvent actionEvent) {
         DeckMenuCardSelection.setCurrentDeck(currentDeck.getSideDeck());
         DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
         DeckMenuCardSelection.setCurrentUser(currentUser);
         loadView("deck_menu_select_card");
     }
 
-    public void onRemoveMainDeckButton(ActionEvent actionEvent) {
-        if(mainDeckSelectId < 0)
-            return ;
-        currentDeck.getMainDeck().removeCard(currentDeck.getMainDeck().getCardsList().get(mainDeckSelectId));
-        if(mainDeckSelectId >= currentDeck.getMainDeck().getCardsList().size())
-            -- mainDeckSelectId;
-        System.out.println(currentDeck.getMainDeck().getCardsList().size() + " " + mainDeckSelectId);
-        updateMainDeckImageView();
+    public void onRemoveMainDeckButton(MouseEvent actionEvent) {
+        if (mainDeckCardComponent.getSelectedCardName() == null)
+            return;
+        currentDeck.getMainDeck().removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
+        mainDeckCardComponent.removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
     }
 
-    public void onRemoveSideDeckButton(ActionEvent actionEvent) {
-        if(sideDeckSelectId < 0)
-            return ;
-        currentDeck.getSideDeck().removeCard(currentDeck.getSideDeck().getCardsList().get(sideDeckSelectId));
-        if(sideDeckSelectId >= currentDeck.getSideDeck().getCardsList().size())
-            -- sideDeckSelectId;
-        updateSideDeckImageView();
+    public void onRemoveSideDeckButton(MouseEvent actionEvent) {
+        if (sideDeckCardComponent.getSelectedCardName() == null)
+            return;
+        currentDeck.getSideDeck().removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
+        sideDeckCardComponent.removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
     }
 
     @SneakyThrows
-    public void onBackButton(ActionEvent actionEvent) {
+    public void onBackButton(MouseEvent actionEvent) {
         DeckMenuDeckSelectionView.setCurrentUser(currentUser);
         loadView("deck_menu_deck_selection");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mainDeckSelectId = 0;
-        if(currentDeck.getMainDeck().getCardsList().size() == 0)
-            mainDeckSelectId = -1;
-        sideDeckSelectId = 0;
-        if(currentDeck.getSideDeck().getCardsList().size() == 0)
-            sideDeckSelectId = -1;
-        updateMainDeckImageView();
-    }
-    @SneakyThrows
-    private void updateMainDeckImageView() {
-        mainDeckImageView.setImage(null);
-        if(mainDeckSelectId < 0)
-            return ;
-        String cardName = currentDeck.getMainDeck().getCardsList().get(mainDeckSelectId).getCardName();
-        cardName = cardName.replaceAll(" " , "_");
-        File file = new File(Objects.requireNonNull(getClass().getResource(
-                "/cards_images/" + cardName + ".jpg")).toURI());
-        mainDeckImageView.setImage(new Image(file.toURI().toString()));
-    }
-    @SneakyThrows
-    private void updateSideDeckImageView() {
-        sideDeckImageView.setImage(null);
-        if(sideDeckSelectId < 0)
-            return ;
-        String cardName = currentDeck.getSideDeck().getCardsList().get(sideDeckSelectId).getCardName();
-        cardName = cardName.replaceAll(" " , "_");
-        File file = new File(Objects.requireNonNull(getClass().getResource(
-                "/cards_images/" + cardName + ".jpg")).toURI());
-        mainDeckImageView.setImage(new Image(file.toURI().toString()));
+        for (Card card : currentDeck.getMainDeck().getCardsList())
+            mainDeckCardComponent.addCard(card);
     }
 
-
-
+    public void setAsActiveDeck(MouseEvent actionEvent) {
+        currentUser.setActiveDeckName(currentDeck.getName());
+        UtilityView.displayMessage("this deck was set as your active deck");
+    }
 }

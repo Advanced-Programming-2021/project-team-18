@@ -6,10 +6,6 @@ import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
 import game.Player;
-import utility.Utility;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TorrentialTributeEffect extends Effect {
 

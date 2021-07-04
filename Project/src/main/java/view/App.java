@@ -18,7 +18,6 @@ public class App extends Application {
             if (args[0].matches(".*log.*")) loginFirst = true;
         launch(args);
     }
-
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader;
