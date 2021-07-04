@@ -46,8 +46,8 @@ public abstract class Card implements Comparable<Card> {
         return null;
     }
 
-    public static List<String> getAllCardNames() {
-        return Collections.unmodifiableList(allCardNames);
+    public static ArrayList<String> getAllCardNames() {
+        return allCardNames;
     }
 
     public static ArrayList<Card> getAllCards() {

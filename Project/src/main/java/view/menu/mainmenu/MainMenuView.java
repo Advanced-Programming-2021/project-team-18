@@ -5,6 +5,7 @@ import javafx.scene.input.MouseEvent;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import view.View;
+import view.menu.cardcreatormenu.CardCreatorView;
 import view.menu.deckmenu.DeckMenuDeckSelectionView;
 import view.menu.scoreboard.ScoreboardView;
 
@@ -46,8 +47,9 @@ public class MainMenuView extends View {
         currentUser = null;
         loadView("login_menu");
     }
-
+    @SneakyThrows
     public void enterCardCreatorMenu(MouseEvent mouseEvent) {
-
+        CardCreatorView.setCurrentUser(currentUser);
+        loadView("card_creator_menu");
     }
 }
