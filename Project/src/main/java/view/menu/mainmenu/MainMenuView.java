@@ -3,21 +3,17 @@ package view.menu.mainmenu;
 import game.User;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.input.MouseEvent;
-import lombok.Setter;
+import javafx.scene.layout.*;
 import lombok.SneakyThrows;
 import menus.MenuController;
 import view.View;
 import view.menu.cardcreatormenu.CardCreatorView;
 import view.menu.deckmenu.DeckMenuDeckSelectionView;
+import view.menu.import_export_menu.ImportExportMenuView;
 import view.menu.scoreboard.ScoreboardView;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Objects;
 
 public class MainMenuView extends View {
     private static User currentUser; // note : has to be set when entered
@@ -53,21 +49,26 @@ public class MainMenuView extends View {
         loadView("deck_menu_deck_selection");
     }
 
-    public void enterScoreboardMenu() throws IOException {
+    @SneakyThrows
+    public void enterScoreboardMenu() {
         ScoreboardView.setUser(currentUser);
         loadView("scoreboard");
     }
 
-    public void enterProfileMenu() throws IOException {
+    @SneakyThrows
+    public void enterProfileMenu() {
         loadView("profile_menu");
     }
 
-    public void enterShopMenu() throws IOException {
+    @SneakyThrows
+    public void enterShopMenu() {
         loadView("shop_menu");
     }
 
+    @SneakyThrows
     public void enterImportExportMenu() {
-
+        ImportExportMenuView.setCurrentUser(currentUser);
+        loadView("import_export_menu");
     }
 
     @SneakyThrows
@@ -75,6 +76,7 @@ public class MainMenuView extends View {
         setCurrentUser(null);
         loadView("login_menu");
     }
+
     @SneakyThrows
     public void enterCardCreatorMenu(MouseEvent mouseEvent) {
         CardCreatorView.setCurrentUser(currentUser);
