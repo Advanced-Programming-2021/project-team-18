@@ -7,8 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Objects;
 
 @Getter
@@ -16,6 +15,7 @@ import java.util.Objects;
 public abstract class Card implements Comparable<Card> {
     private static final ArrayList<Card> allCards = new ArrayList<>();
     private static final ArrayList<String> allCardNames = new ArrayList<>();
+    private static HashMap<String,Image> cardImages = new HashMap<>();
     private String cardName;
     @Setter
     private int price;
@@ -31,7 +31,6 @@ public abstract class Card implements Comparable<Card> {
     private Origin cardOrigin;
     @Setter
     private ArrayList<Effect> effects = new ArrayList<>();
-    private Image image;
 
     public void setCardName(String cardName) {
         this.cardName = cardName;
@@ -59,12 +58,13 @@ public abstract class Card implements Comparable<Card> {
     }
 
     public Image getImage() {
-        if (image != null)
-            return image;
+        if(cardImages.get(cardName) != null)
+            return cardImages.get(cardName);
         String path = "/cards_images/" + cardName.replaceAll(" ", "_") + ".jpg";
         try {
-            image = new Image(Objects.requireNonNull(
+            Image image = new Image(Objects.requireNonNull(
                     getClass().getResource(path)).toExternalForm());
+            cardImages.put(cardName , image);
             return image;
         } catch (Exception e) {
             System.out.print(cardName.replaceAll(" ", "_") + ".jpg ");

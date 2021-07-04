@@ -12,9 +12,7 @@ import game.User;
 import lombok.SneakyThrows;
 import utility.Utility;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -202,9 +200,8 @@ public class DataManager {
                     DataManager.class.getResource(USERS_DATA_PATH)).getPath())).getAbsolutePath())));
             ArrayList<User> users = gson.fromJson(text, new TypeToken<List<User>>() {
             }.getType());
-            if (users == null) {
+            if (users == null)
                 return;
-            }
             User.setAllUsers(users);
             prepareUserDataAfterLoading();
 
@@ -225,10 +222,7 @@ public class DataManager {
 
         Deck deck = new Deck(60);
         while (agent.find()) {
-            Card card = Card.getCardByName(agent.group(1));
-            if (card == null) {
-                System.out.println(agent.group(1));
-            }
+            Card card = Card.getCardByName(agent.group(1).trim());
             deck.addCard(card);
         }
         AIPlayer.setAIDeck(deck);

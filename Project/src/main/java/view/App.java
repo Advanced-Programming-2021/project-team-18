@@ -29,7 +29,7 @@ public class App extends Application {
         View.setStage(stage);
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        // stage.initStyle(StageStyle.TRANSPARENT);
+//        stage.initStyle(StageStyle.TRANSPARENT);
         stage.setTitle("The Yu-Gi-Oh! :)");
         stage.show();
     }

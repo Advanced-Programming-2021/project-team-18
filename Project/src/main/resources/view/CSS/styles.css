@@ -27,7 +27,7 @@
     -fx-cursor: hand;
 }
 
-.normal-button: hover {
+.normal-button:hover {
     -fx-background-image: url("../../background/button_hovered.png");
 }
 
