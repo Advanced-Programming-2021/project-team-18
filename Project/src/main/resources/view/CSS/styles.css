@@ -1,5 +1,16 @@
 /* IAWT */
 
+.button {
+    -fx-text-fill: black;
+    -fx-font-family: "Times";
+    -fx-background-image: url("../../background/button.png");
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+}
+
+.button: hover {
+    -fx-background-image: url("../../background/button_hovered.png");
+}
 
 
 .normal-button {

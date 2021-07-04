@@ -5,16 +5,42 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import utility.Utility;
 
-import java.awt.*;
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class UtilityView {
     static String answer;
+    static int avatarNumbers = 0;
+
+    static {
+        try {
+            File avatarFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
+                    "/avatars/")).toURI());
+            avatarNumbers = Objects.requireNonNull(avatarFolder.listFiles()).length;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static Image getAvatarImage(int avatarID) {
+        try {
+            return new Image(Objects.requireNonNull(UtilityView.class.getResource(
+                    "/avatars/" + avatarID + ".jpg")).toExternalForm());
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    public static int getAvatarNumbers() {
+        return avatarNumbers;
+    }
 
     public static void displayMessage(String message) {
         Popup popup = new Popup();

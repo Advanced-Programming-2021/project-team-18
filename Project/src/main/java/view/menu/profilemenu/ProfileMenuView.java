@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import menus.MenuController;
 import menus.ProfileResult;
+import utility.Utility;
+import view.UtilityView;
 import view.View;
 
 import java.io.IOException;
@@ -22,6 +25,7 @@ public class ProfileMenuView extends View {
     public Label username;
     public Label nickname;
     public TextField nicknameInput;
+    public ImageView avatarImage;
 
     public void loadChangePasswordPage() throws IOException {
         loadView("change_password");
@@ -37,6 +41,7 @@ public class ProfileMenuView extends View {
         try {
             username.setText(controller.getUser().getUsername());
             nickname.setText(controller.getUser().getNickname());
+            avatarImage.setImage(UtilityView.getAvatarImage(controller.getUser().getAvatarID()));
         } catch (Exception e) {
             System.out.println("Sorry, some problem occurred in initialization :(");
             System.out.println("Error message: " + e.getMessage());

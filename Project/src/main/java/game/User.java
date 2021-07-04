@@ -3,6 +3,8 @@ package game;
 import card.Card;
 import lombok.Getter;
 import lombok.Setter;
+import utility.Utility;
+import view.UtilityView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,12 +36,14 @@ public class User implements Comparable<User>, Serializable {
     @Getter
     @Setter
     private int balance;
+    @Getter
+    @Setter
+    private int avatarID;
     private final ArrayList<GameDeck> decks;
     private final HashMap<String, Integer> cardCount;
 
-
     public static List<User> getAllUsers() {
-         return Collections.unmodifiableList(allUsers);
+        return Collections.unmodifiableList(allUsers);
     }
 
     public static User getUserByUsername(String username) {
@@ -69,6 +73,7 @@ public class User implements Comparable<User>, Serializable {
         return dummyUser;
     }
 
+
     private User() {
         username = "The Computer";
         password = null;
@@ -91,7 +96,9 @@ public class User implements Comparable<User>, Serializable {
         defaultDeck.setSideDeck(new Deck(15));
         decks.add(defaultDeck);
         allUsers.add(this);
+        avatarID = Utility.getARandomNumber(UtilityView.getAvatarNumbers()) + 1;
     }
+
 
     public GameDeck getGameDeckByName(String name) {
         for (GameDeck gameDeck : decks) {
