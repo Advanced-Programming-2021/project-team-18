@@ -7,13 +7,14 @@
      -fx-background-image: url("../../background/button.png");
      -fx-background-size: cover;
      -fx-cursor: hand;
+     -fx-background-color: transparent;
  }
 
-.button: hover {
+.button:hover {
      -fx-background-image: url("../../background/button_hovered.png");
 }
 
-.button: pressed {
+.button:pressed {
     -fx-translate-y: 2;
 }
 
@@ -31,7 +32,7 @@
     -fx-background-image: url("../../background/button_hovered.png");
 }
 
-.normal-button: pressed {
+.normal-button:pressed {
     -fx-translate-y: 2;
 }
 
@@ -45,7 +46,7 @@
 }
 
 .inactive-button:pressed {
-    -fx-background-color: darkred;
+    -fx-background-color: #8b0000;
 }
 
 .label {

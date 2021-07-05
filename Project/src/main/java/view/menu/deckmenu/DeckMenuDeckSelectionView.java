@@ -73,6 +73,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
             return;
         }
         currentUser.addGameDeck(new GameDeck(name));
+        System.out.println(currentUser.getGameDeckByName(name) == null);
         updateListView();
     }
 

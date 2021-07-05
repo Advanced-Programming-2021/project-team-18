@@ -96,7 +96,7 @@ public class User implements Comparable<User>, Serializable {
         defaultDeck.setSideDeck(new Deck(15));
         decks.add(defaultDeck);
         allUsers.add(this);
-        avatarID = Utility.getARandomNumber(UtilityView.getAvatarNumbers()) + 1;
+//        avatarID = Utility.getARandomNumber(UtilityView.getAvatarNumbers()) + 1;
     }
 
 

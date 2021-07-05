@@ -72,4 +72,7 @@
 
         </Button>
     </children>
+    <stylesheets>
+        <URL value="@../CSS/styles.css"/>
+    </stylesheets>
 </AnchorPane>
