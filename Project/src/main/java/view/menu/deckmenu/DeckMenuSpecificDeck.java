@@ -62,6 +62,8 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for (Card card : currentDeck.getMainDeck().getCardsList())
             mainDeckCardComponent.addCard(card);
+        for (Card card : currentDeck.getSideDeck().getCardsList())
+            sideDeckCardComponent.addCard(card);
     }
 
     public void setAsActiveDeck(MouseEvent actionEvent) {

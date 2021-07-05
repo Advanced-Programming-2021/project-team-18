@@ -1,6 +1,5 @@
 package view.menu.loginmenu;
 
-import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 import view.View;
 

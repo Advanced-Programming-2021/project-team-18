@@ -42,16 +42,18 @@ public class ShopMenuView extends View {
             assert card != null;
             try {
                 cardImage = new ImageView(card.getImage());
-                cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.66/rowSize));
-                cardImage.setPreserveRatio(true);
-                Card finalCard = card;
-                cardImage.setOnMouseClicked(mouseEvent -> prepareCardForConsideration(finalCard));
-                grid.add(cardImage, i % rowSize, i / rowSize);
 
-                i++;
             } catch (Exception e) {
                 System.out.println(cardName);
+                cardImage = new ImageView(card.getImage());
             }
+            cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.66/rowSize));
+            cardImage.setPreserveRatio(true);
+            Card finalCard = card;
+            cardImage.setOnMouseClicked(mouseEvent -> prepareCardForConsideration(finalCard));
+            grid.add(cardImage, i % rowSize, i / rowSize);
+
+            i++;
         }
     }
 
