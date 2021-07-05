@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<StackPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.loginmenu.WelcomeView">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
@@ -23,17 +23,17 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <Button layoutX="251.0" layoutY="177.0" mnemonicParsing="false" text="login">
+            <Button layoutX="251.0" layoutY="177.0" mnemonicParsing="false" text="login" onMouseClicked="#login">
                <font>
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button layoutX="236.0" layoutY="244.0" mnemonicParsing="false" text="register">
+            <Button layoutX="236.0" layoutY="244.0" mnemonicParsing="false" text="register" onMouseClicked="#register">
                <font>
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button layoutX="257.0" layoutY="308.0" mnemonicParsing="false" text="exit">
+            <Button layoutX="257.0" layoutY="308.0" mnemonicParsing="false" text="exit" onMouseClicked="#exit">
                <font>
                   <Font size="25.0" />
                </font>
