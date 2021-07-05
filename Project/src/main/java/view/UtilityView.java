@@ -22,14 +22,13 @@ public class UtilityView {
     static int avatarNumbers = 0;
 
     static {
-//        try {
-//            File avatarFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
-//                    "/avatars/")).toURI());
-//            avatarNumbers = Objects.requireNonNull(avatarFolder.listFiles()).length;
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-
+        try {
+            File avatarFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
+                    "/avatars/")).toURI());
+            avatarNumbers = Objects.requireNonNull(avatarFolder.listFiles()).length;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Image getAvatarImage(int avatarID) {

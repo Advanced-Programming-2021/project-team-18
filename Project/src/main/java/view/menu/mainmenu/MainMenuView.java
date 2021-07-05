@@ -72,4 +72,8 @@ public class MainMenuView extends View {
         CardCreatorView.setCurrentUser(currentUser);
         loadView("card_creator_menu");
     }
+    @SneakyThrows
+    public void onLogoutButton(MouseEvent mouseEvent) {
+        loadView("welcome");
+    }
 }

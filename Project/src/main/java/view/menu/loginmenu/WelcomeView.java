@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public class WelcomeView extends View {
 
-    public void register(ActionEvent actionEvent) throws IOException {
+    public void register(MouseEvent mouseEvent) throws IOException {
         loadView("register");
     }
 
-    public void login(ActionEvent actionEvent) throws IOException {
+    public void login(MouseEvent mouseEvent) throws IOException {
         loadView("login");
     }
 

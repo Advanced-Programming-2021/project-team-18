@@ -9,9 +9,10 @@
 <?import javafx.scene.text.Font?>
 
 
-<StackPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.loginmenu.WelcomeView">
+<?import java.net.URL?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="view.menu.loginmenu.WelcomeView">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0">
+      <ImageView fitHeight="600.0" fitWidth="860.0">
          <image>
             <Image url="@../../background/564835.jpg" />
          </image>
@@ -41,4 +42,7 @@
          </children>
       </AnchorPane>
    </children>
+<!--   <stylesheets>-->
+<!--      <URL value="@../CSS/styles.css"/>-->
+<!--   </stylesheets>-->
 </StackPane>

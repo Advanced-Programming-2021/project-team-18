@@ -1,6 +1,7 @@
 package view;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,10 +22,11 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader;
-        if (loginFirst)
-            loader = new FXMLLoader(getClass().getResource("/view/FXML/login.fxml"));
-        else
-            loader = new FXMLLoader(getClass().getResource("/view/FXML/register.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/view/FXML/welcome.fxml"));
+//        if (loginFirst)
+//            loader = new FXMLLoader(getClass().getResource("/view/FXML/login.fxml"));
+//        else
+//            loader = new FXMLLoader(getClass().getResource("/view/FXML/register.fxml"));
         Parent root = loader.load();
         View.setStage(stage);
         Scene scene = new Scene(root);
