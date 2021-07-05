@@ -1,9 +1,15 @@
 /* IAWT */
 
+.mainMenuPane {
+    -fx-background-size: cover;
+    -fx-background-image: url("../../background/background.jpg");
+}
+
 .button {
      -fx-text-fill: black;
      -fx-font-family: "Times";
      -fx-alignment: center;
+     -fx-background-color: transparent;
      -fx-background-image: url("../../background/button.png");
      -fx-background-size: cover;
      -fx-cursor: hand;
@@ -22,6 +28,7 @@
 .normal-button {
     -fx-text-fill: black;
 	-fx-font-family: "Times";
+	-fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
 	-fx-background-size: cover;
 	-fx-alignment: center;

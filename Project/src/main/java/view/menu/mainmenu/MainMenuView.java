@@ -17,21 +17,11 @@ import java.io.File;
 
 public class MainMenuView extends View {
     private static User currentUser; // note : has to be set when entered
-    public StackPane root;
 
     @SneakyThrows
     @FXML
     public void initialize() {
-        File file = new File(getClass().getResource("/background/background.jpg").toURI());
-        Image image = new Image(file.toURI().toString());
-        BackgroundImage backgroundimage = new BackgroundImage(image,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
 
-        Background background = new Background(backgroundimage);
-        //stage.getScene().setFill(Color.TRANSPARENT);
     }
 
     public static void setCurrentUser(User currentUser) {
