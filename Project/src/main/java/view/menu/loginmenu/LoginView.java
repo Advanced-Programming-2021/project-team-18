@@ -21,7 +21,7 @@ public class LoginView extends View {
             loadView("login");
         } else {
             MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
-            loadView("main_menu");
+            ((MainMenuView) loadView("main_menu")).adjustScene();
         }
     }
 }

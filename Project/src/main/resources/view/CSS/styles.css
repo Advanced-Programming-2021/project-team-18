@@ -3,6 +3,7 @@
 .mainMenuPane {
     -fx-background-size: cover;
     -fx-background-image: url("../../background/background.jpg");
+    -fx-cursor: disappear;
 }
 
 .button {
@@ -21,6 +22,25 @@
 }
 
 .button:pressed {
+    -fx-translate-y: 2;
+}
+
+.main-menu-button {
+    -fx-text-fill: black;
+     -fx-font-family: "Times";
+     -fx-alignment: center;
+     -fx-background-color: transparent;
+     -fx-background-image: url("../../background/button.png");
+     -fx-background-size: cover;
+     -fx-cursor: disappear;
+     -fx-background-color: transparent;
+}
+
+.main-menu-button:hover {
+     -fx-background-image: url("../../background/button_hovered.png");
+}
+
+.main-menu-button:pressed {
     -fx-translate-y: 2;
 }
 
@@ -68,3 +88,4 @@
     -fx-alignment: center;
     -fx-spacing: 2em;
 }
+

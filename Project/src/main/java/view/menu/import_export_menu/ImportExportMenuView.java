@@ -14,6 +14,7 @@ import lombok.SneakyThrows;
 import view.UtilityView;
 import view.View;
 import view.components.CardComponent;
+import view.menu.mainmenu.MainMenuView;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -62,7 +63,7 @@ public class ImportExportMenuView extends View implements Initializable {
 
     @SneakyThrows
     public void onBackButton(MouseEvent mouseEvent) {
-        loadView("main_menu");
+        ((MainMenuView) loadView("main_menu")).adjustScene();
     }
 
     @SneakyThrows
@@ -78,6 +79,7 @@ public class ImportExportMenuView extends View implements Initializable {
     @SneakyThrows
     private void exportCard(String path , String cardName) {
         Card card = Card.getCardByName(cardName);
+        assert card != null;
         card.setEffects(null);
         card.setPlayer(null);
         File file = new File(path + "/" + cardName + ".json");

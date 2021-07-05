@@ -13,6 +13,7 @@ import menus.MenuController;
 import menus.ProfileResult;
 import view.UtilityView;
 import view.View;
+import view.menu.mainmenu.MainMenuView;
 
 import java.io.IOException;
 
@@ -79,7 +80,7 @@ public class ProfileMenuView extends View {
     }
 
     public void backToMain() throws IOException {
-        loadView("main_menu");
+        ((MainMenuView) loadView("main_menu")).adjustScene();
     }
 
     public void changeNickname() throws IOException {

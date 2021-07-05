@@ -16,6 +16,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import view.UtilityView;
 import view.View;
+import view.menu.mainmenu.MainMenuView;
 
 import java.net.URL;
 import java.util.HashSet;
@@ -38,8 +39,8 @@ public class CardCreatorView extends View implements Initializable {
     @SneakyThrows
     public void onCreateClicked(MouseEvent mouseEvent) {
         try {
-            int attackValue = Integer.valueOf(attackTextField.getText());
-            int defenseValue = Integer.valueOf(defenseTextField.getText());
+            int attackValue = Integer.parseInt(attackTextField.getText());
+            int defenseValue = Integer.parseInt(defenseTextField.getText());
             int price = getPrice();
             if(descriptionTextField.getText().length() < 1)
                 throw new Exception("invalid options");
@@ -60,17 +61,17 @@ public class CardCreatorView extends View implements Initializable {
             return ;
         }
         UtilityView.displayMessage("card successfully constructed and it cost you 10%");
-        loadView("main_menu");
+        ((MainMenuView) loadView("main_menu")).adjustScene();
     }
 
     @SneakyThrows
     public void onBackClicked(MouseEvent mouseEvent) {
-        loadView("main_menu");
+        ((MainMenuView) loadView("main_menu")).adjustScene();
     }
     private int getPrice() {
         int price;
         try {
-            price = 2 * Integer.valueOf(attackTextField.getText()) + Integer.valueOf(defenseTextField.getText()) + descriptionTextField.getText().length() * 100;
+            price = 2 * Integer.parseInt(attackTextField.getText()) + Integer.parseInt(defenseTextField.getText()) + descriptionTextField.getText().length() * 100;
         } catch (Exception e) {
             price = 100;
         }
@@ -104,11 +105,6 @@ public class CardCreatorView extends View implements Initializable {
     }
 
     private void bindTextField(TextField textField) {
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                refreshPrice();
-            }
-        });
+        textField.textProperty().addListener((observableValue, s, t1) -> refreshPrice());
     }
 }

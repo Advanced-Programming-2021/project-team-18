@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import menus.MenuController;
 import view.UtilityView;
 import view.View;
+import view.menu.mainmenu.MainMenuView;
 
 import java.io.IOException;
 
@@ -110,7 +111,7 @@ public class ShopMenuView extends View {
 
     public void back(){
         try {
-            loadView("main_menu");
+            ((MainMenuView) loadView("main_menu")).adjustScene();
         } catch (IOException e) {
             e.printStackTrace();
         }
