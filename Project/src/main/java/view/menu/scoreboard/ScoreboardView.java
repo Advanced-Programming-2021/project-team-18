@@ -28,7 +28,7 @@ public class ScoreboardView extends View {
     public void initialize() {
         List<User> usersList = new ArrayList<>(User.getAllUsers());
         Collections.sort(usersList);
-        Collections.reverse(usersList);
+        //Collections.reverse(usersList);
         int size = Math.min(usersList.size(), 20);
         for (int i = 0; i < size; i++) {
             User user1 = usersList.get(i);
