@@ -19,9 +19,9 @@ import view.View;
 import view.animations.CoinTransition;
 import view.menu.cardcreatormenu.CardCreatorView;
 import view.menu.deckmenu.DeckMenuDeckSelectionView;
+import view.menu.duelmenu.PreDuelMenu;
 import view.menu.import_export_menu.ImportExportMenuView;
 import view.menu.scoreboard.ScoreboardView;
-import view.UtilityView;
 
 
 public class MainMenuView extends View {
@@ -72,8 +72,10 @@ public class MainMenuView extends View {
         MenuController.getInstance().setUser(currentUser);
     }
 
+    @SneakyThrows
     public void enterDuelMenu() {
-        UtilityView.stopPlayer();
+        PreDuelMenu.setCurrentUser(currentUser);
+        loadView("pre_duel_menu");
     }
 
     @SneakyThrows
