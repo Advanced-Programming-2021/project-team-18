@@ -26,7 +26,7 @@
 }
 
 .main-menu-button {
-    -fx-text-fill: black;
+     -fx-text-fill: black;
      -fx-font-family: "Times";
      -fx-alignment: center;
      -fx-background-color: transparent;

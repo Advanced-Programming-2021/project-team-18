@@ -16,6 +16,7 @@ public class DebugApp extends Application {
         MainMenuView view = loader.getController();
         stage.setScene(new Scene(root));
         view.adjustScene();
+        UtilityView.playSound("menu_song.wav");
         stage.setTitle("The Yu-Gi-oh! :)");
         stage.show();
     }

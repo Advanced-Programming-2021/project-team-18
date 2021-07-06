@@ -36,5 +36,6 @@
                     prefWidth="165.0"
                     text="card creator menu"/>
         </HBox>
+        <Button onAction="#logout" prefHeight="57.0" prefWidth="165.0" text="logout"/>
     </VBox>
 </StackPane>
