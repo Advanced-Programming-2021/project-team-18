@@ -21,6 +21,7 @@ import view.menu.cardcreatormenu.CardCreatorView;
 import view.menu.deckmenu.DeckMenuDeckSelectionView;
 import view.menu.import_export_menu.ImportExportMenuView;
 import view.menu.scoreboard.ScoreboardView;
+import view.UtilityView;
 
 
 public class MainMenuView extends View {
@@ -72,7 +73,7 @@ public class MainMenuView extends View {
     }
 
     public void enterDuelMenu() {
-
+        UtilityView.stopPlayer();
     }
 
     @SneakyThrows
@@ -106,7 +107,7 @@ public class MainMenuView extends View {
     @SneakyThrows
     public void logout() {
         setCurrentUser(null);
-        loadView("login_menu");
+        loadView("welcome");
     }
 
     @SneakyThrows

@@ -8,10 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import utility.Utility;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -19,9 +20,12 @@ import java.util.Objects;
 
 public class UtilityView {
     static String answer;
-    static int avatarNumbers = 0;
+    static int avatarNumbers;
+    private static MediaPlayer player;
 
     static {
+        avatarNumbers = 0;
+        player = null;
         try {
             File avatarFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/")).toURI());
@@ -113,5 +117,19 @@ public class UtilityView {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setContentText(message);
         errorAlert.showAndWait();
+    }
+
+    public static void playSound(String songName) {
+        System.out.println("Playing " + songName + "...");
+        Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
+                "/sounds/" + songName)).toString());
+        if (player != null) player.stop();
+        player = new MediaPlayer(media);
+        // player.setCycleCount(-1);
+        player.play();
+    }
+
+    public static void stopPlayer() {
+        player.stop();
     }
 }
