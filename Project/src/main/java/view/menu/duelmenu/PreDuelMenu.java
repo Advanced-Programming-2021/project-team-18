@@ -8,33 +8,45 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import menus.MenuController;
+import utility.Utility;
 import view.UtilityView;
 import view.View;
 import view.animations.CoinTransition;
 import view.animations.HeadAndTailTransition;
+import view.menu.mainmenu.MainMenuView;
 
 import java.util.Random;
 
 public class PreDuelMenu extends View {
-    @Setter
     private static User currentUser;
     public TextField textField;
     private static HeadAndTailTransition transition = null;
     public ImageView coinView;
-    public void onDuelAI(MouseEvent mouseEvent) {
+
+    public void onDuelAI() {
         // todo
     }
 
-    public void onDuel(MouseEvent mouseEvent) {
+    public static void setCurrentUser(User currentUser) {
+        MenuController.getInstance().setUser(currentUser);
+        PreDuelMenu.currentUser = currentUser;
+    }
+
+    public void onDuel() {
         User user = User.getUserByUsername(textField.getText());
-        if(user == null) {
+        if (user == null) {
             UtilityView.displayMessage("no user exists with this username");
-            return ;
+            return;
         }
-        boolean randomBoolean = (new Random()).nextBoolean();
+        if (user.equals(MenuController.getInstance().getUser())) {
+            UtilityView.displayMessage("you cannot start a game with yourself :)");
+            return;
+        }
+        boolean randomBoolean = Utility.getARandomNumber(2) == 0;
         coinView.setLayoutX(300);
         coinView.setLayoutY(300);
-        transition = new HeadAndTailTransition(coinView, Duration.millis(200) , 5 , randomBoolean);
+        transition = new HeadAndTailTransition(coinView, Duration.millis(200), 3, randomBoolean);
         transition.setCycleCount(-1);
         transition.setInterpolator(Interpolator.LINEAR);
         transition.play();
@@ -43,16 +55,17 @@ public class PreDuelMenu extends View {
             @Override
             public void run() {
                 Thread.sleep(300);
-                if(transition.isHasStopped()) {
+                if (transition.isHasStopped()) {
                     // todo goto game
                 }
             }
-        }).run();
+        }).start();
     }
 
 
     @SneakyThrows
-    public void backButton(MouseEvent mouseEvent) {
-        loadView("main_menu");
+    public void backButton() {
+        ((MainMenuView)(loadView("main_menu"))).adjustScene();
+
     }
 }

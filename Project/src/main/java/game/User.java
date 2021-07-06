@@ -158,6 +158,7 @@ public class User implements Comparable<User>, Serializable {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
+        if (user == User.getDummyUser()) return false;
         return getUsername().equals(user.getUsername()) && getPassword().equals(user.getPassword());
     }
 

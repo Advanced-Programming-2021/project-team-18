@@ -58,18 +58,18 @@
             <padding>
                 <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
             </padding>
-            <Label id="firstPlayerTitle" maxHeight="1.7976931348623157E308" maxWidth="-1.0" minHeight="30.0"
+            <Label id="firstPlayerTitle" maxHeight="1.7976931348623157E308" minHeight="30.0"
                    text="first player" textAlignment="CENTER" textFill="RED" HBox.hgrow="ALWAYS">
                 <font>
                     <Font size="17.0" fx:id="x3"/>
                 </font>
             </Label>
-            <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS"/>
-            <Label id="secondPlayerTitle" font="$x3" maxWidth="-1.0" text="second player" textAlignment="CENTER"
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label id="secondPlayerTitle" font="$x3" text="second player" textAlignment="CENTER"
                    textFill="#0033ff" HBox.hgrow="NEVER"/>
         </HBox>
     </StackPane>
-    <SplitPane dividerPositions="0.2550125313283208" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0"
+    <SplitPane dividerPositions="0.2550125313283208" focusTraversable="true"
                VBox.vgrow="ALWAYS">
         <StackPane>
             <AnchorPane maxWidth="253.0" minWidth="-Infinity" prefHeight="562.0" prefWidth="280.0">

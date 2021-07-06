@@ -37,8 +37,6 @@ public class RegisterView extends View {
                 response.setTextFill(Color.DARKGREEN);
                 response.setText("Registered successfully!");
                 MenuController.getInstance().setUser(User.getUserByUsername(usernameInput.getText()));
-                User user = User.getUserByUsername(usernameInput.getText());
-                // TODO: CHOOSE PROFILE PHOTO
         }
         if (result == ProfileResult.SUCCESSFUL_OPERATION) {
             MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
