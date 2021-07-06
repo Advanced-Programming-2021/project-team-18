@@ -43,17 +43,15 @@ public class ShopMenuView extends View {
             assert card != null;
             try {
                 cardImage = new ImageView(card.getImage());
-
             } catch (Exception e) {
                 System.out.println(cardName);
-                cardImage = new ImageView(card.getImage());
+                continue ;
             }
             cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.66/rowSize));
             cardImage.setPreserveRatio(true);
             Card finalCard = card;
             cardImage.setOnMouseClicked(mouseEvent -> prepareCardForConsideration(finalCard));
             grid.add(cardImage, i % rowSize, i / rowSize);
-
             i++;
         }
     }

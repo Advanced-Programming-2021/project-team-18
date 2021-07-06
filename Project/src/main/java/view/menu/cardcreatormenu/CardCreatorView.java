@@ -56,7 +56,7 @@ public class CardCreatorView extends View implements Initializable {
             monsterCard.setPrice(price);
             currentUser.setBalance(currentUser.getBalance() - price / 10);
             Card.getAllCards().add(monsterCard);
-            Card.getAllCardNames().add(monsterCard.getCardName());
+//            Card.getAllCardNames().add(monsterCard.getCardName());
         } catch (Exception e) {
             UtilityView.displayMessage("invalid options");
             return ;

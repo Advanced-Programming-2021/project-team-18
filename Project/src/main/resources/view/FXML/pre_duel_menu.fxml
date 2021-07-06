@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.duelmenu.PreDuelMenu">
+    <children>
+        <Text layoutX="37.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="who do you want to duel?" wrappingWidth="262.8033752441406">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Text>
+        <TextField fx:id="textField" layoutX="310.0" layoutY="80.0" prefHeight="25.0" prefWidth="183.0" />
+        <Button layoutX="104.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#onDuel" prefHeight="46.0" prefWidth="128.0" text="Duel" />
+        <Button layoutX="274.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#onDuelAI" prefHeight="46.0" prefWidth="128.0" text="Duel AI" />
+      <Button layoutX="432.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#backButton" prefHeight="46.0" prefWidth="128.0" text="Back" />
+      <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="264.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true" fx:id="coinView"/>
+    </children>
+    <stylesheets>
+        <URL value="@../CSS/styles.css" />
+    </stylesheets>
+</AnchorPane>
