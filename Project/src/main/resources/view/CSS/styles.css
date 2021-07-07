@@ -96,3 +96,8 @@
     -fx-background-image: url("../../background/564835.jpg");
     -fx-background-size: stretch;
 }
+
+.loginPane {
+    -fx-background-image: url("../../background/678317.jpg");
+    -fx-background-size: stretch;
+}
