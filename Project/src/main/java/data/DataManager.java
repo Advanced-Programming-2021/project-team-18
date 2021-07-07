@@ -198,6 +198,7 @@ public class DataManager {
             Gson gson = new Gson();
             String text = new String(Files.readAllBytes(Paths.get((new File(Objects.requireNonNull(
                     DataManager.class.getResource(USERS_DATA_PATH)).getPath())).getAbsolutePath())));
+
             ArrayList<User> users = gson.fromJson(text, new TypeToken<List<User>>() {
             }.getType());
             if (users == null)
@@ -206,7 +207,8 @@ public class DataManager {
             prepareUserDataAfterLoading();
 
         } catch (Exception e) {
-            // file not found not a big deal
+            e.printStackTrace();
+            System.out.println("Failed loading users");
         }
     }
 

@@ -93,6 +93,8 @@ public class PreDuelMenu extends View {
                 game.runGame();
                 firstController.setMyPlayer(game.getFirstPlayer());
                 secondController.setMyPlayer(game.getSecondPlayer());
+                game.setFirstPlayerGraphicsController(firstController);
+                game.setSecondPlayerGraphicsController(secondController);
                 stage.close();
                 firstController.refresh();
                 secondController.refresh();

@@ -67,6 +67,7 @@ public class MainGameMenu extends View implements Initializable {
         // do all updates here
         fieldGridPane.getChildren().clear();
         buttonsVBox.getChildren().clear();
+        refreshLifePointAndPhase();
         refreshAvatarAndTitles();
         refreshSelectedCardDetails();
         refreshMyHand();
@@ -74,6 +75,11 @@ public class MainGameMenu extends View implements Initializable {
         refreshMyMonsters();
         refreshOpponentMonsters();
         refreshButtonsVBox();
+    }
+    private void refreshLifePointAndPhase() {
+        firstPlayerLP.setText(myPlayer.getLifePoint() + "");
+        secondPlayerLP.setText(myPlayer.getOpponent().getLifePoint() + "");
+        phaseNameText.setText(game.getCurrentPhase().toString());
     }
 
     private void refreshAvatarAndTitles() {
