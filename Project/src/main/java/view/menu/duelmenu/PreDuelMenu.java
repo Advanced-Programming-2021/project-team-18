@@ -1,22 +1,23 @@
 package view.menu.duelmenu;
 
+import game.Game;
 import game.User;
 import javafx.animation.Interpolator;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import menus.MenuController;
 import utility.Utility;
 import view.UtilityView;
 import view.View;
-import view.animations.CoinTransition;
 import view.animations.HeadAndTailTransition;
 import view.menu.mainmenu.MainMenuView;
-
-import java.util.Random;
 
 public class PreDuelMenu extends View {
     private static User currentUser;
@@ -54,18 +55,51 @@ public class PreDuelMenu extends View {
             @SneakyThrows
             @Override
             public void run() {
-                Thread.sleep(300);
-                if (transition.isHasStopped()) {
-                    // todo goto game
+                while (true) {
+                    Thread.sleep(500);
+                    if (transition.isHasStopped())
+                        break;
                 }
+                if (randomBoolean)
+                    startNewGame(currentUser, user);
+                else
+                    startNewGame(user, currentUser);
             }
         }).start();
+    }
+
+    @SneakyThrows
+    private MainGameMenu loadGameScreen(User user) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/" + "main_game" + ".fxml"));
+        Parent root = loader.load();
+        MainGameMenu controller = (MainGameMenu) loader.getController();
+        Stage stage = new Stage();
+        stage.setScene((new Scene(root)));
+        stage.show();
+        return controller;
+    }
+    @SneakyThrows
+    private void startNewGame(User firstUser, User secondUser) {
+        Game game = new Game(firstUser , secondUser , 1);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                MainGameMenu firstController = loadGameScreen(firstUser);
+                MainGameMenu secondController = loadGameScreen(secondUser);
+                firstController.setGame(game);
+                secondController.setGame(game);
+                firstController.setUser(firstUser);
+                secondController.setUser(secondUser);
+                stage.close();
+            }
+        });
+
     }
 
 
     @SneakyThrows
     public void backButton() {
-        ((MainMenuView)(loadView("main_menu"))).adjustScene();
+        ((MainMenuView) (loadView("main_menu"))).adjustScene();
 
     }
 }
