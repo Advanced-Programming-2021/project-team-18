@@ -15,7 +15,7 @@ import java.util.Objects;
 public abstract class Card implements Comparable<Card> {
     private static final ArrayList<Card> allCards = new ArrayList<>();
     private static final ArrayList<String> allCardNames = new ArrayList<>();
-    private static final HashMap<String,Image> cardImages = new HashMap<>();
+    private static final HashMap<String, Image> cardImages = new HashMap<>();
     private String cardName;
     @Setter
     private int price;
@@ -58,20 +58,20 @@ public abstract class Card implements Comparable<Card> {
     }
 
     public Image getImage() {
-        if(cardImages.get(cardName) != null)
+        if (cardImages.get(cardName) != null)
             return cardImages.get(cardName);
         String path = "/cards_images/" + cardName.replaceAll(" ", "_") + ".jpg";
         try {
             Image image = new Image(Objects.requireNonNull(
                     getClass().getResource(path)).toExternalForm());
-            cardImages.put(cardName , image);
+            cardImages.put(cardName, image);
             return image;
         } catch (Exception e) {
-            if(cardImages.get("smiley") != null)
+            if (cardImages.get("smiley") != null)
                 return cardImages.get("smiley");
             Image image = new Image(Objects.requireNonNull(
                     getClass().getResource("/cards_images/Smiley.jpg")).toExternalForm());
-            cardImages.put("smiley" , image);
+            cardImages.put("smiley", image);
             return image;
         }
     }

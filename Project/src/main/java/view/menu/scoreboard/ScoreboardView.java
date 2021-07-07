@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import lombok.Setter;
 import menus.MenuController;
 import view.View;
 import view.menu.mainmenu.MainMenuView;

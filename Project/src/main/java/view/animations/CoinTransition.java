@@ -3,10 +3,9 @@ package view.animations;
 import javafx.animation.Transition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.io.File;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
@@ -32,7 +31,7 @@ public class CoinTransition extends Transition {
         System.out.println("Count: " + count);
     }
 
-    public CoinTransition(ImageView imageView, Duration duration){
+    public CoinTransition(ImageView imageView, Duration duration) {
         this.imageView = imageView;
         this.lastIndex = -1;
         setCycleDuration(duration);

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 <?import view.components.CardComponent?>
-<SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+<SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="view.menu.deckmenu.DeckMenuSpecificDeck" styleClass="deckMenuDeckSelection">
     <items>
         <SplitPane dividerPositions="0.6434151785714285" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">

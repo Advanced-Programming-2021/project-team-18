@@ -129,23 +129,23 @@ public class Game {
     }
 
     public void proceedNextPhase() {
-        if(currentPhase == Phase.DRAW) {
-            ++ turn;
+        if (currentPhase == Phase.DRAW) {
+            ++turn;
             currentPhase = Phase.STANDBY;
             activePlayer.drawPhase();
-        } else if(currentPhase == Phase.STANDBY) {
+        } else if (currentPhase == Phase.STANDBY) {
             currentPhase = Phase.MAIN1;
             activePlayer.standbyPhase();
-        } else if(currentPhase == Phase.MAIN1) {
+        } else if (currentPhase == Phase.MAIN1) {
             currentPhase = Phase.BATTLE;
             activePlayer.mainPhase1();
-        } else if(currentPhase == Phase.BATTLE) {
+        } else if (currentPhase == Phase.BATTLE) {
             currentPhase = Phase.MAIN2;
             activePlayer.battlePhase();
-        } else if(currentPhase == Phase.MAIN2) {
+        } else if (currentPhase == Phase.MAIN2) {
             currentPhase = Phase.END;
             activePlayer.mainPhase2();
-        } else  {
+        } else {
             currentPhase = Phase.DRAW;
             activePlayer = activePlayer.opponent;
             activePlayer.endPhase();

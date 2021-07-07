@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -59,6 +58,7 @@ public class MainGameMenu extends View implements Initializable {
     private User myUser;
     @Setter
     private Player myPlayer;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -77,6 +77,7 @@ public class MainGameMenu extends View implements Initializable {
         refreshOpponentMonsters();
         refreshButtonsVBox();
     }
+
     private void refreshLifePointAndPhase() {
         firstPlayerLP.setText(myPlayer.getLifePoint() + "");
         secondPlayerLP.setText(myPlayer.getOpponent().getLifePoint() + "");
@@ -90,25 +91,26 @@ public class MainGameMenu extends View implements Initializable {
         secondPlayerTitle.setText(myPlayer.getOpponent().getUser().getNickname());
     }
 
-    private ImageView getCardImageView(Card card , int x , int y , boolean changeSelectedCard) {
+    private ImageView getCardImageView(Card card, int x, int y, boolean changeSelectedCard) {
         Image image = card.getImage();
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(fieldGridPane.getCellBounds(x , y).getHeight());
-        imageView.setFitWidth(fieldGridPane.getCellBounds(x , y).getWidth());
-        if(changeSelectedCard)
+        imageView.setFitHeight(fieldGridPane.getCellBounds(x, y).getHeight());
+        imageView.setFitWidth(fieldGridPane.getCellBounds(x, y).getWidth());
+        if (changeSelectedCard)
             imageView.setOnMouseClicked(mouseEvent -> {
                 myPlayer.setSelectedCard(card);
                 refresh();
             });
         return imageView;
     }
+
     @SneakyThrows
-    private ImageView getUnknownImageView(Card card , int x , int y , boolean changeSelectedCard) {
+    private ImageView getUnknownImageView(Card card, int x, int y, boolean changeSelectedCard) {
         Image image = new Image(getClass().getResource("/cards_images/Unknown.jpg").toURI().toString());
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(fieldGridPane.getCellBounds(x , y).getHeight());
-        imageView.setFitWidth(fieldGridPane.getCellBounds(x , y).getWidth());
-        if(changeSelectedCard)
+        imageView.setFitHeight(fieldGridPane.getCellBounds(x, y).getHeight());
+        imageView.setFitWidth(fieldGridPane.getCellBounds(x, y).getWidth());
+        if (changeSelectedCard)
             imageView.setOnMouseClicked(mouseEvent -> {
                 myPlayer.setSelectedCard(card);
                 refresh();
@@ -118,56 +120,62 @@ public class MainGameMenu extends View implements Initializable {
 
     private void refreshMyHand() { // [1,10] ... [13,10]
         int handSize = myPlayer.getHand().getSize();
-        for(int i = 0;i < handSize;++ i) {
-            fieldGridPane.add(getCardImageView(myPlayer.getHand().getCardsList().get(i) , 1 + 2 * i , 10 , true) , 1 + 2 * i , 10);
+        for (int i = 0; i < handSize; ++i) {
+            fieldGridPane.add(getCardImageView(myPlayer.getHand().getCardsList().get(i), 1 + 2 * i, 10, true), 1 + 2 * i, 10);
         }
     }
+
     private void refreshOpponentHand() { // [1,0] ... [13,0]
         int handSize = myPlayer.getOpponent().getHand().getSize();
-        for(int i = 0;i < handSize;++ i) {
-            fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getHand().getCardsList().get(i) ,1 + 2 * i , 0 , true) , 1 + 2 * i , 0);
+        for (int i = 0; i < handSize; ++i) {
+            fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getHand().getCardsList().get(i), 1 + 2 * i, 0, true), 1 + 2 * i, 0);
         }
     }
+
     @SneakyThrows
     private void refreshSelectedCardDetails() {
         Card selectedCard = myPlayer.getSelectedCard();
         cardDescription.setText("card description");
         cardTitle.setText("Card title");
         cardImageView.setImage(new Image(getClass().getResource("/cards_images/Unknown.jpg").toURI().toString()));
-        if(selectedCard == null || (!selectedCard.isFaceUp() && selectedCard.getPlayer() == myPlayer.getOpponent())) return ;
+        if (selectedCard == null || (!selectedCard.isFaceUp() && selectedCard.getPlayer() == myPlayer.getOpponent()))
+            return;
         cardDescription.setText(selectedCard.getCardDescription());
         cardTitle.setText(selectedCard.getCardName());
-        if(selectedCard.isFaceUp() || selectedCard.getPlayer() == myPlayer)
+        if (selectedCard.isFaceUp() || selectedCard.getPlayer() == myPlayer)
             cardImageView.setImage(Card.getCardByName(selectedCard.getCardName()).getImage());
     }
+
     private void refreshMyMonsters() { // [3 , 6] ... [11 , 6]
-        for(int i = 0;i < Player.getFIELD_SIZE();++ i)
-            if(myPlayer.getMonstersFieldList()[i] != null) {
+        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+            if (myPlayer.getMonstersFieldList()[i] != null) {
                 Card card = myPlayer.getMonstersFieldList()[i];
                 ImageView imageView;
-                if(card.isFaceUp())
-                    imageView = getCardImageView(myPlayer.getMonstersFieldList()[i] , 3 + 2 * i , 6 , true);
+                if (card.isFaceUp())
+                    imageView = getCardImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i, 6, true);
                 else
-                    imageView = getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i , 6 , true);
-                if(card instanceof MonsterCard && ((MonsterCard)card).isDefenseMode())
+                    imageView = getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i, 6, true);
+                if (card instanceof MonsterCard && ((MonsterCard) card).isDefenseMode())
                     imageView.setRotate(90);
-                fieldGridPane.add(imageView , 3 + 2 * i , 6);
+                fieldGridPane.add(imageView, 3 + 2 * i, 6);
             }
     }
+
     private void refreshOpponentMonsters() { // [3 , 4] ... [11 , 4]
-        for(int i = 0;i < Player.getFIELD_SIZE();++ i)
-            if(myPlayer.getOpponent().getMonstersFieldList()[i] != null) {
+        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+            if (myPlayer.getOpponent().getMonstersFieldList()[i] != null) {
                 Card card = myPlayer.getOpponent().getMonstersFieldList()[i];
                 ImageView imageView;
-                if(card.isFaceUp())
-                    imageView = getCardImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i , 4 , true);
+                if (card.isFaceUp())
+                    imageView = getCardImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i, 4, true);
                 else
-                    imageView = getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i , 4 , true);
-                if(card instanceof MonsterCard && ((MonsterCard)card).isDefenseMode())
+                    imageView = getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i, 4, true);
+                if (card instanceof MonsterCard && ((MonsterCard) card).isDefenseMode())
                     imageView.setRotate(90);
-                fieldGridPane.add(imageView , 3 + 2 * i , 4);
+                fieldGridPane.add(imageView, 3 + 2 * i, 4);
             }
     }
+
     private void manageNextPhaseButton() {
         Button nextPhaseButton = new Button("next phase");
         nextPhaseButton.setPrefWidth(buttonsVBox.getWidth());
@@ -177,6 +185,7 @@ public class MainGameMenu extends View implements Initializable {
         });
         buttonsVBox.getChildren().add(nextPhaseButton);
     }
+
     private void manageSummonButton() {
         Button summonButton = new Button("summon");
         summonButton.setPrefWidth(buttonsVBox.getWidth());
@@ -186,6 +195,7 @@ public class MainGameMenu extends View implements Initializable {
         });
         buttonsVBox.getChildren().add(summonButton);
     }
+
     private void manageSetButton() {
         Button setButton = new Button("set");
         setButton.setPrefWidth(buttonsVBox.getWidth());
@@ -195,6 +205,7 @@ public class MainGameMenu extends View implements Initializable {
         });
         buttonsVBox.getChildren().addAll(setButton);
     }
+
     private void manageChangePositionButton() {
         Button changePosition = new Button("change position");
         changePosition.setPrefWidth(buttonsVBox.getWidth());
@@ -204,6 +215,7 @@ public class MainGameMenu extends View implements Initializable {
         });
         buttonsVBox.getChildren().add(changePosition);
     }
+
     private void manageFlipSummonButton() {
         Button flipSummon = new Button("flip summon");
         flipSummon.setPrefWidth(buttonsVBox.getWidth());
@@ -213,9 +225,11 @@ public class MainGameMenu extends View implements Initializable {
         });
         buttonsVBox.getChildren().add(flipSummon);
     }
+
     private void manageAttackButton() {
         // todo
     }
+
     private void manageAttackDirectButton() {
         Button attackDirect = new Button("flip summon");
         attackDirect.setPrefWidth(buttonsVBox.getWidth());
@@ -225,22 +239,23 @@ public class MainGameMenu extends View implements Initializable {
         });
         buttonsVBox.getChildren().add(attackDirect);
     }
+
     private void refreshButtonsVBox() {
-        if(Game.getActivePlayer() != myPlayer)
-            return ;
+        if (Game.getActivePlayer() != myPlayer)
+            return;
         manageNextPhaseButton();
-        if(game.getCurrentPhase() == Phase.MAIN1 || game.getCurrentPhase() == Phase.MAIN2) {
-            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedCardOnHandID() != -1 && myPlayer.getHand().getCardsList().get(myPlayer.getSelectedCardOnHandID()) instanceof MonsterCard) {
+        if (game.getCurrentPhase() == Phase.MAIN1 || game.getCurrentPhase() == Phase.MAIN2) {
+            if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedCardOnHandID() != -1 && myPlayer.getHand().getCardsList().get(myPlayer.getSelectedCardOnHandID()) instanceof MonsterCard) {
                 manageSummonButton();
                 manageSetButton();
             }
-            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && ! ((MonsterCard) myPlayer.getSelectedCard()).isHasChangedPositionThisTurn())
+            if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && !((MonsterCard) myPlayer.getSelectedCard()).isHasChangedPositionThisTurn())
                 manageChangePositionButton();
-            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && !((MonsterCard) myPlayer.getSelectedCard()).isFaceUp())
+            if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && !((MonsterCard) myPlayer.getSelectedCard()).isFaceUp())
                 manageFlipSummonButton();
         }
-        if(game.getCurrentPhase() == Phase.BATTLE && (game.getTurn() != 1)) {
-            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1) {
+        if (game.getCurrentPhase() == Phase.BATTLE && (game.getTurn() != 1)) {
+            if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1) {
 //                manageAttackButton();
                 if (true) // todo : if opponent has no monsters
                     manageAttackDirectButton();

@@ -1,7 +1,6 @@
 package view.menu.loginmenu;
 
 import game.User;
-import javafx.event.ActionEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import menus.MenuController;

@@ -120,8 +120,7 @@ public class ProfileMenuView extends View {
                 System.out.println("Problem occurred in process ...");
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             System.out.println("FILE IS NULL!");
         }
         tempStage.close();

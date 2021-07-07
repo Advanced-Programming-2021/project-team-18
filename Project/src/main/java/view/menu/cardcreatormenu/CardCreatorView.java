@@ -4,8 +4,6 @@ import card.Card;
 import card.MonsterCard;
 import card.MonsterCardType;
 import game.User;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -16,10 +14,8 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import view.UtilityView;
 import view.View;
-import view.menu.mainmenu.MainMenuView;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -43,9 +39,9 @@ public class CardCreatorView extends View implements Initializable {
             int attackValue = Integer.parseInt(attackTextField.getText());
             int defenseValue = Integer.parseInt(defenseTextField.getText());
             int price = getPrice();
-            if(descriptionTextField.getText().length() < 1)
+            if (descriptionTextField.getText().length() < 1)
                 throw new Exception("invalid options");
-            if(nameTextField.getText().length() < 1)
+            if (nameTextField.getText().length() < 1)
                 throw new Exception("invalid options");
             MonsterCard monsterCard = new MonsterCard();
             monsterCard.setCardName(nameTextField.getText());
@@ -59,7 +55,7 @@ public class CardCreatorView extends View implements Initializable {
 //            Card.getAllCardNames().add(monsterCard.getCardName());
         } catch (Exception e) {
             UtilityView.displayMessage("invalid options");
-            return ;
+            return;
         }
         UtilityView.displayMessage("card successfully constructed and it cost you 10%");
         loadView("main_menu");
@@ -69,6 +65,7 @@ public class CardCreatorView extends View implements Initializable {
     public void onBackClicked(MouseEvent mouseEvent) {
         loadView("main_menu");
     }
+
     private int getPrice() {
         int price;
         try {
@@ -78,6 +75,7 @@ public class CardCreatorView extends View implements Initializable {
         }
         return price;
     }
+
     private void refreshPrice() {
         priceText.setText(getPrice() + "");
     }
