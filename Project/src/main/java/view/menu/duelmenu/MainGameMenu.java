@@ -37,40 +37,69 @@ public class MainGameMenu extends View implements Initializable {
 
     }
 
-    private ImageView getHandImageView(Card card) {
-        Image image = card.getImage();
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(fieldGridPane.getCellBounds(1 , 10).getHeight());
-        imageView.setFitWidth(fieldGridPane.getCellBounds(1 , 10).getWidth());
-        return imageView;
-    }
-    @SneakyThrows
-    private ImageView getUnknownImageView() {
-        Image image = new Image(getClass().getResource("/cards_images/Unknown.jpg").toURI().toString());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(fieldGridPane.getCellBounds(1 , 10).getHeight());
-        imageView.setFitWidth(fieldGridPane.getCellBounds(1 , 10).getWidth());
-        return imageView;
-    }
-
     public void refresh() {
         // do all updates here
         fieldGridPane.getChildren().clear();
+        refreshSelectedCardDetails();
         refreshMyHand();
         refreshOpponentHand();
+        refreshMyMonsters();
 
     }
-    private void refreshMyHand() { // [1,10] ... [13,10]
 
+    private ImageView getCardImageView(Card card , int x , int y , boolean changeSelectedCard) {
+        Image image = card.getImage();
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(fieldGridPane.getCellBounds(x , y).getHeight());
+        imageView.setFitWidth(fieldGridPane.getCellBounds(x , y).getWidth());
+        if(changeSelectedCard)
+            imageView.setOnMouseClicked(mouseEvent -> {
+                myPlayer.setSelectedCard(card);
+                refresh();
+            });
+        return imageView;
+    }
+    @SneakyThrows
+    private ImageView getUnknownImageView(Card card , int x , int y , boolean changeSelectedCard) {
+        Image image = new Image(getClass().getResource("/cards_images/Unknown.jpg").toURI().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(fieldGridPane.getCellBounds(x , y).getHeight());
+        imageView.setFitWidth(fieldGridPane.getCellBounds(x , y).getWidth());
+        return imageView;
+    }
+
+    private void refreshMyHand() { // [1,10] ... [13,10]
         int handSize = myPlayer.getHand().getSize();
         for(int i = 0;i < handSize;++ i) {
-            fieldGridPane.add(getHandImageView(myPlayer.getHand().getCardsList().get(i)) , 1 + 2 * i , 10);
+            fieldGridPane.add(getCardImageView(myPlayer.getHand().getCardsList().get(i) , 1 + 2 * i , 10 , true) , 1 + 2 * i , 10);
         }
     }
     private void refreshOpponentHand() { // [1,0] ... [13,0]
-        int handSize = myPlayer.getHand().getSize();
+        int handSize = myPlayer.getOpponent().getHand().getSize();
         for(int i = 0;i < handSize;++ i) {
-            fieldGridPane.add(getUnknownImageView() , 1 + 2 * i , 0);
+            fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getHand().getCardsList().get(i) ,1 + 2 * i , 0 , false) , 1 + 2 * i , 0);
         }
     }
+    @SneakyThrows
+    private void refreshSelectedCardDetails() {
+        Card selectedCard = myPlayer.getSelectedCard();
+        cardDescription.setText("card description");
+        cardTitle.setText("Card title");
+        cardImageView.setImage(new Image(getClass().getResource("/cards_images/Unknown.jpg").toURI().toString()));
+        if(selectedCard == null) return ;
+        cardDescription.setText(selectedCard.getCardDescription());
+        cardTitle.setText(selectedCard.getCardName());
+        cardImageView.setImage(Card.getCardByName(selectedCard.getCardName()).getImage());
+    }
+    private void refreshMyMonsters() { // [3 , 6] ... [11 , 6]
+        for(int i = 0;i < Player.getFIELD_SIZE();++ i)
+            if(myPlayer.getMonstersFieldList()[i] != null) {
+                Card card = myPlayer.getMonstersFieldList()[i];
+                if(card.isFaceUp())
+                    fieldGridPane.add(getCardImageView(myPlayer.getMonstersFieldList()[i] , 3 + 2 * i , 6 , true) , 3 + 2 * i , 6);
+                else
+                    fieldGridPane.add(getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i , 6 , true) , 3 + 2 * i , 6);
+            }
+    }
+
 }
