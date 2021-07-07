@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import view.UtilityView;
 import view.View;
 
 import java.net.URL;
@@ -40,11 +41,19 @@ public class MainGameMenu extends View implements Initializable {
     public void refresh() {
         // do all updates here
         fieldGridPane.getChildren().clear();
+        refreshAvatarAndTitles();
         refreshSelectedCardDetails();
         refreshMyHand();
         refreshOpponentHand();
         refreshMyMonsters();
+        refreshOpponentMonsters();
+    }
 
+    private void refreshAvatarAndTitles() {
+        firstPlayerAvatar.setImage(UtilityView.getAvatarImage(myUser.getAvatarID()));
+        secondPlayerAvatar.setImage(UtilityView.getAvatarImage(myPlayer.getOpponent().getUser().getAvatarID()));
+        firstPlayerTitle.setText(myUser.getNickname());
+        secondPlayerTitle.setText(myPlayer.getOpponent().getUser().getNickname());
     }
 
     private ImageView getCardImageView(Card card , int x , int y , boolean changeSelectedCard) {
@@ -65,6 +74,11 @@ public class MainGameMenu extends View implements Initializable {
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(fieldGridPane.getCellBounds(x , y).getHeight());
         imageView.setFitWidth(fieldGridPane.getCellBounds(x , y).getWidth());
+        if(changeSelectedCard)
+            imageView.setOnMouseClicked(mouseEvent -> {
+                myPlayer.setSelectedCard(card);
+                refresh();
+            });
         return imageView;
     }
 
@@ -77,7 +91,7 @@ public class MainGameMenu extends View implements Initializable {
     private void refreshOpponentHand() { // [1,0] ... [13,0]
         int handSize = myPlayer.getOpponent().getHand().getSize();
         for(int i = 0;i < handSize;++ i) {
-            fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getHand().getCardsList().get(i) ,1 + 2 * i , 0 , false) , 1 + 2 * i , 0);
+            fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getHand().getCardsList().get(i) ,1 + 2 * i , 0 , true) , 1 + 2 * i , 0);
         }
     }
     @SneakyThrows
@@ -86,10 +100,11 @@ public class MainGameMenu extends View implements Initializable {
         cardDescription.setText("card description");
         cardTitle.setText("Card title");
         cardImageView.setImage(new Image(getClass().getResource("/cards_images/Unknown.jpg").toURI().toString()));
-        if(selectedCard == null) return ;
+        if(selectedCard == null || (!selectedCard.isFaceUp() && selectedCard.getPlayer() == myPlayer.getOpponent())) return ;
         cardDescription.setText(selectedCard.getCardDescription());
         cardTitle.setText(selectedCard.getCardName());
-        cardImageView.setImage(Card.getCardByName(selectedCard.getCardName()).getImage());
+        if(selectedCard.isFaceUp() || selectedCard.getPlayer() == myPlayer)
+            cardImageView.setImage(Card.getCardByName(selectedCard.getCardName()).getImage());
     }
     private void refreshMyMonsters() { // [3 , 6] ... [11 , 6]
         for(int i = 0;i < Player.getFIELD_SIZE();++ i)
@@ -99,6 +114,16 @@ public class MainGameMenu extends View implements Initializable {
                     fieldGridPane.add(getCardImageView(myPlayer.getMonstersFieldList()[i] , 3 + 2 * i , 6 , true) , 3 + 2 * i , 6);
                 else
                     fieldGridPane.add(getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i , 6 , true) , 3 + 2 * i , 6);
+            }
+    }
+    private void refreshOpponentMonsters() { // [3 , 4] ... [11 , 4]
+        for(int i = 0;i < Player.getFIELD_SIZE();++ i)
+            if(myPlayer.getOpponent().getMonstersFieldList()[i] != null) {
+                Card card = myPlayer.getOpponent().getMonstersFieldList()[i];
+                if(card.isFaceUp())
+                    fieldGridPane.add(getCardImageView(myPlayer.getOpponent().getMonstersFieldList()[i] , 3 + 2 * i , 4 , true) , 3 + 2 * i , 4);
+                else
+                    fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i , 4 , true) , 3 + 2 * i , 4);
             }
     }
 
