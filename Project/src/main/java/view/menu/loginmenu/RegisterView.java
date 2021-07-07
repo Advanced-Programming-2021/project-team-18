@@ -1,10 +1,12 @@
 package view.menu.loginmenu;
 
 import game.User;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import menus.MenuController;
 import menus.ProfileResult;
 import view.View;
@@ -40,7 +42,11 @@ public class RegisterView extends View {
         }
         if (result == ProfileResult.SUCCESSFUL_OPERATION) {
             MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
-            ((MainMenuView) loadView("main_menu")).adjustScene();
+            loadView("main_menu");
         }
+    }
+
+    public void backToWelcome() throws IOException {
+        loadView("welcome");
     }
 }

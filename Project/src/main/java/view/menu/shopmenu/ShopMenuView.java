@@ -109,7 +109,7 @@ public class ShopMenuView extends View {
 
     public void back(){
         try {
-            ((MainMenuView) loadView("main_menu")).adjustScene();
+            loadView("main_menu");
         } catch (IOException e) {
             e.printStackTrace();
         }

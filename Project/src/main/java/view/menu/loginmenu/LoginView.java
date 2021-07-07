@@ -1,6 +1,7 @@
 package view.menu.loginmenu;
 
 import game.User;
+import javafx.event.ActionEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import menus.MenuController;
@@ -21,7 +22,11 @@ public class LoginView extends View {
             loadView("login");
         } else {
             MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
-            ((MainMenuView) loadView("main_menu")).adjustScene();
+            loadView("main_menu");
         }
+    }
+
+    public void back() throws IOException {
+        loadView("welcome");
     }
 }

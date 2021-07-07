@@ -1,16 +1,20 @@
 package game;
 
 import card.Card;
+import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 import utility.Utility;
 import view.UtilityView;
 
+import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 // By Sina
 public class User implements Comparable<User>, Serializable {
@@ -150,6 +154,23 @@ public class User implements Comparable<User>, Serializable {
 
     public List<GameDeck> getDecks() {
         return Collections.unmodifiableList(decks);
+    }
+
+    public Image getAvatar() {
+        if (avatarID != -1) return UtilityView.getAvatarImage(avatarID);
+        String avatarPath = Objects.requireNonNull(getClass().getResource(
+                "/avatars/arbitrary/" + username)).toExternalForm();
+        return new Image(avatarPath);
+    }
+
+    public void updateAvatar(File src) throws Exception {
+        File file = new File(new URI(Objects.requireNonNull(User.class.getResource(
+                "/avatars/arbitrary/")) + username));
+        //noinspection ResultOfMethodCallIgnored
+        file.createNewFile();
+        File dest = new File(Objects.requireNonNull(User.class.getResource(
+                "/avatars/arbitrary/" + username)).toURI());
+        Files.copy(Paths.get(src.toURI()), Paths.get(dest.toURI()), REPLACE_EXISTING);
     }
 
     @Override

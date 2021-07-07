@@ -62,12 +62,12 @@ public class CardCreatorView extends View implements Initializable {
             return ;
         }
         UtilityView.displayMessage("card successfully constructed and it cost you 10%");
-        ((MainMenuView) loadView("main_menu")).adjustScene();
+        loadView("main_menu");
     }
 
     @SneakyThrows
     public void onBackClicked(MouseEvent mouseEvent) {
-        ((MainMenuView) loadView("main_menu")).adjustScene();
+        loadView("main_menu");
     }
     private int getPrice() {
         int price;

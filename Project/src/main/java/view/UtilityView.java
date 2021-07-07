@@ -36,10 +36,12 @@ public class UtilityView {
     }
 
     public static Image getAvatarImage(int avatarID) {
+        if (avatarID > avatarNumbers || avatarID <= 0) return null;
         try {
             return new Image(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/" + avatarID + ".jpg")).toExternalForm());
         } catch (Exception ignored) {
+            System.out.println("Some problems occurred during opening avatar!");
             return new Image(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/" + 1 + ".jpg")).toExternalForm());
         }
@@ -54,7 +56,7 @@ public class UtilityView {
         Label label = new Label();
         label.setMinWidth(200);
         label.setText(message);
-        Button closeButton = new Button("ok");
+        Button closeButton = new Button("Okay");
         closeButton.setOnAction(e -> popup.hide());
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, closeButton);

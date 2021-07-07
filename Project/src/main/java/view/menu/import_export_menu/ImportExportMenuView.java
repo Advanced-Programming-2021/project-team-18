@@ -63,7 +63,7 @@ public class ImportExportMenuView extends View implements Initializable {
 
     @SneakyThrows
     public void onBackButton(MouseEvent mouseEvent) {
-        ((MainMenuView) loadView("main_menu")).adjustScene();
+        loadView("main_menu");
     }
 
     @SneakyThrows

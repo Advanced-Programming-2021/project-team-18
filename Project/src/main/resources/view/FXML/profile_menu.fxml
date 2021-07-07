@@ -9,13 +9,14 @@
       fx:controller="view.menu.profilemenu.ProfileMenuView"
       alignment="CENTER" spacing="50">
         <ImageView fx:id="avatarImage"/>
-        <GridPane vgap="5" hgap="20" alignment="CENTER">
+        <GridPane vgap="5" hgap="20" alignment="CENTER" fx:id="userInfo">
             <Label GridPane.rowIndex="0" GridPane.columnIndex="0">Username</Label>
             <Label GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="username"/>
             <Label GridPane.rowIndex="1" GridPane.columnIndex="0" >Nickname</Label>
             <Label GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="nickname"/>
         </GridPane>
-    <VBox alignment="CENTER" spacing="10">
+    <VBox alignment="CENTER" spacing="10" fx:id="buttons">
+        <Button onAction="#chooseAFile">Change Your Avatar</Button>
         <HBox spacing="10" alignment="CENTER">
             <Button onAction="#loadChangeNicknamePage">Change Your Nickname</Button>
             <Button onAction="#loadChangePasswordPage">Change Your Password</Button>

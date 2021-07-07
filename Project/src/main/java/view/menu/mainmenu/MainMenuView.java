@@ -2,14 +2,10 @@ package view.menu.mainmenu;
 
 import game.User;
 import javafx.animation.Interpolator;
-import javafx.animation.Transition;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -22,6 +18,8 @@ import view.menu.deckmenu.DeckMenuDeckSelectionView;
 import view.menu.duelmenu.PreDuelMenu;
 import view.menu.import_export_menu.ImportExportMenuView;
 import view.menu.scoreboard.ScoreboardView;
+
+import java.awt.*;
 
 
 public class MainMenuView extends View {
@@ -38,10 +36,6 @@ public class MainMenuView extends View {
         transition.setCycleCount(-1);
         transition.setInterpolator(Interpolator.LINEAR);
         transition.play();
-        //vBox.setLayoutX(20);
-        //vBox.fillWidthProperty().bind(stage.getScene().widthProperty());
-        //vBox.layoutXProperty().bind(anchorPane.widthProperty().divide(2));
-        //vBox.layoutYProperty().bind(stage.heightProperty().add(vBox.heightProperty().divide(2)));*/
     }
 
     private void updateCoin(MouseEvent mouseEvent) {
@@ -50,7 +44,8 @@ public class MainMenuView extends View {
         coinView.setLayoutY(mouseEvent.getSceneY() - coinView.getLayoutBounds().getCenterY());
     }
 
-    public void adjustScene() {
+    @Override
+    protected void adjustScene() {
         for (Node child : vBox.getChildren()) {
             if (child instanceof HBox) {
                 for (Node grandChild : ((HBox) child).getChildren()) {
@@ -116,9 +111,5 @@ public class MainMenuView extends View {
     public void enterCardCreatorMenu() {
         CardCreatorView.setCurrentUser(currentUser);
         loadView("card_creator_menu");
-    }
-    @SneakyThrows
-    public void onLogoutButton() {
-        loadView("welcome");
     }
 }
