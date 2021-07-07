@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.menu.loginmenu.RegisterView"
-            prefHeight="600.0" prefWidth="860.0">
-    <center>
-        <VBox alignment="CENTER">
-            <HBox alignment="CENTER">
-                <Label>Username</Label>
-                <TextField fx:id="usernameInput"/>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="600.0" prefWidth="860.0" styleClass="registerPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.loginmenu.RegisterView">
+    <stylesheets>
+        <URL value="@../CSS/styles.css" />
+    </stylesheets>
+   <bottom>
+        <VBox alignment="CENTER" style="-fx-spacing: 30;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" style="-fx-spacing: 20;">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+                <TextField fx:id="usernameInput" prefHeight="38.0" prefWidth="175.0" />
             </HBox>
-            <HBox alignment="CENTER">
-                <Label>Nickname</Label>
-                <TextField fx:id="nicknameInput"/>
+            <HBox alignment="CENTER" style="-fx-spacing: 20;">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+                <TextField fx:id="nicknameInput" prefHeight="34.0" prefWidth="174.0" />
             </HBox>
-            <HBox alignment="CENTER">
-                <Label>Password</Label>
-                <PasswordField fx:id="passwordInput"/>
+            <HBox alignment="CENTER" style="-fx-spacing: 20;">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+                <PasswordField fx:id="passwordInput" prefHeight="36.0" prefWidth="182.0" />
             </HBox>
-            <Button onAction="#register" alignment="CENTER">Register</Button>
-            <Label alignment="CENTER" fx:id="response"/>
+            <Button alignment="CENTER" onAction="#register" prefHeight="53.0" prefWidth="160.0">Register</Button>
+            <Label fx:id="response" alignment="CENTER" />
         </VBox>
-    </center>
+   </bottom>
 
 </BorderPane>

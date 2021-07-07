@@ -7,19 +7,19 @@
 }
 
 .button {
-     -fx-text-fill: black;
-     -fx-font-size: 20;
-     -fx-font-family: "Times";
-     -fx-alignment: center;
-     -fx-background-color: transparent;
-     -fx-background-image: url("../../background/button.png");
-     -fx-background-size: cover;
-     -fx-cursor: hand;
-     -fx-background-color: transparent;
- }
+    -fx-text-fill: black;
+    -fx-font-size: 20;
+    -fx-font-family: "Times";
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../background/button.png");
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
 
 .button:hover {
-     -fx-background-image: url("../../background/button_hovered.png");
+    -fx-background-image: url("../../background/button_hovered.png");
 }
 
 .button:pressed {
@@ -27,19 +27,19 @@
 }
 
 .main-menu-button {
-     -fx-font-size: 18;
-     -fx-text-fill: black;
-     -fx-font-family: "Times";
-     -fx-alignment: center;
-     -fx-background-color: transparent;
-     -fx-background-image: url("../../background/button.png");
-     -fx-background-size: cover;
-     -fx-cursor: disappear;
-     -fx-background-color: transparent;
+    -fx-font-size: 18;
+    -fx-text-fill: black;
+    -fx-font-family: "Times";
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../../background/button.png");
+    -fx-background-size: cover;
+    -fx-cursor: disappear;
+    -fx-background-color: transparent;
 }
 
 .main-menu-button:hover {
-     -fx-background-image: url("../../background/button_hovered.png");
+    -fx-background-image: url("../../background/button_hovered.png");
 }
 
 .main-menu-button:pressed {
@@ -50,11 +50,11 @@
 .normal-button {
     -fx-font-size: 20;
     -fx-text-fill: black;
-	-fx-font-family: "Times";
-	-fx-background-color: transparent;
+    -fx-font-family: "Times";
+    -fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
-	-fx-background-size: cover;
-	-fx-alignment: center;
+    -fx-background-size: cover;
+    -fx-alignment: center;
     -fx-cursor: hand;
 }
 
@@ -99,5 +99,10 @@
 
 .loginPane {
     -fx-background-image: url("../../background/678317.jpg");
+    -fx-background-size: stretch;
+}
+
+.registerPane {
+    -fx-background-image: url("../../background/register_background.jpg");
     -fx-background-size: stretch;
 }
