@@ -78,20 +78,25 @@ public class PreDuelMenu extends View {
 
     @SneakyThrows
     private void startNewGame(User firstUser, User secondUser) {
-        Game game = new Game(firstUser, secondUser, 1);
-        Platform.runLater(() -> {
-            MainGameMenu firstController = loadGameScreen();
-            MainGameMenu secondController = loadGameScreen();
-            firstController.setGame(game);
-            secondController.setGame(game);
-            firstController.setMyUser(firstUser);
-            secondController.setMyUser(secondUser);
-            game.runGame();
-            firstController.setMyPlayer(game.getFirstPlayer());
-            secondController.setMyPlayer(game.getSecondPlayer());
-            stage.close();
-            firstController.refresh();
-            secondController.refresh();
+        Game game = new Game(firstUser , secondUser , 1);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                MainGameMenu firstController = loadGameScreen(firstUser);
+                MainGameMenu secondController = loadGameScreen(secondUser);
+                firstController.setGame(game);
+                secondController.setGame(game);
+                firstController.setMyUser(firstUser);
+                secondController.setMyUser(secondUser);
+                game.runGame();
+                firstController.setMyPlayer(game.getFirstPlayer());
+                secondController.setMyPlayer(game.getSecondPlayer());
+                game.setFirstPlayerGraphicsController(firstController);
+                game.setSecondPlayerGraphicsController(secondController);
+                stage.close();
+                firstController.refresh();
+                secondController.refresh();
+            }
         });
 
     }

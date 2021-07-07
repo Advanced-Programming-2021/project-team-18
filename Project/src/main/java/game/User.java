@@ -21,7 +21,6 @@ public class User implements Comparable<User>, Serializable {
     @Setter
     private static ArrayList<User> allUsers = new ArrayList<>();
     private static final User dummyUser = new User();
-
     @Setter
     @Getter
     private String username;

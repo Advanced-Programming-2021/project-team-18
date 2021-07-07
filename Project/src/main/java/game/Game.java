@@ -4,6 +4,8 @@ import card.Card;
 import data.Printer;
 import events.Phase;
 import lombok.Getter;
+import lombok.Setter;
+import view.menu.duelmenu.MainGameMenu;
 
 import java.util.HashMap;
 
@@ -18,6 +20,10 @@ public class Game {
     private Player firstPlayer, secondPlayer;
     private int turn;
     private boolean isGameFinished;
+    @Setter
+    private static MainGameMenu firstPlayerGraphicsController;
+    @Setter
+    private static MainGameMenu secondPlayerGraphicsController;
 
     public static Player getActivePlayer() {
         return activePlayer;
@@ -37,6 +43,12 @@ public class Game {
         maxLP = new HashMap<>();
         maxLP.put(this.firstUser, 0);
         maxLP.put(this.secondUser, 0);
+    }
+
+    public void notifyGraphic() {
+        System.out.println("notified");
+        firstPlayerGraphicsController.refresh();
+        secondPlayerGraphicsController.refresh();
     }
 
     boolean isNotFirstTurn() {
@@ -119,24 +131,24 @@ public class Game {
     public void proceedNextPhase() {
         if(currentPhase == Phase.DRAW) {
             ++ turn;
-            activePlayer.drawPhase();
             currentPhase = Phase.STANDBY;
+            activePlayer.drawPhase();
         } else if(currentPhase == Phase.STANDBY) {
-            activePlayer.standbyPhase();
             currentPhase = Phase.MAIN1;
+            activePlayer.standbyPhase();
         } else if(currentPhase == Phase.MAIN1) {
-            activePlayer.mainPhase1();
             currentPhase = Phase.BATTLE;
+            activePlayer.mainPhase1();
         } else if(currentPhase == Phase.BATTLE) {
-            activePlayer.battlePhase();
             currentPhase = Phase.MAIN2;
+            activePlayer.battlePhase();
         } else if(currentPhase == Phase.MAIN2) {
-            activePlayer.mainPhase2();
             currentPhase = Phase.END;
+            activePlayer.mainPhase2();
         } else  {
-            activePlayer.endPhase();
-            activePlayer = activePlayer.opponent;
             currentPhase = Phase.DRAW;
+            activePlayer = activePlayer.opponent;
+            activePlayer.endPhase();
         }
     }
 

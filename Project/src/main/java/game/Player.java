@@ -801,6 +801,7 @@ public class Player {
     }
 
     public void notifyAllEffectsForConsideration(Event event) {
+        game.notifyGraphic();
         notifyMyEffectsForConsideration(event);
         opponent.notifyMyEffectsForConsideration(event);
     }
