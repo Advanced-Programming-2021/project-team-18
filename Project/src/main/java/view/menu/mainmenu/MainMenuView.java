@@ -45,7 +45,7 @@ public class MainMenuView extends View {
     }
 
     @Override
-    protected void adjustScene() {
+    public void adjustScene() {
         for (Node child : vBox.getChildren()) {
             if (child instanceof HBox) {
                 for (Node grandChild : ((HBox) child).getChildren()) {

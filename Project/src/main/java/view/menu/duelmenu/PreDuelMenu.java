@@ -17,7 +17,6 @@ import utility.Utility;
 import view.UtilityView;
 import view.View;
 import view.animations.HeadAndTailTransition;
-import view.menu.mainmenu.MainMenuView;
 
 public class PreDuelMenu extends View {
     private static User currentUser;
@@ -51,52 +50,48 @@ public class PreDuelMenu extends View {
         transition.setCycleCount(-1);
         transition.setInterpolator(Interpolator.LINEAR);
         transition.play();
-        new Thread(new Runnable() {
-            @SneakyThrows
-            @Override
-            public void run() {
-                while (true) {
+        new Thread(() -> {
+            do {
+                try {
                     Thread.sleep(500);
-                    if (transition.isHasStopped())
-                        break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                if (randomBoolean)
-                    startNewGame(currentUser, user);
-                else
-                    startNewGame(user, currentUser);
-            }
+            } while (!transition.isHasStopped());
+            if (randomBoolean)
+                startNewGame(currentUser, user);
+            else
+                startNewGame(user, currentUser);
         }).start();
     }
 
     @SneakyThrows
-    private MainGameMenu loadGameScreen(User user) {
+    private MainGameMenu loadGameScreen() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/" + "main_game" + ".fxml"));
         Parent root = loader.load();
-        MainGameMenu controller = (MainGameMenu) loader.getController();
+        MainGameMenu controller = loader.getController();
         Stage stage = new Stage();
         stage.setScene((new Scene(root)));
         stage.show();
         return controller;
     }
+
     @SneakyThrows
     private void startNewGame(User firstUser, User secondUser) {
-        Game game = new Game(firstUser , secondUser , 1);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                MainGameMenu firstController = loadGameScreen(firstUser);
-                MainGameMenu secondController = loadGameScreen(secondUser);
-                firstController.setGame(game);
-                secondController.setGame(game);
-                firstController.setMyUser(firstUser);
-                secondController.setMyUser(secondUser);
-                game.runGame();
-                firstController.setMyPlayer(game.getFirstPlayer());
-                secondController.setMyPlayer(game.getSecondPlayer());
-                stage.close();
-                firstController.refresh();
-                secondController.refresh();
-            }
+        Game game = new Game(firstUser, secondUser, 1);
+        Platform.runLater(() -> {
+            MainGameMenu firstController = loadGameScreen();
+            MainGameMenu secondController = loadGameScreen();
+            firstController.setGame(game);
+            secondController.setGame(game);
+            firstController.setMyUser(firstUser);
+            secondController.setMyUser(secondUser);
+            game.runGame();
+            firstController.setMyPlayer(game.getFirstPlayer());
+            secondController.setMyPlayer(game.getSecondPlayer());
+            stage.close();
+            firstController.refresh();
+            secondController.refresh();
         });
 
     }

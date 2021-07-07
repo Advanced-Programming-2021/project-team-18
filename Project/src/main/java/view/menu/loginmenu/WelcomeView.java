@@ -7,15 +7,15 @@ import java.io.IOException;
 
 public class WelcomeView extends View {
 
-    public void register(MouseEvent mouseEvent) throws IOException {
+    public void register() throws IOException {
         loadView("register");
     }
 
-    public void login(MouseEvent mouseEvent) throws IOException {
+    public void login() throws IOException {
         loadView("login");
     }
 
-    public void exit(MouseEvent mouseEvent) {
+    public void exit() {
         System.exit(0);
     }
 }

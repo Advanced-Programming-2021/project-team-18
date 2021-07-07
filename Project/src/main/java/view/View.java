@@ -21,7 +21,7 @@ public class View {
         return loader.getController();
     }
 
-    protected void adjustScene() {
+    public void adjustScene() {
     }
 
 }
