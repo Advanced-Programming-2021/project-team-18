@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import view.components.CardComponent?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
 <?import java.net.URL?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="view.menu.deckmenu.DeckMenuCardSelection">
-    <children>
-        <ImageView fitHeight="600.0" fitWidth="860.0" layoutX="0.0" layoutY="0.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../../background/background_simple.jpg"/>
-            </image>
-        </ImageView>
-        <Button layoutX="364.0" layoutY="470.0" mnemonicParsing="false" onAction="#selectCard" prefHeight="25.0"
-                prefWidth="131.0" text="select"/>
-        <CardComponent layoutX="180.0" layoutY="150.0" prefHeight="300.0" prefWidth="500.0" fx:id="cardComponent"/>
-    </children>
+<?import javafx.scene.layout.StackPane?>
+<SplitPane orientation="VERTICAL" dividerPositions="0.7" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml" fx:controller="view.menu.deckmenu.DeckMenuCardSelection"
+           styleClass="deckMenuDeckSelection">
+    <items>
+        <StackPane alignment="CENTER">
+                    <CardComponent layoutX="180.0" layoutY="150.0" prefHeight="300.0" prefWidth="500.0" fx:id="cardComponent"/>
+        </StackPane>
+        <StackPane alignment="CENTER">
+            <Button layoutX="364.0" layoutY="470.0" mnemonicParsing="false" onAction="#selectCard" prefHeight="25.0"
+                    prefWidth="131.0" text="select"/>
+        </StackPane>
+    </items>
     <stylesheets>
-        <URL value="@../CSS/styles.css" />
+        <URL value="@../CSS/styles.css"/>
     </stylesheets>
-</AnchorPane>
+</SplitPane>

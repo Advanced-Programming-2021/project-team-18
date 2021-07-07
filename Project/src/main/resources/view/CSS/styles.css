@@ -8,8 +8,8 @@
 	src: url("tms.ttf");
 }
 
-@font-fact {
-    src: url("mth.ttf");
+@font-face {
+    src: url("mth.otf");
 }
 
 .mainMenuPane {
@@ -112,6 +112,10 @@
     -fx-background-image: url("../../background/678317.jpg");
     -fx-background-size: stretch;
 }
+.deckMenuDeckSelection {
+    -fx-background-image: url("../../background/background_simple.jpg");
+    -fx-background-size: stretch;
+}
 
 .registerPane {
     -fx-background-image: url("../../background/register_background.jpg");
@@ -135,6 +139,19 @@
 }
 .split-pane .viewport {
     -fx-background-color: transparent;
+}
+.list-view {
+    -fx-background-color: transparent;
+}
+.list-view{
+    -fx-background-color:transparent;
+}
+.list-view .viewport {
+    -fx-background-color: transparent;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 1 0 1;
 }
 
 .password-field {

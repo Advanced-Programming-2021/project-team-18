@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import view.components.CardComponent?>
+<?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="view.menu.deckmenu.DeckMenuSpecificDeck">
-    <children>
-        <ImageView fitHeight="600.0" fitWidth="860.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../background/background_simple.jpg"/>
-            </image>
-        </ImageView>
-        <AnchorPane prefHeight="200.0" prefWidth="200.0"/>
-        <Button layoutX="100.0" layoutY="367.0" onMouseClicked="#addCardToMainDeck"
-                text="add card to main deck" prefHeight="45" prefWidth="140"/>
-        <Button layoutX="612.0" layoutY="367.0" onMouseClicked="#addCardToSideDeck"
-                text="add card to side deck" prefHeight="45" prefWidth="140"/>
-        <Button layoutX="374.0" layoutY="461.0" onMouseClicked="#onBackButton" text="back" prefHeight="35"
-                prefWidth="100"/>
-        <Button layoutX="376.0" layoutY="501.0" onMouseClicked="#setAsActiveDeck" text="set as active" prefHeight="35"
-                prefWidth="100"/>
-        <Button layoutX="62.0" layoutY="408.0" onMouseClicked="#onRemoveMainDeckButton"
-                text="remove current card from main deck" prefHeight="75" prefWidth="220"/>
-        <Button layoutX="575.0" layoutY="408.0" onMouseClicked="#onRemoveSideDeckButton"
-                text="remove current card from side deck" prefHeight="75" prefWidth="220"/>
-        <CardComponent layoutX="430.0" layoutY="36.0" prefHeight="300" prefWidth="400" fx:id="sideDeckCardComponent"/>
-        <CardComponent layoutX="14.0" layoutY="36.0" prefHeight="300" prefWidth="400" fx:id="mainDeckCardComponent"/>
-    </children>
+<?import view.components.CardComponent?>
+<SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="view.menu.deckmenu.DeckMenuSpecificDeck" styleClass="deckMenuDeckSelection">
+    <items>
+        <SplitPane dividerPositions="0.6434151785714285" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+            <items>
+                <CardComponent  fx:id="mainDeckCardComponent"/>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="427.0">
+                    <children>
+                        <Button onMouseClicked="#onRemoveMainDeckButton" prefHeight="101.0" prefWidth="334.0"
+                                text="remove current card from main deck"/>
+                        <Button onMouseClicked="#addCardToMainDeck" prefHeight="63.0" prefWidth="215.0"
+                                text="add card to main deck"/>
+                        <Button onMouseClicked="#onBackButton" prefHeight="35" prefWidth="100" text="back"/>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+        <SplitPane dividerPositions="0.6434151785714285" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+            <items>
+                <CardComponent fx:id="sideDeckCardComponent"/>
+                <VBox alignment="CENTER" prefHeight="203.0" prefWidth="428.0">
+                    <children>
+                        <Button onMouseClicked="#onRemoveSideDeckButton" prefHeight="101.0" prefWidth="337.0"
+                                text="remove current card from side deck"/>
+                        <Button onMouseClicked="#addCardToSideDeck" prefHeight="57.0" prefWidth="212.0"
+                                text="add card to side deck"/>
+                        <Button onMouseClicked="#setAsActiveDeck" prefHeight="45.0" prefWidth="127.0"
+                                text="set as active"/>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </items>
     <stylesheets>
-        <URL value="@../CSS/styles.css" />
+        <URL value="@../CSS/styles.css"/>
     </stylesheets>
-</AnchorPane>
+</SplitPane>
+
+
+
