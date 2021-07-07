@@ -1,6 +1,7 @@
 package view.menu.duelmenu;
 
 import card.Card;
+import card.MonsterCard;
 import events.Phase;
 import game.Game;
 import game.Player;
@@ -143,43 +144,107 @@ public class MainGameMenu extends View implements Initializable {
         for(int i = 0;i < Player.getFIELD_SIZE();++ i)
             if(myPlayer.getMonstersFieldList()[i] != null) {
                 Card card = myPlayer.getMonstersFieldList()[i];
+                ImageView imageView;
                 if(card.isFaceUp())
-                    fieldGridPane.add(getCardImageView(myPlayer.getMonstersFieldList()[i] , 3 + 2 * i , 6 , true) , 3 + 2 * i , 6);
+                    imageView = getCardImageView(myPlayer.getMonstersFieldList()[i] , 3 + 2 * i , 6 , true);
                 else
-                    fieldGridPane.add(getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i , 6 , true) , 3 + 2 * i , 6);
+                    imageView = getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i , 6 , true);
+                if(card instanceof MonsterCard && ((MonsterCard)card).isDefenseMode())
+                    imageView.setRotate(90);
+                fieldGridPane.add(imageView , 3 + 2 * i , 6);
             }
     }
     private void refreshOpponentMonsters() { // [3 , 4] ... [11 , 4]
         for(int i = 0;i < Player.getFIELD_SIZE();++ i)
             if(myPlayer.getOpponent().getMonstersFieldList()[i] != null) {
                 Card card = myPlayer.getOpponent().getMonstersFieldList()[i];
+                ImageView imageView;
                 if(card.isFaceUp())
-                    fieldGridPane.add(getCardImageView(myPlayer.getOpponent().getMonstersFieldList()[i] , 3 + 2 * i , 4 , true) , 3 + 2 * i , 4);
+                    imageView = getCardImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i , 4 , true);
                 else
-                    fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i , 4 , true) , 3 + 2 * i , 4);
+                    imageView = getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i , 4 , true);
+                if(card instanceof MonsterCard && ((MonsterCard)card).isDefenseMode())
+                    imageView.setRotate(90);
+                fieldGridPane.add(imageView , 3 + 2 * i , 4);
             }
     }
-    private void refreshButtonsVBox() {
-        if(Game.getActivePlayer() != myPlayer)
-            return ;
+    private void manageNextPhaseButton() {
         Button nextPhaseButton = new Button("next phase");
+        nextPhaseButton.setPrefWidth(buttonsVBox.getWidth());
         nextPhaseButton.setOnMouseClicked(event -> {
             game.proceedNextPhase();
             refresh();
         });
         buttonsVBox.getChildren().add(nextPhaseButton);
+    }
+    private void manageSummonButton() {
+        Button summonButton = new Button("summon");
+        summonButton.setPrefWidth(buttonsVBox.getWidth());
+        summonButton.setOnMouseClicked(event -> {
+            myPlayer.summonMonster();
+            refresh();
+        });
+        buttonsVBox.getChildren().add(summonButton);
+    }
+    private void manageSetButton() {
+        Button setButton = new Button("set");
+        setButton.setPrefWidth(buttonsVBox.getWidth());
+        setButton.setOnMouseClicked(event -> {
+            myPlayer.setMonster();
+            refresh();
+        });
+        buttonsVBox.getChildren().addAll(setButton);
+    }
+    private void manageChangePositionButton() {
+        Button changePosition = new Button("change position");
+        changePosition.setPrefWidth(buttonsVBox.getWidth());
+        changePosition.setOnMouseClicked(event -> {
+            myPlayer.changeMonsterPosition();
+            refresh();
+        });
+        buttonsVBox.getChildren().add(changePosition);
+    }
+    private void manageFlipSummonButton() {
+        Button flipSummon = new Button("flip summon");
+        flipSummon.setPrefWidth(buttonsVBox.getWidth());
+        flipSummon.setOnMouseClicked(event -> {
+            myPlayer.flipSummon();
+            refresh();
+        });
+        buttonsVBox.getChildren().add(flipSummon);
+    }
+    private void manageAttackButton() {
+        // todo
+    }
+    private void manageAttackDirectButton() {
+        Button attackDirect = new Button("flip summon");
+        attackDirect.setPrefWidth(buttonsVBox.getWidth());
+        attackDirect.setOnMouseClicked(event -> {
+            myPlayer.attackDirect();
+            refresh();
+        });
+        buttonsVBox.getChildren().add(attackDirect);
+    }
+    private void refreshButtonsVBox() {
+        if(Game.getActivePlayer() != myPlayer)
+            return ;
+        manageNextPhaseButton();
         if(game.getCurrentPhase() == Phase.MAIN1 || game.getCurrentPhase() == Phase.MAIN2) {
-            Button summonButton = new Button("summon");
-            summonButton.setOnMouseClicked(event -> {
-                myPlayer.summonMonster();
-                refresh();
-            });
-            Button setButton = new Button("set");
-            setButton.setOnMouseClicked(event -> {
-                myPlayer.setMonster();
-                refresh();
-            });
-            buttonsVBox.getChildren().addAll(summonButton , setButton);
+            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedCardOnHandID() != -1 && myPlayer.getHand().getCardsList().get(myPlayer.getSelectedCardOnHandID()) instanceof MonsterCard) {
+                manageSummonButton();
+                manageSetButton();
+            }
+            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && ! ((MonsterCard) myPlayer.getSelectedCard()).isHasChangedPositionThisTurn())
+                manageChangePositionButton();
+            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && !((MonsterCard) myPlayer.getSelectedCard()).isFaceUp())
+                manageFlipSummonButton();
+        }
+        if(game.getCurrentPhase() == Phase.BATTLE && (game.getTurn() != 1)) {
+            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1) {
+//                manageAttackButton();
+                if (true) // todo : if opponent has no monsters
+                    manageAttackDirectButton();
+            }
         }
     }
 

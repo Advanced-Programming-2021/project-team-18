@@ -22,6 +22,6 @@ public class View {
     }
 
     public void adjustScene() {
-    }
 
+    }
 }

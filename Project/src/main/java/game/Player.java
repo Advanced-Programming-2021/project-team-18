@@ -444,7 +444,7 @@ public class Player {
         hand.removeCardAt(placeOnHand);
     }
 
-    public void changeMonsterPosition(String position) {
+    public void changeMonsterPosition() {
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
             return;
@@ -452,10 +452,6 @@ public class Player {
         int cardId = getSelectedMonsterCardOnFieldID();
         if (cardId == -1) {
             Printer.prompt("you can't change this card position");
-            return;
-        }
-        if ((monstersFieldList[cardId].isDefenseMode() && position.equals("defense")) || (!monstersFieldList[cardId].isDefenseMode() && position.equals("attack"))) {
-            Printer.prompt("this card is already in the wanted position");
             return;
         }
         if (monstersFieldList[cardId].isHasChangedPositionThisTurn()) {
