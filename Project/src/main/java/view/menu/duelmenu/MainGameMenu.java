@@ -46,6 +46,12 @@ public class MainGameMenu extends View implements Initializable {
     private ImageView secondPlayerAvatar;
     @FXML
     private VBox buttonsVBox;
+    @FXML
+    private Text firstPlayerLP;
+    @FXML
+    private Text secondPlayerLP;
+    @FXML
+    private Text phaseNameText;
     @Setter
     private Game game;
     @Setter
