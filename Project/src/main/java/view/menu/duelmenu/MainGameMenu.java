@@ -4,11 +4,16 @@ import card.Card;
 import game.Game;
 import game.Player;
 import game.User;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -19,14 +24,27 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainGameMenu extends View implements Initializable {
-    public ImageView cardImageView;
-    public Text cardTitle;
-    public Text cardDescription;
-    public GridPane fieldGridPane;
-    public Label firstPlayerTitle;
-    public Label secondPlayerTitle;
-    public ImageView firstPlayerAvatar;
-    public ImageView secondPlayerAvatar;
+
+    @FXML
+    private ScrollPane buttonsScrollPane;
+    @FXML
+    private ImageView cardImageView;
+    @FXML
+    private Text cardTitle;
+    @FXML
+    private Text cardDescription;
+    @FXML
+    private GridPane fieldGridPane;
+    @FXML
+    private Label firstPlayerTitle;
+    @FXML
+    private Label secondPlayerTitle;
+    @FXML
+    private ImageView firstPlayerAvatar;
+    @FXML
+    private ImageView secondPlayerAvatar;
+    @FXML
+    private VBox buttonsVBox;
     @Setter
     private Game game;
     @Setter
@@ -41,12 +59,14 @@ public class MainGameMenu extends View implements Initializable {
     public void refresh() {
         // do all updates here
         fieldGridPane.getChildren().clear();
+        buttonsVBox.getChildren().clear();
         refreshAvatarAndTitles();
         refreshSelectedCardDetails();
         refreshMyHand();
         refreshOpponentHand();
         refreshMyMonsters();
         refreshOpponentMonsters();
+        refreshButtonsVBox();
     }
 
     private void refreshAvatarAndTitles() {
@@ -125,6 +145,10 @@ public class MainGameMenu extends View implements Initializable {
                 else
                     fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i , 4 , true) , 3 + 2 * i , 4);
             }
+    }
+    private void refreshButtonsVBox() {
+//        buttonsScrollPane.setStyle("-fx-background-color:transparent");
+
     }
 
 }
