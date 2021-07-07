@@ -4,6 +4,7 @@ import data.Printer;
 import game.AIPlayer;
 import game.Player;
 import lombok.SneakyThrows;
+import view.UtilityView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -119,7 +120,7 @@ public class Utility {
     }
 
     public static boolean checkAndPrompt(boolean condition, String promptMessage) {
-        if (condition) Printer.prompt(promptMessage);
+        if (condition) UtilityView.displayMessage(promptMessage);
         return condition;
     }
 
