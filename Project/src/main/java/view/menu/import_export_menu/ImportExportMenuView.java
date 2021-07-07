@@ -2,8 +2,10 @@ package view.menu.import_export_menu;
 
 import card.Card;
 import com.google.gson.Gson;
+import data.Printer;
 import game.User;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -12,6 +14,7 @@ import lombok.SneakyThrows;
 import view.UtilityView;
 import view.View;
 import view.components.CardComponent;
+import view.menu.mainmenu.MainMenuView;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,6 +22,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
 
 public class ImportExportMenuView extends View implements Initializable {
     @Setter
@@ -27,32 +31,32 @@ public class ImportExportMenuView extends View implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for (Card card : Card.getAllCards())
+        for(Card card : Card.getAllCards())
             cardComponent.addCard(card);
 
     }
 
     public void onExportButton(MouseEvent mouseEvent) {
-        if (cardComponent.getSelectedCardName() == null || cardComponent.getSelectedCardName().length() < 1) {
+        if(cardComponent.getSelectedCardName() == null || cardComponent.getSelectedCardName().length() < 1) {
             UtilityView.displayMessage("no card was selected to export");
-            return;
+            return ;
         }
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File file = directoryChooser.showDialog(null);
-        if (file == null) {
+        if(file == null) {
             UtilityView.displayMessage("invalid directory");
-            return;
+            return ;
         }
-        exportCard(file.getAbsolutePath(), cardComponent.getSelectedCardName());
+        exportCard(file.getAbsolutePath() , cardComponent.getSelectedCardName());
     }
 
     public void onImportButton(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("json files", ".json"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("json files" , ".json"));
         File file = fileChooser.showOpenDialog(null);
-        if (file == null) {
+        if(file == null) {
             UtilityView.displayMessage("invalid directory");
-            return;
+            return ;
         }
         importCard(file.getAbsolutePath());
     }
@@ -73,7 +77,7 @@ public class ImportExportMenuView extends View implements Initializable {
     }
 
     @SneakyThrows
-    private void exportCard(String path, String cardName) {
+    private void exportCard(String path , String cardName) {
         Card card = Card.getCardByName(cardName);
         assert card != null;
         card.setEffects(null);

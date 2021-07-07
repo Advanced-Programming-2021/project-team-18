@@ -19,6 +19,8 @@ import view.menu.duelmenu.PreDuelMenu;
 import view.menu.import_export_menu.ImportExportMenuView;
 import view.menu.scoreboard.ScoreboardView;
 
+import java.awt.*;
+
 
 public class MainMenuView extends View {
     private static User currentUser; // note : has to be set when entered

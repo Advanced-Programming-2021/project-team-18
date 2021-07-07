@@ -5,13 +5,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.GridPane?>
-<fx:root type="javafx.scene.control.SplitPane" dividerPositions="0.5" prefHeight="300" prefWidth="500"
+<fx:root type="javafx.scene.control.SplitPane" dividerPositions="0.5"
          xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx">
     <items>
-        <ImageView fitHeight="300.0" fitWidth="200.0" fx:id="imageView">
+        <ImageView fx:id="imageView">
             <Image url="/cards_images/Unknown.jpg"/>
         </ImageView>
-        <ScrollPane prefHeight="300" prefWidth="300" fx:id="scrollPane">
+        <ScrollPane fx:id="scrollPane">
             <content>
                 <GridPane fx:id="gridPane" alignment="CENTER">
                 </GridPane>

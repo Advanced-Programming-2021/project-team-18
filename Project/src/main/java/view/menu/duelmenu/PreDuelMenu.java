@@ -78,7 +78,7 @@ public class PreDuelMenu extends View {
 
     @SneakyThrows
     private void startNewGame(User firstUser, User secondUser) {
-        Game game = new Game(firstUser, secondUser, 1);
+        Game game = new Game(firstUser , secondUser , 1);
         Platform.runLater(() -> {
             MainGameMenu firstController = loadGameScreen();
             MainGameMenu secondController = loadGameScreen();
