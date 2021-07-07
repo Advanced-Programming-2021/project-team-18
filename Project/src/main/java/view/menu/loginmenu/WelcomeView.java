@@ -16,6 +16,6 @@ public class WelcomeView extends View {
     }
 
     public void exit() {
-        System.exit(0);
+        stage.close();
     }
 }
