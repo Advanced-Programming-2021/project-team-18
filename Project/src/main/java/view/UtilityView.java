@@ -116,6 +116,16 @@ public class UtilityView {
         return answer;
     }
 
+    public static String obtainInformationInCertainWay(String message, String regex){
+        String input;
+        while (true){
+            input = obtainInformation(message);
+            if (!input.matches(regex)) displayMessage("your input didn't match the format try again!");
+            else break;
+        }
+        return input;
+    }
+
     public static void showError(String message) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setContentText(message);
