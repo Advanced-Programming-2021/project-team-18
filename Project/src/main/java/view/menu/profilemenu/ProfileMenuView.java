@@ -80,7 +80,7 @@ public class ProfileMenuView extends View {
     }
 
     public void backToMain() throws IOException {
-        ((MainMenuView) loadView("main_menu")).adjustScene();
+        loadView("main_menu");
     }
 
     public void changeNickname() throws IOException {

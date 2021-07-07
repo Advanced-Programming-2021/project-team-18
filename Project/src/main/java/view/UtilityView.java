@@ -53,7 +53,7 @@ public class UtilityView {
         Label label = new Label();
         label.setMinWidth(200);
         label.setText(message);
-        Button closeButton = new Button("ok");
+        Button closeButton = new Button("Okay");
         closeButton.setOnAction(e -> popup.hide());
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, closeButton);

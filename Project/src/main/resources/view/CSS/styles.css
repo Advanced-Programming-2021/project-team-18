@@ -1,7 +1,7 @@
 /* IAWT */
 
 .mainMenuPane {
-    -fx-background-size: cover;
+    -fx-background-size: stretch;
     -fx-background-image: url("../../background/background.jpg");
     -fx-cursor: disappear;
 }
@@ -13,7 +13,7 @@
     -fx-alignment: center;
     -fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
-    -fx-background-size: cover;
+    -fx-background-size: stretch;
     -fx-cursor: hand;
     -fx-background-color: transparent;
 }
@@ -33,7 +33,7 @@
     -fx-alignment: center;
     -fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
-    -fx-background-size: cover;
+    -fx-background-size: stretch;
     -fx-cursor: disappear;
     -fx-background-color: transparent;
 }
@@ -46,14 +46,13 @@
     -fx-translate-y: 2;
 }
 
-
 .normal-button {
     -fx-font-size: 20;
     -fx-text-fill: black;
     -fx-font-family: "Times";
     -fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
-    -fx-background-size: cover;
+    -fx-background-size: stretch;
     -fx-alignment: center;
     -fx-cursor: hand;
 }
@@ -105,4 +104,26 @@
 .registerPane {
     -fx-background-image: url("../../background/register_background.jpg");
     -fx-background-size: stretch;
+}
+
+.password-field {
+    -fx-effect: dropshadow(gaussian, black, 10, .3, 5, 5);
+    -fx-font-size: 25;
+    -fx-background-color: rgba(255, 200, 200, .8);
+    -fx-alignment: center;
+}
+
+.text-field {
+    -fx-effect: dropshadow(gaussian, black, 10, .3, 4, 4);
+    -fx-font-family: "Serif";
+    -fx-font-size: 25;
+    -fx-background-color: white;
+    -fx-alignment: center;
+}
+
+.field-label{
+    -fx-font-size: 28;
+    -fx-font-family: "Serif";
+    -fx-text-fill: white;
+    -fx-background-color: rgba(0, 0, 0, .3);
 }

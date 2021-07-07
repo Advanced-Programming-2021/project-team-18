@@ -49,7 +49,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     @FXML
     private void onBackButton() {
         MainMenuView.setCurrentUser(currentUser);
-        ((MainMenuView) loadView("main_menu")).adjustScene();
+        loadView("main_menu");
     }
 
     @SneakyThrows

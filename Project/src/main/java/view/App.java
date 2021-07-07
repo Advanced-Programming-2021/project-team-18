@@ -25,6 +25,8 @@ public class App extends Application {
         UtilityView.playSound("menu_song.wav");
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
         stage.setTitle("The Yu-Gi-Oh! :)");
         stage.show();
     }

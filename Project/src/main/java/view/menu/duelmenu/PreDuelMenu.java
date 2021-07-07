@@ -104,7 +104,6 @@ public class PreDuelMenu extends View {
 
     @SneakyThrows
     public void backButton() {
-        ((MainMenuView) (loadView("main_menu"))).adjustScene();
-
+        loadView("main_menu");
     }
 }
