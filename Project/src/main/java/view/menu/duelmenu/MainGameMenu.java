@@ -1,6 +1,7 @@
 package view.menu.duelmenu;
 
 import card.Card;
+import events.Phase;
 import game.Game;
 import game.Player;
 import game.User;
@@ -147,8 +148,27 @@ public class MainGameMenu extends View implements Initializable {
             }
     }
     private void refreshButtonsVBox() {
-//        buttonsScrollPane.setStyle("-fx-background-color:transparent");
-
+        if(Game.getActivePlayer() != myPlayer)
+            return ;
+        Button nextPhaseButton = new Button("next phase");
+        nextPhaseButton.setOnMouseClicked(event -> {
+            game.proceedNextPhase();
+            refresh();
+        });
+        buttonsVBox.getChildren().add(nextPhaseButton);
+        if(game.getCurrentPhase() == Phase.MAIN1 || game.getCurrentPhase() == Phase.MAIN2) {
+            Button summonButton = new Button("summon");
+            summonButton.setOnMouseClicked(event -> {
+                myPlayer.summonMonster();
+                refresh();
+            });
+            Button setButton = new Button("set");
+            setButton.setOnMouseClicked(event -> {
+                myPlayer.setMonster();
+                refresh();
+            });
+            buttonsVBox.getChildren().addAll(summonButton , setButton);
+        }
     }
 
 }

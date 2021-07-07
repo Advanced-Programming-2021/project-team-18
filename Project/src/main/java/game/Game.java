@@ -7,15 +7,14 @@ import lombok.Getter;
 
 import java.util.HashMap;
 
-
+@Getter
 public class Game {
     private static Player activePlayer;
-    private static Phase currentPhase;
     private final User firstUser, secondUser;
     private final HashMap<User, Integer> scores;
     private final HashMap<User, Integer> maxLP;
     private final int duelsCount;
-    @Getter
+    private Phase currentPhase;
     private Player firstPlayer, secondPlayer;
     private int turn;
     private boolean isGameFinished;
@@ -117,7 +116,7 @@ public class Game {
 //        else endGame(firstPlayer);
     }
 
-    private void proceedNextPhase() {
+    public void proceedNextPhase() {
         if(currentPhase == Phase.DRAW) {
             ++ turn;
             activePlayer.drawPhase();
