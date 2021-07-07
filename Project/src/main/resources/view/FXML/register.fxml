@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="600.0" prefWidth="860.0" styleClass="registerPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.loginmenu.RegisterView">
+<BorderPane prefHeight="600.0" prefWidth="860.0" styleClass="registerPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="view.menu.loginmenu.RegisterView">
     <stylesheets>
         <URL value="@../CSS/styles.css" />
     </stylesheets>

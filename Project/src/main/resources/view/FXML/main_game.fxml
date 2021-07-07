@@ -89,7 +89,7 @@
             <ImageView fitHeight="562.0" fitWidth="511.0">
                 <Image url="@../../background/fie_sougen.bmp"/>
             </ImageView>
-            <GridPane fx:id="FieldGridPane">
+            <GridPane fx:id="fieldGridPane">
                 <columnConstraints>
                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.34930419921875" minWidth="10.0"
                                        prefWidth="26.022674560546875"/>

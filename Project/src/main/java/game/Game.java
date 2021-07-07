@@ -2,17 +2,20 @@ package game;
 
 import card.Card;
 import data.Printer;
+import events.Phase;
+import lombok.Getter;
 
 import java.util.HashMap;
 
 
 public class Game {
     private static Player activePlayer;
+    private static Phase currentPhase;
     private final User firstUser, secondUser;
     private final HashMap<User, Integer> scores;
     private final HashMap<User, Integer> maxLP;
     private final int duelsCount;
-
+    @Getter
     private Player firstPlayer, secondPlayer;
     private int turn;
     private boolean isGameFinished;
@@ -94,25 +97,48 @@ public class Game {
     }
 
     private void runDuel() {
-        activePlayer = firstPlayer;
-        while (!isDuelFinished()) {
-            turn++;
+//        while (!isDuelFinished()) {
+//            turn++;
+//            activePlayer.drawPhase();
+//            if (isDuelFinished()) break;
+//            activePlayer.standbyPhase();
+//            if (isDuelFinished()) break;
+//            activePlayer.mainPhase1();
+//            if (isDuelFinished()) break;
+//            activePlayer.battlePhase();
+//            if (isDuelFinished()) break;
+//            activePlayer.mainPhase2();
+//            if (isDuelFinished()) break;
+//            activePlayer.endPhase();
+//            if (activePlayer == firstPlayer) activePlayer = secondPlayer;
+//            else activePlayer = firstPlayer;
+//        }
+//        if (firstPlayer.isLoser()) endGame(secondPlayer);
+//        else endGame(firstPlayer);
+    }
+
+    private void proceedNextPhase() {
+        if(currentPhase == Phase.DRAW) {
+            ++ turn;
             activePlayer.drawPhase();
-            if (isDuelFinished()) break;
+            currentPhase = Phase.STANDBY;
+        } else if(currentPhase == Phase.STANDBY) {
             activePlayer.standbyPhase();
-            if (isDuelFinished()) break;
+            currentPhase = Phase.MAIN1;
+        } else if(currentPhase == Phase.MAIN1) {
             activePlayer.mainPhase1();
-            if (isDuelFinished()) break;
+            currentPhase = Phase.BATTLE;
+        } else if(currentPhase == Phase.BATTLE) {
             activePlayer.battlePhase();
-            if (isDuelFinished()) break;
+            currentPhase = Phase.MAIN2;
+        } else if(currentPhase == Phase.MAIN2) {
             activePlayer.mainPhase2();
-            if (isDuelFinished()) break;
+            currentPhase = Phase.END;
+        } else  {
             activePlayer.endPhase();
-            if (activePlayer == firstPlayer) activePlayer = secondPlayer;
-            else activePlayer = firstPlayer;
+            activePlayer = activePlayer.opponent;
+            currentPhase = Phase.DRAW;
         }
-        if (firstPlayer.isLoser()) endGame(secondPlayer);
-        else endGame(firstPlayer);
     }
 
     private void giveAwards(User winner) {
@@ -123,10 +149,9 @@ public class Game {
     }
 
     public void runGame() {
-        while (!isGameFinished) {
-            startNewDuel();
-            runDuel();
-        }
-        Printer.prompt("-------------------------------");
+        startNewDuel();
+        currentPhase = Phase.DRAW;
+        activePlayer = firstPlayer;
+
     }
 }
