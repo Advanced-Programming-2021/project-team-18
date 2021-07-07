@@ -36,10 +36,12 @@ public class UtilityView {
     }
 
     public static Image getAvatarImage(int avatarID) {
+        if (avatarID > avatarNumbers || avatarID <= 0) return null;
         try {
             return new Image(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/" + avatarID + ".jpg")).toExternalForm());
         } catch (Exception ignored) {
+            System.out.println("Some problems occurred during opening avatar!");
             return new Image(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/" + 1 + ".jpg")).toExternalForm());
         }
