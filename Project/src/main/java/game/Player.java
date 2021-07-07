@@ -105,12 +105,10 @@ public class Player {
     }
 
 
-    // By Sina
     public void drawPhase() {
-//        Printer.forcePrompt("phase: draw phase");
         if (game.isNotFirstTurn()) {
             if (remainingDeck.isEmpty()) {
-//                Printer.prompt("No card is remained in your deck");
+                Printer.prompt("No card is remained in your deck");
                 loser = true;
                 return;
             }
@@ -200,11 +198,9 @@ public class Player {
         return -1;
     }
 
-    // Returns true iff the card has actually been removed
     public boolean removeCardFromField(Card card, Card causedCard) {
         if (card == null) return false;
 
-        // event : [card event]
         CardEvent cardEvent = new CardEvent(card, CardEventInfo.DESTROYED, causedCard);
         if (!getPermissionFromAllEffects(cardEvent)) {
             Printer.prompt("card won't be destroyed");
@@ -265,6 +261,13 @@ public class Player {
             graveyard.addCard(card);
         }
     }
+    public int getSpellCountOnField() {
+        int count = 0;
+        for (int i = 1; i < FIELD_SIZE; i++) {
+            if (spellsAndTrapFieldList[i] != null) count++;
+        }
+        return count;
+    }
 
     public void flipMonsterOnDefense(MonsterCard monsterCard, Card causedByCard) {
         CardEvent cardEvent = new CardEvent(monsterCard, CardEventInfo.FLIP, causedByCard);
@@ -273,7 +276,7 @@ public class Player {
             notifyAllEffectsForConsideration(cardEvent);
         }
     }
-
+    // todo : change to become graphic compatible
     public Card obtainCardFromHand() {
         Printer.prompt("Your hand contains these cards: ");
         for (Card card : hand.getCardsList()) Printer.showCard(card);
@@ -292,7 +295,7 @@ public class Player {
         return hand.getCardsList().get(index);
     }
 
-
+    // todo : change to become graphic compatible
     // TODO : WHY THE NAME OF METHOD IS OBTAIN FROM "FIELD" INSTEAD OF "HAND" ?!
     public Card obtainSpellTrapFromField() {
         Printer.prompt(this.getUser().getNickname() + "'s field contains these cards: ");
@@ -317,16 +320,10 @@ public class Player {
         return spellsAndTrapFieldList[index];
     }
 
-    public int getSpellCountOnField() {
-        int count = 0;
-        for (int i = 1; i < FIELD_SIZE; i++) {
-            if (spellsAndTrapFieldList[i] != null) count++;
-        }
-        return count;
-    }
 
 
-    // Asks player a yes/no question. returns true iff player's answer was 'yes'
+
+    // todo : change to become graphic compatible
     public boolean obtainConfirmation(String promptMassage) {
         String response;
         while (true) {
@@ -337,7 +334,7 @@ public class Player {
             Printer.prompt(Menu.INVALID_COMMAND);
         }
     }
-
+    // todo : change to become graphic compatible
     public Card obtainCardFromDeck(boolean showDeck) {
         if (showDeck) {
             Printer.prompt("You deck contains these cards:");
@@ -357,7 +354,7 @@ public class Player {
         }
         return remainingDeck.getCardsList().get(index);
     }
-
+    // todo : change to become graphic compatible
     public Card obtainCardFromGraveYard() {
         if (graveyard.isEmpty()) return null;
         showGraveyard();
@@ -373,7 +370,7 @@ public class Player {
         int index = Integer.parseInt(input);
         return graveyard.getCardsList().get(index);
     }
-
+    // todo : change to become graphic compatible
     public MonsterCard obtainMonsterCard(Deck deck) {
         if (deck.isEmpty()) return null;
         int i = 0;
@@ -401,6 +398,7 @@ public class Player {
 
     // Obtains a number in range [l, r), prompting the player first.
     // returns 0/0 if r <= l
+    // todo : change to become graphic compatible
     public int obtainNumberInRange(int l, int r, String prompt) {
         int number;
         while (true) {
@@ -446,7 +444,7 @@ public class Player {
         hand.removeCardAt(placeOnHand);
     }
 
-    protected void changeMonsterPosition(String position) {
+    public void changeMonsterPosition(String position) {
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
             return;
@@ -487,7 +485,7 @@ public class Player {
         theSummonedMonsterThisTurn = selectedCard;
     }
 
-    // by Kamyar
+
     public void summonMonster() {
 //      Note: This function should be modified later to support
         if (Utility.checkAndPrompt(selectedCard == null,
@@ -544,7 +542,7 @@ public class Player {
         Printer.showBoard(this, this.opponent);
     }
 
-    // by Kamyar
+
     public void setMonster() {
         if (Utility.checkAndPrompt((selectedCard == null), "no card is selected yet")) return;
         int placeOnHand = getSelectedCardOnHandID();
@@ -569,7 +567,7 @@ public class Player {
         Printer.showBoard(this, this.opponent);
     }
 
-    // by Pasha
+
     public void flipSummon() {
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
@@ -598,7 +596,7 @@ public class Player {
         Printer.showBoard(this, this.opponent);
     }
 
-    // by Pasha
+
     public void attack(int positionToAttack) {
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
@@ -631,7 +629,6 @@ public class Player {
         Printer.showBoard(this, this.opponent);
     }
 
-    // by Pasha
     public void attackDirect() {
         if (selectedCard == null) {
             Printer.prompt("no card is selected yet");
@@ -759,7 +756,7 @@ public class Player {
         return true;
     }
 
-
+    // todo : change to become graphic compatible
     public void showGraveyard() {
         if (Utility.checkAndPrompt(graveyard.isEmpty(), "graveyard empty")) return;
         int i = 0;

@@ -40,7 +40,8 @@ public class UtilityView {
             return new Image(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/" + avatarID + ".jpg")).toExternalForm());
         } catch (Exception ignored) {
-            return null;
+            return new Image(Objects.requireNonNull(UtilityView.class.getResource(
+                    "/avatars/" + 1 + ".jpg")).toExternalForm());
         }
     }
 

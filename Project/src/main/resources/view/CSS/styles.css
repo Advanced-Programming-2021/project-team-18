@@ -106,6 +106,25 @@
     -fx-background-size: stretch;
 }
 
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.scroll-pane{
+    -fx-background-color:transparent;
+}
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+.split-pane {
+    -fx-background-color: transparent;
+}
+.split-pane{
+    -fx-background-color:transparent;
+}
+.split-pane .viewport {
+    -fx-background-color: transparent;
+}
+
 .password-field {
     -fx-effect: dropshadow(gaussian, black, 10, .3, 5, 5);
     -fx-font-size: 25;
