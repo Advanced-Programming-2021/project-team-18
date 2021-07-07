@@ -19,11 +19,11 @@
         </font>
     </Text>
     <TextField fx:id="textField" layoutX="310.0" layoutY="80.0" prefHeight="25.0" prefWidth="183.0"/>
-    <Button layoutX="104.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#onDuel" prefHeight="46.0"
+    <Button layoutX="104.0" layoutY="181.0" mnemonicParsing="false" onAction="#onDuel" prefHeight="46.0"
             prefWidth="128.0" text="Duel"/>
-    <Button layoutX="274.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#onDuelAI" prefHeight="46.0"
+    <Button layoutX="274.0" layoutY="182.0" mnemonicParsing="false" onAction="#onDuelAI" prefHeight="46.0"
             prefWidth="128.0" text="Duel AI"/>
-    <Button layoutX="432.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#backButton" prefHeight="46.0"
+    <Button layoutX="432.0" layoutY="182.0" mnemonicParsing="false" onAction="#backButton" prefHeight="46.0"
             prefWidth="128.0" text="Back"/>
     <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="264.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true"
                fx:id="coinView"/>

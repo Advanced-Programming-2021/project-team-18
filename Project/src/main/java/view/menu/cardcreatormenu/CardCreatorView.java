@@ -4,41 +4,45 @@ import card.Card;
 import card.MonsterCard;
 import card.MonsterCardType;
 import game.User;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import menus.MenuController;
 import view.UtilityView;
 import view.View;
-import view.menu.mainmenu.MainMenuView;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 public class CardCreatorView extends View implements Initializable {
-    @Setter
     private static User currentUser;
 
     public TextField attackTextField;
     public TextField descriptionTextField;
     public ChoiceBox levelChoiceBox;
     public ChoiceBox monsterTypeChoiceBox;
-    public Text priceText;
+    public Label priceText;
     public ImageView imageView;
     public TextField defenseTextField;
     public TextField nameTextField;
 
+    public static void setCurrentUser(User currentUser) {
+        CardCreatorView.currentUser = currentUser;
+        MenuController.getInstance().setUser(currentUser);
+    }
+
     @SneakyThrows
-    public void onCreateClicked(MouseEvent mouseEvent) {
+    public void onCreateClicked() {
         try {
             int attackValue = Integer.parseInt(attackTextField.getText());
             int defenseValue = Integer.parseInt(defenseTextField.getText());
@@ -66,7 +70,7 @@ public class CardCreatorView extends View implements Initializable {
     }
 
     @SneakyThrows
-    public void onBackClicked(MouseEvent mouseEvent) {
+    public void onBackClicked() {
         loadView("main_menu");
     }
     private int getPrice() {
@@ -103,6 +107,15 @@ public class CardCreatorView extends View implements Initializable {
         for (MonsterCardType monsterCardType : monsterCardTypes)
             monsterTypeChoiceBox.getItems().add(monsterCardType);
         monsterTypeChoiceBox.setValue(MonsterCardType.BEAST);
+    }
+
+    @Override
+    public void adjustScene() {
+        imageView.setPreserveRatio(true);
+        final double imageWidth = imageView.getImage().getWidth();
+        final double imageHeight = imageView.getImage().getHeight();
+        imageView.fitWidthProperty().bind(Bindings.min(stage.getScene().widthProperty().multiply(.2),
+                stage.getScene().heightProperty().multiply(imageWidth/imageHeight * .4)));
     }
 
     private void bindTextField(TextField textField) {

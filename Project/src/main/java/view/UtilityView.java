@@ -133,13 +133,13 @@ public class UtilityView {
     }
 
     public static void playSound(String songName) {
-        System.out.println("Playing " + songName + "...");
+        /*System.out.println("Playing " + songName + "...");
         Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
                 "/sounds/" + songName)).toString());
         if (player != null) player.stop();
         player = new MediaPlayer(media);
         // player.setCycleCount(-1);
-        player.play();
+        player.play();*/
     }
 
     public static void stopPlayer() {

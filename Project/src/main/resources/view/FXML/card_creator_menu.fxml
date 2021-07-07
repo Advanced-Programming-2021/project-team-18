@@ -1,78 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.cardcreatormenu.CardCreatorView">
-    <children>
-        <Text layoutX="62.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <TextField fx:id="nameTextField" layoutX="137.0" layoutY="9.0" prefHeight="25.0" prefWidth="186.0" />
-
-        <Text layoutX="62.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="attack:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <TextField fx:id="attackTextField" layoutX="137.0" layoutY="63.0" prefHeight="25.0" prefWidth="186.0" />
-        <Text layoutX="44.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="defense:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <TextField fx:id="defenseTextField" layoutX="138.0" layoutY="117.0" prefHeight="25.0" prefWidth="183.0" />
-        <Text layoutX="42.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="description:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <TextField fx:id="descriptionTextField" layoutX="139.0" layoutY="168.0" prefHeight="25.0" prefWidth="182.0" />
-        <Text layoutX="57.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="level:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <ChoiceBox fx:id="levelChoiceBox" layoutX="138.0" layoutY="226.0" prefHeight="25.0" prefWidth="183.0" />
-        <Text layoutX="25.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="monster type:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <ChoiceBox fx:id="monsterTypeChoiceBox" layoutX="139.0" layoutY="315.0" prefHeight="25.0" prefWidth="182.0" />
-        <Text layoutX="55.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="price:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <Text fx:id="priceText" layoutX="140.0" layoutY="444.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Text>
-        <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="200.0" layoutX="510.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../cards_images/Smiley.jpg" />
-            </image>
-        </ImageView>
-        <Button layoutX="173.0" layoutY="520.0" onMouseClicked="#onCreateClicked" prefHeight="44.0" prefWidth="126.0" text="create">
-            <font>
-                <Font size="17.0" />
-            </font>
-        </Button>
-        <Button layoutX="461.0" layoutY="520.0" onMouseClicked="#onBackClicked" prefHeight="44.0" prefWidth="126.0" text="back">
-            <font>
-                <Font size="17.0" />
-            </font>
-
-        </Button>
-    </children>
+<?import java.net.URL?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="view.menu.cardcreatormenu.CardCreatorView" styleClass="cardCreatorPane">
     <stylesheets>
-        <URL value="@../CSS/styles.css" />
+        <URL value="@../CSS/styles.css"/>
     </stylesheets>
-</AnchorPane>
+    <center>
+        <HBox spacing="50" alignment="CENTER">
+            <GridPane vgap="15" alignment="CENTER">
+                <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="name:"/>
+                <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="nameTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="attack:"/>
+                <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="attackTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="2" GridPane.columnIndex="0" text="defense:"/>
+                <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="defenseTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="3" GridPane.columnIndex="0" text="description:"/>
+                <TextField GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="descriptionTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="4" GridPane.columnIndex="0" text="level:"/>
+                <ChoiceBox GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="levelChoiceBox"/>
+                <Label GridPane.rowIndex="5" GridPane.columnIndex="0" text="monster type:"/>
+                <ChoiceBox GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="monsterTypeChoiceBox"/>
+                <Label GridPane.rowIndex="6" GridPane.columnIndex="0" text="price:"/>
+                <Label GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="priceText" text="0"/>
+            </GridPane>
+            <ImageView fx:id="imageView">
+                <Image url="@../../cards_images/Card.jpg"/>
+            </ImageView>
+        </HBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="30">
+            <Button onAction="#onCreateClicked" text="create"/>
+            <Button onAction="#onBackClicked" text="back"/>
+        </HBox>
+    </bottom>
+</BorderPane>

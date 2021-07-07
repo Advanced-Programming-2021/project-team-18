@@ -1,10 +1,6 @@
 /* IAWT */
 
 @font-face {
-    src :url("Balloon_Duwoor.ttf");
-}
-
-@font-face {
 	src: url("tms.ttf");
 }
 
@@ -122,6 +118,11 @@
     -fx-background-size: stretch;
 }
 
+.cardCreatorPane {
+    -fx-background-image: url("../../background/background_simple.jpg");
+    -fx-background-size: stretch;
+}
+
 .scroll-pane {
     -fx-background-color: transparent;
 }
@@ -167,6 +168,19 @@
     -fx-font-size: 25;
     -fx-background-color: white;
     -fx-alignment: center;
+}
+
+.text-field-2{
+    -fx-effect: dropshadow(gaussian, black, 10, .3, 4, 4);
+    -fx-font-family: 'MathJax_Math';
+    -fx-font-size: 25;
+    -fx-background-color: rgba(255, 255, 255, .5);
+    -fx-alignment: center;
+}
+
+.choice-box {
+    -fx-text-fill: white;
+    -fx-background-color: rgba(255, 255, 255, .5);
 }
 
 .field-label{

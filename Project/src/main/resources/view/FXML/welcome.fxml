@@ -19,13 +19,13 @@
             <Label text="Welcome to our game!">
             </Label>
             <VBox alignment="CENTER" spacing="15">
-               <Button onMouseClicked="#login" prefHeight="54.0" prefWidth="155.0"
+               <Button onAction="#login" prefHeight="54.0" prefWidth="155.0"
                        text="login">
                </Button>
-               <Button onMouseClicked="#register" prefHeight="54.0" prefWidth="155.0"
+               <Button onAction="#register" prefHeight="54.0" prefWidth="155.0"
                        text="register">
                </Button>
-               <Button onMouseClicked="#exit" prefHeight="54.0" prefWidth="155.0" text="exit">
+               <Button onAction="#exit" prefHeight="54.0" prefWidth="155.0" text="exit">
                </Button>
 
             </VBox>

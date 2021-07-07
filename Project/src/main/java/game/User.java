@@ -163,13 +163,15 @@ public class User implements Comparable<User>, Serializable {
         return new Image(avatarPath);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void updateAvatar(File src) throws Exception {
-        File file = new File(new URI(Objects.requireNonNull(User.class.getResource(
-                "/avatars/arbitrary/")) + username));
-        //noinspection ResultOfMethodCallIgnored
+        File avatarFolder = new File(new URI(Objects.requireNonNull(User.class.getResource("/avatars")) + "/arbitrary/"));
+        avatarFolder.mkdirs();
+        File file = new File(new URI(Objects.requireNonNull(User.class.getResource("/avatars"))
+                + "/arbitrary/" + username));
         file.createNewFile();
-        File dest = new File(Objects.requireNonNull(User.class.getResource(
-                "/avatars/arbitrary/" + username)).toURI());
+        File dest = new File(new URI(Objects.requireNonNull(User.class.getResource("/avatars"))
+                + "/arbitrary/" + username));
         Files.copy(Paths.get(src.toURI()), Paths.get(dest.toURI()), REPLACE_EXISTING);
     }
 

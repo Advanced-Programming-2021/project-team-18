@@ -44,7 +44,7 @@
         </GridPane>
     </center>
     <bottom>
-        <Button mnemonicParsing="false" text="back" BorderPane.alignment="CENTER" onMouseClicked="#back"/>
+        <Button mnemonicParsing="false" text="back" BorderPane.alignment="CENTER" onAction="#back"/>
     </bottom>
     <stylesheets>
         <URL value="@../CSS/styles.css" />
