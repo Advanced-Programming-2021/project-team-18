@@ -1,18 +1,15 @@
 /* IAWT */
 
 @font-face {
-    font-family: Balloon Duwoor;
     src :url("Balloon_Duwoor.ttf");
 }
 
 @font-face {
-	font-family: MainFont
-	src: url("timesFont.ttf");
+	src: url("tms.ttf");
 }
 
 @font-fact {
-    font-family: SerifFont;
-    src: url("serifFont.ttf");
+    src: url("mth.ttf");
 }
 
 .mainMenuPane {
@@ -24,7 +21,7 @@
 .button {
     -fx-text-fill: black;
     -fx-font-size: 20;
-    -fx-font-family: 'Balloon Duwoor';
+    -fx-font-family: 'Times Bold Italic';
     -fx-alignment: center;
     -fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
@@ -44,7 +41,7 @@
 .main-menu-button {
     -fx-font-size: 18;
     -fx-text-fill: black;
-    -fx-font-family: 'Balloon Duwoor';
+    -fx-font-family: 'Times Bold Italic';
     -fx-alignment: center;
     -fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
@@ -64,7 +61,7 @@
 .normal-button {
     -fx-font-size: 20;
     -fx-text-fill: black;
-    -fx-font-family: 'Balloon Duwoor';
+    -fx-font-family: 'Times Bold Italic';
     -fx-background-color: transparent;
     -fx-background-image: url("../../background/button.png");
     -fx-background-size: stretch;
@@ -85,7 +82,7 @@
     -fx-text-fill: lightgray;
     -fx-alignment: center;
     -fx-background-radius: 10;
-    -fx-font-family: 'Balloon Duwoor';
+    -fx-font-family: 'Times Bold Italic';
     -fx-cursor: none;
 }
 
@@ -95,7 +92,7 @@
 
 .label {
     -fx-background-color: rgba(255, 255, 255, .5);
-    -fx-font-family: 'Balloon Duwoor';
+    -fx-font-family: 'Times Bold Italic';
     -fx-font-size: 30;
     -fx-text-alignment: center;
 }
@@ -149,7 +146,7 @@
 
 .text-field {
     -fx-effect: dropshadow(gaussian, black, 10, .3, 4, 4);
-    -fx-font-family: SerifFont;
+    -fx-font-family: 'MathJax_Math';
     -fx-font-size: 25;
     -fx-background-color: white;
     -fx-alignment: center;
@@ -157,7 +154,7 @@
 
 .field-label{
     -fx-font-size: 28;
-    -fx-font-family: SerifFont;
+    -fx-font-family: 'MathJax_Math';
     -fx-text-fill: white;
     -fx-background-color: rgba(0, 0, 0, .3);
 }
