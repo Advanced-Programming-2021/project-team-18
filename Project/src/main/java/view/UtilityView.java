@@ -30,16 +30,22 @@ public class UtilityView {
         avatarNumbers = 0;
         player = null;
         try {
+            File arbitraryFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
+                    "/avatars/arbitrary/")).toURI());
+            arbitraryFolder.mkdirs();
             File avatarFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/")).toURI());
-            avatarNumbers = Objects.requireNonNull(avatarFolder.listFiles()).length;
+            for (File file : avatarFolder.listFiles()) {
+                if (file.isFile() && file.getName().matches("[1-9]\\d*.jpg"))
+                    avatarNumbers++;
+            }
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
     public static Image getAvatarImage(int avatarID) {
-        if (avatarID > avatarNumbers || avatarID <= 0) return null;
+        if (avatarID > avatarNumbers || avatarID < 0) return null;
         try {
             return new Image(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/" + avatarID + ".jpg")).toExternalForm());

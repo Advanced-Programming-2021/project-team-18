@@ -26,6 +26,10 @@ public class PreDuelMenu extends View {
     public ImageView coinView;
 
     public void onDuelAI() {
+        if (currentUser.getActiveDeckName() == null) {
+            UtilityView.showError("please pick an active deck first!");
+            return;
+        }
         startNewGame();
     }
 

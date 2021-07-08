@@ -85,6 +85,7 @@ public class User implements Comparable<User>, Serializable {
         score = 0;
         decks = new ArrayList<>();
         cardCount = new HashMap<>();
+        avatarID = 0;
     }
 
     public User(String username, String password, String nickname) {

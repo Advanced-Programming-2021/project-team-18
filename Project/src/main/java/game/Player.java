@@ -317,7 +317,7 @@ public class Player {
     // todo : change to become graphic compatible
     public Card obtainCardFromDeck(boolean showDeck) {
         if (showDeck) {
-            Printer.prompt("You deck contains these cards:");
+            Printer.prompt("Your deck contains these cards:");
             for (Card card : remainingDeck.getCardsList()) Printer.showCard(card);
         }
         String response;
@@ -810,9 +810,9 @@ public class Player {
             if (!effect.isInConsideration()) {
                 try {
                     permitted &= effect.permit(event);
-                } catch (Exception ignored) {
-                    ignored.printStackTrace();
-                    System.out.println(effect.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println(effect);
                 }
             }
         return permitted;
