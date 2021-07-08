@@ -104,7 +104,7 @@ public class ProfileMenuView extends View {
     public void chooseAFile() {
         Stage tempStage = new Stage();
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select You Avatar...");
+        fileChooser.setTitle("Select Your Avatar...");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")

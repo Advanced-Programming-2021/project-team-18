@@ -10,14 +10,19 @@ import game.Player;
 import game.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import view.UtilityView;
@@ -60,6 +65,8 @@ public class MainGameMenu extends View implements Initializable {
     private User myUser;
     @Setter
     private Player myPlayer;
+    @Setter
+    private Stage myStage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,8 +119,8 @@ public class MainGameMenu extends View implements Initializable {
     }
 
     private void refreshAvatarAndTitles() {
-        firstPlayerAvatar.setImage(UtilityView.getAvatarImage(myUser.getAvatarID()));
-        secondPlayerAvatar.setImage(UtilityView.getAvatarImage(myPlayer.getOpponent().getUser().getAvatarID()));
+        firstPlayerAvatar.setImage(myUser.getAvatar());
+        secondPlayerAvatar.setImage(myPlayer.getOpponent().getUser().getAvatar());
         firstPlayerTitle.setText(myUser.getNickname());
         secondPlayerTitle.setText(myPlayer.getOpponent().getUser().getNickname());
     }
@@ -313,4 +320,37 @@ public class MainGameMenu extends View implements Initializable {
 
     }
 
+    public void showMyGraveyard() {
+        Parent graveyardRoot = computeGraveyardRoot(myPlayer);
+        myStage.getScene().setRoot(graveyardRoot);
+    }
+
+    public void showOpponentGraveyard() {
+        Parent graveyardRoot = computeGraveyardRoot(myPlayer.getOpponent());
+        myStage.getScene().setRoot(graveyardRoot);
+    }
+
+    private Parent computeGraveyardRoot(Player player) {
+        final int rowCount = 5;
+        int i = 0;
+        GridPane grid = new GridPane();
+        for (Card card : player.getGraveyard().getCardsList()) {
+            ImageView cardImage = new ImageView(card.getImage());
+            cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.8/rowCount));
+            cardImage.setPreserveRatio(true);
+            grid.add(cardImage, i % rowCount, i / rowCount);
+            i++;
+        }
+        ScrollPane scrollPane = new ScrollPane(grid);
+        BorderPane mainPane = new BorderPane();
+        mainPane.setCenter(scrollPane);
+        Button backButton = new Button("Back");
+        final Parent previousRoot = myStage.getScene().getRoot();
+        backButton.setOnAction(actionEvent -> myStage.getScene().setRoot(previousRoot));
+        HBox bottomBox = new HBox(backButton);
+        bottomBox.setAlignment(Pos.CENTER);
+        mainPane.setBottom(bottomBox);
+        mainPane.getStylesheets().add(getClass().getResource("/view/CSS/styles.css").toExternalForm());
+        return mainPane;
+    }
 }

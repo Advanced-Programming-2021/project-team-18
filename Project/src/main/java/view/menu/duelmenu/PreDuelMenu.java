@@ -75,8 +75,9 @@ public class PreDuelMenu extends View {
         Parent root = loader.load();
         MainGameMenu controller = loader.getController();
         Stage stage = new Stage();
-        stage.setScene((new Scene(root)));
+        stage.setScene(new Scene(root));
         stage.show();
+        controller.setMyStage(stage);
         return controller;
     }
 
