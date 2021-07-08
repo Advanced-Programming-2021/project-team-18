@@ -4,6 +4,7 @@ import card.Card;
 import card.MonsterCard;
 import data.Printer;
 import events.*;
+import view.UtilityView;
 
 public class SupplySquadEffect extends Effect {
     boolean hasActivatedEffectThisTurn;
@@ -11,11 +12,11 @@ public class SupplySquadEffect extends Effect {
     public void runEffect() {
         hasActivatedEffectThisTurn = true;
         if (selfPlayer.getRemainingDeck().isEmpty()) {
-            Printer.prompt("Your deck is empty so Supply Squad cannot draw a card for you");
+            UtilityView.showError("Your deck is empty so Supply Squad cannot draw a card for you");
             return;
         }
         if (selfPlayer.getHand().getCardsList().size() == 6) {
-            Printer.prompt("Your hand is full so Supply Squad cannot draw a card for you");
+            UtilityView.showError("Your hand is full so Supply Squad cannot draw a card for you");
             return;
         }
         Card newCard = selfPlayer.getRemainingDeck().pop();

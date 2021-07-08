@@ -5,6 +5,7 @@ import data.Printer;
 import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
+import view.UtilityView;
 
 
 // TODO : KAMYAR
@@ -13,13 +14,13 @@ public class TwinTwistersEffect extends Effect {
     public void runEffect() {
         Card card = selfPlayer.obtainCardFromHand();
         if (selfPlayer.getOpponent().getSpellCountOnField() == 0) {
-            Printer.prompt("Your opponent does not have anymore spells");
+            UtilityView.showError("Your opponent does not have anymore spells");
             return;
         }
         Card firstSpell = selfPlayer.getOpponent().obtainSpellTrapFromField();
         selfPlayer.getOpponent().removeCardFromField(firstSpell, selfCard);
         if (selfPlayer.getOpponent().getSpellCountOnField() == 0) {
-            Printer.prompt("Your opponent does not have anymore spells");
+            UtilityView.showError("Your opponent does not have anymore spells");
             return;
         }
         Card secondSpell = selfPlayer.getOpponent().obtainSpellTrapFromField();

@@ -7,6 +7,7 @@ import events.Event;
 import events.Phase;
 import events.PhaseEndedEvent;
 import utility.Utility;
+import view.UtilityView;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class HeraldOfCreationEffect extends Effect {
             if (card instanceof MonsterCard && ((MonsterCard) card).getCardLevel() >= 7)
                 options.add(card.getCardName());
         if (options.isEmpty()) {
-            Printer.prompt("unfortunately no card for you to pick from");
+            UtilityView.displayMessage("unfortunately no card for you to pick from");
             return;
         }
         String response = Utility.askPlayer(selfPlayer, message, options);
