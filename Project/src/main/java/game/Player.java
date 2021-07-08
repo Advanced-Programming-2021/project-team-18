@@ -71,6 +71,7 @@ public class Player {
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
+        if(loser) game.setGameFinished(true);
         notifyAllEffectsForConsideration(lifePointChangeEvent);
         return true;
     }
