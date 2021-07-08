@@ -314,63 +314,45 @@ public class Player {
         return response.equals("yes");
     }
 
-    // todo : change to become graphic compatible
     public Card obtainCardFromDeck(boolean showDeck) {
         if (showDeck) {
             Printer.prompt("Your deck contains these cards:");
             for (Card card : remainingDeck.getCardsList()) Printer.showCard(card);
         }
-        String response;
-        int index = -1;
-        while (!(0 <= index && index < remainingDeck.getSize())) {
-            while (true) {
-                Printer.prompt("Please select a card position on deck");
-                Printer.prompt("(a number in range 1 to " + remainingDeck.getSize() + ")");
-                response = Utility.getNextLine();
-                if (response.matches("\\d")) break;
-                Printer.prompt(Menu.INVALID_COMMAND);
-            }
-            index = Integer.parseInt(response) - 1;
-        }
-        return remainingDeck.getCardsList().get(index);
+        String message = "please select a card";
+        String[] options = new String[remainingDeck.getSize()];
+        for(int i = 0;i < remainingDeck.getSize();++ i)
+            options[i] = remainingDeck.getCardsList().get(i).getCardName();
+        String response = UtilityView.obtainInformationInList(message , options);
+        for(int i = 0;i < remainingDeck.getSize();++ i)
+            if(options[i].equals(response))
+                return remainingDeck.getCardsList().get(i);
+        return remainingDeck.getCardsList().get(0);
     }
 
-    // todo : change to become graphic compatible
     public Card obtainCardFromGraveYard() {
         if (graveyard.isEmpty()) return null;
-        showGraveyard();
-        Printer.prompt("Enter the number of the monster card which you want to transform scanner to:");
-        String input = Utility.getNextLine();
+        String input = UtilityView.obtainInformationInCertainWay("Enter the number of the monster card which you want to transform scanner to:" , "\\d{1,4}");
         int size = graveyard.getSize();
         while (!input.matches("\\d{1,4}")
                 || Integer.parseInt(input) > size
                 || Integer.parseInt(input) < 1) {
-            Printer.prompt("Invalid input\nPlease try again.");
-            input = Utility.getNextLine();
+            input = UtilityView.obtainInformationInCertainWay("Enter the number of the monster card which you want to transform scanner to:" , "\\d{1,4}");
         }
         int index = Integer.parseInt(input);
         return graveyard.getCardsList().get(index);
     }
 
-    // todo : change to become graphic compatible
     public MonsterCard obtainMonsterCard(Deck deck) {
         if (deck == null || deck.isEmpty()) return null;
-        int i = 0;
-        for (Card card : deck.getCardsList()) {
-            i++;
-            Printer.prompt(i + ". " + card.getCardName() + ": " + card.getCardDescription());
-        }
-        String response;
-        int index;
-        while (true) {
-            while (true) {
-                Printer.prompt("Please select a card position on deck");
-                Printer.prompt("(a number in range 1 to " + deck.getSize() + ")");
-                response = Utility.getNextLine();
-                if (response.matches("\\d")) break;
-                Printer.prompt(Menu.INVALID_COMMAND);
-            }
-            index = Integer.parseInt(response) - 1;
+
+        String message = "please select a card";
+        String[] options = new String[deck.getSize()];
+        for(int i = 0;i < deck.getSize();++ i)
+            options[i] = deck.getCardsList().get(i).getCardName();
+        while(true) {
+            String response = UtilityView.obtainInformationInList(message, options);
+            int index = Integer.parseInt(response) - 1;
             if (0 <= index && index < deck.getSize()) {
                 if (deck.getCardsList().get(index) instanceof MonsterCard)
                     return (MonsterCard) deck.getCardsList().get(index);
@@ -754,15 +736,6 @@ public class Player {
         return true;
     }
 
-    // todo : change to become graphic compatible
-    public void showGraveyard() {
-        if (Utility.checkAndPrompt(graveyard.isEmpty(), "graveyard empty")) return;
-        int i = 0;
-        for (Card deadCard : graveyard.getCardsList()) {
-            i++;
-            Printer.prompt(i + ". " + deadCard.getCardName() + ":" + deadCard.getCardDescription());
-        }
-    }
 
     public void showSelectedCard() {
         if (Utility.checkAndPrompt(
