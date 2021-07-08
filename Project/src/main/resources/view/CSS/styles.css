@@ -130,6 +130,12 @@
     -fx-background-image: url("../../background/704387.jpg");
     -fx-background-size: stretch;
 }
+
+.number-label {
+    -fx-background-color: rgba(0, 0, 0, .4);
+    -fx-text-fill: white;
+}
+
 .scroll-pane {
     -fx-background-color: transparent;
 }
