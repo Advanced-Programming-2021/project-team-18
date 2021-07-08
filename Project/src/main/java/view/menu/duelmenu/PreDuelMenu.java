@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import jdk.jshell.execution.Util;
 import lombok.SneakyThrows;
 import menus.MenuController;
 import utility.Utility;
@@ -25,7 +26,7 @@ public class PreDuelMenu extends View {
     public ImageView coinView;
 
     public void onDuelAI() {
-        // todo
+        startNewGame();
     }
 
     public static void setCurrentUser(User currentUser) {
@@ -39,12 +40,16 @@ public class PreDuelMenu extends View {
             UtilityView.showError("no user exists with this username");
             return;
         }
-        if (user.equals(MenuController.getInstance().getUser())) {
+        if (user.equals(currentUser)) {
             UtilityView.showError("you cannot start a game with yourself :)");
             return;
         }
-        if(user.getActiveDeckName() == null || currentUser.getActiveDeckName() == null) {
-            UtilityView.showError("you are your opponent do not have an active deck");
+        if (currentUser.getActiveDeckName() == null) {
+            UtilityView.showError("please pick an active deck first!");
+            return;
+        }
+        if (user.getActiveDeckName() == null) {
+            UtilityView.showError("selected user doesn't have an active deck");
             return;
         }
         boolean randomBoolean = Utility.getARandomNumber(2) == 0;
@@ -83,7 +88,7 @@ public class PreDuelMenu extends View {
 
     @SneakyThrows
     private void startNewGame(User firstUser, User secondUser) {
-        Game game = new Game(firstUser , secondUser , 1);
+        Game game = new Game(firstUser, secondUser, 1);
         Platform.runLater(() -> {
             MainGameMenu firstController = loadGameScreen();
             MainGameMenu secondController = loadGameScreen();
@@ -94,15 +99,29 @@ public class PreDuelMenu extends View {
             game.runGame();
             firstController.setMyPlayer(game.getFirstPlayer());
             secondController.setMyPlayer(game.getSecondPlayer());
-            game.setFirstPlayerGraphicsController(firstController);
-            game.setSecondPlayerGraphicsController(secondController);
-            stage.close();
+            Game.setFirstPlayerGraphicsController(firstController);
+            Game.setSecondPlayerGraphicsController(secondController);
+            stage.hide();
             firstController.refresh();
             secondController.refresh();
         });
-
     }
 
+    // Starts a new game with AI
+    private void startNewGame() {
+        Game game = new Game(currentUser, null, 1);
+        Platform.runLater(()-> {
+            MainGameMenu controller = loadGameScreen();
+            controller.setGame(game);
+            controller.setMyUser(currentUser);
+            game.runGame();
+            controller.setMyPlayer(game.getFirstPlayer());
+            Game.setFirstPlayerGraphicsController(controller);
+            Game.setSecondPlayerGraphicsController(null);
+            stage.hide();
+            controller.refresh();
+        });
+    }
 
     @SneakyThrows
     public void backButton() {

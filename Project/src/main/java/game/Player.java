@@ -158,6 +158,8 @@ public class Player {
         notifyAllEffectsForConsideration(turnChangeEvent);
         PhaseEndedEvent phaseEndedEvent = new PhaseEndedEvent(Phase.END, this);
         notifyAllEffectsForConsideration(phaseEndedEvent);
+        if (opponent instanceof AIPlayer)
+            game.proceedNextPhase();
     }
 
     public int getSelectedMonsterCardOnFieldID() {

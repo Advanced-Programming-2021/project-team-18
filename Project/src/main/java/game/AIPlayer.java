@@ -4,7 +4,6 @@ import card.Card;
 import card.MonsterCard;
 import card.SpellCard;
 import card.TrapCard;
-import data.Printer;
 import events.*;
 import utility.Utility;
 
@@ -69,7 +68,8 @@ public class AIPlayer extends Player {
 
     @Override
     public int obtainNumberInRange(int l, int r, String prompt) {
-        if (r <= l) return 0 / 0;
+        if (r <= l) //noinspection divzero,NumericOverflow
+            return 0 / 0;
         return l + Utility.getARandomNumber(r - l);
     }
 
@@ -165,7 +165,7 @@ public class AIPlayer extends Player {
         return mostPowerful;
     }
 
-    // Searches is faced-up monsters of opponent
+    // Searches in faced-up monsters of opponent
     private MonsterCard getWeakestMonsterOfOpponent() {
         int leastResistance = -1;
         MonsterCard weakestCard = null;
@@ -192,15 +192,15 @@ public class AIPlayer extends Player {
     private MonsterCard randomFacedDownMonsterOfOpponent() {
         ArrayList<MonsterCard> facedDowns = new ArrayList<>();
         for (MonsterCard monsterCard : opponent.getMonstersFieldList()) {
+            if (monsterCard == null) continue;
             if (!monsterCard.isFaceUp()) facedDowns.add(monsterCard);
         }
         if (facedDowns.isEmpty()) return null;
         return facedDowns.get(Utility.getARandomNumber(facedDowns.size()));
     }
 
-    @Override
-    public void battlePhase() {
-        Printer.forcePrompt("phase: battle phase");
+
+    public void playBattlePhase() {
         MonsterCard attacker, defender;
         AttackEvent attackEvent;
         while ((attacker = selectBestMonsterForAttack()) != null) {
@@ -219,9 +219,7 @@ public class AIPlayer extends Player {
         notifyAllEffectsForConsideration(new PhaseEndedEvent(Phase.BATTLE, this));
     }
 
-    @Override
-    public void mainPhase2() {
-        Printer.forcePrompt("phase: main phase 2");
+    public void playMainPhase2() {
         for (MonsterCard monsterCard : monstersFieldList) {
             if (monsterCard == null) continue;
             if (!monsterCard.isFaceUp()) continue;
@@ -234,9 +232,7 @@ public class AIPlayer extends Player {
         notifyAllEffectsForConsideration(new PhaseEndedEvent(Phase.MAIN2, this));
     }
 
-    @Override
-    public void mainPhase1() {
-        Printer.forcePrompt("phase: main phase 1");
+    public void playMainPhase1() {
         activateASpellOrTrap();
         setSpellOrTrap();
         importNewMonster();
@@ -263,5 +259,55 @@ public class AIPlayer extends Player {
 
         ** Deck Selection!
          */
+    }
+
+    @Override
+    public void endPhase() {
+        System.out.println("Playing end phase ...");
+        super.endPhase();
+        System.out.println("Ended!");
+    }
+
+    @Override
+    public void drawPhase() {
+        System.out.println("Playing draw phase ...");
+        super.drawPhase();
+        System.out.println("Ended!");
+        game.proceedNextPhase();
+    }
+
+    @Override
+    public void standbyPhase() {
+        System.out.println("Playing standby phase ...");
+        super.standbyPhase();
+        System.out.println("Ended!");
+        System.out.println("Playing main phase 1 ...");
+        playMainPhase1();
+        game.proceedNextPhase();
+    }
+
+    @Override
+    public void mainPhase1() {
+        super.mainPhase1();
+        System.out.println("Ended!");
+        System.out.println("Playing battle phase ...");
+        playBattlePhase();
+        game.proceedNextPhase();
+    }
+
+    @Override
+    public void battlePhase() {
+        super.battlePhase();
+        System.out.println("Ended!");
+        System.out.println("Playing main phase 2 ...");
+        playMainPhase2();
+        game.proceedNextPhase();
+    }
+
+    @Override
+    public void mainPhase2() {
+        super.mainPhase2();
+        System.out.println("Ended!");
+        game.proceedNextPhase();
     }
 }
