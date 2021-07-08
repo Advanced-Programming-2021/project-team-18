@@ -2,19 +2,17 @@ package view.menu.import_export_menu;
 
 import card.Card;
 import com.google.gson.Gson;
-import data.Printer;
 import game.User;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import lombok.Setter;
 import lombok.SneakyThrows;
+import menus.MenuController;
 import view.UtilityView;
 import view.View;
 import view.components.CardComponent;
-import view.menu.mainmenu.MainMenuView;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,12 +20,15 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 
 public class ImportExportMenuView extends View implements Initializable {
-    @Setter
-    private static User currentUser;
     public CardComponent cardComponent;
+    public VBox buttonsBox;
+
+
+    public static void setCurrentUser(User currentUser) {
+        MenuController.getInstance().setUser(currentUser);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -36,7 +37,7 @@ public class ImportExportMenuView extends View implements Initializable {
 
     }
 
-    public void onExportButton(MouseEvent mouseEvent) {
+    public void onExportButton() {
         if(cardComponent.getSelectedCardName() == null || cardComponent.getSelectedCardName().length() < 1) {
             UtilityView.showError("no card was selected to export");
             return ;
@@ -50,7 +51,7 @@ public class ImportExportMenuView extends View implements Initializable {
         exportCard(file.getAbsolutePath() , cardComponent.getSelectedCardName());
     }
 
-    public void onImportButton(MouseEvent mouseEvent) {
+    public void onImportButton() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("json files" , ".json"));
         File file = fileChooser.showOpenDialog(null);
@@ -62,7 +63,7 @@ public class ImportExportMenuView extends View implements Initializable {
     }
 
     @SneakyThrows
-    public void onBackButton(MouseEvent mouseEvent) {
+    public void onBackButton() {
         loadView("main_menu");
     }
 
@@ -89,5 +90,12 @@ public class ImportExportMenuView extends View implements Initializable {
         fileWriter.write(json);
         fileWriter.close();
         UtilityView.displayMessage("card exported successfully");
+    }
+
+    @Override
+    public void adjustScene() {
+        cardComponent.getImageView().fitWidthProperty().bind(stage.getScene().widthProperty().multiply(.2));
+        cardComponent.getScrollPane().prefWidthProperty().bind(stage.getScene().widthProperty().multiply(.5));
+        buttonsBox.minHeightProperty().bind(stage.getScene().heightProperty().multiply(.3));
     }
 }

@@ -1,43 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import java.net.URL?>
 <?import view.components.CardComponent?>
-<SplitPane dividerPositions="0.6" orientation="VERTICAL" prefHeight="600.0" prefWidth="860.0"
-           xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="view.menu.import_export_menu.ImportExportMenuView" styleClass="welcomePane">
-    <items>
-        <CardComponent fx:id="cardComponent"/>
-        <VBox alignment="CENTER" prefHeight="239.0" prefWidth="857.0">
-            <children>
-                <Button mnemonicParsing="false" onMouseClicked="#onImportButton" prefHeight="59.0"
-                        prefWidth="141.0" text="import">
-                    <font>
-                        <Font size="16.0"/>
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" onMouseClicked="#onExportButton" prefHeight="60.0"
-                        prefWidth="139.0" text="export">
-                    <font>
-                        <Font size="16.0"/>
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" onMouseClicked="#onBackButton" prefHeight="65.0"
-                        prefWidth="143.0" text="back">
-                    <font>
-                        <Font size="16.0"/>
-                    </font>
-                </Button>
-            </children>
-        </VBox>
-    </items>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.menu.import_export_menu.ImportExportMenuView" styleClass="welcomePane">
     <stylesheets>
         <URL value="@../CSS/styles.css"/>
     </stylesheets>
-</SplitPane>
+    <center>
+        <CardComponent fx:id="cardComponent"/>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER" fx:id="buttonsBox">
+            <Button mnemonicParsing="false" onMouseClicked="#onImportButton" text="import"/>
+            <Button mnemonicParsing="false" onMouseClicked="#onExportButton" text="export"/>
+            <Button mnemonicParsing="false" onMouseClicked="#onBackButton" text="back"/>
+        </VBox>
+    </bottom>
+</BorderPane>
 
 
