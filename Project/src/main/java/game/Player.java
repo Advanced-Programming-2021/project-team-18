@@ -311,8 +311,7 @@ public class Player {
 
     public boolean obtainConfirmation(String promptMassage) {
         String response = UtilityView.obtainInformationInCertainWay(promptMassage, "yes|no");
-        if (response.equals("yes")) return true;
-        else return false;
+        return response.equals("yes");
     }
 
     // todo : change to become graphic compatible
@@ -355,7 +354,7 @@ public class Player {
 
     // todo : change to become graphic compatible
     public MonsterCard obtainMonsterCard(Deck deck) {
-        if (deck.isEmpty()) return null;
+        if (deck == null || deck.isEmpty()) return null;
         int i = 0;
         for (Card card : deck.getCardsList()) {
             i++;
@@ -382,6 +381,8 @@ public class Player {
     // Obtains a number in range [l, r), prompting the player first.
     // returns 0/0 if r <= l
     public int obtainNumberInRange(int l, int r, String prompt) {
+        if (r <= l) //noinspection divzero,NumericOverflow
+            return 0/0;
         int number;
         while (true) {
             try {

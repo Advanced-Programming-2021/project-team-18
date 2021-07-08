@@ -1,7 +1,5 @@
 package view;
 
-import game.AIPlayer;
-import game.Game;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -15,9 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import view.components.ObtainInformationListController;
 
@@ -29,8 +25,6 @@ public class UtilityView {
     static String answer;
     static int avatarNumbers;
     private static MediaPlayer player;
-    @Setter
-    private static Game game;
 
     static {
         avatarNumbers = 0;
@@ -59,8 +53,8 @@ public class UtilityView {
     public static int getAvatarNumbers() {
         return avatarNumbers;
     }
+
     public static void displayMessage(String message) {
-        if (game.getActivePlayer() instanceof AIPlayer) return;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.showAndWait();
@@ -109,7 +103,6 @@ public class UtilityView {
 //        return answer;
 //    }
 
-    // TODO: obtain information from AI
     public static String obtainInformation(String message) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -133,23 +126,24 @@ public class UtilityView {
         return answer;
     }
 
-    public static String obtainInformationInCertainWay(String message, String regex){
+    public static String obtainInformationInCertainWay(String message, String regex) {
         String input;
-        while (true){
+        while (true) {
             input = obtainInformation(message);
             if (!input.matches(regex)) showError("your input didn't match the format try again!");
             else break;
         }
         return input;
     }
+
     @SneakyThrows
-    public static String obtainInformationInList(String message , String[] options) {
+    public static String obtainInformationInList(String message, String[] options) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(UtilityView.class.getResource("/view/FXML/" + "obtain_information_list" + ".fxml"));
         Parent root = loader.load();
         ObtainInformationListController controller = loader.getController();
-        for(String option : options)
+        for (String option : options)
             controller.getListView().getItems().add(option);
         controller.setResult(controller.getListView().getSelectionModel().getSelectedItems().get(0).toString());
         controller.getLabel().setText(message);
