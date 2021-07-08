@@ -50,24 +50,30 @@ public class UtilityView {
     public static int getAvatarNumbers() {
         return avatarNumbers;
     }
-
     public static void displayMessage(String message) {
-        Popup popup = new Popup();
-        Label label = new Label();
-        label.setMinWidth(200);
-        label.setText(message);
-        Button closeButton = new Button("Okay");
-        closeButton.setOnAction(e -> popup.hide());
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, closeButton);
-        layout.setAlignment(Pos.CENTER);
-        layout.getStylesheets().add(Objects.requireNonNull(UtilityView.class.getResource(
-                "CSS/styles.css")).toExternalForm());
-        closeButton.getStyleClass().add("normal-button");
-        layout.getStyleClass().add("popup-container");
-        popup.getContent().add(layout);
-        popup.show(View.stage);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
+//    public static void displayMessage(String message) {
+//        Popup popup = new Popup();
+//        Label label = new Label();
+//        label.setMinWidth(200);
+//        label.setText(message);
+//        Button closeButton = new Button("Okay");
+//        closeButton.setOnAction(e -> popup.hide());
+//        VBox layout = new VBox(10);
+//        layout.getChildren().addAll(label, closeButton);
+//        layout.setAlignment(Pos.CENTER);
+//        layout.getStylesheets().add(Objects.requireNonNull(UtilityView.class.getResource(
+//                "CSS/styles.css")).toExternalForm());
+//        closeButton.getStyleClass().add("normal-button");
+//        layout.getStyleClass().add("popup-container");
+//        popup.getContent().add(layout);
+//        Stage stage = new Stage();
+//        popup.show(stage);
+//        stage.show();
+//    }
 
 //    public static String obtainInformation(String message) {
 //        Popup popup = new Popup();

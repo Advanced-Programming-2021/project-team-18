@@ -120,6 +120,7 @@ public class Utility {
     }
 
     public static boolean checkAndPrompt(boolean condition, String promptMessage) {
+        System.out.println(condition + " " + promptMessage);
         if (condition) UtilityView.displayMessage(promptMessage);
         return condition;
     }
