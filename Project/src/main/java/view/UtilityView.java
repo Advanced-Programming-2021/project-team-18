@@ -184,10 +184,9 @@ public class UtilityView {
         System.out.println("Playing " + songName + "...");
         Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
                 "/sounds/" + songName)).toString());
-        if (player != null) player.stop();
-        player = new MediaPlayer(media);
-        player.setCycleCount(1);
-        player.play();
+        MediaPlayer currentPlayer = new MediaPlayer(media);
+        currentPlayer.setCycleCount(1);
+        currentPlayer.play();
     }
 
     public static void stopPlayer() {
