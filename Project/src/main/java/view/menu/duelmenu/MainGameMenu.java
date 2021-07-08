@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Setter;
@@ -70,7 +71,8 @@ public class MainGameMenu extends View implements Initializable {
     private Player myPlayer;
     @Setter
     private Stage myStage;
-
+    private int[] myCardPositions = {0, 7, 9, 5, 11, 3};
+    private int[] opponentCardPositions = {0, 7, 5, 9, 3, 11};
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -80,6 +82,7 @@ public class MainGameMenu extends View implements Initializable {
         // do all updates here
         fieldGridPane.getChildren().clear();
         buttonsVBox.getChildren().clear();
+        refreshGraveyardAndDrawPile();
         refreshLifePointAndPhase();
         refreshAvatarAndTitles();
         refreshSelectedCardDetails();
@@ -91,36 +94,54 @@ public class MainGameMenu extends View implements Initializable {
         refreshOpponentSpellsAndTraps();
         refreshButtonsVBox();
     }
+    @SneakyThrows
+    private void refreshGraveyardAndDrawPile() {
+        ImageView myGraveyardImageView = getUnknownImageView(null, 13, 6, false);
+        ImageView opponentGraveyardImageView = getUnknownImageView(null, 1, 4, false);
+        ImageView myDrawPileImageView = getUnknownImageView(null, 13, 8, false);
+        ImageView opponentDrawPileImageView = getUnknownImageView(null, 1, 2, false);
+        if (myPlayer.getGraveyard().getSize() != 0)
+            fieldGridPane.add(myGraveyardImageView, 13, 6);
+        if (myPlayer.getOpponent().getGraveyard().getSize() != 0)
+            fieldGridPane.add(opponentGraveyardImageView, 1, 4);
+        fieldGridPane.add(myDrawPileImageView, 13, 8);
+        fieldGridPane.add(opponentDrawPileImageView, 1, 2);
+    }
 
     private void refreshMySpellsAndTraps() {
-        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+        for (int i = 1; i <= Player.getFIELD_SIZE(); ++i)
             if (myPlayer.getSpellsAndTrapFieldList()[i] != null) {
                 Card card = myPlayer.getSpellsAndTrapFieldList()[i];
                 ImageView imageView;
                 if (card.isFaceUp())
-                    imageView = getCardImageView(myPlayer.getSpellsAndTrapFieldList()[i], 3 + 2 * i, 8, true);
+                    imageView = getCardImageView(myPlayer.getSpellsAndTrapFieldList()[i], myCardPositions[i], 8, true);
                 else
-                    imageView = getUnknownImageView(myPlayer.getSpellsAndTrapFieldList()[i], 3 + 2 * i, 8, true);
-                fieldGridPane.add(imageView, 3 + 2 * i, 8);
+                    imageView = getUnknownImageView(myPlayer.getSpellsAndTrapFieldList()[i], myCardPositions[i], 8, true);
+                fieldGridPane.add(imageView, myCardPositions[i], 8);
             }
     }
 
     private void refreshOpponentSpellsAndTraps() {
-        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+        for (int i = 1; i <= Player.getFIELD_SIZE(); ++i)
             if (myPlayer.getOpponent().getSpellsAndTrapFieldList()[i] != null) {
                 Card card = myPlayer.getOpponent().getSpellsAndTrapFieldList()[i];
                 ImageView imageView;
                 if (card.isFaceUp())
-                    imageView = getCardImageView(myPlayer.getOpponent().getSpellsAndTrapFieldList()[i], 3 + 2 * i, 2, true);
+                    imageView = getCardImageView(myPlayer.getOpponent().getSpellsAndTrapFieldList()[i], opponentCardPositions[i], 2, true);
                 else
-                    imageView = getUnknownImageView(myPlayer.getOpponent().getSpellsAndTrapFieldList()[i], 3 + 2 * i, 2, true);
-                fieldGridPane.add(imageView, 3 + 2 * i, 2);
+                    imageView = getUnknownImageView(myPlayer.getOpponent().getSpellsAndTrapFieldList()[i], opponentCardPositions[i], 2, true);
+                fieldGridPane.add(imageView, opponentCardPositions[i], 2);
             }
     }
 
+    private Paint getPaint(int red , int green , int blue) {
+        return Paint.valueOf(String.format("#%02X%02X%02X" , red , green , blue));
+    }
     private void refreshLifePointAndPhase() {
         firstPlayerLP.setText(myPlayer.getLifePoint() + "");
         secondPlayerLP.setText(myPlayer.getOpponent().getLifePoint() + "");
+        firstPlayerLP.setFill(getPaint((8000 - myPlayer.getLifePoint()) * 255 / 8000 , myPlayer.getLifePoint() * 255 / 8000,0));
+        secondPlayerLP.setFill(getPaint((8000 - myPlayer.getOpponent().getLifePoint()) * 255 / 8000 , myPlayer.getOpponent().getLifePoint() * 255 / 8000,0));
         phaseNameText.setText(game.getCurrentPhase().toString());
     }
 
@@ -186,32 +207,31 @@ public class MainGameMenu extends View implements Initializable {
             cardImageView.setImage(Card.getCardByName(selectedCard.getCardName()).getImage());
     }
 
-    private void refreshMyMonsters() { // [3 , 6] ... [11 , 6]
-        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+    private void refreshMyMonsters() {
+        for (int i = 1; i <= Player.getFIELD_SIZE(); ++i)
             if (myPlayer.getMonstersFieldList()[i] != null) {
                 Card card = myPlayer.getMonstersFieldList()[i];
                 ImageView imageView;
                 if (card.isFaceUp())
-                    imageView = getCardImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i, 6, true);
+                    imageView = getCardImageView(myPlayer.getMonstersFieldList()[i], myCardPositions[i], 6, true);
                 else
-                    imageView = getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i, 6, true);
+                    imageView = getUnknownImageView(myPlayer.getMonstersFieldList()[i], myCardPositions[i], 6, true);
                 imageView.setRotate( ((MonsterCard)card).isDefenseMode()  ? 90 : 0 );
-                fieldGridPane.add(imageView, 3 + 2 * i, 6);
+                fieldGridPane.add(imageView, myCardPositions[i], 6);
                 makeMyMonsterSupportDrag(imageView, card);
             }
     }
 
-    private void refreshOpponentMonsters() { // [3 , 4] ... [11 , 4]
-        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+    private void refreshOpponentMonsters() {
+        for (int i = 1; i <= Player.getFIELD_SIZE(); ++i)
             if (myPlayer.getOpponent().getMonstersFieldList()[i] != null) {
                 Card card = myPlayer.getOpponent().getMonstersFieldList()[i];
                 ImageView imageView;
                 if (card.isFaceUp())
-                    imageView = getCardImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i, 4, true);
+                    imageView = getCardImageView(myPlayer.getOpponent().getMonstersFieldList()[i], opponentCardPositions[i], 4, true);
                 else
-                    imageView = getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], 3 + 2 * i, 4, true);
-                if (card instanceof MonsterCard && ((MonsterCard) card).isDefenseMode())
-                    imageView.setRotate(90);
+                    imageView = getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], opponentCardPositions[i], 4, true);
+                imageView.setRotate( ((MonsterCard)card).isDefenseMode()  ? 90 : 0 );
                 fieldGridPane.add(imageView, 3 + 2 * i, 4);
                 makeOpponentMonsterSupportDrag(imageView, i);
             }

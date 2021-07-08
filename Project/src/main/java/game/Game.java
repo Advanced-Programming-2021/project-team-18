@@ -46,7 +46,6 @@ public class Game {
     }
 
     public void notifyGraphic() {
-        System.out.println("notified");
         firstPlayerGraphicsController.refresh();
         secondPlayerGraphicsController.refresh();
     }
