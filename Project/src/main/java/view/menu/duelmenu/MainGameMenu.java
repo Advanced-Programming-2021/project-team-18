@@ -92,6 +92,7 @@ public class MainGameMenu extends View implements Initializable {
             if(myPlayer.isLoser()) {
                 UtilityView.displayMessage(myUser.getNickname() + " Won :)");
                 loadView("main_menu");
+                stage.show();
                 return ;
             }
         }

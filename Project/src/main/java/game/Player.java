@@ -618,6 +618,10 @@ public class Player {
             UtilityView.showError("this card has already attacked");
             return;
         }
+        if(((MonsterCard) selectedCard).isDefenseMode()) {
+            UtilityView.showError("can't attack with defense position monster");
+            return;
+        }
 
         boolean doesOpponentHaveMonster = false;
         for (int i = 1; i <= FIELD_SIZE; ++i)
