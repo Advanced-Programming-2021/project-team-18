@@ -85,8 +85,18 @@ public class MainGameMenu extends View implements Initializable {
 
     }
 
+    @SneakyThrows
     public void refresh() {
         // do all updates here
+        if(myPlayer.isLoser() || myPlayer.getOpponent().isLoser()) {
+            myStage.close();
+            if(myPlayer.isLoser()) {
+                UtilityView.displayMessage(myUser.getNickname() + " Won :)");
+                loadView("main_menu");
+                stage.show();
+                return ;
+            }
+        }
         fieldGridPane.getChildren().clear();
         buttonsVBox.getChildren().clear();
         refreshSettingButton();
@@ -295,7 +305,7 @@ private void refreshSettingButton() {
                 else
                     imageView = getUnknownImageView(myPlayer.getOpponent().getMonstersFieldList()[i], opponentCardPositions[i], 4, true);
                 imageView.setRotate(((MonsterCard) card).isDefenseMode() ? 90 : 0);
-                fieldGridPane.add(imageView, 3 + 2 * i, 4);
+                fieldGridPane.add(imageView, opponentCardPositions[i], 4);
                 makeOpponentMonsterSupportDrag(imageView, i);
             }
     }

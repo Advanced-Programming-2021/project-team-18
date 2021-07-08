@@ -19,6 +19,7 @@ public class Game {
     private Phase currentPhase;
     private Player firstPlayer, secondPlayer;
     private int turn;
+    @Setter
     private boolean isGameFinished;
     @Setter
     private static MainGameMenu firstPlayerGraphicsController;

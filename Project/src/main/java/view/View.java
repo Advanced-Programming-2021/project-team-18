@@ -17,10 +17,10 @@ public class View {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/" + fileName + ".fxml"));
         Parent root = loader.load();
         stage.getScene().setRoot(root);
+
         ((View) loader.getController()).adjustScene();
         return loader.getController();
     }
-
     public void adjustScene() {
 
     }

@@ -5,6 +5,7 @@ import data.Printer;
 import events.Event;
 import events.SpellTrapActivationEvent;
 import game.Deck;
+import view.UtilityView;
 
 
 // By Sina
@@ -17,7 +18,7 @@ public class SummonFromGraveyardEffect extends Effect {
             summonOrigin = selfPlayer.getOpponent().getGraveyard();
         if (selfPlayer.getOpponent().getGraveyard().isEmpty()) {
             if (summonOrigin != null) {
-                Printer.prompt("Sorry, both graveyards are empty!");
+                UtilityView.displayMessage("Sorry, both graveyards are empty!");
                 return;
             }
             summonOrigin = selfPlayer.getGraveyard();
@@ -29,11 +30,11 @@ public class SummonFromGraveyardEffect extends Effect {
         }
         MonsterCard monsterCard = selfPlayer.obtainMonsterCard(summonOrigin);
         if (monsterCard.isRitual()) {
-            System.out.println("Sorry, cannot summon ritual monsters!");
+            UtilityView.showError("Sorry, cannot summon ritual monsters!");
             return;
         }
         if (!selfPlayer.addMonsterCardToField(monsterCard)) {
-            Printer.prompt("Sorry, you don't have enough space for new monster cards!");
+            UtilityView.showError("Sorry, you don't have enough space for new monster cards!");
             return;
         }
         summonOrigin.removeCard(monsterCard);

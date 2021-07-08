@@ -11,6 +11,7 @@ import utility.Utility;
 
 // By Sina
 // Note that the only card which has this effect, is "Advanced Ritual Art"
+//TODO: graphic compatibility
 public class RitualSummonEffect extends Effect {
 
     private boolean hasRitualInHand() {

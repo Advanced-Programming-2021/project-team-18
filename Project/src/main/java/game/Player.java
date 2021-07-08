@@ -71,6 +71,7 @@ public class Player {
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
+        if(loser) game.setGameFinished(true);
         notifyAllEffectsForConsideration(lifePointChangeEvent);
         return true;
     }
@@ -617,6 +618,10 @@ public class Player {
         }
         if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
             UtilityView.showError("this card has already attacked");
+            return;
+        }
+        if(((MonsterCard) selectedCard).isDefenseMode()) {
+            UtilityView.showError("can't attack with defense position monster");
             return;
         }
 
