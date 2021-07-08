@@ -123,11 +123,16 @@ public class MainGameMenu extends View implements Initializable {
             stage.setMinWidth(250);
             Label label = new Label("game is paused");
             Button closeButton = new Button("resume");
+            Button forfeitButton = new Button("forfeit");
+            forfeitButton.setOnMouseClicked(event2 -> {
+                myPlayer.setLoser(true);
+                stage.close();
+            });
             closeButton.setOnMouseClicked(event2 -> {
                 stage.close();
             });
             VBox layout = new VBox();
-            layout.getChildren().addAll(label , closeButton);
+            layout.getChildren().addAll(label , closeButton , forfeitButton);
             layout.getStylesheets().add(getClass().getResource("/view/CSS/styles.css").toExternalForm());
             layout.setAlignment(Pos.CENTER);
             Scene scene = new Scene(layout);
