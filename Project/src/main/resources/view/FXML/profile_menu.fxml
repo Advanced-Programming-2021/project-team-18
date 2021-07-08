@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <?import javafx.scene.image.ImageView?>
-<VBox xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx" styleClass="profilePane"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="view.menu.profilemenu.ProfileMenuView"
       alignment="CENTER" spacing="50">

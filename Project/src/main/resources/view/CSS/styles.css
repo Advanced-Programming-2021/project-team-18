@@ -122,7 +122,14 @@
     -fx-background-image: url("../../background/background_simple.jpg");
     -fx-background-size: stretch;
 }
-
+.preDuelPane {
+    -fx-background-image: url("../../background/736461.jpg");
+    -fx-background-size: stretch;
+}
+.profilePane {
+    -fx-background-image: url("../../background/704387.jpg");
+    -fx-background-size: stretch;
+}
 .scroll-pane {
     -fx-background-color: transparent;
 }

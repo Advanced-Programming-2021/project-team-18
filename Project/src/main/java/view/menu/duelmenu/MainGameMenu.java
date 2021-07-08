@@ -82,6 +82,7 @@ public class MainGameMenu extends View implements Initializable {
         // do all updates here
         fieldGridPane.getChildren().clear();
         buttonsVBox.getChildren().clear();
+        refreshFieldZone();
         refreshGraveyardAndDrawPile();
         refreshLifePointAndPhase();
         refreshAvatarAndTitles();
@@ -93,6 +94,20 @@ public class MainGameMenu extends View implements Initializable {
         refreshMySpellsAndTraps();
         refreshOpponentSpellsAndTraps();
         refreshButtonsVBox();
+    }
+    private void refreshFieldZone() { // [1,6] , [13,4]
+        if(myPlayer.getOpponent().getFieldZone() != null) {
+            if(myPlayer.getFieldZone().isFaceUp())
+                fieldGridPane.add(getCardImageView(myPlayer.getFieldZone() , 1 , 6 , true) , 1 , 6);
+            else
+                fieldGridPane.add(getUnknownImageView(myPlayer.getFieldZone() , 1 , 6 , true) , 1 , 6);
+        }
+        if(myPlayer.getOpponent().getFieldZone() != null) {
+            if(myPlayer.getOpponent().getFieldZone().isFaceUp())
+                fieldGridPane.add(getCardImageView(myPlayer.getOpponent().getFieldZone() , 1 , 6 , true) , 1 , 6);
+            else
+                fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getFieldZone() , 1 , 6 , true) , 1 , 6);
+        }
     }
     @SneakyThrows
     private void refreshGraveyardAndDrawPile() {
@@ -287,10 +302,6 @@ public class MainGameMenu extends View implements Initializable {
         buttonsVBox.getChildren().add(flipSummon);
     }
 
-    private void manageAttackButton() {
-        // todo
-    }
-
     private void manageAttackDirectButton() {
         Button attackDirect = new Button("attack direct");
         attackDirect.setPrefWidth(buttonsVBox.getWidth());
@@ -342,9 +353,7 @@ public class MainGameMenu extends View implements Initializable {
         }
         if (game.getCurrentPhase() == Phase.BATTLE && (game.getTurn() != 1)) {
             if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1) {
-//                manageAttackButton();
-                if (true) // todo : if opponent has no monsters
-                    manageAttackDirectButton();
+                manageAttackDirectButton();
             }
         }
 
