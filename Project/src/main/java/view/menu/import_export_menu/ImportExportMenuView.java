@@ -38,13 +38,13 @@ public class ImportExportMenuView extends View implements Initializable {
 
     public void onExportButton(MouseEvent mouseEvent) {
         if(cardComponent.getSelectedCardName() == null || cardComponent.getSelectedCardName().length() < 1) {
-            UtilityView.displayMessage("no card was selected to export");
+            UtilityView.showError("no card was selected to export");
             return ;
         }
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File file = directoryChooser.showDialog(null);
         if(file == null) {
-            UtilityView.displayMessage("invalid directory");
+            UtilityView.showError("invalid directory");
             return ;
         }
         exportCard(file.getAbsolutePath() , cardComponent.getSelectedCardName());
@@ -55,7 +55,7 @@ public class ImportExportMenuView extends View implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("json files" , ".json"));
         File file = fileChooser.showOpenDialog(null);
         if(file == null) {
-            UtilityView.displayMessage("invalid directory");
+            UtilityView.showError("invalid directory");
             return ;
         }
         importCard(file.getAbsolutePath());

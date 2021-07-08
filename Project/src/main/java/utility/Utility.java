@@ -120,7 +120,6 @@ public class Utility {
     }
 
     public static boolean checkAndPrompt(boolean condition, String promptMessage) {
-        System.out.println(condition + " " + promptMessage);
         if (condition){
             UtilityView.showError(promptMessage);
         }
@@ -130,20 +129,21 @@ public class Utility {
     public static String askPlayer(Player player, String message, ArrayList<String> options) {
         if (player instanceof AIPlayer || player == null)
             return options.get(getARandomNumber(options.size()));
-        Printer.prompt(player.getUser().getNickname() + ": " + message);
-        System.out.print("your options are (");
-        for (String option : options)
-            System.out.print(option + " ");
-        System.out.println(")");
-        while (true) {
-            String response = getNextLine();
-            boolean exists = false;
-            for (String option : options)
-                if (option.equals(response)) {
-                    Printer.prompt("successful response");
-                    return response;
-                }
-            Printer.prompt("option does not exist!");
-        }
+        return UtilityView.obtainInformationInList(player.getUser().getUsername() + " : " + message , options.toArray(new String[0]));
+//        Printer.prompt(player.getUser().getNickname() + ": " + message);
+//        System.out.print("your options are (");
+//        for (String option : options)
+//            System.out.print(option + " ");
+//        System.out.println(")");
+//        while (true) {
+//            String response = getNextLine();
+//            boolean exists = false;
+//            for (String option : options)
+//                if (option.equals(response)) {
+//                    Printer.prompt("successful response");
+//                    return response;
+//                }
+//            Printer.prompt("option does not exist!");
+//        }
     }
 }

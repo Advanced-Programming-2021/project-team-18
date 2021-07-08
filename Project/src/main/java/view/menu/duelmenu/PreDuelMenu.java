@@ -36,11 +36,15 @@ public class PreDuelMenu extends View {
     public void onDuel() {
         User user = User.getUserByUsername(textField.getText());
         if (user == null) {
-            UtilityView.displayMessage("no user exists with this username");
+            UtilityView.showError("no user exists with this username");
             return;
         }
         if (user.equals(MenuController.getInstance().getUser())) {
-            UtilityView.displayMessage("you cannot start a game with yourself :)");
+            UtilityView.showError("you cannot start a game with yourself :)");
+            return;
+        }
+        if(user.getActiveDeckName() == null || currentUser.getActiveDeckName() == null) {
+            UtilityView.showError("you are your opponent do not have an active deck");
             return;
         }
         boolean randomBoolean = Utility.getARandomNumber(2) == 0;

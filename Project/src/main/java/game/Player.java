@@ -153,6 +153,9 @@ public class Player {
         }
         hasSummonedMonsterThisTurn = false;
         theSummonedMonsterThisTurn = null;
+        TurnChangeEvent turnChangeEvent = new TurnChangeEvent();
+        turnChangeEvent.setPlayer(this);
+        notifyAllEffectsForConsideration(turnChangeEvent);
         PhaseEndedEvent phaseEndedEvent = new PhaseEndedEvent(Phase.END, this);
         notifyAllEffectsForConsideration(phaseEndedEvent);
     }
@@ -673,6 +676,9 @@ public class Player {
                 spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
                 notifyAllEffectsForConsideration(entranceCardEvent);
             }
+        } else if(getSpellOrTrapPositionOnBoard(selectedCard) == -1) {
+            UtilityView.showError("invalid card selected for activating");
+            return ;
         }
         // event : [cardEvent]
 
@@ -680,6 +686,7 @@ public class Player {
             UtilityView.showError("you can't activate this spell");
             return;
         }
+
         notifyAllEffectsForConsideration(activateCardEvent);
         notifyAllEffectsForConsideration(spellTrapActivationEvent);
         UtilityView.displayMessage("spell activated");

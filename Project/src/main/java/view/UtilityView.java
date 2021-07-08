@@ -130,7 +130,7 @@ public class UtilityView {
         String input;
         while (true){
             input = obtainInformation(message);
-            if (!input.matches(regex)) displayMessage("your input didn't match the format try again!");
+            if (!input.matches(regex)) showError("your input didn't match the format try again!");
             else break;
         }
         return input;

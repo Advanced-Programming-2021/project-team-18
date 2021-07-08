@@ -36,7 +36,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     private void onRemoveButton() {
         ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
         if (list.size() != 1) {
-            UtilityView.displayMessage("no deck was selected");
+            UtilityView.showError("no deck was selected");
             return;
         }
         String deckName = list.get(0);
@@ -57,7 +57,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     private void onEditButton() {
         ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
         if (list.size() != 1) {
-            UtilityView.displayMessage("no deck was selected");
+            UtilityView.showError("no deck was selected");
             return;
         }
         DeckMenuSpecificDeck.setCurrentDeck(currentUser.getGameDeckByName(list.get(0)));
@@ -69,7 +69,7 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     private void onAddNewDeckButton() {
         String name = UtilityView.obtainInformation("enter a name for your deck");
         while (currentUser.getGameDeckByName(name) != null) {
-            UtilityView.displayMessage("deck with this name already exists");
+            UtilityView.showError("deck with this name already exists");
             return;
         }
         currentUser.addGameDeck(new GameDeck(name));

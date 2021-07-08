@@ -62,7 +62,7 @@ public class CardCreatorView extends View implements Initializable {
             Card.getAllCards().add(monsterCard);
 //            Card.getAllCardNames().add(monsterCard.getCardName());
         } catch (Exception e) {
-            UtilityView.displayMessage("invalid options");
+            UtilityView.showError("invalid options");
             return ;
         }
         UtilityView.displayMessage("card successfully constructed and it cost you 10%");

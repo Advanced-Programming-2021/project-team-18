@@ -2,6 +2,8 @@ package view.menu.duelmenu;
 
 import card.Card;
 import card.MonsterCard;
+import card.SpellCard;
+import card.TrapCard;
 import events.Phase;
 import game.Game;
 import game.Player;
@@ -75,9 +77,34 @@ public class MainGameMenu extends View implements Initializable {
         refreshOpponentHand();
         refreshMyMonsters();
         refreshOpponentMonsters();
+        refreshMySpellsAndTraps();
+        refreshOpponentSpellsAndTraps();
         refreshButtonsVBox();
     }
-
+    private void refreshMySpellsAndTraps() {
+        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+            if (myPlayer.getSpellsAndTrapFieldList()[i] != null) {
+                Card card = myPlayer.getSpellsAndTrapFieldList()[i];
+                ImageView imageView;
+                if (card.isFaceUp())
+                    imageView = getCardImageView(myPlayer.getSpellsAndTrapFieldList()[i], 3 + 2 * i, 8, true);
+                else
+                    imageView = getUnknownImageView(myPlayer.getSpellsAndTrapFieldList()[i], 3 + 2 * i, 8, true);
+                fieldGridPane.add(imageView, 3 + 2 * i, 8);
+            }
+    }
+    private void refreshOpponentSpellsAndTraps() {
+        for (int i = 0; i < Player.getFIELD_SIZE(); ++i)
+            if (myPlayer.getOpponent().getSpellsAndTrapFieldList()[i] != null) {
+                Card card = myPlayer.getOpponent().getSpellsAndTrapFieldList()[i];
+                ImageView imageView;
+                if (card.isFaceUp())
+                    imageView = getCardImageView(myPlayer.getOpponent().getSpellsAndTrapFieldList()[i], 3 + 2 * i, 2, true);
+                else
+                    imageView = getUnknownImageView(myPlayer.getOpponent().getSpellsAndTrapFieldList()[i], 3 + 2 * i, 2, true);
+                fieldGridPane.add(imageView, 3 + 2 * i, 2);
+            }
+    }
     private void refreshLifePointAndPhase() {
         firstPlayerLP.setText(myPlayer.getLifePoint() + "");
         secondPlayerLP.setText(myPlayer.getOpponent().getLifePoint() + "");
@@ -155,7 +182,7 @@ public class MainGameMenu extends View implements Initializable {
                     imageView = getCardImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i, 6, true);
                 else
                     imageView = getUnknownImageView(myPlayer.getMonstersFieldList()[i], 3 + 2 * i, 6, true);
-                if (card instanceof MonsterCard && ((MonsterCard) card).isDefenseMode())
+                if (((MonsterCard) card).isDefenseMode())
                     imageView.setRotate(90);
                 fieldGridPane.add(imageView, 3 + 2 * i, 6);
             }
@@ -231,7 +258,7 @@ public class MainGameMenu extends View implements Initializable {
     }
 
     private void manageAttackDirectButton() {
-        Button attackDirect = new Button("flip summon");
+        Button attackDirect = new Button("attack direct");
         attackDirect.setPrefWidth(buttonsVBox.getWidth());
         attackDirect.setOnMouseClicked(event -> {
             myPlayer.attackDirect();
@@ -239,7 +266,25 @@ public class MainGameMenu extends View implements Initializable {
         });
         buttonsVBox.getChildren().add(attackDirect);
     }
+    private void manageSpellOrTrapSetButton() {
+        Button setSpellOrTrap = new Button("set spell or trap");
+        setSpellOrTrap.setPrefWidth(buttonsVBox.getWidth());
+        setSpellOrTrap.setOnMouseClicked(event -> {
+            myPlayer.setSpellOrTrap();
+            refresh();
+        });
+        buttonsVBox.getChildren().add(setSpellOrTrap);
+    }
+    private void manageActivateEffectButton() {
+        Button activateEffect = new Button("activate effect");
+        activateEffect.setPrefWidth(buttonsVBox.getWidth());
+        activateEffect.setOnMouseClicked(event -> {
+            myPlayer.activateEffect();
+            refresh();
+        });
+        buttonsVBox.getChildren().add(activateEffect);
 
+    }
     private void refreshButtonsVBox() {
         if (Game.getActivePlayer() != myPlayer)
             return;
@@ -251,8 +296,12 @@ public class MainGameMenu extends View implements Initializable {
             }
             if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && !((MonsterCard) myPlayer.getSelectedCard()).isHasChangedPositionThisTurn())
                 manageChangePositionButton();
-            if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && !((MonsterCard) myPlayer.getSelectedCard()).isFaceUp())
+            if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1 && !( myPlayer.getSelectedCard()).isFaceUp())
                 manageFlipSummonButton();
+            if(myPlayer.getSelectedCard() != null && myPlayer.getSelectedCardOnHandID() != -1 && (myPlayer.getSelectedCard() instanceof SpellCard || myPlayer.getSelectedCard() instanceof TrapCard))
+                manageSpellOrTrapSetButton();
+            if(myPlayer.getSelectedCard() != null && (myPlayer.getSelectedCardOnHandID() != -1 || myPlayer.getSpellOrTrapPositionOnBoard(myPlayer.getSelectedCard()) != 1) && (myPlayer.getSelectedCard() instanceof SpellCard || myPlayer.getSelectedCard() instanceof TrapCard))
+                manageActivateEffectButton();
         }
         if (game.getCurrentPhase() == Phase.BATTLE && (game.getTurn() != 1)) {
             if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedMonsterCardOnFieldID() != -1) {
@@ -261,6 +310,7 @@ public class MainGameMenu extends View implements Initializable {
                     manageAttackDirectButton();
             }
         }
+
     }
 
 }
