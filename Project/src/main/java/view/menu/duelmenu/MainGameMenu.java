@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -26,6 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -86,6 +88,7 @@ public class MainGameMenu extends View implements Initializable {
         // do all updates here
         fieldGridPane.getChildren().clear();
         buttonsVBox.getChildren().clear();
+        refreshSettingButton();
         refreshFieldZone();
         refreshGraveyardAndDrawPile();
         refreshLifePointAndPhase();
@@ -99,7 +102,33 @@ public class MainGameMenu extends View implements Initializable {
         refreshOpponentSpellsAndTraps();
         refreshButtonsVBox();
     }
-    private void refreshFieldZone() { // [1,6] , [13,4]
+
+    private void refreshSettingButton() {
+        if(Game.getActivePlayer() != myPlayer) return ;
+        Button settingButton = new Button("setting");
+        settingButton.setPrefWidth(buttonsVBox.getWidth());
+        settingButton.setOnMouseClicked(event -> {
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setMinWidth(250);
+            Label label = new Label("game is paused");
+            Button closeButton = new Button("resume");
+            closeButton.setOnMouseClicked(event2 -> {
+                stage.close();
+            });
+            VBox layout = new VBox();
+            layout.getChildren().addAll(label , closeButton);
+            layout.getStylesheets().add(getClass().getResource("/view/CSS/styles.css").toExternalForm());
+            layout.setAlignment(Pos.CENTER);
+            Scene scene = new Scene(layout);
+            stage.setScene(scene);
+            stage.showAndWait();
+            refresh();
+        });
+        buttonsVBox.getChildren().addAll(settingButton);
+    }
+
+    private void refreshFieldZone() {
         if(myPlayer.getFieldZone() != null) {
             if(myPlayer.getFieldZone().isFaceUp())
                 fieldGridPane.add(getCardImageView(myPlayer.getFieldZone() , 1 , 6 , true) , 1 , 6);
