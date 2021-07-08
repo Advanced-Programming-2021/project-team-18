@@ -65,7 +65,7 @@ public class Player {
         // event : [lifepoint change]
         LifePointChangeEvent lifePointChangeEvent = new LifePointChangeEvent(this, causedCard, -amount);
         if (!getPermissionFromAllEffects(lifePointChangeEvent)) {
-            UtilityView.displayMessage("life point won't change");
+            UtilityView.displayMessage("life point won't change (an effect prevented LP change)");
             return false;
         }
         lifePoint -= amount;
@@ -204,7 +204,7 @@ public class Player {
 
         CardEvent cardEvent = new CardEvent(card, CardEventInfo.DESTROYED, causedCard);
         if (!getPermissionFromAllEffects(cardEvent)) {
-            UtilityView.displayMessage("card won't be destroyed");
+            UtilityView.displayMessage("card won't be destroyed(an effect prevented destruction)");
             return false;
         }
         for (int i = 1; i <= FIELD_SIZE; i++) {
@@ -385,7 +385,7 @@ public class Player {
                 continue;
             }
             if (l <= number && number < r) return number;
-            UtilityView.displayMessage("number out of range!");
+            UtilityView.showError("number out of range!");
         }
     }
 
@@ -421,16 +421,16 @@ public class Player {
 
     public void changeMonsterPosition() {
         if (selectedCard == null) {
-            UtilityView.displayMessage("no card is selected yet");
+            UtilityView.showError("no card is selected yet");
             return;
         }
         int cardId = getSelectedMonsterCardOnFieldID();
         if (cardId == -1) {
-            UtilityView.displayMessage("you can't change this card position");
+            UtilityView.showError("you can't change this card position");
             return;
         }
         if (monstersFieldList[cardId].isHasChangedPositionThisTurn()) {
-            UtilityView.displayMessage("you already changed this card position in this turn");
+            UtilityView.showError("you already changed this card position in this turn");
             return;
         }
         // maybe change position event ? not needed yet though
@@ -473,7 +473,7 @@ public class Player {
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
         if (!getPermissionFromAllEffects(cardEvent)) {
 
-            UtilityView.displayMessage("you don't have permission to summon");
+            UtilityView.showError("you don't have permission to summon");
             return;
         }
         selectedCard.setFaceUp(true);
@@ -541,23 +541,23 @@ public class Player {
 
     public void flipSummon() {
         if (selectedCard == null) {
-            UtilityView.displayMessage("no card is selected yet");
+            UtilityView.showError("no card is selected yet");
             return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
         if (cardID <= 0) {
-            UtilityView.displayMessage("you can’t change this card position");
+            UtilityView.showError("you can’t change this card position");
             return;
         }
         if (selectedCard.isFaceUp() || theSummonedMonsterThisTurn == selectedCard) {
-            UtilityView.displayMessage("you can’t flip summon this card");
+            UtilityView.showError("you can’t flip summon this card");
             return;
         }
         // event : [flip]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.FLIP, null);
 
         if (!getPermissionFromAllEffects(cardEvent)) {
-            UtilityView.displayMessage("you can't flip your card");
+            UtilityView.showError("you can't flip your card");
             return;
         }
         selectedCard.setFaceUp(true);
@@ -570,21 +570,21 @@ public class Player {
 
     public void attack(int positionToAttack) {
         if (selectedCard == null) {
-            UtilityView.displayMessage("no card is selected yet");
+            UtilityView.showError("no card is selected yet");
             return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
         System.out.println(cardID);
         if (cardID <= 0) {
-            UtilityView.displayMessage("you can’t attack with this card");
+            UtilityView.showError("you can’t attack with this card");
             return;
         }
         if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
-            UtilityView.displayMessage("this card already attacked");
+            UtilityView.showError("this card already attacked");
             return;
         }
         if (((MonsterCard) selectedCard).isDefenseMode()) {
-            UtilityView.displayMessage("can't attack with a defense position monster");
+            UtilityView.showError("can't attack with a defense position monster");
             return;
         }
         if (positionToAttack <= 0 || positionToAttack >= 6 || opponent.getMonstersFieldList()[positionToAttack] == null)
@@ -592,7 +592,7 @@ public class Player {
         // event : [Attack Event]
         AttackEvent attackEvent = new AttackEvent((MonsterCard) selectedCard, opponent.getMonstersFieldList()[positionToAttack]);
         if (!getPermissionFromAllEffects(attackEvent)) {
-            UtilityView.displayMessage("you can't attack");
+            UtilityView.showError("you can't attack");
             return;
         }
         notifyAllEffectsForConsideration(attackEvent);
@@ -602,16 +602,16 @@ public class Player {
 
     public void attackDirect() {
         if (selectedCard == null) {
-            UtilityView.displayMessage("no card is selected yet");
+            UtilityView.showError("no card is selected yet");
             return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
         if (cardID <= 0) {
-            UtilityView.displayMessage("you can’t attack with this card");
+            UtilityView.showError("you can’t attack with this card");
             return;
         }
         if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
-            UtilityView.displayMessage("this card has already attacked");
+            UtilityView.showError("this card has already attacked");
             return;
         }
 
@@ -622,13 +622,13 @@ public class Player {
                 break;
             }
         if (doesOpponentHaveMonster) {
-            UtilityView.displayMessage("can't attack direct when opponent has at least a monster");
+            UtilityView.showError("can't attack direct when opponent has at least a monster");
             return;
         }
         // event : [Attack Event]
         AttackEvent attackEvent = new AttackEvent((MonsterCard) selectedCard, null);
         if (!getPermissionFromAllEffects(attackEvent)) {
-            UtilityView.displayMessage("you can't attack");
+            UtilityView.showError("you can't attack");
             return;
         }
         notifyAllEffectsForConsideration(attackEvent);
@@ -642,20 +642,20 @@ public class Player {
     // by Pasha
     public void activateEffect() {
         if (selectedCard == null) {
-            Printer.prompt("no card is selected");
+            UtilityView.showError("no card is selected");
             return;
         }
         if (!(selectedCard instanceof SpellCard) && !(selectedCard instanceof TrapCard)) {
-            Printer.prompt("activate effect is only for spells");
+            UtilityView.showError("activate effect is only for spells");
             return;
         }
         if (selectedCard.isFaceUp()) {
-            Printer.prompt("you have already activated this card");
+            UtilityView.showError("you have already activated this card");
             return;
         }
         boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
         if (isFieldSpell) {
-            Printer.prompt("you can't activate field spells");
+            UtilityView.showError("you can't activate field spells");
             return;
         }
         CardEvent activateCardEvent = new CardEvent(selectedCard, CardEventInfo.ACTIVATE_EFFECT, null);
@@ -663,7 +663,7 @@ public class Player {
         if (getSelectedCardOnHandID() != -1) {
             int firstEmptyPlace = getFirstEmptyPlaceOnSpellsField();
             if (firstEmptyPlace == -1) {
-                Printer.prompt("there is no card space on board for you to activate your spell");
+                UtilityView.showError("there is no card space on board for you to activate your spell");
             } else {
                 CardEvent entranceCardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
                 if (!getPermissionFromAllEffects(entranceCardEvent) || !getPermissionFromAllEffects(activateCardEvent)) {
@@ -677,12 +677,12 @@ public class Player {
         // event : [cardEvent]
 
         if (!getPermissionFromAllEffects(activateCardEvent) || !getPermissionFromAllEffects(spellTrapActivationEvent)) {
-            Printer.prompt("you can't activate this spell");
+            UtilityView.showError("you can't activate this spell");
             return;
         }
         notifyAllEffectsForConsideration(activateCardEvent);
         notifyAllEffectsForConsideration(spellTrapActivationEvent);
-        Printer.prompt("spell activated");
+        UtilityView.displayMessage("spell activated");
         Printer.showBoard(this, this.opponent);
     }
 
@@ -690,7 +690,7 @@ public class Player {
     public boolean setSpellOrTrap() {
         int placeOnHand = getSelectedCardOnHandID();
         if (placeOnHand == -1) {
-            UtilityView.displayMessage("you can't set this card");
+            UtilityView.showError("you can't set this card");
             return false;
         }
         boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
@@ -698,7 +698,7 @@ public class Player {
             // event :[cardEvent]
             CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
             if (!getPermissionFromAllEffects(cardEvent)) {
-                UtilityView.displayMessage("you can't set this spell");
+                UtilityView.showError("you can't set this spell");
                 return false;
             }
 
@@ -710,13 +710,13 @@ public class Player {
             return true;
         }
         if (getFirstEmptyPlaceOnSpellsField() == -1) {
-            UtilityView.displayMessage("spell card zone is full");
+            UtilityView.showError("spell card zone is full");
             return false;
         }
         // event :[cardEvent]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
         if (!getPermissionFromAllEffects(cardEvent)) {
-            UtilityView.displayMessage("you can't set this spell");
+            UtilityView.showError("you can't set this spell");
             return false;
         }
         spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
