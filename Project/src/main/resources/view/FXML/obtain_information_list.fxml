@@ -6,8 +6,11 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import java.net.URL?>
+<?import javafx.scene.control.Label?>
 <VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="view.components.ObtainInformationListController">
    <children>
+      <Label styleClass="field-label" text="message" alignment="CENTER" fx:id="label">
+      </Label>
       <ScrollPane prefHeight="336.0" prefWidth="434.0">
          <content>
             <ListView prefHeight="330.0" prefWidth="429.0" fx:id="listView"/>

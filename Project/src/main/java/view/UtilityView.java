@@ -144,6 +144,7 @@ public class UtilityView {
         ObtainInformationListController controller = loader.getController();
         for(String option : options)
             controller.getListView().getItems().add(option);
+        controller.getLabel().setText(message);
         controller.getListView().getSelectionModel().select(0);
         controller.getSelectButton().setOnMouseClicked(event -> {
             String text = controller.getListView().getSelectionModel().getSelectedItems().get(0).toString();
