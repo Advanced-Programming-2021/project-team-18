@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+@Getter
 public class CardComponent extends SplitPane implements Initializable {
     private static final int ROW_COUNT = 3;
     private int count = 0;
@@ -41,10 +42,7 @@ public class CardComponent extends SplitPane implements Initializable {
         for (String cardName : cardsInGridList) {
             Card card = Card.getCardByName(cardName);
             ImageView cardImageView = new ImageView(card.getImage());
-//            cardImageView.setFitWidth(100);
-//            cardImageView.setPreserveRatio(true);
-//            cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.66/rowSize));
-            cardImageView.setFitWidth(200);
+            cardImageView.fitWidthProperty().bind(scrollPane.widthProperty().divide(ROW_COUNT * 1.5));
             cardImageView.setPreserveRatio(true);
             cardImageView.setOnMouseClicked(mouseEvent -> {
                 imageView.setImage(cardImageView.getImage());
@@ -83,10 +81,8 @@ public class CardComponent extends SplitPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
         scrollPane.setFitToWidth(true);
-        imageView.setFitWidth(250);
         imageView.setPreserveRatio(true);
         refreshGrid();
     }
