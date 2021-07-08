@@ -86,7 +86,7 @@ public class CardComponent extends SplitPane implements Initializable {
 
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
         scrollPane.setFitToWidth(true);
-        imageView.setFitWidth(300);
+        imageView.setFitWidth(250);
         imageView.setPreserveRatio(true);
         refreshGrid();
     }
