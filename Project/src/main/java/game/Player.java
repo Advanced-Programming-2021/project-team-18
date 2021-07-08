@@ -703,10 +703,11 @@ public class Player {
             UtilityView.showError("you can't activate this spell");
             return;
         }
-
+        selectedCard.setFaceUp(true);
         notifyAllEffectsForConsideration(activateCardEvent);
         notifyAllEffectsForConsideration(spellTrapActivationEvent);
         UtilityView.displayMessage("spell activated");
+
         Printer.showBoard(this, this.opponent);
     }
 
@@ -808,7 +809,8 @@ public class Player {
                 try {
                     permitted &= effect.permit(event);
                 } catch (Exception ignored) {
-                    System.out.println("Sorry, some problem occurred :(");
+                    ignored.printStackTrace();
+                    System.out.println(effect.toString());
                 }
             }
         return permitted;

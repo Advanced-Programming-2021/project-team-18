@@ -411,7 +411,7 @@ private void refreshSettingButton() {
                 manageFlipSummonButton();
             if (myPlayer.getSelectedCard() != null && myPlayer.getSelectedCardOnHandID() != -1 && (myPlayer.getSelectedCard() instanceof SpellCard || myPlayer.getSelectedCard() instanceof TrapCard))
                 manageSpellOrTrapSetButton();
-            if (myPlayer.getSelectedCard() != null && (myPlayer.getSelectedCardOnHandID() != -1 || myPlayer.getSpellOrTrapPositionOnBoard(myPlayer.getSelectedCard()) != 1) && (myPlayer.getSelectedCard() instanceof SpellCard || myPlayer.getSelectedCard() instanceof TrapCard))
+            if (myPlayer.getSelectedCard() != null && (myPlayer.getSelectedCardOnHandID() != -1 || myPlayer.getSpellOrTrapPositionOnBoard(myPlayer.getSelectedCard()) != -1) && (myPlayer.getSelectedCard() instanceof SpellCard || myPlayer.getSelectedCard() instanceof TrapCard))
                 manageActivateEffectButton();
         }
         if (game.getCurrentPhase() == Phase.BATTLE && (game.getTurn() != 1)) {
