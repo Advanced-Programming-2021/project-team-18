@@ -675,6 +675,7 @@ public class Player {
             fieldZone = (SpellCard) selectedCard;
             fieldZone.setFaceUp(true);
             CardEvent cardEvent = new CardEvent(fieldZone , CardEventInfo.ACTIVATE_EFFECT , null);
+            hand.removeCard(selectedCard);
             notifyAllEffectsForConsideration(cardEvent);
             return;
         }
@@ -704,6 +705,7 @@ public class Player {
             return;
         }
         selectedCard.setFaceUp(true);
+        hand.removeCard(selectedCard);
         notifyAllEffectsForConsideration(activateCardEvent);
         notifyAllEffectsForConsideration(spellTrapActivationEvent);
         UtilityView.displayMessage("spell activated");
