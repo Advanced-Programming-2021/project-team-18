@@ -67,6 +67,15 @@ public class AIPlayer extends Player {
     }
 
     @Override
+    public MonsterCard obtainMonsterCard(Deck deck) {
+        if (deck == null || deck.isEmpty()) return null;
+        for (Card card : deck.getCardsList()) {
+            if (card instanceof MonsterCard) return (MonsterCard) card;
+        }
+        return null;
+    }
+
+    @Override
     public int obtainNumberInRange(int l, int r, String prompt) {
         if (r <= l) //noinspection divzero,NumericOverflow
             return 0 / 0;
