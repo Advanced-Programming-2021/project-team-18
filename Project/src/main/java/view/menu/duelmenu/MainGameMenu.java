@@ -404,10 +404,13 @@ public class MainGameMenu extends View implements Initializable {
         });
 
         imageView.setOnDragDropped(dragEvent -> {
+            if(game.getCurrentPhase() != Phase.BATTLE || Game.getActivePlayer() != myPlayer)
+                return ;
             if (dragEvent.getDragboard().hasImage()) {
                 System.out.println("Attack!");
                 System.out.println("Defender: " + myPlayer.getOpponent()
                         .getMonstersFieldList()[monsterIndex].getCardName());
+
                 myPlayer.attack(monsterIndex);
                 refresh();
                 dragEvent.setDropCompleted(true);
