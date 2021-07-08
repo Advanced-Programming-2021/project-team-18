@@ -83,6 +83,9 @@ public class PreDuelMenu extends View {
         stage.setScene(new Scene(root));
         stage.show();
         stage.setResizable(false);
+        stage.setWidth(800);
+        stage.setHeight(660);
+        stage.setFullScreen(false);
         controller.setMyStage(stage);
         return controller;
     }

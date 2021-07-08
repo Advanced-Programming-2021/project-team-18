@@ -63,7 +63,7 @@
             <Pane HBox.hgrow="ALWAYS">
                 <children>
                     <Text fx:id="firstPlayerLP" fill="RED" layoutX="4.0" layoutY="35.0" strokeType="OUTSIDE"
-                          strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="44.4500732421875">
+                          strokeWidth="0.0" text="Text" textAlignment="CENTER">
                         <font>
                             <Font name="Helvetica" size="20.0"/>
                         </font>
