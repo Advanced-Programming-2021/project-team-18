@@ -5,6 +5,7 @@ import card.MonsterCard;
 import data.Printer;
 import events.*;
 import game.Player;
+import view.UtilityView;
 
 public class SwordsOfRevealingLightEffect extends Effect {
     private int numberOfTurns;
@@ -19,7 +20,7 @@ public class SwordsOfRevealingLightEffect extends Effect {
                     monstersField[i].setFaceUp(true);
                     selfPlayer.notifyAllEffectsForConsideration(flipEvent);
                 } else {
-                    Printer.prompt("an effect prevented flip!");
+                    UtilityView.displayMessage("an effect prevented flip!");
                 }
             }
         }

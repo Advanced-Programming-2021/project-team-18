@@ -159,7 +159,7 @@ public class User implements Comparable<User>, Serializable {
     public Image getAvatar() {
         if (avatarID != -1) return UtilityView.getAvatarImage(avatarID);
         String avatarPath = Objects.requireNonNull(getClass().getResource(
-                "/avatars/arbitrary/" + username)).toExternalForm();
+                "/avatars")).toExternalForm() + "/arbitrary/" + username;
         return new Image(avatarPath);
     }
 

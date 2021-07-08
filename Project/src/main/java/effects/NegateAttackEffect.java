@@ -6,6 +6,7 @@ import events.AttackEvent;
 import events.Event;
 import events.SpellTrapActivationEvent;
 import game.Player;
+import view.UtilityView;
 
 
 public class NegateAttackEffect extends Effect {
@@ -24,7 +25,7 @@ public class NegateAttackEffect extends Effect {
                 if (getPermissionFromAllEffects(activationEvent)) {
                     player.getOpponent().endBattlePhaseByEffect();
                     return false;
-                } else Printer.prompt("some effect prevented trap activation");
+                } else UtilityView.displayMessage("some effect prevented trap activation");
             }
         }
         return true;

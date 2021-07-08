@@ -7,6 +7,7 @@ import events.CardEvent;
 import events.CardEventInfo;
 import events.Event;
 import events.SummonEvent;
+import view.UtilityView;
 
 // Terratiger, the Empowered Warrior
 public class SummonDefensePositionMonsterEffect extends Effect {
@@ -15,19 +16,19 @@ public class SummonDefensePositionMonsterEffect extends Effect {
     public void runEffect() {
         Card card = selfPlayer.obtainCardFromHand();
         if (!(card instanceof MonsterCard) || ((MonsterCard) card).getCardLevel() > 4) {
-            Printer.prompt("invalid command!");
+            UtilityView.showError("invalid command!");
             return;
         }
         int placeOnField = selfPlayer.getFirstEmptyPlaceOnMonstersField();
         if (!selfPlayer.getPermissionFromAllEffects(new CardEvent(card, CardEventInfo.ENTRANCE, selfCard)) || placeOnField == -1) {
-            Printer.prompt("you can't summon this card!");
+            UtilityView.showError("you can't summon this card!");
             return;
         }
         card.setFaceUp(true);
         ((MonsterCard) card).setDefenseMode(true);
         selfPlayer.getMonstersFieldList()[placeOnField] = (MonsterCard) card;
         selfPlayer.removeCardFromHand(card);
-        Printer.prompt("card summoned successfully!");
+        UtilityView.displayMessage("card summoned successfully!");
     }
 
     public boolean permit(Event event) {

@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import lombok.SneakyThrows;
 import menus.MenuController;
+import view.UtilityView;
 import view.View;
 import view.animations.CoinTransition;
 import view.menu.cardcreatormenu.CardCreatorView;
@@ -70,6 +71,7 @@ public class MainMenuView extends View {
     @SneakyThrows
     public void enterDuelMenu() {
         PreDuelMenu.setCurrentUser(currentUser);
+        UtilityView.stopPlayer();
         loadView("pre_duel_menu");
     }
 

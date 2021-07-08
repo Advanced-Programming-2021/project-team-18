@@ -8,6 +8,7 @@ import events.SpellTrapActivationEvent;
 import events.SummonEvent;
 import game.Deck;
 import utility.Utility;
+import view.UtilityView;
 
 // By Sina
 // Note that the only card which has this effect, is "Advanced Ritual Art"
@@ -41,7 +42,7 @@ public class RitualSummonEffect extends Effect {
 
     private MonsterCard selectRitualMonsterToSummon() {
         Card selectedCard;
-        Printer.prompt("Please select ritual monster to summon.");
+        UtilityView.displayMessage("Please select ritual monster to summon.");
         selectedCard = selfPlayer.obtainCardFromHand();
         while (true) {
             if (selectedCard instanceof MonsterCard) {
@@ -49,7 +50,7 @@ public class RitualSummonEffect extends Effect {
                     return (MonsterCard) selectedCard;
                 }
             }
-            Printer.prompt("invalid input");
+            UtilityView.displayMessage("invalid input");
         }
     }
 
@@ -72,20 +73,20 @@ public class RitualSummonEffect extends Effect {
         Card deckCard;
         boolean firstSelection = true;
         while (neededLevelSum > 0) {
-            Printer.prompt("Please choose a monster to tribute");
+            UtilityView.displayMessage("Please choose a monster to tribute");
             deckCard = selfPlayer.obtainCardFromDeck(firstSelection);
             firstSelection = false;
             if (!(deckCard instanceof MonsterCard)) {
-                Printer.prompt("Not a monster card!");
+                UtilityView.showError("Not a monster card!");
                 continue;
             }
             sacrificedMonster = (MonsterCard) deckCard;
             if (sacrificedMonster == selectedMonster) {
-                Printer.prompt("You cannot choose the card itself as tribute!");
+                UtilityView.showError("You cannot choose the card itself as tribute!");
                 continue;
             }
             if (sacrificedMonster.isRitual()) {
-                Printer.prompt("Only normal monsters can be selected as tribute!");
+                UtilityView.showError("Only normal monsters can be selected as tribute!");
                 continue;
             }
             selfPlayer.removeCardFromDeck(deckCard);

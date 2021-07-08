@@ -34,8 +34,13 @@ public class Game {
     // If secondUser is null, the game starts between firstUser and Computer
     public Game(User firstUser, User secondUser, int duelsCount) {
         this.firstUser = firstUser;
-        if (secondUser == null) this.secondUser = User.getDummyUser();
-        else this.secondUser = secondUser;
+        if (secondUser == null) {
+            this.secondUser = User.getDummyUser();
+            System.out.println("GAME STARTED WITH COMPUTER!");
+        } else {
+            this.secondUser = secondUser;
+            System.out.println("GAME STARTED WITH USER!");
+        }
         isGameFinished = false;
         this.duelsCount = duelsCount;
         scores = new HashMap<>();
@@ -47,8 +52,10 @@ public class Game {
     }
 
     public void notifyGraphic() {
-        firstPlayerGraphicsController.refresh();
-        secondPlayerGraphicsController.refresh();
+        if (firstPlayerGraphicsController != null)
+            firstPlayerGraphicsController.refresh();
+        if (secondPlayerGraphicsController != null)
+            secondPlayerGraphicsController.refresh();
     }
 
     boolean isNotFirstTurn() {
@@ -107,48 +114,33 @@ public class Game {
         turn = 0;
     }
 
-    private void runDuel() {
-//        while (!isDuelFinished()) {
-//            turn++;
-//            activePlayer.drawPhase();
-//            if (isDuelFinished()) break;
-//            activePlayer.standbyPhase();
-//            if (isDuelFinished()) break;
-//            activePlayer.mainPhase1();
-//            if (isDuelFinished()) break;
-//            activePlayer.battlePhase();
-//            if (isDuelFinished()) break;
-//            activePlayer.mainPhase2();
-//            if (isDuelFinished()) break;
-//            activePlayer.endPhase();
-//            if (activePlayer == firstPlayer) activePlayer = secondPlayer;
-//            else activePlayer = firstPlayer;
-//        }
-//        if (firstPlayer.isLoser()) endGame(secondPlayer);
-//        else endGame(firstPlayer);
-    }
-
-    public void proceedNextPhase() {
-        if(currentPhase == Phase.DRAW) {
-            ++ turn;
-            currentPhase = Phase.STANDBY;
-            activePlayer.drawPhase();
-        } else if(currentPhase == Phase.STANDBY) {
-            currentPhase = Phase.MAIN1;
-            activePlayer.standbyPhase();
-        } else if(currentPhase == Phase.MAIN1) {
-            currentPhase = Phase.BATTLE;
-            activePlayer.mainPhase1();
-        } else if(currentPhase == Phase.BATTLE) {
-            currentPhase = Phase.MAIN2;
-            activePlayer.battlePhase();
-        } else if(currentPhase == Phase.MAIN2) {
-            currentPhase = Phase.END;
-            activePlayer.mainPhase2();
-        } else  {
-            currentPhase = Phase.DRAW;
-            activePlayer = activePlayer.opponent;
-            activePlayer.endPhase();
+    public void  proceedNextPhase() {
+        switch (currentPhase) {
+            case DRAW:
+                ++turn;
+                currentPhase = Phase.STANDBY;
+                activePlayer.drawPhase();
+                break;
+            case STANDBY:
+                currentPhase = Phase.MAIN1;
+                activePlayer.standbyPhase();
+                break;
+            case MAIN1:
+                currentPhase = Phase.BATTLE;
+                activePlayer.mainPhase1();
+                break;
+            case BATTLE:
+                currentPhase = Phase.MAIN2;
+                activePlayer.battlePhase();
+                break;
+            case MAIN2:
+                currentPhase = Phase.END;
+                activePlayer.mainPhase2();
+                break;
+            case END:
+                currentPhase = Phase.DRAW;
+                activePlayer = activePlayer.opponent;
+                activePlayer.getOpponent().endPhase();
         }
     }
 
@@ -163,6 +155,5 @@ public class Game {
         startNewDuel();
         currentPhase = Phase.DRAW;
         activePlayer = firstPlayer;
-
     }
 }

@@ -17,7 +17,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO : kamyar
+
 public class Utility {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -120,7 +120,7 @@ public class Utility {
     }
 
     public static boolean checkAndPrompt(boolean condition, String promptMessage) {
-        if (condition){
+        if (condition) {
             UtilityView.showError(promptMessage);
         }
         return condition;
