@@ -1,6 +1,8 @@
 package view;
 
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,6 +15,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
+import view.components.ObtainInformationListController;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -130,6 +134,25 @@ public class UtilityView {
             else break;
         }
         return input;
+    }
+    @SneakyThrows
+    public static String obtainInformationInList(String message , String[] options) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader loader = new FXMLLoader(UtilityView.class.getResource("/view/FXML/" + "obtain_information_list" + ".fxml"));
+        Parent root = loader.load();
+        ObtainInformationListController controller = loader.getController();
+        for(String option : options)
+            controller.getListView().getItems().add(option);
+        controller.getListView().getSelectionModel().select(0);
+        controller.getSelectButton().setOnMouseClicked(event -> {
+            String text = controller.getListView().getSelectionModel().getSelectedItems().get(0).toString();
+            controller.setResult(text);
+            stage.close();
+        });
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+        return controller.getResult();
     }
 
     public static void showError(String message) {

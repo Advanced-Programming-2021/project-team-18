@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import java.net.URL?>
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="view.components.ObtainInformationListController">
+   <children>
+      <ScrollPane prefHeight="336.0" prefWidth="434.0">
+         <content>
+            <ListView prefHeight="330.0" prefWidth="429.0" fx:id="listView"/>
+         </content>
+      </ScrollPane>
+      <Button alignment="CENTER" prefHeight="25.0" prefWidth="121.0" text="select" fx:id="selectButton"/>
+   </children>
+   <stylesheets>
+      <URL value="@../CSS/styles.css"/>
+   </stylesheets>
+</VBox>
