@@ -29,14 +29,18 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import view.UtilityView;
 import view.View;
 
 import javax.sound.sampled.Clip;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainGameMenu extends View implements Initializable {
 
+    @FXML
+    private ImageView fieldImageView;
     @FXML
     private ScrollPane buttonsScrollPane;
     @FXML
@@ -96,7 +100,7 @@ public class MainGameMenu extends View implements Initializable {
         refreshButtonsVBox();
     }
     private void refreshFieldZone() { // [1,6] , [13,4]
-        if(myPlayer.getOpponent().getFieldZone() != null) {
+        if(myPlayer.getFieldZone() != null) {
             if(myPlayer.getFieldZone().isFaceUp())
                 fieldGridPane.add(getCardImageView(myPlayer.getFieldZone() , 1 , 6 , true) , 1 , 6);
             else
@@ -108,6 +112,17 @@ public class MainGameMenu extends View implements Initializable {
             else
                 fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getFieldZone() , 1 , 6 , true) , 1 , 6);
         }
+        String cardName = "none";
+        if(myPlayer.getFieldZone() != null)
+            cardName = myPlayer.getFieldZone().getCardName();
+        else if(myPlayer.getOpponent().getFieldZone() != null)
+            cardName = myPlayer.getOpponent().getFieldZone().getCardName();
+        if(!cardName.equals("none")) {
+            cardName = cardName.replaceAll("\\s" , "_");
+            fieldImageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(
+                    "/background/fields/" + cardName + ".bmp")).toExternalForm()));
+        }
+
     }
     @SneakyThrows
     private void refreshGraveyardAndDrawPile() {

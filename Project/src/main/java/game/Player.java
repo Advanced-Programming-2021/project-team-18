@@ -658,7 +658,16 @@ public class Player {
         }
         boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
         if (isFieldSpell) {
-            UtilityView.showError("you can't activate field spells");
+            if(getSelectedCardOnHandID() == -1 && fieldZone != null) {
+                fieldZone.setFaceUp(true);
+                CardEvent cardEvent = new CardEvent(fieldZone , CardEventInfo.FLIP , null);
+                notifyAllEffectsForConsideration(cardEvent);
+                return ;
+            }
+            fieldZone = (SpellCard) selectedCard;
+            fieldZone.setFaceUp(true);
+            CardEvent cardEvent = new CardEvent(fieldZone , CardEventInfo.ACTIVATE_EFFECT , null);
+            notifyAllEffectsForConsideration(cardEvent);
             return;
         }
         CardEvent activateCardEvent = new CardEvent(selectedCard, CardEventInfo.ACTIVATE_EFFECT, null);
