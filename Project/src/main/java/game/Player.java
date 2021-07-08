@@ -68,6 +68,7 @@ public class Player {
             UtilityView.displayMessage("life point won't change (an effect prevented LP change)");
             return false;
         }
+        UtilityView.playSound("healthDecrease.wav");
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
@@ -101,6 +102,7 @@ public class Player {
             remainingDeck.addCard(newCard);
             return;
         }
+        UtilityView.playSoundWithoutCycle("drawCard.wav");
         hand.addCard(newCard);
         //print("new card added to the hand: " + newCard.getCardName());
         notifyAllEffectsForConsideration(drawCardEvent);
@@ -128,6 +130,7 @@ public class Player {
     public void mainPhase1() {
         PhaseEndedEvent phaseEndedEvent = new PhaseEndedEvent(Phase.MAIN1, this);
         notifyAllEffectsForConsideration(phaseEndedEvent);
+        UtilityView.playSoundWithoutCycle("battlePhase.wav");
     }
 
     public void battlePhase() {
@@ -487,7 +490,7 @@ public class Player {
         int monsterLevel = ((MonsterCard) selectedCard).getCardLevel();
         if (monsterLevel <= 4) {
             summonMonsterLowLevel(place, placeOnField);
-
+            UtilityView.playSoundWithoutCycle("summon.wav");
             notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
@@ -499,6 +502,7 @@ public class Player {
             if (Utility.checkAndPrompt(isMonsterAddressInvalid(address),
                     "there are no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
+            UtilityView.playSoundWithoutCycle("summon.wav");
             notifyAllEffectsForConsideration(cardEvent);
             Printer.showBoard(this, this.opponent);
             return;
@@ -515,6 +519,7 @@ public class Player {
         if (Utility.checkAndPrompt(firstTribute == secondTribute,
                 "Tributes are the same!")) return;
         summonMonsterHighLevel(firstTribute, secondTribute, place);
+        UtilityView.playSoundWithoutCycle("summon.wav");
         notifyAllEffectsForConsideration(cardEvent);
 
         Printer.showBoard(this, this.opponent);
@@ -708,6 +713,7 @@ public class Player {
         hand.removeCard(selectedCard);
         notifyAllEffectsForConsideration(activateCardEvent);
         notifyAllEffectsForConsideration(spellTrapActivationEvent);
+        UtilityView.playSoundWithoutCycle("activateEffect.wav");
         UtilityView.displayMessage("spell activated");
 
         Printer.showBoard(this, this.opponent);

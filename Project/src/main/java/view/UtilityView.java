@@ -180,6 +180,16 @@ public class UtilityView {
         player.play();
     }
 
+    public static void playSoundWithoutCycle(String songName) {
+        System.out.println("Playing " + songName + "...");
+        Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
+                "/sounds/" + songName)).toString());
+        if (player != null) player.stop();
+        player = new MediaPlayer(media);
+        player.setCycleCount(1);
+        player.play();
+    }
+
     public static void stopPlayer() {
         player.stop();
     }
