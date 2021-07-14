@@ -1,11 +1,9 @@
 package debug;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import data.api.APIServer;
 
-@SpringBootApplication
 public class DebugConsole {
     public static void main(String[] args) {
-        SpringApplication.run(DebugConsole.class , args);
+        APIServer.main(args);
     }
 }

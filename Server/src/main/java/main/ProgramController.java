@@ -2,6 +2,7 @@ package main;
 
 import data.DataManager;
 import data.Printer;
+import data.api.APIServer;
 import menus.LoginMenu;
 import view.App;
 
@@ -22,6 +23,7 @@ public class ProgramController {
         DataManager.initializeAIDeck();
         DataManager.loadUsersData();
         DataManager.initializeAIDeck();
+        APIServer.main(args);
         App.main(args);
         DataManager.saveUsersData();
     }
