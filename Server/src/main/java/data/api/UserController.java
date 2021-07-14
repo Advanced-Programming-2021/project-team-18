@@ -1,17 +1,20 @@
 package data.api;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import game.User;
+import org.springframework.web.bind.annotation.*;
+import utility.Utility;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/user")
 public class UserController {
+
+    @RequestMapping(path = "api/user" , method = RequestMethod.GET)
     @GetMapping
-    public List<String> getUsers() {
-        return List.of("a" , "b");
+    public String getUser(@RequestParam(value = "username") String username) {
+        User user = User.getUserByUsername(username);
+        if(user == null) return "username not found";
+        return Utility.getJson(user);
     }
 
 }

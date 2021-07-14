@@ -1,5 +1,6 @@
 package utility;
 
+import com.google.gson.Gson;
 import data.Printer;
 import game.AIPlayer;
 import game.Player;
@@ -130,20 +131,9 @@ public class Utility {
         if (player instanceof AIPlayer || player == null)
             return options.get(getARandomNumber(options.size()));
         return UtilityView.obtainInformationInList(player.getUser().getUsername() + " : " + message , options.toArray(new String[0]));
-//        Printer.prompt(player.getUser().getNickname() + ": " + message);
-//        System.out.print("your options are (");
-//        for (String option : options)
-//            System.out.print(option + " ");
-//        System.out.println(")");
-//        while (true) {
-//            String response = getNextLine();
-//            boolean exists = false;
-//            for (String option : options)
-//                if (option.equals(response)) {
-//                    Printer.prompt("successful response");
-//                    return response;
-//                }
-//            Printer.prompt("option does not exist!");
-//        }
+    }
+    public static String getJson(Object object) {
+        Gson gson = new Gson();
+        return gson.toJson(object);
     }
 }
