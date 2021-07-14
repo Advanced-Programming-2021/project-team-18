@@ -1,0 +1,10 @@
+package menus;
+
+public enum ProfileResult {
+    BLANK_USERNAME,
+    USERNAME_TAKEN,
+    INVALID_PASSWORD,
+    PASSWORD_THE_SAME,
+    NICKNAME_TAKEN,
+    SUCCESSFUL_OPERATION,
+}

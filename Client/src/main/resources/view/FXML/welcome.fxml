@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<StackPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="view.menu.loginmenu.WelcomeView" styleClass="welcomePane"
+           prefWidth="800" prefHeight="600"
+>
+   <stylesheets>
+      <URL value="@../CSS/styles.css"/>
+   </stylesheets>
+   <BorderPane>
+      <center>
+         <VBox alignment="CENTER" spacing="100">
+            <Label text="Welcome to our game!">
+            </Label>
+            <VBox alignment="CENTER" spacing="15">
+               <Button onAction="#login" prefHeight="54.0" prefWidth="155.0"
+                       text="login">
+               </Button>
+               <Button onAction="#register" prefHeight="54.0" prefWidth="155.0"
+                       text="register">
+               </Button>
+               <Button onAction="#exit" prefHeight="54.0" prefWidth="155.0" text="exit">
+               </Button>
+
+            </VBox>
+         </VBox>
+      </center>
+   </BorderPane>
+</StackPane>

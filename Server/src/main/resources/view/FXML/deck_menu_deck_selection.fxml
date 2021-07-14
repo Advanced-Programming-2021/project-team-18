@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane styleClass="deckMenuDeckSelection" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menu.deckmenu.DeckMenuDeckSelectionView">
+    <center>
+        <StackPane alignment="CENTER">
+            <padding>
+                <Insets bottom="50.0" left="50.0" right="50.0" top="50.0"/>
+            </padding>
+            <ListView fx:id="listView" layoutX="166.0" layoutY="49.0" />
+        </StackPane>
+
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button onMouseClicked="#onRemoveButton" prefHeight="61.0" prefWidth="171.0" text="remove deck">
+                    <padding>
+                        <Insets top="5.0" />
+                    </padding>
+                </Button>
+                <Button onMouseClicked="#onEditButton" prefHeight="63.0" prefWidth="171.0" text="edit deck" />
+                <Button onMouseClicked="#onAddNewDeckButton" prefHeight="65.0" prefWidth="171.0" text="add new deck" />
+                <Button onMouseClicked="#onBackButton" prefHeight="60.0" prefWidth="171.0" text="back" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+            </padding>
+        </HBox>
+    </bottom>
+    <stylesheets>
+        <URL value="@../CSS/styles.css" />
+    </stylesheets>
+</BorderPane>

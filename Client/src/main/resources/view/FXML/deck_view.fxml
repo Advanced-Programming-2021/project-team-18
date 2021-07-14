@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<?import view.components.CardComponent?>
+<SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="view.menu.deckmenu.DeckMenuSpecificDeck" styleClass="deckMenuDeckSelection">
+    <items>
+        <SplitPane dividerPositions="0.6434151785714285" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+            <items>
+                <CardComponent  fx:id="mainDeckCardComponent"/>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="427.0">
+                    <children>
+                        <Button onMouseClicked="#onRemoveMainDeckButton" prefHeight="101.0" prefWidth="334.0"
+                                text="remove current card from main deck"/>
+                        <Button onMouseClicked="#addCardToMainDeck" prefHeight="63.0" prefWidth="215.0"
+                                text="add card to main deck"/>
+                        <Button onMouseClicked="#onBackButton" prefHeight="35" prefWidth="100" text="back"/>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+        <SplitPane dividerPositions="0.6434151785714285" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+            <items>
+                <CardComponent fx:id="sideDeckCardComponent"/>
+                <VBox alignment="CENTER" prefHeight="203.0" prefWidth="428.0">
+                    <children>
+                        <Button onMouseClicked="#onRemoveSideDeckButton" prefHeight="101.0" prefWidth="337.0"
+                                text="remove current card from side deck"/>
+                        <Button onMouseClicked="#addCardToSideDeck" prefHeight="57.0" prefWidth="212.0"
+                                text="add card to side deck"/>
+                        <Button onMouseClicked="#setAsActiveDeck" prefHeight="45.0" prefWidth="127.0"
+                                text="set as active"/>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </items>
+    <stylesheets>
+        <URL value="@../CSS/styles.css"/>
+    </stylesheets>
+</SplitPane>
+
+
+

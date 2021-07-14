@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<StackPane prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml" fx:controller="view.menu.mainmenu.MainMenuView"
+           styleClass="mainMenuPane">
+    <stylesheets>
+        <URL value="@../CSS/styles.css"/>
+    </stylesheets>
+    <AnchorPane>
+        <ImageView preserveRatio="true" fitWidth="56" fitHeight="56" fx:id="coinView"/>
+    </AnchorPane>
+    <VBox alignment="BOTTOM_CENTER" spacing="30" fx:id="vBox">
+        <Button onAction="#enterShopMenu" prefHeight="57.0" prefWidth="165.0"
+                text="shop menu"/>
+        <HBox alignment="CENTER" spacing="30">
+            <Button onAction="#enterImportExportMenu" prefHeight="57.0"
+                    prefWidth="165.0"
+                    text="import/export menu"/>
+            <Button onAction="#enterDeckMenu" prefHeight="57.0" prefWidth="165.0"
+                    text="deck menu"/>
+            <Button onAction="#enterDuelMenu" prefHeight="57.0" prefWidth="165.0"
+                    text="duel menu"/>
+        </HBox>
+        <HBox alignment="CENTER" spacing="30">
+            <Button onAction="#enterScoreboardMenu" prefHeight="57.0"
+                    prefWidth="165.0"
+                    text="scoreboard menu"/>
+            <Button onAction="#enterProfileMenu" prefHeight="57.0"
+                    prefWidth="165.0"
+                    text="profile menu"/>
+            <Button onAction="#enterCardCreatorMenu" prefHeight="57.0"
+                    prefWidth="165.0"
+                    text="card creator menu"/>
+        </HBox>
+        <Button onAction="#logout" prefHeight="57.0" prefWidth="165.0" text="logout"/>
+    </VBox>
+</StackPane>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<VBox alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="view.menu.duelmenu.PreDuelMenu" styleClass="preDuelPane">
+    <children>
+        <HBox alignment="CENTER" spacing="20">
+            <Label text="who do you want to duel with?"/>
+            <TextField fx:id="textField"/>
+        </HBox>
+        <Button onAction="#onDuel" text="Duel"/>
+        <Button onAction="#onDuelAI"  text="Duel AI"/>
+        <Button onAction="#backButton" text="Back"/>
+        <ImageView fx:id="coinView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true"/>
+    </children>
+    <stylesheets>
+        <URL value="@../CSS/styles.css"/>
+    </stylesheets>
+</VBox>
+
+

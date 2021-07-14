@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="view.menu.cardcreatormenu.CardCreatorView" styleClass="cardCreatorPane">
+    <stylesheets>
+        <URL value="@../CSS/styles.css"/>
+    </stylesheets>
+    <center>
+        <HBox spacing="50" alignment="CENTER">
+            <GridPane vgap="15" alignment="CENTER">
+                <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="name:"/>
+                <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="nameTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="attack:"/>
+                <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="attackTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="2" GridPane.columnIndex="0" text="defense:"/>
+                <TextField GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="defenseTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="3" GridPane.columnIndex="0" text="description:"/>
+                <TextField GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="descriptionTextField" styleClass="text-field-2"/>
+                <Label GridPane.rowIndex="4" GridPane.columnIndex="0" text="level:"/>
+                <ChoiceBox GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="levelChoiceBox"/>
+                <Label GridPane.rowIndex="5" GridPane.columnIndex="0" text="monster type:"/>
+                <ChoiceBox GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="monsterTypeChoiceBox"/>
+                <Label GridPane.rowIndex="6" GridPane.columnIndex="0" text="price:"/>
+                <Label GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="priceText" text="0"/>
+            </GridPane>
+            <ImageView fx:id="imageView">
+                <Image url="@../../cards_images/Card.jpg"/>
+            </ImageView>
+        </HBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="30">
+            <Button onAction="#onCreateClicked" text="create"/>
+            <Button onAction="#onBackClicked" text="back"/>
+        </HBox>
+    </bottom>
+</BorderPane>

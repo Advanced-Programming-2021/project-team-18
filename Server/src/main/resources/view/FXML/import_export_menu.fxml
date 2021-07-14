@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import view.components.CardComponent?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.menu.import_export_menu.ImportExportMenuView" styleClass="welcomePane">
+    <stylesheets>
+        <URL value="@../CSS/styles.css"/>
+    </stylesheets>
+    <center>
+        <CardComponent fx:id="cardComponent"/>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER" fx:id="buttonsBox">
+            <Button mnemonicParsing="false" onMouseClicked="#onImportButton" text="import"/>
+            <Button mnemonicParsing="false" onMouseClicked="#onExportButton" text="export"/>
+            <Button mnemonicParsing="false" onMouseClicked="#onBackButton" text="back"/>
+        </VBox>
+    </bottom>
+</BorderPane>
+
+
