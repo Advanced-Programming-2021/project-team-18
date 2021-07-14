@@ -4,6 +4,7 @@ import game.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import menus.MenuController;
 import view.View;
@@ -34,6 +35,9 @@ public class ScoreboardView extends View {
                 Label indexLabel = numericLabel(String.valueOf(i + 1));
                 Label usernameText = new Label(user1.getNickname());
                 Label scoreText = new Label(String.valueOf(user1.getScore()));
+                indexLabel.setTextFill(Color.BLUE);
+                usernameText.setTextFill(Color.BLUE);
+                scoreText.setTextFill(Color.BLUE);
                 gridPane.add(indexLabel, 0, i);
                 gridPane.add(usernameText, 1, i);
                 gridPane.add(scoreText, 2, i);

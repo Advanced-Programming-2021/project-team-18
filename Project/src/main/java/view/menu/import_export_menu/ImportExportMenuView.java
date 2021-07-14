@@ -1,6 +1,7 @@
 package view.menu.import_export_menu;
 
 import card.Card;
+import card.MonsterCard;
 import com.google.gson.Gson;
 import game.User;
 import javafx.fxml.FXML;
@@ -53,7 +54,7 @@ public class ImportExportMenuView extends View implements Initializable {
 
     public void onImportButton() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("json files" , ".json"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("json files" , "*.json"));
         File file = fileChooser.showOpenDialog(null);
         if(file == null) {
             UtilityView.showError("invalid directory");
@@ -72,8 +73,9 @@ public class ImportExportMenuView extends View implements Initializable {
         Gson gson = new Gson();
         File file = new File(path);
         String text = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-        Card card = gson.fromJson(text, Card.class);
+        Card card = gson.fromJson(text, MonsterCard.class);
         Card.getAllCards().add(card);
+        Card.getAllCardNames().add(card.getCardName());
         UtilityView.displayMessage("card imported successfully");
     }
 

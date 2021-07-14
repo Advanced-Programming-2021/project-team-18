@@ -1,9 +1,12 @@
 package card;
 
 import data.Printer;
+import effects.Effect;
 import game.Player;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -17,6 +20,12 @@ public class MonsterCard extends Card {
     private boolean hasAttackedThisTurn = false;
     private boolean hasChangedPositionThisTurn = false;
     private String cardType;
+    public MonsterCard() {
+
+    }
+    public MonsterCard(String cardName, int price, String cardNumber, String cardDescription, boolean isFaceUp, Player player, Origin cardOrigin, ArrayList<Effect> effects) {
+        super(cardName, price, cardNumber, cardDescription, isFaceUp, player, cardOrigin, effects);
+    }
 
     public boolean isRitual() {
         return cardType.equals("Ritual");

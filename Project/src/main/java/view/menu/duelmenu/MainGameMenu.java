@@ -34,7 +34,6 @@ import lombok.SneakyThrows;
 import view.UtilityView;
 import view.View;
 
-import javax.sound.sampled.Clip;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -88,13 +87,13 @@ public class MainGameMenu extends View implements Initializable {
     @SneakyThrows
     public void refresh() {
         // do all updates here
-        if(myPlayer.isLoser() || myPlayer.getOpponent().isLoser()) {
+        if (myPlayer.isLoser() || myPlayer.getOpponent().isLoser()) {
             myStage.close();
-            if(myPlayer.isLoser()) {
+            if (myPlayer.isLoser()) {
                 UtilityView.displayMessage(myUser.getNickname() + " Won :)");
                 loadView("main_menu");
                 stage.show();
-                return ;
+                return;
             }
         }
         fieldGridPane.getChildren().clear();
@@ -114,8 +113,8 @@ public class MainGameMenu extends View implements Initializable {
         refreshButtonsVBox();
     }
 
-private void refreshSettingButton() {
-        if(Game.getActivePlayer() != myPlayer) return ;
+    private void refreshSettingButton() {
+        if (Game.getActivePlayer() != myPlayer) return;
         Button settingButton = new Button("setting");
         settingButton.setPrefWidth(buttonsVBox.getWidth());
         settingButton.setOnMouseClicked(event -> {
@@ -133,7 +132,7 @@ private void refreshSettingButton() {
                 stage.close();
             });
             VBox layout = new VBox();
-            layout.getChildren().addAll(label , closeButton , forfeitButton);
+            layout.getChildren().addAll(label, closeButton, forfeitButton);
             layout.getStylesheets().add(getClass().getResource("/view/CSS/styles.css").toExternalForm());
             layout.setAlignment(Pos.CENTER);
             Scene scene = new Scene(layout);
@@ -158,12 +157,12 @@ private void refreshSettingButton() {
                 fieldGridPane.add(getUnknownImageView(myPlayer.getOpponent().getFieldZone(), 1, 6, true), 1, 6);
         }
         String cardName = "none";
-        if(myPlayer.getFieldZone() != null)
+        if (myPlayer.getFieldZone() != null)
             cardName = myPlayer.getFieldZone().getCardName();
-        else if(myPlayer.getOpponent().getFieldZone() != null)
+        else if (myPlayer.getOpponent().getFieldZone() != null)
             cardName = myPlayer.getOpponent().getFieldZone().getCardName();
-        if(!cardName.equals("none")) {
-            cardName = cardName.replaceAll("\\s" , "_");
+        if (!cardName.equals("none")) {
+            cardName = cardName.replaceAll("\\s", "_");
             fieldImageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(
                     "/background/fields/" + cardName + ".bmp")).toExternalForm()));
         }
@@ -211,7 +210,7 @@ private void refreshSettingButton() {
     }
 
     private Paint getPaint(int red, int green, int blue) {
-        return Paint.valueOf(String.format("#%02X%02X%02X", red, green, blue));
+        return Paint.valueOf(String.format("#%02X%02X%02X", Math.min(red, 255), Math.min(green, 255), blue));
     }
 
     private void refreshLifePointAndPhase() {
@@ -375,7 +374,7 @@ private void refreshSettingButton() {
         buttonsVBox.getChildren().add(attackDirect);
     }
 
-     private void manageSpellOrTrapSetButton() {
+    private void manageSpellOrTrapSetButton() {
         Button setSpellOrTrap = new Button("set spell or trap");
         setSpellOrTrap.setPrefWidth(buttonsVBox.getWidth());
         setSpellOrTrap.setOnMouseClicked(event -> {
@@ -396,7 +395,7 @@ private void refreshSettingButton() {
 
     }
 
-    private void refreshButtonsVBox(){
+    private void refreshButtonsVBox() {
         if (Game.getActivePlayer() != myPlayer)
             return;
         manageNextPhaseButton();

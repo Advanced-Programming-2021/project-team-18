@@ -66,6 +66,7 @@ public class MagnumShieldEffect extends Effect {
     }
 
     public void consider(Event event) {
+        isInConsideration = true;
         if (event instanceof SpellTrapActivationEvent) {
             SpellTrapActivationEvent partEvent = (SpellTrapActivationEvent) event;
             if (partEvent.getCard() == selfCard) {
@@ -81,5 +82,6 @@ public class MagnumShieldEffect extends Effect {
                 }
             }
         }
+        isInConsideration = false;
     }
 }

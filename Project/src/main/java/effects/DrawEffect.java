@@ -22,7 +22,7 @@ public class DrawEffect extends Effect {
     }
 
     public boolean permit(Event event) {
-        return false;
+        return true;
     }
 
     public void consider(Event event) {

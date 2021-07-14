@@ -144,8 +144,13 @@ public class DataManager {
 
     public static void listToMap(Deck deck) {
         deck.setCardCount(new HashMap<>());
-        for (Card card : deck.getCardsList())
-            deck.getCardCount().put(card.getCardName(), 1 + deck.getCardCount().getOrDefault(card.getCardName(), 0));
+        for (Card card : deck.getCardsList()) {
+            try {
+                deck.getCardCount().put(card.getCardName(), 1 + deck.getCardCount().getOrDefault(card.getCardName(), 0));
+            } catch (Exception e) {
+                System.out.println("couldn't save card ");
+            }
+        }
         deck.setCardsList(null);
     }
 

@@ -32,6 +32,21 @@ public abstract class Card implements Comparable<Card> {
     @Setter
     private ArrayList<Effect> effects = new ArrayList<>();
 
+    public Card(String cardName, int price, String cardNumber, String cardDescription, boolean isFaceUp, Player player, Origin cardOrigin, ArrayList<Effect> effects) {
+        this.cardName = cardName;
+        this.price = price;
+        this.cardNumber = cardNumber;
+        this.cardDescription = cardDescription;
+        this.isFaceUp = isFaceUp;
+        this.player = player;
+        this.cardOrigin = cardOrigin;
+        this.effects = effects;
+    }
+
+    public Card() {
+
+    }
+
     public void setCardName(String cardName) {
         this.cardName = cardName;
         if (!allCardNames.contains(cardName))

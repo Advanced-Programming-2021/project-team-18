@@ -35,7 +35,7 @@ public class TrapHoleEffect extends Effect {
                     activateEffect((MonsterCard) card);
                 }
             }
-            isInConsideration = false;
         }
+        isInConsideration = false;
     }
 }
