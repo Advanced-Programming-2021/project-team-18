@@ -30,15 +30,14 @@ public class MenuController {
         return ProfileResult.SUCCESSFUL_OPERATION;
     }
 
-    public boolean isLoginValid(String username, String password) {
-        HashMap<String , String> params = new HashMap<>();
-        params.put("username" , username);
-        params.put("password" , password);
-        HashMap<String , String> response = new Gson().fromJson(Utility.getRequest(params, Utility.getSERVER_LOCATION() + GET_USER_LOCATION) , new TypeToken<HashMap<String , String>>() {}.getType());
-        System.out.println(response.get("verdict"));
+    public String getLoginToken(String username, String password) { // returns null if username doesn't match with password
+        HashMap<String , String> headers = new HashMap<>();
+        headers.put("username" , username);
+        headers.put("password" , password);
+        HashMap<String , String> response = new Gson().fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + GET_USER_LOCATION , null , headers) , new TypeToken<HashMap<String , String>>() {}.getType());
         if(response.get("verdict").equals("incorrect password") || response.get("verdict").equals("username not found"))
-            return false;
-        return true;
+            return null;
+        return response.get("token");
     }
 
     public ProfileResult changePassword(String currentPassword, String newPassword) {

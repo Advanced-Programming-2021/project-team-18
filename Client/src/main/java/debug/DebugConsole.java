@@ -21,14 +21,14 @@ public class DebugConsole {
 
     @SneakyThrows
     public static void main(String[] args) {
-        String location = "http://localhost:8080";
-        HashMap hashMap = new HashMap();
-        hashMap.put("username" , "a");
-        hashMap.put("password" , "a");
-        String data = Utility.getRequest(hashMap , location + "/api/user");
-        Gson gson = new Gson();
+//        String location = "http://localhost:8080";
+//        HashMap hashMap = new HashMap();
+//        hashMap.put("username" , "a");
+//        hashMap.put("password" , "a");
+//        String data = Utility.getRequest(hashMap , location + "/api/user");
+//        Gson gson = new Gson();
 //        User user = gson.fromJson(data , User.class);
-        System.out.println(data);
+//        System.out.println(data);
     }
 
 }

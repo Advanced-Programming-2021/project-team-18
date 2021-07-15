@@ -136,12 +136,18 @@ public class Utility {
     }
 
     @SneakyThrows
-    public static String getRequest(HashMap<String,String> params , String location) {
+    public static String getRequest(String location , HashMap<String,String> params , HashMap<String , String> headers) {
         URIBuilder builder = new URIBuilder(location);
-        for(String param : params.keySet())
-            builder = builder.setParameter(param , params.get(param));
+        if(params != null) {
+            for (String param : params.keySet())
+                builder = builder.setParameter(param, params.get(param));
+        }
         System.out.println(builder.build());
         HttpGet getRequest = new HttpGet(builder.build());
+        if(headers != null) {
+            for (String header : headers.keySet())
+                getRequest.setHeader(header, headers.get(header));
+        }
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpResponse response = client.execute(getRequest);
         HttpEntity entity = response.getEntity();

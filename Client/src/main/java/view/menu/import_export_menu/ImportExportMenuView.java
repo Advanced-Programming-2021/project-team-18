@@ -26,11 +26,6 @@ public class ImportExportMenuView extends View implements Initializable {
     public CardComponent cardComponent;
     public VBox buttonsBox;
 
-
-    public static void setCurrentToken(String currentToken) {
-        MenuController.getInstance().setToken(currentToken);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for(Card card : Card.getAllCards())

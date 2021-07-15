@@ -11,7 +11,7 @@ public class LoginController {
 
     @RequestMapping(path = "api/loginmenu/login" , method = RequestMethod.GET)
     @GetMapping
-    public String getUser(@RequestParam(value = "username") String username , @RequestParam(value = "password") String password) {
+    public String getUserToken(@RequestHeader(value = "username") String username , @RequestHeader(value = "password") String password) {
         User user = User.getUserByUsername(username);
         HashMap<String ,String > response = new HashMap<>();
         if(user == null) {

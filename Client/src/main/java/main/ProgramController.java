@@ -20,9 +20,6 @@ public class ProgramController {
     public void runGraphic(String[] args) {
         DataManager.loadCardsIntoAllCards();
         DataManager.initializeAIDeck();
-        DataManager.loadUsersData();
-        DataManager.initializeAIDeck();
         App.main(args);
-        DataManager.saveUsersData();
     }
 }

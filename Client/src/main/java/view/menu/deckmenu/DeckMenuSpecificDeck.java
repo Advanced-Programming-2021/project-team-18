@@ -17,8 +17,7 @@ import java.util.ResourceBundle;
 public class DeckMenuSpecificDeck extends View implements Initializable {
     @Setter
     private static GameDeck currentDeck; // Note : has to be set when entered
-    @Setter
-    private static User currentUser; // Note : has to be set when entered
+
     public CardComponent sideDeckCardComponent;
     public CardComponent mainDeckCardComponent;
 

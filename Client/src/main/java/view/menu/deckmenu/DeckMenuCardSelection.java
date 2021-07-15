@@ -20,8 +20,6 @@ public class DeckMenuCardSelection extends View implements Initializable {
     @Setter
     private static Deck currentDeck;
     @Setter
-    private static String currentToken;
-    @Setter
     private static GameDeck currentGameDeck;
     @Getter
     private static Card lastPickedCard;

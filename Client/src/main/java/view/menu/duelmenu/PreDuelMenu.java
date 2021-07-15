@@ -21,8 +21,7 @@ import view.View;
 import view.animations.HeadAndTailTransition;
 
 public class PreDuelMenu extends View {
-    @Setter
-    private static String currentToken;
+
     public TextField textField;
     private static HeadAndTailTransition transition = null;
     public ImageView coinView;

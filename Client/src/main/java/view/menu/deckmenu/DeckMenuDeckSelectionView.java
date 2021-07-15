@@ -17,20 +17,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DeckMenuDeckSelectionView extends View implements Initializable {
-    @Setter
-    private static String currentToken;
-
-    public static void setCurrentToken(String currentToken) {
-        DeckMenuDeckSelectionView.currentToken = currentToken;
-        MenuController.getInstance().setToken(currentToken);
-    }
 
     @FXML
     private ListView<String> listView;
 
     static {
         System.out.println("Constructed!");
-        System.out.println("currentUser: " + currentToken);
+        System.out.println("currentUser: " + MenuController.getInstance().getToken());
     }
 
     @FXML

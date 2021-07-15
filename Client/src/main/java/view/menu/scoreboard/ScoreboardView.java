@@ -18,13 +18,6 @@ import java.util.List;
 
 public class ScoreboardView extends View {
     public GridPane gridPane;
-    @Setter
-    private static String currentToken;
-
-    public static void setUser(String currentToken) {
-        ScoreboardView.currentToken = currentToken;
-        MenuController.getInstance().setToken(currentToken);
-    }
 
     @FXML
     public void initialize() {

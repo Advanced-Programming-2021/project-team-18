@@ -24,7 +24,6 @@ import java.awt.*;
 
 
 public class MainMenuView extends View {
-    private static String currentToken;// note : has to be set when entered
     private static CoinTransition transition = null;
     public ImageView coinView;
     public VBox vBox;
@@ -63,27 +62,23 @@ public class MainMenuView extends View {
         stage.getScene().getRoot().setOnMouseMoved(this::updateCoin);
     }
 
-    public static void setCurrentToken(String currentToken) {
-        MainMenuView.currentToken = currentToken;
+    public static void setCurrentToken(String currentToken) { // has to be set before entering
         MenuController.getInstance().setToken(currentToken);
     }
 
     @SneakyThrows
     public void enterDuelMenu() {
-        PreDuelMenu.setCurrentToken(currentToken);
         UtilityView.stopPlayer();
         loadView("pre_duel_menu");
     }
 
     @SneakyThrows
     public void enterDeckMenu() {
-        DeckMenuDeckSelectionView.setCurrentToken(currentToken);
         loadView("deck_menu_deck_selection");
     }
 
     @SneakyThrows
     public void enterScoreboardMenu() {
-        ScoreboardView.setCurrentToken(currentToken);
         loadView("scoreboard");
     }
 
@@ -99,7 +94,6 @@ public class MainMenuView extends View {
 
     @SneakyThrows
     public void enterImportExportMenu() {
-        ImportExportMenuView.setCurrentToken(currentToken);
         loadView("import_export_menu");
     }
 
@@ -111,7 +105,6 @@ public class MainMenuView extends View {
 
     @SneakyThrows
     public void enterCardCreatorMenu() {
-        CardCreatorView.setCurrentToken(currentToken);
         loadView("card_creator_menu");
     }
 }

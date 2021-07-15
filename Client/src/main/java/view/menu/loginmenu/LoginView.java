@@ -16,13 +16,12 @@ public class LoginView extends View {
     public PasswordField passwordField;
 
     public void login() throws IOException {
-        boolean result = MenuController.getInstance().isLoginValid(usernameField.getText(), passwordField.getText());
-        if (!result) {
+        String result = MenuController.getInstance().getLoginToken(usernameField.getText(), passwordField.getText());
+        if (result == null) {
             UtilityView.showError("username and password didn't match!");
             loadView("login");
         } else {
-            // todo change below line to exchange token
-//            MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
+            MainMenuView.setCurrentToken(result);
             loadView("main_menu");
         }
     }

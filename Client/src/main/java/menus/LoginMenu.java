@@ -26,14 +26,15 @@ public class LoginMenu extends Menu {
     }
 
     public User login(HashMap<String, String> map) {
-        String username = map.get("username");
-        String password = map.get("password");
-        if (!MenuController.getInstance().isLoginValid(username, password)) {
-            Printer.prompt("Username and password didn't match!");
-            return null;
-        }
-        Printer.prompt("user logged in successfully!");
-        return User.getUserByUsername(username);
+//        String username = map.get("username");
+//        String password = map.get("password");
+//        if (!MenuController.getInstance().isLoginValid(username, password)) {
+//            Printer.prompt("Username and password didn't match!");
+//            return null;
+//        }
+//        Printer.prompt("user logged in successfully!");
+//        return User.getUserByUsername(username);
+        return null;
     }
 
     public void showMenu() {
