@@ -144,6 +144,7 @@ public class MainGameMenu extends View implements Initializable {
     }
 
     private void refreshFieldZone() {
+        // get myPlayer from server
         if (myPlayer.getFieldZone() != null) {
             if (myPlayer.getFieldZone().isFaceUp())
                 fieldGridPane.add(getCardImageView(myPlayer.getFieldZone(), 1, 6, true), 1, 6);

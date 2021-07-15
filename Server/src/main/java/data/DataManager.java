@@ -182,7 +182,6 @@ public class DataManager {
 
     @SneakyThrows
     public static void saveUsersData() {
-
         prepareUsersDataForSaving();
         File file = new File(Objects.requireNonNull(
                 DataManager.class.getResource(USERS_DATA_PATH)).toURI());

@@ -9,6 +9,10 @@ import lombok.Setter;
 public class TrapCard extends Card {
     private TrapType cardTrapType;
 
+    public TrapCard() {
+
+    }
+
     @Override
     public void showCard() {
         String result = "Name: " + this.getCardName() + "\n";

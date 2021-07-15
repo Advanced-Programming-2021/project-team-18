@@ -10,11 +10,9 @@ import view.UtilityView;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +21,8 @@ public class Utility {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
+    private static final SecureRandom secureRandom = new SecureRandom();
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
 
     // returns null if any command comes multiple times to indicate invalidity
     // if an attribute does not have any arguments, it'll be mapped to null.
@@ -135,5 +135,12 @@ public class Utility {
     public static String getJson(Object object) {
         Gson gson = new Gson();
         return gson.toJson(object);
+    }
+
+
+    public static String generateNewToken() {
+        byte[] randomBytes = new byte[24];
+        secureRandom.nextBytes(randomBytes);
+        return base64Encoder.encodeToString(randomBytes);
     }
 }

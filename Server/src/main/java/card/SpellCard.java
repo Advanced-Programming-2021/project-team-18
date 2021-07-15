@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 public class SpellCard extends Card {
     private SpellType cardSpellType;
+    public SpellCard() {
 
+    }
     @Override
     public void showCard() {
         String result = "Name: " + this.getCardName() + "\n";

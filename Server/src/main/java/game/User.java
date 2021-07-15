@@ -42,7 +42,10 @@ public class User implements Comparable<User>, Serializable {
     @Getter
     @Setter
     private int avatarID;
-    private final ArrayList<GameDeck> decks;
+    @Setter
+    @Getter
+    private String token;
+    private ArrayList<GameDeck> decks;
     private final HashMap<String, Integer> cardCount;
 
     public static List<User> getAllUsers() {

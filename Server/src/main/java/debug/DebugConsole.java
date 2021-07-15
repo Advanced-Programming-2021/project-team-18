@@ -8,7 +8,6 @@ public class DebugConsole {
         DataManager.loadCardsIntoAllCards();
         DataManager.initializeAIDeck();
         DataManager.loadUsersData();
-
         APIServer.main(args);
     }
 }

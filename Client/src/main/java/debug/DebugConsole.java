@@ -1,6 +1,8 @@
 package debug;
 
 
+import com.google.gson.Gson;
+import game.User;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,6 +13,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParamsNames;
 import org.apache.http.util.EntityUtils;
+import utility.Utility;
 
 import java.util.HashMap;
 
@@ -21,19 +24,11 @@ public class DebugConsole {
         String location = "http://localhost:8080";
         HashMap hashMap = new HashMap();
         hashMap.put("username" , "a");
-        System.out.println(getRequest(hashMap , location + "/api/user"));
+        hashMap.put("password" , "a");
+        String data = Utility.getRequest(hashMap , location + "/api/user");
+        Gson gson = new Gson();
+//        User user = gson.fromJson(data , User.class);
+        System.out.println(data);
+    }
 
-    }
-    @SneakyThrows
-    public static String getRequest(HashMap<String,String> params , String location) {
-        URIBuilder builder = new URIBuilder(location);
-        for(String param : params.keySet())
-            builder = builder.setParameter(param , params.get(param));
-        HttpGet getRequest = new HttpGet(builder.build());
-        CloseableHttpClient client = HttpClientBuilder.create().build();
-        HttpResponse response = client.execute(getRequest);
-        HttpEntity entity = response.getEntity();
-        String responseString = EntityUtils.toString(entity, "UTF-8");
-        return responseString;
-    }
 }

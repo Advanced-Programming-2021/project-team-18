@@ -1,8 +1,14 @@
 package menus;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import game.User;
+import utility.Utility;
+
+import java.util.HashMap;
 
 public class MenuController {
+    private static final String GET_USER_LOCATION = "/api/loginmenu/login";
     private static MenuController instance = new MenuController();
 
     private User user;
@@ -30,9 +36,14 @@ public class MenuController {
     }
 
     public boolean isLoginValid(String username, String password) {
-        User user = User.getUserByUsername(username);
-        if (user == null) return false;
-        return user.isPasswordCorrect(password);
+        HashMap<String , String> params = new HashMap<>();
+        params.put("username" , username);
+        params.put("password" , password);
+        HashMap<String , String> response = new Gson().fromJson(Utility.getRequest(params, Utility.getSERVER_LOCATION() + GET_USER_LOCATION) , new TypeToken<HashMap<String , String>>() {}.getType());
+        System.out.println(response.get("verdict"));
+        if(response.get("verdict").equals("incorrect password") || response.get("verdict").equals("username not found"))
+            return false;
+        return true;
     }
 
     public ProfileResult changePassword(String currentPassword, String newPassword) {

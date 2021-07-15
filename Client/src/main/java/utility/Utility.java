@@ -3,7 +3,15 @@ package utility;
 import data.Printer;
 import game.AIPlayer;
 import game.Player;
+import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import view.UtilityView;
 
 import java.io.BufferedReader;
@@ -19,7 +27,8 @@ import java.util.regex.Pattern;
 
 
 public class Utility {
-
+    @Getter
+    private static final String SERVER_LOCATION = "http://localhost:8080";
     private static final Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
 
@@ -126,24 +135,23 @@ public class Utility {
         return condition;
     }
 
+    @SneakyThrows
+    public static String getRequest(HashMap<String,String> params , String location) {
+        URIBuilder builder = new URIBuilder(location);
+        for(String param : params.keySet())
+            builder = builder.setParameter(param , params.get(param));
+        System.out.println(builder.build());
+        HttpGet getRequest = new HttpGet(builder.build());
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        HttpResponse response = client.execute(getRequest);
+        HttpEntity entity = response.getEntity();
+        String responseString = EntityUtils.toString(entity, "UTF-8");
+        return responseString;
+    }
+
     public static String askPlayer(Player player, String message, ArrayList<String> options) {
         if (player instanceof AIPlayer || player == null)
             return options.get(getARandomNumber(options.size()));
         return UtilityView.obtainInformationInList(player.getUser().getUsername() + " : " + message , options.toArray(new String[0]));
-//        Printer.prompt(player.getUser().getNickname() + ": " + message);
-//        System.out.print("your options are (");
-//        for (String option : options)
-//            System.out.print(option + " ");
-//        System.out.println(")");
-//        while (true) {
-//            String response = getNextLine();
-//            boolean exists = false;
-//            for (String option : options)
-//                if (option.equals(response)) {
-//                    Printer.prompt("successful response");
-//                    return response;
-//                }
-//            Printer.prompt("option does not exist!");
-//        }
     }
 }
