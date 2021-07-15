@@ -17,11 +17,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DeckMenuDeckSelectionView extends View implements Initializable {
-    private static User currentUser;
+    @Setter
+    private static String currentToken;
 
-    public static void setCurrentUser(User currentUser) {
-        DeckMenuDeckSelectionView.currentUser = currentUser;
-        MenuController.getInstance().setUser(currentUser);
+    public static void setCurrentToken(String currentToken) {
+        DeckMenuDeckSelectionView.currentToken = currentToken;
+        MenuController.getInstance().setToken(currentToken);
     }
 
     @FXML
@@ -29,52 +30,54 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
 
     static {
         System.out.println("Constructed!");
-        System.out.println("currentUser: " + currentUser);
+        System.out.println("currentUser: " + currentToken);
     }
 
     @FXML
     private void onRemoveButton() {
-        ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
-        if (list.size() != 1) {
-            UtilityView.showError("no deck was selected");
-            return;
-        }
-        String deckName = list.get(0);
-        GameDeck gameDeck = currentUser.getGameDeckByName(deckName);
-        currentUser.removeGameDeck(gameDeck);
-        updateListView();
+        // todo server
+//        ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
+//        if (list.size() != 1) {
+//            UtilityView.showError("no deck was selected");
+//            return;
+//        }
+//        String deckName = list.get(0);
+//        GameDeck gameDeck = currentUser.getGameDeckByName(deckName);
+//        currentUser.removeGameDeck(gameDeck);
+//        updateListView();
     }
 
     @SneakyThrows
     @FXML
     private void onBackButton() {
-        MainMenuView.setCurrentUser(currentUser);
         loadView("main_menu");
     }
 
     @SneakyThrows
     @FXML
     private void onEditButton() {
-        ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
-        if (list.size() != 1) {
-            UtilityView.showError("no deck was selected");
-            return;
-        }
-        DeckMenuSpecificDeck.setCurrentDeck(currentUser.getGameDeckByName(list.get(0)));
-        DeckMenuSpecificDeck.setCurrentUser(currentUser);
-        loadView("deck_view");
+        // todo server
+//        ObservableList<String> list = listView.getSelectionModel().getSelectedItems();
+//        if (list.size() != 1) {
+//            UtilityView.showError("no deck was selected");
+//            return;
+//        }
+//        DeckMenuSpecificDeck.setCurrentDeck(currentUser.getGameDeckByName(list.get(0)));
+//        DeckMenuSpecificDeck.setCurrentUser(currentUser);
+//        loadView("deck_view");
     }
 
     @FXML
     private void onAddNewDeckButton() {
-        String name = UtilityView.obtainInformation("enter a name for your deck");
-        while (currentUser.getGameDeckByName(name) != null) {
-            UtilityView.showError("deck with this name already exists");
-            return;
-        }
-        currentUser.addGameDeck(new GameDeck(name));
-        System.out.println(currentUser.getGameDeckByName(name) == null);
-        updateListView();
+        // todo server
+//        String name = UtilityView.obtainInformation("enter a name for your deck");
+//        while (currentUser.getGameDeckByName(name) != null) {
+//            UtilityView.showError("deck with this name already exists");
+//            return;
+//        }
+//        currentUser.addGameDeck(new GameDeck(name));
+//        System.out.println(currentUser.getGameDeckByName(name) == null);
+//        updateListView();
     }
 
     @Override
@@ -83,8 +86,9 @@ public class DeckMenuDeckSelectionView extends View implements Initializable {
     }
 
     private void updateListView() {
-        listView.getItems().clear();
-        for (GameDeck gameDeck : currentUser.getDecks())
-            listView.getItems().add(gameDeck.getName());
+        // todo server
+//        listView.getItems().clear();
+//        for (GameDeck gameDeck : currentUser.getDecks())
+//            listView.getItems().add(gameDeck.getName());
     }
 }

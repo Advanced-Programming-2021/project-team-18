@@ -43,15 +43,16 @@ public class ProfileMenuView extends View {
 
     @FXML
     public void initialize() {
-        MenuController controller = MenuController.getInstance();
-        try {
-            username.setText(controller.getUser().getUsername());
-            nickname.setText(controller.getUser().getNickname());
-            avatarImage.setImage(controller.getUser().getAvatar());
-            avatarImage.fitWidthProperty().bind(stage.heightProperty().multiply(.4));
-            avatarImage.setPreserveRatio(true);
-        } catch (Exception ignored) {
-        }
+        // todo server
+//        MenuController controller = MenuController.getInstance();
+//        try {
+//            username.setText(controller.getUser().getUsername());
+//            nickname.setText(controller.getUser().getNickname());
+//            avatarImage.setImage(controller.getUser().getAvatar());
+//            avatarImage.fitWidthProperty().bind(stage.heightProperty().multiply(.4));
+//            avatarImage.setPreserveRatio(true);
+//        } catch (Exception ignored) {
+//        }
     }
 
     public void changePassword() {
@@ -92,7 +93,8 @@ public class ProfileMenuView extends View {
     }
 
     public void changeNickname() throws IOException {
-        MenuController.getInstance().getUser().setNickname(nicknameInput.getText());
+        // todo server
+//        MenuController.getInstance().getUser().setNickname(nicknameInput.getText());
         backToProfileMenu();
     }
 
@@ -102,28 +104,29 @@ public class ProfileMenuView extends View {
     }
 
     public void chooseAFile() {
-        Stage tempStage = new Stage();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Your Avatar...");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"),
-                new FileChooser.ExtensionFilter("All Files", "*.*")
-        );
-        File file = fileChooser.showOpenDialog(tempStage);
-        if (file != null) {
-            User user = MenuController.getInstance().getUser();
-            try {
-                user.updateAvatar(file);
-                user.setAvatarID(-1);
-                avatarImage.setImage(user.getAvatar());
-            } catch (Exception e) {
-                System.out.println("Problem occurred in process ...");
-                e.printStackTrace();
-            }
-        }
-        else {
-            System.out.println("FILE IS NULL!");
-        }
-        tempStage.close();
+        // todo server
+//        Stage tempStage = new Stage();
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Select Your Avatar...");
+//        fileChooser.getExtensionFilters().addAll(
+//                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"),
+//                new FileChooser.ExtensionFilter("All Files", "*.*")
+//        );
+//        File file = fileChooser.showOpenDialog(tempStage);
+//        if (file != null) {
+//            User user = MenuController.getInstance().getUser();
+//            try {
+//                user.updateAvatar(file);
+//                user.setAvatarID(-1);
+//                avatarImage.setImage(user.getAvatar());
+//            } catch (Exception e) {
+//                System.out.println("Problem occurred in process ...");
+//                e.printStackTrace();
+//            }
+//        }
+//        else {
+//            System.out.println("FILE IS NULL!");
+//        }
+//        tempStage.close();
     }
 }

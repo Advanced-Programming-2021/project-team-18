@@ -27,8 +27,8 @@ public class ImportExportMenuView extends View implements Initializable {
     public VBox buttonsBox;
 
 
-    public static void setCurrentUser(User currentUser) {
-        MenuController.getInstance().setUser(currentUser);
+    public static void setCurrentToken(String currentToken) {
+        MenuController.getInstance().setToken(currentToken);
     }
 
     @Override

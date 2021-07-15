@@ -21,7 +21,8 @@ public class LoginView extends View {
             UtilityView.showError("username and password didn't match!");
             loadView("login");
         } else {
-            MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
+            // todo change below line to exchange token
+//            MainMenuView.setCurrentUser(User.getUserByUsername(usernameField.getText()));
             loadView("main_menu");
         }
     }

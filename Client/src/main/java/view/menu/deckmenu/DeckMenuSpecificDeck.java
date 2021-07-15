@@ -24,50 +24,55 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
 
     @SneakyThrows
     public void addCardToMainDeck(MouseEvent actionEvent) {
-        DeckMenuCardSelection.setCurrentDeck(currentDeck.getMainDeck());
-        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
-        DeckMenuCardSelection.setCurrentUser(currentUser);
+        // todo server
+//        DeckMenuCardSelection.setCurrentDeck(currentDeck.getMainDeck());
+//        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
+
         loadView("deck_menu_select_card");
     }
 
     @SneakyThrows
     public void addCardToSideDeck(MouseEvent actionEvent) {
-        DeckMenuCardSelection.setCurrentDeck(currentDeck.getSideDeck());
-        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
-        DeckMenuCardSelection.setCurrentUser(currentUser);
+        // todo server
+//        DeckMenuCardSelection.setCurrentDeck(currentDeck.getSideDeck());
+//        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
+
         loadView("deck_menu_select_card");
     }
 
     public void onRemoveMainDeckButton(MouseEvent actionEvent) {
-        if (mainDeckCardComponent.getSelectedCardName() == null)
-            return;
-        currentDeck.getMainDeck().removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
-        mainDeckCardComponent.removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
+        // todo server
+//        if (mainDeckCardComponent.getSelectedCardName() == null)
+//            return;
+//        currentDeck.getMainDeck().removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
+//        mainDeckCardComponent.removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
     }
 
     public void onRemoveSideDeckButton(MouseEvent actionEvent) {
-        if (sideDeckCardComponent.getSelectedCardName() == null)
-            return;
-        currentDeck.getSideDeck().removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
-        sideDeckCardComponent.removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
+        // todo server
+//        if (sideDeckCardComponent.getSelectedCardName() == null)
+//            return;
+//        currentDeck.getSideDeck().removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
+//        sideDeckCardComponent.removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
     }
 
     @SneakyThrows
     public void onBackButton(MouseEvent actionEvent) {
-        DeckMenuDeckSelectionView.setCurrentUser(currentUser);
         loadView("deck_menu_deck_selection");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for (Card card : currentDeck.getMainDeck().getCardsList())
-            mainDeckCardComponent.addCard(card);
-        for (Card card : currentDeck.getSideDeck().getCardsList())
-            sideDeckCardComponent.addCard(card);
+        // todo server
+//        for (Card card : currentDeck.getMainDeck().getCardsList())
+//            mainDeckCardComponent.addCard(card);
+//        for (Card card : currentDeck.getSideDeck().getCardsList())
+//            sideDeckCardComponent.addCard(card);
     }
 
     public void setAsActiveDeck(MouseEvent actionEvent) {
-        currentUser.setActiveDeckName(currentDeck.getName());
+        // todo server
+//        currentUser.setActiveDeckName(currentDeck.getName());
         UtilityView.displayMessage("this deck was set as your active deck");
     }
 }

@@ -3,17 +3,12 @@ package view.menu.cardcreatormenu;
 import card.Card;
 import card.MonsterCard;
 import card.MonsterCardType;
-import game.User;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import menus.MenuController;
 import view.UtilityView;
@@ -25,7 +20,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class CardCreatorView extends View implements Initializable {
-    private static User currentUser;
+    private static String currentToken;
 
     public TextField attackTextField;
     public TextField descriptionTextField;
@@ -36,9 +31,9 @@ public class CardCreatorView extends View implements Initializable {
     public TextField defenseTextField;
     public TextField nameTextField;
 
-    public static void setCurrentUser(User currentUser) {
-        CardCreatorView.currentUser = currentUser;
-        MenuController.getInstance().setUser(currentUser);
+    public static void setCurrentToken(String currentToken) {
+        CardCreatorView.currentToken = currentToken;
+        MenuController.getInstance().setToken(currentToken);
     }
 
     @SneakyThrows
@@ -47,23 +42,23 @@ public class CardCreatorView extends View implements Initializable {
             int attackValue = Integer.parseInt(attackTextField.getText());
             int defenseValue = Integer.parseInt(defenseTextField.getText());
             int price = getPrice();
-            if(descriptionTextField.getText().length() < 1)
+            if (descriptionTextField.getText().length() < 1)
                 throw new Exception("invalid options");
-            if(nameTextField.getText().length() < 1)
+            if (nameTextField.getText().length() < 1)
                 throw new Exception("invalid options");
-            MonsterCard monsterCard = new MonsterCard();
-            monsterCard.setCardName(nameTextField.getText());
-            monsterCard.setCardAttack(attackValue);
-            monsterCard.setCardDefense(defenseValue);
-            monsterCard.setCardLevel((Integer) levelChoiceBox.getValue());
-            monsterCard.setMonsterType((MonsterCardType) monsterTypeChoiceBox.getValue());
-            monsterCard.setPrice(price);
-            currentUser.setBalance(currentUser.getBalance() - price / 10);
-            Card.getAllCards().add(monsterCard);
-//            Card.getAllCardNames().add(monsterCard.getCardName());
+            // todo server
+//            MonsterCard monsterCard = new MonsterCard();
+//            monsterCard.setCardName(nameTextField.getText());
+//            monsterCard.setCardAttack(attackValue);
+//            monsterCard.setCardDefense(defenseValue);
+//            monsterCard.setCardLevel((Integer) levelChoiceBox.getValue());
+//            monsterCard.setMonsterType((MonsterCardType) monsterTypeChoiceBox.getValue());
+//            monsterCard.setPrice(price);
+//            currentUser.setBalance(currentUser.getBalance() - price / 10);
+//            Card.getAllCards().add(monsterCard);
         } catch (Exception e) {
             UtilityView.showError("invalid options");
-            return ;
+            return;
         }
         UtilityView.displayMessage("card successfully constructed and it cost you 10%");
         loadView("main_menu");
@@ -73,6 +68,7 @@ public class CardCreatorView extends View implements Initializable {
     public void onBackClicked() {
         loadView("main_menu");
     }
+
     private int getPrice() {
         int price;
         try {
@@ -82,6 +78,7 @@ public class CardCreatorView extends View implements Initializable {
         }
         return price;
     }
+
     private void refreshPrice() {
         priceText.setText(getPrice() + "");
     }
@@ -115,7 +112,7 @@ public class CardCreatorView extends View implements Initializable {
         final double imageWidth = imageView.getImage().getWidth();
         final double imageHeight = imageView.getImage().getHeight();
         imageView.fitWidthProperty().bind(Bindings.min(stage.getScene().widthProperty().multiply(.2),
-                stage.getScene().heightProperty().multiply(imageWidth/imageHeight * .4)));
+                stage.getScene().heightProperty().multiply(imageWidth / imageHeight * .4)));
     }
 
     private void bindTextField(TextField textField) {

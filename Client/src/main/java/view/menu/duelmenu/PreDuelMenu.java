@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import jdk.jshell.execution.Util;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import menus.MenuController;
 import utility.Utility;
@@ -20,62 +21,60 @@ import view.View;
 import view.animations.HeadAndTailTransition;
 
 public class PreDuelMenu extends View {
-    private static User currentUser;
+    @Setter
+    private static String currentToken;
     public TextField textField;
     private static HeadAndTailTransition transition = null;
     public ImageView coinView;
 
     public void onDuelAI() {
-        if (currentUser.getActiveDeckName() == null) {
-            UtilityView.showError("please pick an active deck first!");
-            return;
-        }
-        startNewGame();
-    }
-
-    public static void setCurrentUser(User currentUser) {
-        MenuController.getInstance().setUser(currentUser);
-        PreDuelMenu.currentUser = currentUser;
+        // todo server
+//        if (currentUser.getActiveDeckName() == null) {
+//            UtilityView.showError("please pick an active deck first!");
+//            return;
+//        }
+//        startNewGame();
     }
 
     public void onDuel() {
-        User user = User.getUserByUsername(textField.getText());
-        if (user == null) {
-            UtilityView.showError("no user exists with this username");
-            return;
-        }
-        if (user.equals(currentUser)) {
-            UtilityView.showError("you cannot start a game with yourself :)");
-            return;
-        }
-        if (currentUser.getActiveDeckName() == null) {
-            UtilityView.showError("please pick an active deck first!");
-            return;
-        }
-        if (user.getActiveDeckName() == null) {
-            UtilityView.showError("selected user doesn't have an active deck");
-            return;
-        }
-        boolean randomBoolean = Utility.getARandomNumber(2) == 0;
-        coinView.setLayoutX(300);
-        coinView.setLayoutY(300);
-        transition = new HeadAndTailTransition(coinView, Duration.millis(200), 3, randomBoolean);
-        transition.setCycleCount(-1);
-        transition.setInterpolator(Interpolator.LINEAR);
-        transition.play();
-        new Thread(() -> {
-            do {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } while (!transition.isHasStopped());
-            if (randomBoolean)
-                startNewGame(currentUser, user);
-            else
-                startNewGame(user, currentUser);
-        }).start();
+        // todo server
+//        User user = User.getUserByUsername(textField.getText());
+//        if (user == null) {
+//            UtilityView.showError("no user exists with this username");
+//            return;
+//        }
+//        if (user.equals(currentUser)) {
+//            UtilityView.showError("you cannot start a game with yourself :)");
+//            return;
+//        }
+//        if (currentUser.getActiveDeckName() == null) {
+//            UtilityView.showError("please pick an active deck first!");
+//            return;
+//        }
+//        if (user.getActiveDeckName() == null) {
+//            UtilityView.showError("selected user doesn't have an active deck");
+//            return;
+//        }
+//        boolean randomBoolean = Utility.getARandomNumber(2) == 0;
+//        coinView.setLayoutX(300);
+//        coinView.setLayoutY(300);
+//        transition = new HeadAndTailTransition(coinView, Duration.millis(200), 3, randomBoolean);
+//        transition.setCycleCount(-1);
+//        transition.setInterpolator(Interpolator.LINEAR);
+//        transition.play();
+//        new Thread(() -> {
+//            do {
+//                try {
+//                    Thread.sleep(500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            } while (!transition.isHasStopped());
+//            if (randomBoolean)
+//                startNewGame(currentUser, user);
+//            else
+//                startNewGame(user, currentUser);
+//        }).start();
     }
 
     @SneakyThrows
@@ -96,39 +95,41 @@ public class PreDuelMenu extends View {
 
     @SneakyThrows
     private void startNewGame(User firstUser, User secondUser) {
-        Game game = new Game(firstUser, secondUser, 1);
-        Platform.runLater(() -> {
-            MainGameMenu firstController = loadGameScreen();
-            MainGameMenu secondController = loadGameScreen();
-            firstController.setGame(game);
-            secondController.setGame(game);
-            firstController.setMyUser(firstUser);
-            secondController.setMyUser(secondUser);
-            game.runGame();
-            firstController.setMyPlayer(game.getFirstPlayer());
-            secondController.setMyPlayer(game.getSecondPlayer());
-            Game.setFirstPlayerGraphicsController(firstController);
-            Game.setSecondPlayerGraphicsController(secondController);
-            stage.hide();
-            firstController.refresh();
-            secondController.refresh();
-        });
+        // todo server
+//        Game game = new Game(firstUser, secondUser, 1);
+//        Platform.runLater(() -> {
+//            MainGameMenu firstController = loadGameScreen();
+//            MainGameMenu secondController = loadGameScreen();
+//            firstController.setGame(game);
+//            secondController.setGame(game);
+//            firstController.setMyUser(firstUser);
+//            secondController.setMyUser(secondUser);
+//            game.runGame();
+//            firstController.setMyPlayer(game.getFirstPlayer());
+//            secondController.setMyPlayer(game.getSecondPlayer());
+//            Game.setFirstPlayerGraphicsController(firstController);
+//            Game.setSecondPlayerGraphicsController(secondController);
+//            stage.hide();
+//            firstController.refresh();
+//            secondController.refresh();
+//        });
     }
 
     // Starts a new game with AI
     private void startNewGame() {
-        Game game = new Game(currentUser, null, 1);
-        Platform.runLater(()-> {
-            MainGameMenu controller = loadGameScreen();
-            controller.setGame(game);
-            controller.setMyUser(currentUser);
-            game.runGame();
-            controller.setMyPlayer(game.getFirstPlayer());
-            Game.setFirstPlayerGraphicsController(controller);
-            Game.setSecondPlayerGraphicsController(null);
-            stage.hide();
-            controller.refresh();
-        });
+        // todo server
+//        Game game = new Game(currentUser, null, 1);
+//        Platform.runLater(()-> {
+//            MainGameMenu controller = loadGameScreen();
+//            controller.setGame(game);
+//            controller.setMyUser(currentUser);
+//            game.runGame();
+//            controller.setMyPlayer(game.getFirstPlayer());
+//            Game.setFirstPlayerGraphicsController(controller);
+//            Game.setSecondPlayerGraphicsController(null);
+//            stage.hide();
+//            controller.refresh();
+//        });
     }
 
     @SneakyThrows

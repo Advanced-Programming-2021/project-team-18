@@ -23,7 +23,8 @@ public class MainMenu extends Menu {
         } else if (menuName.equals("scoreboard menu") || menuName.equals("scoreboard")) {
             new ScoreboardMenu(user).runMenu();
         } else if (menuName.equals("profile menu") || menuName.equals("profile")) {
-            new ProfileMenu(user).runMenu();
+            // todo server
+//            new ProfileMenu(user).runMenu();
         } else if (menuName.equals("shop menu") || menuName.equals("shop")) {
             new ShopMenu(user).runMenu();
         } else if (menuName.equals("import/export menu") || menuName.equals("import/export")) {

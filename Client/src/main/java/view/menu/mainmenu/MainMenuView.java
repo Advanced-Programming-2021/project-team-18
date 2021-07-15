@@ -24,7 +24,7 @@ import java.awt.*;
 
 
 public class MainMenuView extends View {
-    private static User currentUser; // note : has to be set when entered
+    private static String currentToken;// note : has to be set when entered
     private static CoinTransition transition = null;
     public ImageView coinView;
     public VBox vBox;
@@ -63,27 +63,27 @@ public class MainMenuView extends View {
         stage.getScene().getRoot().setOnMouseMoved(this::updateCoin);
     }
 
-    public static void setCurrentUser(User currentUser) {
-        MainMenuView.currentUser = currentUser;
-        MenuController.getInstance().setUser(currentUser);
+    public static void setCurrentToken(String currentToken) {
+        MainMenuView.currentToken = currentToken;
+        MenuController.getInstance().setToken(currentToken);
     }
 
     @SneakyThrows
     public void enterDuelMenu() {
-        PreDuelMenu.setCurrentUser(currentUser);
+        PreDuelMenu.setCurrentToken(currentToken);
         UtilityView.stopPlayer();
         loadView("pre_duel_menu");
     }
 
     @SneakyThrows
     public void enterDeckMenu() {
-        DeckMenuDeckSelectionView.setCurrentUser(currentUser);
+        DeckMenuDeckSelectionView.setCurrentToken(currentToken);
         loadView("deck_menu_deck_selection");
     }
 
     @SneakyThrows
     public void enterScoreboardMenu() {
-        ScoreboardView.setUser(currentUser);
+        ScoreboardView.setCurrentToken(currentToken);
         loadView("scoreboard");
     }
 
@@ -99,19 +99,19 @@ public class MainMenuView extends View {
 
     @SneakyThrows
     public void enterImportExportMenu() {
-        ImportExportMenuView.setCurrentUser(currentUser);
+        ImportExportMenuView.setCurrentToken(currentToken);
         loadView("import_export_menu");
     }
 
     @SneakyThrows
     public void logout() {
-        setCurrentUser(null);
+        setCurrentToken(null);
         loadView("welcome");
     }
 
     @SneakyThrows
     public void enterCardCreatorMenu() {
-        CardCreatorView.setCurrentUser(currentUser);
+        CardCreatorView.setCurrentToken(currentToken);
         loadView("card_creator_menu");
     }
 }

@@ -18,9 +18,9 @@ public class ProfileMenu extends Menu {
         mayInputs.put("changeNickname", null);
     }
 
-    public ProfileMenu(User user) {
+    public ProfileMenu(String token) {
         this.user = user;
-        MenuController.getInstance().setUser(user);
+        MenuController.getInstance().setToken(token);
     }
 
 

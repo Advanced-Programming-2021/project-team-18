@@ -12,10 +12,10 @@ public class DebugGraphic {
         DataManager.loadCardsIntoAllCards();
         DataManager.initializeAIDeck();
         DataManager.loadUsersData();
-
-        User a = getSampleUser("asdffdsa");
-        MainMenuView.setCurrentUser(a);
-        DebugStarter.main(args);
+//
+//        User a = getSampleUser("asdffdsa");
+//        MainMenuView.setCurrentUser(a);
+//        DebugStarter.main(args);
     }
 
     private static User getSampleUser(String name) {
