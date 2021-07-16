@@ -18,7 +18,7 @@ public class App extends Application {
         loader = new FXMLLoader(getClass().getResource("/view/FXML/welcome.fxml"));
         Parent root = loader.load();
         View.setStage(stage);
-        UtilityView.playSound("menu_song.wav");
+//        UtilityView.playSound("menu_song.wav");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);

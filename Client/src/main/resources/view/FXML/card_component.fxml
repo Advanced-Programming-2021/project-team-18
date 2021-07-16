@@ -8,7 +8,7 @@
 <fx:root type="javafx.scene.control.SplitPane" dividerPositions="0.5"
          xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx">
     <items>
-        <ImageView fx:id="imageView">
+        <ImageView fx:id="imageView" fitWidth="200" fitHeight="300">
             <Image url="/cards_images/Unknown.jpg"/>
         </ImageView>
         <ScrollPane fx:id="scrollPane">

@@ -6,7 +6,7 @@
 <SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="view.menu.deckmenu.DeckMenuSpecificDeck" styleClass="deckMenuDeckSelection">
     <items>
-        <SplitPane dividerPositions="0.6434151785714285" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+        <SplitPane dividerPositions="0.6434151785714285" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" >
             <items>
                 <CardComponent  fx:id="mainDeckCardComponent"/>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="427.0">

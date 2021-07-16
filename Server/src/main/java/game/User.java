@@ -74,7 +74,12 @@ public class User implements Comparable<User>, Serializable {
             }
         }
     }
-
+    public static User getUserByToken(String token) {
+        for(User user : allUsers)
+            if(user.getToken().equals(token))
+                return user;
+        return null;
+    }
     public static User getDummyUser() {
         return dummyUser;
     }

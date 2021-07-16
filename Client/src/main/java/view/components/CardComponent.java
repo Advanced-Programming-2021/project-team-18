@@ -44,6 +44,7 @@ public class CardComponent extends SplitPane implements Initializable {
             ImageView cardImageView = new ImageView(card.getImage());
             cardImageView.fitWidthProperty().bind(scrollPane.widthProperty().divide(ROW_COUNT * 1.5));
             cardImageView.setPreserveRatio(true);
+
             cardImageView.setOnMouseClicked(mouseEvent -> {
                 imageView.setImage(cardImageView.getImage());
                 selectedCardName = card.getCardName();
@@ -81,9 +82,12 @@ public class CardComponent extends SplitPane implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
-        scrollPane.setFitToWidth(true);
         imageView.setPreserveRatio(true);
+        imageView.setFitWidth(this.getWidth());
+        System.out.println(this.getWidth());
+//        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+//        scrollPane.setFitToWidth(true);
+//        imageView.setPreserveRatio(true);
         refreshGrid();
     }
 }

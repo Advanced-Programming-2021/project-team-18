@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -153,6 +154,23 @@ public class Utility {
         HttpEntity entity = response.getEntity();
         String responseString = EntityUtils.toString(entity, "UTF-8");
         return responseString;
+    }
+
+    @SneakyThrows
+    public static void postRequest(String location , HashMap<String,String> params , HashMap<String , String> headers) {
+        URIBuilder builder = new URIBuilder(location);
+        if(params != null) {
+            for (String param : params.keySet())
+                builder = builder.setParameter(param, params.get(param));
+        }
+        System.out.println(builder.build());
+        HttpPost postRequest = new HttpPost(builder.build());
+        if(headers != null) {
+            for (String header : headers.keySet())
+                postRequest.setHeader(header, headers.get(header));
+        }
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        client.execute(postRequest);
     }
 
     public static String askPlayer(Player player, String message, ArrayList<String> options) {

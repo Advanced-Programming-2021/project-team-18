@@ -1,23 +1,34 @@
 package view.menu.deckmenu;
 
 import card.Card;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import game.GameDeck;
 import game.User;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import menus.MenuController;
+import utility.Utility;
 import view.UtilityView;
 import view.View;
 import view.components.CardComponent;
 
+import javax.lang.model.type.ArrayType;
+import java.awt.event.ActionEvent;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class DeckMenuSpecificDeck extends View implements Initializable {
+    private static final String GET_MAIN_DECK = "/api/deckmenu/specific_deck/get_main_deck_cards";
+    private static final String GET_SIDE_DECK = "/api/deckmenu/specific_deck/get_side_deck_cards";
     @Setter
-    private static GameDeck currentDeck; // Note : has to be set when entered
-
+    private static String currentDeckName;
+    private ArrayList<String> mainDeckCardNames;
+    private ArrayList<String> sideDeckCardNames;
     public CardComponent sideDeckCardComponent;
     public CardComponent mainDeckCardComponent;
 
@@ -62,11 +73,16 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // todo server
-//        for (Card card : currentDeck.getMainDeck().getCardsList())
-//            mainDeckCardComponent.addCard(card);
-//        for (Card card : currentDeck.getSideDeck().getCardsList())
-//            sideDeckCardComponent.addCard(card);
+        HashMap<String,String> mainDeckHeaders = new HashMap<>(){{ put("token" , MenuController.getInstance().getToken()); put("name" , currentDeckName);}};
+        mainDeckCardNames = (new Gson()).fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + GET_MAIN_DECK , null , mainDeckHeaders) , new TypeToken<ArrayList<String>>() {
+        }.getType());
+        HashMap<String,String> sideDeckHeaders = new HashMap<>(){{ put("token" , MenuController.getInstance().getToken()); put("name" , currentDeckName);}};
+        sideDeckCardNames = (new Gson()).fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + GET_SIDE_DECK , null , sideDeckHeaders) , new TypeToken<ArrayList<String>>() {
+        }.getType());
+        for(String cardName : mainDeckCardNames)
+            mainDeckCardComponent.addCard(Card.getCardByName(cardName));
+        for(String cardName : sideDeckCardNames)
+            sideDeckCardComponent.addCard(Card.getCardByName(cardName));
     }
 
     public void setAsActiveDeck(MouseEvent actionEvent) {
