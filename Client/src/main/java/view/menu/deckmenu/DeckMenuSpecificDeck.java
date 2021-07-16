@@ -25,6 +25,11 @@ import java.util.ResourceBundle;
 public class DeckMenuSpecificDeck extends View implements Initializable {
     private static final String GET_MAIN_DECK = "/api/deckmenu/specific_deck/get_main_deck_cards";
     private static final String GET_SIDE_DECK = "/api/deckmenu/specific_deck/get_side_deck_cards";
+    private static final String ADD_CARD_TO_MAIN_DECK = "/api/deckmenu/specific_deck/add_card_to_main_deck";
+    private static final String ADD_CARD_TO_SIDE_DECK = "/api/deckmenu/specific_deck/add_card_to_side_deck";
+    private static final String REMOVE_CARD_FROM_MAIN_DECK = "/api/deckmenu/specific_deck/remove_card_from_main_deck";
+    private static final String REMOVE_CARD_FROM_SIDE_DECK = "/api/deckmenu/specific_deck/remove_card_from_side_deck";
+    private static final String SET_DECK_AS_ACTIVE = "/api/deckmenu/specific_deck/set_as_active";
     @Setter
     private static String currentDeckName;
     private ArrayList<String> mainDeckCardNames;
@@ -34,36 +39,32 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
 
     @SneakyThrows
     public void addCardToMainDeck(MouseEvent actionEvent) {
-        // todo server
-//        DeckMenuCardSelection.setCurrentDeck(currentDeck.getMainDeck());
-//        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
-
+        DeckMenuCardSelection.setMainDeck(true);
+        DeckMenuCardSelection.setCurrentGameDeckName(currentDeckName);
         loadView("deck_menu_select_card");
     }
 
     @SneakyThrows
     public void addCardToSideDeck(MouseEvent actionEvent) {
-        // todo server
-//        DeckMenuCardSelection.setCurrentDeck(currentDeck.getSideDeck());
-//        DeckMenuCardSelection.setCurrentGameDeck(currentDeck);
-
+        DeckMenuCardSelection.setMainDeck(false);
+        DeckMenuCardSelection.setCurrentGameDeckName(currentDeckName);
         loadView("deck_menu_select_card");
     }
 
     public void onRemoveMainDeckButton(MouseEvent actionEvent) {
-        // todo server
-//        if (mainDeckCardComponent.getSelectedCardName() == null)
-//            return;
-//        currentDeck.getMainDeck().removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
-//        mainDeckCardComponent.removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
+        if (mainDeckCardComponent.getSelectedCardName() == null)
+            return;
+        HashMap<String,String> headers = new HashMap<>(){{ put("token" , MenuController.getInstance().getToken()); put("deck_name" , currentDeckName); put("card_name" , mainDeckCardComponent.getSelectedCardName());}};
+        Utility.postRequest(Utility.getSERVER_LOCATION() + REMOVE_CARD_FROM_MAIN_DECK , null , headers);
+        mainDeckCardComponent.removeCard(Card.getCardByName(mainDeckCardComponent.getSelectedCardName()));
     }
 
     public void onRemoveSideDeckButton(MouseEvent actionEvent) {
-        // todo server
-//        if (sideDeckCardComponent.getSelectedCardName() == null)
-//            return;
-//        currentDeck.getSideDeck().removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
-//        sideDeckCardComponent.removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
+        if (sideDeckCardComponent.getSelectedCardName() == null)
+            return;
+        HashMap<String,String> headers = new HashMap<>(){{ put("token" , MenuController.getInstance().getToken()); put("deck_name" , currentDeckName); put("card_name" , sideDeckCardComponent.getSelectedCardName());}};
+        Utility.postRequest(Utility.getSERVER_LOCATION() + REMOVE_CARD_FROM_SIDE_DECK , null , headers);
+        sideDeckCardComponent.removeCard(Card.getCardByName(sideDeckCardComponent.getSelectedCardName()));
     }
 
     @SneakyThrows
@@ -86,8 +87,8 @@ public class DeckMenuSpecificDeck extends View implements Initializable {
     }
 
     public void setAsActiveDeck(MouseEvent actionEvent) {
-        // todo server
-//        currentUser.setActiveDeckName(currentDeck.getName());
+        HashMap<String ,String > headers = new HashMap<>(){{put("token" , MenuController.getInstance().getToken()); put("deck_name" , currentDeckName);}};
+        Utility.postRequest(Utility.getSERVER_LOCATION() + SET_DECK_AS_ACTIVE , null , headers);
         UtilityView.displayMessage("this deck was set as your active deck");
     }
 }
