@@ -6,11 +6,13 @@ import game.User;
 import lombok.Getter;
 import lombok.Setter;
 import utility.Utility;
+import view.UtilityView;
 
 import java.util.HashMap;
 
 public class MenuController {
     private static final String GET_USER_LOCATION = "/api/loginmenu/login";
+    private static final String REGISTER_LOCATION = "/api/loginmenu/register";
     private static MenuController instance = new MenuController();
     @Setter
     @Getter
@@ -20,22 +22,28 @@ public class MenuController {
         return instance;
     }
 
-    public ProfileResult createNewUser(String username, String password, String nickname) {
-        if (username.isBlank()) return ProfileResult.BLANK_USERNAME;
-        if (User.getUserByUsername(username) != null)
-            return ProfileResult.USERNAME_TAKEN;
-        if (User.isNicknameTaken(nickname))
-            return ProfileResult.NICKNAME_TAKEN;
-        new User(username, password, nickname);
-        return ProfileResult.SUCCESSFUL_OPERATION;
+    public String createNewUser(String username, String password, String nickname) {
+        if (username.isBlank()) return null;
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("username", username);
+        headers.put("nickname", nickname);
+        headers.put("password", password);
+        HashMap<String, String> result = new Gson().fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + REGISTER_LOCATION, null, headers), new TypeToken<HashMap<String, String>>() {
+        }.getType());
+        //System.out.println(result.toString());
+        if (result.get("verdict").contentEquals("Success")) return result.get("token");
+        UtilityView.showError(result.get("verdict"));
+        return null;
     }
 
     public String getLoginToken(String username, String password) { // returns null if username doesn't match with password
-        HashMap<String , String> headers = new HashMap<>();
-        headers.put("username" , username);
-        headers.put("password" , password);
-        HashMap<String , String> response = new Gson().fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + GET_USER_LOCATION , null , headers) , new TypeToken<HashMap<String , String>>() {}.getType());
-        if(response.get("verdict").equals("incorrect password") || response.get("verdict").equals("username not found"))
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("username", username);
+        headers.put("password", password);
+        HashMap<String, String> response = new Gson().fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + GET_USER_LOCATION, null, headers), new TypeToken<HashMap<String, String>>() {
+        }.getType());
+        System.out.println(response);
+        if (response.get("verdict").equals("incorrect password") || response.get("verdict").equals("username not found"))
             return null;
         return response.get("token");
     }

@@ -132,14 +132,5 @@
     "balance": 100000,
     "decks": [],
     "cardCount": {}
-  },
-  {
-    "username": "khiki",
-    "password": "123",
-    "nickname": "",
-    "score": 0,
-    "balance": 100000,
-    "decks": [],
-    "cardCount": {}
   }
 ]

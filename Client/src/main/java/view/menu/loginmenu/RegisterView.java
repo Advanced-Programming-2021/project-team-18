@@ -22,29 +22,16 @@ public class RegisterView extends View {
     public Label response;
 
     public void register() throws IOException {
-        // todo server
-//        ProfileResult result = MenuController.getInstance().createNewUser(usernameInput.getText(),
-//                passwordInput.getText(), nicknameInput.getText());
-//        response.setTextFill(Color.INDIANRED);
-//        switch (result) {
-//            case BLANK_USERNAME:
-//                response.setText("Username is blank!");
-//                return;
-//            case USERNAME_TAKEN:
-//                response.setText("Username is taken!");
-//                return;
-//            case NICKNAME_TAKEN:
-//                response.setText("Nickname is taken!");
-//                return;
-//            case SUCCESSFUL_OPERATION:
-//                response.setTextFill(Color.DARKGREEN);
-//                response.setText("Registered successfully!");
-//                MenuController.getInstance().setUser(User.getUserByUsername(usernameInput.getText()));
-//        }
-//        if (result == ProfileResult.SUCCESSFUL_OPERATION) {
-//            MainMenuView.setCurrentUser(MenuController.getInstance().getUser());
-//            loadView("main_menu");
-//        }
+        String result = MenuController.getInstance().createNewUser(usernameInput.getText(),
+                passwordInput.getText(), nicknameInput.getText());
+        //response.setTextFill(Color.INDIANRED);
+        if (result != null) {
+                response.setTextFill(Color.DARKGREEN);
+                response.setText("Registered successfully!");
+            MainMenuView.setCurrentToken(result);
+            MenuController.getInstance().setToken(result);
+            loadView("main_menu");
+        }
     }
 
     public void backToWelcome() throws IOException {

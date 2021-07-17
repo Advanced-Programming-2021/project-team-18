@@ -10,19 +10,19 @@ import java.util.HashMap;
 public class LoginMenu extends Menu {
 
     public void create(HashMap<String, String> map) {
-        String username = map.get("username");
-        String password = map.get("password");
-        String nickname = map.get("nickname");
-        switch (MenuController.getInstance().createNewUser(username, password, nickname)) {
-            case USERNAME_TAKEN:
-                Printer.prompt("user with username " + username + " already exists");
-                return;
-            case NICKNAME_TAKEN:
-                Printer.prompt("user with nickname " + nickname + " already exists");
-                return;
-            case SUCCESSFUL_OPERATION:
-                Printer.prompt("user created successfully!");
-        }
+//        String username = map.get("username");
+//        String password = map.get("password");
+//        String nickname = map.get("nickname");
+//        switch (MenuController.getInstance().createNewUser(username, password, nickname)) {
+//            case USERNAME_TAKEN:
+//                Printer.prompt("user with username " + username + " already exists");
+//                return;
+//            case NICKNAME_TAKEN:
+//                Printer.prompt("user with nickname " + nickname + " already exists");
+//                return;
+//            case SUCCESSFUL_OPERATION:
+//                Printer.prompt("user created successfully!");
+//        }
     }
 
     public User login(HashMap<String, String> map) {
