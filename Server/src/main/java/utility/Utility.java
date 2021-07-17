@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import data.Printer;
 import game.AIPlayer;
 import game.Player;
-import lombok.*;
+import lombok.SneakyThrows;
 import view.UtilityView;
 
 import java.io.BufferedReader;

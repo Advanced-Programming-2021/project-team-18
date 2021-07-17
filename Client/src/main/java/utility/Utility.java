@@ -181,6 +181,11 @@ public class Utility {
         return header;
     }
 
+    public static String send(String location, String... args) {
+        if ((args.length & 1) == 1) return null;
+        HashMap<String, String> headers = makeHashMap(args);
+        return getRequest(SERVER_LOCATION + location, null, headers);
+    }
 
     public static String askPlayer(Player player, String message, ArrayList<String> options) {
         if (player instanceof AIPlayer || player == null)
