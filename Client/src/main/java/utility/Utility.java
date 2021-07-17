@@ -5,6 +5,7 @@ import game.AIPlayer;
 import game.Player;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import menus.ProfileResult;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -137,35 +138,34 @@ public class Utility {
     }
 
     @SneakyThrows
-    public static String getRequest(String location , HashMap<String,String> params , HashMap<String , String> headers) {
+    public static String getRequest(String location, HashMap<String, String> params, HashMap<String, String> headers) {
         URIBuilder builder = new URIBuilder(location);
-        if(params != null) {
+        if (params != null) {
             for (String param : params.keySet())
                 builder = builder.setParameter(param, params.get(param));
         }
         System.out.println(builder.build());
         HttpGet getRequest = new HttpGet(builder.build());
-        if(headers != null) {
+        if (headers != null) {
             for (String header : headers.keySet())
                 getRequest.setHeader(header, headers.get(header));
         }
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpResponse response = client.execute(getRequest);
         HttpEntity entity = response.getEntity();
-        String responseString = EntityUtils.toString(entity, "UTF-8");
-        return responseString;
+        return EntityUtils.toString(entity, "UTF-8");
     }
 
     @SneakyThrows
-    public static void postRequest(String location , HashMap<String,String> params , HashMap<String , String> headers) {
+    public static void postRequest(String location, HashMap<String, String> params, HashMap<String, String> headers) {
         URIBuilder builder = new URIBuilder(location);
-        if(params != null) {
+        if (params != null) {
             for (String param : params.keySet())
                 builder = builder.setParameter(param, params.get(param));
         }
         System.out.println(builder.build());
         HttpPost postRequest = new HttpPost(builder.build());
-        if(headers != null) {
+        if (headers != null) {
             for (String header : headers.keySet())
                 postRequest.setHeader(header, headers.get(header));
         }
@@ -173,9 +173,18 @@ public class Utility {
         client.execute(postRequest);
     }
 
+    public static HashMap<String, String> makeHashMap(String... args) {
+        if ((args.length & 1) == 1) return null;
+        HashMap<String, String> header = new HashMap<>();
+        for (int i = 0; i < args.length; i += 2)
+            header.put(args[i], args[i + 1]);
+        return header;
+    }
+
+
     public static String askPlayer(Player player, String message, ArrayList<String> options) {
         if (player instanceof AIPlayer || player == null)
             return options.get(getARandomNumber(options.size()));
-        return UtilityView.obtainInformationInList(player.getUser().getUsername() + " : " + message , options.toArray(new String[0]));
+        return UtilityView.obtainInformationInList(player.getUser().getUsername() + " : " + message, options.toArray(new String[0]));
     }
 }

@@ -2,21 +2,36 @@ package menus;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import game.User;
 import lombok.Getter;
 import lombok.Setter;
 import utility.Utility;
 import view.UtilityView;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class MenuController {
-    private static final String GET_USER_LOCATION = "/api/loginmenu/login";
-    private static final String REGISTER_LOCATION = "/api/loginmenu/register";
-    private static MenuController instance = new MenuController();
+    private static final MenuController instance = new MenuController();
+
+    private static final String CHANGE_NICKNAME_LOC;
+    private static final String GET_USER_LOCATION;
+    private static final String REGISTER_LOCATION;
+    private static final String CHANGE_PASSWORD_LOC;
+    private static final Type resultType;
+
     @Setter
     @Getter
     private String token;
+
+    static {
+        CHANGE_NICKNAME_LOC = "/api/profilemenu/change_nickname";
+        GET_USER_LOCATION = "/api/loginmenu/login";
+        REGISTER_LOCATION = "/api/loginmenu/register";
+        CHANGE_PASSWORD_LOC = "/api/profilemenu/change_password";
+
+        resultType = new TypeToken<HashMap<String, String>>() {
+        }.getType();
+    }
 
     public static MenuController getInstance() {
         return instance;
@@ -36,12 +51,11 @@ public class MenuController {
         return null;
     }
 
-    public String getLoginToken(String username, String password) { // returns null if username doesn't match with password
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("username", username);
-        headers.put("password", password);
-        HashMap<String, String> response = new Gson().fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + GET_USER_LOCATION, null, headers), new TypeToken<HashMap<String, String>>() {
-        }.getType());
+    // returns null if username doesn't match with password
+    public String getLoginToken(String username, String password) {
+        HashMap<String, String> headers = Utility.makeHashMap("username", username, "password", password);
+        HashMap<String, String> response = new Gson().fromJson(Utility.getRequest(
+                Utility.getSERVER_LOCATION() + GET_USER_LOCATION, null, headers), resultType);
         System.out.println(response);
         if (response.get("verdict").equals("incorrect password") || response.get("verdict").equals("username not found"))
             return null;
@@ -49,21 +63,19 @@ public class MenuController {
     }
 
     public ProfileResult changePassword(String currentPassword, String newPassword) {
-        // todo server
-//        if (!user.isPasswordCorrect(currentPassword))
-//            return ProfileResult.INVALID_PASSWORD;
-//        if (currentPassword.equals(newPassword))
-//            return ProfileResult.PASSWORD_THE_SAME;
-//        user.setPassword(newPassword);
-//        return ProfileResult.SUCCESSFUL_OPERATION;
-        return null;
+        HashMap<String, String> headers = Utility.makeHashMap("token", token,
+                "current_password", currentPassword,
+                "new_password", newPassword);
+        String result = Utility.getRequest(Utility.getSERVER_LOCATION()
+                + CHANGE_PASSWORD_LOC, null, headers);
+        return ProfileResult.valueOf(result);
     }
 
     public ProfileResult changeNickname(String newNickname) {
-        // todo server
-//        if (User.isNicknameTaken(newNickname)) return ProfileResult.NICKNAME_TAKEN;
-//        user.setNickname(newNickname);
-//        return ProfileResult.SUCCESSFUL_OPERATION;
-        return null;
+        HashMap<String, String> headers = Utility.makeHashMap("token", token,
+                "new_nickname", newNickname);
+        String result = Utility.getRequest(Utility.getSERVER_LOCATION()
+        + CHANGE_NICKNAME_LOC, null, headers);
+        return ProfileResult.valueOf(result);
     }
 }

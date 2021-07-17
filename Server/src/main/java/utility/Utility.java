@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import data.Printer;
 import game.AIPlayer;
 import game.Player;
-import lombok.SneakyThrows;
+import lombok.*;
 import view.UtilityView;
 
 import java.io.BufferedReader;
@@ -142,5 +142,13 @@ public class Utility {
         byte[] randomBytes = new byte[24];
         secureRandom.nextBytes(randomBytes);
         return base64Encoder.encodeToString(randomBytes);
+    }
+
+    public static HashMap<String, String> makeHashMap(String... args) {
+        if ((args.length & 1) == 1) return null;
+        HashMap<String, String> header = new HashMap<>();
+        for (int i = 0; i < args.length; i += 2)
+            header.put(args[i], args[i + 1]);
+        return header;
     }
 }

@@ -62,6 +62,9 @@ public class ProfileMenuView extends View {
             case INVALID_PASSWORD:
                 response.setText("Password is invalid!");
                 break;
+            case BLANK_PASSWORD:
+                response.setText("Blank passwords are not supported!");
+                break;
             case PASSWORD_THE_SAME:
                 response.setText("Please input a DIFFERENT password!");
                 break;

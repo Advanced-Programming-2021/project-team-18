@@ -2,6 +2,7 @@ package menus;
 
 public enum ProfileResult {
     BLANK_USERNAME,
+    BLANK_PASSWORD,
     USERNAME_TAKEN,
     INVALID_PASSWORD,
     PASSWORD_THE_SAME,
