@@ -114,7 +114,7 @@ public class MainGameMenu extends View implements Initializable {
     }
 
     private void refreshSettingButton() {
-        if (Game.getActivePlayer() != myPlayer) return;
+        if (game.getActivePlayer() != myPlayer) return;
         Button settingButton = new Button("setting");
         settingButton.setPrefWidth(buttonsVBox.getWidth());
         settingButton.setOnMouseClicked(event -> {
@@ -396,7 +396,7 @@ public class MainGameMenu extends View implements Initializable {
     }
 
     private void refreshButtonsVBox() {
-        if (Game.getActivePlayer() != myPlayer)
+        if (game.getActivePlayer() != myPlayer)
             return;
         manageNextPhaseButton();
         if (game.getCurrentPhase() == Phase.MAIN1 || game.getCurrentPhase() == Phase.MAIN2) {
@@ -474,7 +474,7 @@ public class MainGameMenu extends View implements Initializable {
         });
 
         cardView.setOnDragDropped(dragEvent -> {
-            if (game.getCurrentPhase() != Phase.BATTLE || Game.getActivePlayer() != myPlayer)
+            if (game.getCurrentPhase() != Phase.BATTLE || game.getActivePlayer() != myPlayer)
                 return;
             if (dragEvent.getDragboard().hasImage()) {
                 System.out.println("Attack!");

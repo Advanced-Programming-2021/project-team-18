@@ -12,15 +12,11 @@ import java.util.List;
 
 public class Printer {
     public static void showCard(Card card) {
-        if (card == null) {
-            Printer.prompt("no card");
-        } else {
-            card.showCard();
-        }
+
     }
 
-    public static void prompt(String message) {
-        if (Game.getActivePlayer() instanceof AIPlayer) return;
+    public static void prompt(Player player , String message) {
+        if (player instanceof AIPlayer) return;
         System.out.println(message);
     }
 
@@ -80,20 +76,7 @@ public class Printer {
     }
 
     public static void showDeck(GameDeck gameDeck, boolean isSideDeck) {
-        StringBuilder result = new StringBuilder();
-        result.append("Deck: ").append(gameDeck.getName()).append("\n");
-        result.append(isSideDeck ? "Side" : "Main").append("deck:\n");
-        Deck deck = gameDeck.getMainDeck();
-        if (isSideDeck) deck = gameDeck.getSideDeck();
-        result.append("Monsters:\n");
-        for (Card card : deck.getCardsList())
-            if (card instanceof MonsterCard)
-                result.append(card.getCardName()).append(": ").append(card.getCardDescription()).append("\n");
-        result.append("Spells and Traps:\n");
-        for (Card card : deck.getCardsList())
-            if (card instanceof SpellCard || card instanceof TrapCard)
-                result.append(card.getCardName()).append(": ").append(card.getCardDescription()).append("\n");
-        Printer.prompt(result.toString());
+
     }
 
     public static void showScoreBoard() {

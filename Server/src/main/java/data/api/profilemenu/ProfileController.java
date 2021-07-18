@@ -19,7 +19,7 @@ public class ProfileController {
         else if (newPass.isBlank()) return "BLANK_PASSWORD";
         else if (newPass.equals(user.getPassword())) return "PASSWORD_THE_SAME";
         user.setPassword(newPass);
-        return "SUCCESSFUL_OPERATION";;
+        return "SUCCESSFUL_OPERATION";
     }
     @RequestMapping(path = "api/profilemenu/change_nickname" , method = RequestMethod.GET)
     @GetMapping

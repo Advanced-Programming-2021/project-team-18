@@ -47,6 +47,11 @@ public class User implements Comparable<User>, Serializable {
     private String token;
     private ArrayList<GameDeck> decks;
     private final HashMap<String, Integer> cardCount;
+    @Getter
+    ArrayList<String> messages = new ArrayList<>();
+    @Getter
+    ArrayList<Question> questions = new ArrayList<>();
+
 
     public static List<User> getAllUsers() {
         return Collections.unmodifiableList(allUsers);
@@ -74,12 +79,14 @@ public class User implements Comparable<User>, Serializable {
             }
         }
     }
+
     public static User getUserByToken(String token) {
-        for(User user : allUsers)
-            if(user.getToken().equals(token))
+        for (User user : allUsers)
+            if (user.getToken().equals(token))
                 return user;
         return null;
     }
+
     public static User getDummyUser() {
         return dummyUser;
     }

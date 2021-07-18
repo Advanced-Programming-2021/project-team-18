@@ -13,11 +13,7 @@ public class SpellCard extends Card {
     }
     @Override
     public void showCard() {
-        String result = "Name: " + this.getCardName() + "\n";
-        result += "Spell\n";
-        result += "Type: " + this.getCardSpellType() + "\n";
-        result += "Description: " + this.getCardDescription() + "\n";
-        Printer.prompt(result);
+
     }
 
     @Override

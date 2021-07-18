@@ -15,10 +15,11 @@ public class MindCrushEffect extends Effect {
     private void runEffect() {
         int index = 0;
         int cardSize = Card.getAllCardNames().size();
-        for (String cardName : Card.getAllCardNames()) {
-            index++;
-            Printer.prompt(index + ". " + cardName);
-        }
+        // todo change displaying cards
+//        for (String cardName : Card.getAllCardNames()) {
+//            index++;
+//            Printer.prompt(index + ". " + cardName);
+//        }
         String selectedCardName = Card.getAllCardNames().get(selfPlayer.obtainNumberInRange(
                 1, cardSize + 1, "Please enter a card number (in range 1 - " + cardSize + " )"));
         Card selectedCard = selfPlayer.getOpponent().getHand().getCardByName(selectedCardName);
