@@ -59,8 +59,10 @@ public class ShopMenuView extends View {
             grid.add(cardImage, i % rowSize, i / rowSize);
             i++;
         }
-        userBalance = Integer.valueOf(Utility.getRequest(Utility.getSERVER_LOCATION() + "/api/profilemenu/get_balance", null,
-                Utility.makeHashMap("token", MenuController.getInstance().getToken())));
+        String balanceStr = Utility.getRequest(Utility.getSERVER_LOCATION() + "/api/shopmenu/get_user_balance", null,
+                Utility.makeHashMap("token", MenuController.getInstance().getToken()));
+        System.out.println("BALANCE RESPONSE: " + balanceStr);
+        userBalance = Integer.parseInt(balanceStr);
     }
 
     private void prepareCardForConsideration(Card card) {

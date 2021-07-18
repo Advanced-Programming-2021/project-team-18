@@ -18,6 +18,7 @@ import lombok.SneakyThrows;
 import view.components.ObtainInformationListController;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
@@ -30,12 +31,13 @@ public class UtilityView {
         avatarNumbers = 0;
         player = null;
         try {
-            File arbitraryFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
-                    "/avatars/arbitrary/")).toURI());
+            File arbitraryFolder = new File(new URI(UtilityView.class.getResource(
+                    "/avatars") + "/arbitrary/"));
+            //noinspection ResultOfMethodCallIgnored
             arbitraryFolder.mkdirs();
             File avatarFolder = new File(Objects.requireNonNull(UtilityView.class.getResource(
                     "/avatars/")).toURI());
-            for (File file : avatarFolder.listFiles()) {
+            for (File file : Objects.requireNonNull(avatarFolder.listFiles())) {
                 if (file.isFile() && file.getName().matches("[1-9]\\d*.jpg"))
                     avatarNumbers++;
             }

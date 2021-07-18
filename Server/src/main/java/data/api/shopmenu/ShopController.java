@@ -12,8 +12,13 @@ public class ShopController {
     @RequestMapping(path = "api/shopmenu/get_user_balance")
     @GetMapping
     public String getUserBalance(@RequestHeader(value = "token") String token) {
+        System.out.println("getUserBalance Called with token: " + token);
         User user = User.getUserByToken(token);
-        if (user == null) return null;
+        if (user == null) {
+            System.out.println("NO SUCH USER EXISTS! I'LL RETURN NULL");
+            return null;
+        }
+        System.out.println("I'll return " + user.getBalance());
         return String.valueOf(user.getBalance());
     }
 

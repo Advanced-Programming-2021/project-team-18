@@ -1,7 +1,6 @@
 package utility;
 
 import com.google.gson.Gson;
-import data.Printer;
 import game.AIPlayer;
 import game.Player;
 import lombok.SneakyThrows;
@@ -100,7 +99,7 @@ public class Utility {
 
     @SneakyThrows
     public static ArrayList<String[]> getArrayListFromCSV(String fileLocation) {
-        File file = new File(Utility.class.getResource(fileLocation).toURI());
+        File file = new File(Objects.requireNonNull(Utility.class.getResource(fileLocation)).toURI());
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         ArrayList<String[]> result = new ArrayList<>();
         String newLine;
