@@ -53,7 +53,7 @@ public class Player {
     }
 
     public void print(String str) {
-        Printer.prompt(str);
+        Printer.prompt(this , str);
     }
 
     protected void increaseLifePoint(int amount) {
@@ -318,10 +318,6 @@ public class Player {
     }
 
     public Card obtainCardFromDeck(boolean showDeck) {
-        if (showDeck) {
-            Printer.prompt("Your deck contains these cards:");
-            for (Card card : remainingDeck.getCardsList()) Printer.showCard(card);
-        }
         String message = "please select a card";
         String[] options = new String[remainingDeck.getSize()];
         for(int i = 0;i < remainingDeck.getSize();++ i)
@@ -675,7 +671,7 @@ public class Player {
             } else {
                 CardEvent entranceCardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
                 if (!getPermissionFromAllEffects(entranceCardEvent) || !getPermissionFromAllEffects(activateCardEvent)) {
-                    Printer.prompt("you can't activate this spell");
+                    UtilityView.showError("you can't activate this spell");
                     return;
                 }
                 spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;

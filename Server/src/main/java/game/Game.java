@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 @Getter
 public class Game {
-    private static Player activePlayer;
+    private Player activePlayer;
     private final User firstUser, secondUser;
     private final HashMap<User, Integer> scores;
     private final HashMap<User, Integer> maxLP;
@@ -22,13 +22,10 @@ public class Game {
     @Setter
     private boolean isGameFinished;
     @Setter
-    private static MainGameMenu firstPlayerGraphicsController;
+    private transient MainGameMenu firstPlayerGraphicsController;
     @Setter
-    private static MainGameMenu secondPlayerGraphicsController;
+    private transient MainGameMenu secondPlayerGraphicsController;
 
-    public static Player getActivePlayer() {
-        return activePlayer;
-    }
 
     // Note: A Game consists of some duels (namely, consists of "duelsCount" duels)
     // If secondUser is null, the game starts between firstUser and Computer
@@ -69,16 +66,17 @@ public class Game {
     private void endGame(Player winner) {
         scores.put(winner.getUser(), scores.get(winner.getUser()) + 1);
         maxLP.put(winner.getUser(), Math.max(maxLP.get(winner.getUser()), winner.getLifePoint()));
-        Printer.prompt(winner.getUser().getUsername() + " won the game and the score is: <" +
-                scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
-        );
-        if (scores.get((winner.getUser())) > duelsCount / 2) {
-            Printer.prompt(winner.getUser().getUsername() + " won the whole match with score: <" +
-                    scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
-            );
-            isGameFinished = true;
-            giveAwards(winner.getUser());
-        }
+        // todo
+//        Printer.prompt(activePlayer , winner.getUser().getUsername() + " won the game and the score is: <" +
+//                scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
+//        );
+//        if (scores.get((winner.getUser())) > duelsCount / 2) {
+//            Printer.prompt(activePlayer , winner.getUser().getUsername() + " won the whole match with score: <" +
+//                    scores.get(firstUser) + ">-<" + scores.get(secondUser) + ">"
+//            );
+//            isGameFinished = true;
+//            giveAwards(winner.getUser());
+//        }
     }
 
     private void drawInitialCards(Player player) {

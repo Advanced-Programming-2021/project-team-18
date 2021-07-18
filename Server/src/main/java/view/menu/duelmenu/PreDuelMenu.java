@@ -106,8 +106,8 @@ public class PreDuelMenu extends View {
             game.runGame();
             firstController.setMyPlayer(game.getFirstPlayer());
             secondController.setMyPlayer(game.getSecondPlayer());
-            Game.setFirstPlayerGraphicsController(firstController);
-            Game.setSecondPlayerGraphicsController(secondController);
+            game.setFirstPlayerGraphicsController(firstController);
+            game.setSecondPlayerGraphicsController(secondController);
             stage.hide();
             firstController.refresh();
             secondController.refresh();
@@ -123,8 +123,8 @@ public class PreDuelMenu extends View {
             controller.setMyUser(currentUser);
             game.runGame();
             controller.setMyPlayer(game.getFirstPlayer());
-            Game.setFirstPlayerGraphicsController(controller);
-            Game.setSecondPlayerGraphicsController(null);
+            game.setFirstPlayerGraphicsController(controller);
+            game.setSecondPlayerGraphicsController(null);
             stage.hide();
             controller.refresh();
         });

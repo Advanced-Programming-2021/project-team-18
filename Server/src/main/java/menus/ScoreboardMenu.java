@@ -12,24 +12,29 @@ public class ScoreboardMenu extends Menu {
 
     }
 
-    public void showScoreboard() {
-        Printer.showScoreBoard();
-    }
-
-    public void showCurrentMenu() {
-        Printer.prompt("Scoreboard");
-    }
-
+    @Override
     public void runMenu() {
-        String showScoreBoardPattern = "scoreboard\\sshow";
-        String currentMenuPattern = "menu\\sshow-current";
-        String exitMenuPattern = "menu\\sexit";
-        while (true) {
-            String input = Utility.getNextLine();
-            if (input.matches(showScoreBoardPattern)) showScoreboard();
-            else if (input.matches(currentMenuPattern)) showCurrentMenu();
-            else if (input.matches(exitMenuPattern)) return;
-            else Printer.prompt("Invalid Command!");
-        }
+
     }
+//
+//    public void showScoreboard() {
+//        Printer.showScoreBoard();
+//    }
+//
+//    public void showCurrentMenu() {
+//        Printer.prompt("Scoreboard");
+//    }
+//
+//    public void runMenu() {
+//        String showScoreBoardPattern = "scoreboard\\sshow";
+//        String currentMenuPattern = "menu\\sshow-current";
+//        String exitMenuPattern = "menu\\sexit";
+//        while (true) {
+//            String input = Utility.getNextLine();
+//            if (input.matches(showScoreBoardPattern)) showScoreboard();
+//            else if (input.matches(currentMenuPattern)) showCurrentMenu();
+//            else if (input.matches(exitMenuPattern)) return;
+//            else Printer.prompt("Invalid Command!");
+//        }
+//    }
 }

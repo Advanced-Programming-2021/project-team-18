@@ -87,30 +87,30 @@ public class MainGameMenu extends View implements Initializable {
     @SneakyThrows
     public void refresh() {
         // do all updates here
-        if (myPlayer.isLoser() || myPlayer.getOpponent().isLoser()) {
-            myStage.close();
-            if (myPlayer.isLoser()) {
-                UtilityView.displayMessage(myUser.getNickname() + " Won :)");
-                loadView("main_menu");
-                stage.show();
-                return;
-            }
-        }
-        fieldGridPane.getChildren().clear();
-        buttonsVBox.getChildren().clear();
-        refreshSettingButton();
-        refreshFieldZone();
-        refreshGraveyardAndDrawPile();
-        refreshLifePointAndPhase();
-        refreshAvatarAndTitles();
-        refreshSelectedCardDetails();
-        refreshMyHand();
-        refreshOpponentHand();
-        refreshMyMonsters();
-        refreshOpponentMonsters();
-        refreshMySpellsAndTraps();
-        refreshOpponentSpellsAndTraps();
-        refreshButtonsVBox();
+//        if (myPlayer.isLoser() || myPlayer.getOpponent().isLoser()) {
+//            myStage.close();
+//            if (myPlayer.isLoser()) {
+//                UtilityView.displayMessage(myUser.getNickname() + " Won :)");
+//                loadView("main_menu");
+//                stage.show();
+//                return;
+//            }
+//        }
+//        fieldGridPane.getChildren().clear();
+//        buttonsVBox.getChildren().clear();
+//        refreshSettingButton();
+//        refreshFieldZone();
+//        refreshGraveyardAndDrawPile();
+//        refreshLifePointAndPhase();
+//        refreshAvatarAndTitles();
+//        refreshSelectedCardDetails();
+//        refreshMyHand();
+//        refreshOpponentHand();
+//        refreshMyMonsters();
+//        refreshOpponentMonsters();
+//        refreshMySpellsAndTraps();
+//        refreshOpponentSpellsAndTraps();
+//        refreshButtonsVBox();
     }
 
     private void refreshSettingButton() {

@@ -144,6 +144,7 @@ public class UtilityView {
 
     @SneakyThrows
     public static String obtainInformationInList(String message, String[] options) {
+        System.out.println(options.length);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(UtilityView.class.getResource("/view/FXML/" + "obtain_information_list" + ".fxml"));
@@ -151,7 +152,7 @@ public class UtilityView {
         ObtainInformationListController controller = loader.getController();
         for (String option : options)
             controller.getListView().getItems().add(option);
-        controller.setResult(controller.getListView().getSelectionModel().getSelectedItems().get(0).toString());
+        controller.setResult(options[0]);
         controller.getLabel().setText(message);
         controller.getListView().getSelectionModel().select(0);
         controller.getSelectButton().setOnMouseClicked(event -> {
@@ -190,6 +191,6 @@ public class UtilityView {
     }
 
     public static void stopPlayer() {
-        player.stop();
+//        player.stop();
     }
 }

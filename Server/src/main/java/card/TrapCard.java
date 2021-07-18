@@ -15,11 +15,7 @@ public class TrapCard extends Card {
 
     @Override
     public void showCard() {
-        String result = "Name: " + this.getCardName() + "\n";
-        result += "Trap\n";
-        result += "Type: " + this.getCardTrapType() + "\n";
-        result += "Description: " + this.getCardDescription() + "\n";
-        Printer.prompt(result);
+
     }
 
     @Override
