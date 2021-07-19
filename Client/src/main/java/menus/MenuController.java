@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import utility.Utility;
 import view.UtilityView;
+import view.menu.scoreboard.SimplifiedUser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MenuController {
@@ -20,6 +22,7 @@ public class MenuController {
     private static final String CARD_BALANCE_LOC;
     private static final String USER_BALANCE_LOC = "/api/shopmenu/get_user_balance";
     private static final String CHANGE_PASSWORD_LOC;
+    private static final String SCOREBOARD_LOC;
     private static final Type resultType;
 
     @Setter
@@ -32,6 +35,7 @@ public class MenuController {
         REGISTER_LOCATION = "/api/loginmenu/register";
         CARD_BALANCE_LOC = "/api/shopmenu/get_card_balance";
         CHANGE_PASSWORD_LOC = "/api/profilemenu/change_password";
+        SCOREBOARD_LOC = "/api/scoreboardmenu/scoreboard";
 
         resultType = new TypeToken<HashMap<String, String>>() {
         }.getType();
@@ -50,7 +54,7 @@ public class MenuController {
         HashMap<String, String> result = new Gson().fromJson(Utility.getRequest(Utility.getSERVER_LOCATION() + REGISTER_LOCATION, null, headers), new TypeToken<HashMap<String, String>>() {
         }.getType());
         //System.out.println(result.toString());
-        if (result.get("verdict").contentEquals("Success")) return result.get("token");
+        if (result.get("verdict").contentEquals("success")) return result.get("token");
         UtilityView.showError(result.get("verdict"));
         return null;
     }
@@ -79,7 +83,7 @@ public class MenuController {
         HashMap<String, String> headers = Utility.makeHashMap("token", token,
                 "new_nickname", newNickname);
         String result = Utility.getRequest(Utility.getSERVER_LOCATION()
-        + CHANGE_NICKNAME_LOC, null, headers);
+                + CHANGE_NICKNAME_LOC, null, headers);
         return ProfileResult.valueOf(result);
     }
 
@@ -88,5 +92,17 @@ public class MenuController {
         String result = Utility.getRequest(Utility.getSERVER_LOCATION() + CARD_BALANCE_LOC,
                 null, headers);
         return Integer.valueOf(result);
+    }
+
+    public ArrayList<SimplifiedUser> getScoreboard() {
+        String result = Utility.send(SCOREBOARD_LOC, "token", token);
+        HashMap<String, String> response = new Gson().fromJson(result, resultType);
+        //System.out.println(response.toString());
+        if (response.get("verdict").contentEquals("success")) {
+            ArrayList<SimplifiedUser> scoreboard = new Gson().fromJson(response.get("scoreboard"), new TypeToken<ArrayList<SimplifiedUser>>() {
+            }.getType());
+            return scoreboard;
+        }
+        return null;
     }
 }

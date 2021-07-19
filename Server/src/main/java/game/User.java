@@ -155,6 +155,10 @@ public class User implements Comparable<User>, Serializable {
         }
     }
 
+    public boolean isOnline(){
+        return token != null;
+    }
+
     public void addCardBalance(String cardName) {
         cardCount.put(cardName, cardCount.getOrDefault(cardName, 0) + 1);
     }

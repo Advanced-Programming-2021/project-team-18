@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import lombok.SneakyThrows;
 import menus.MenuController;
+import utility.Utility;
 import view.UtilityView;
 import view.View;
 import view.animations.CoinTransition;
@@ -99,6 +100,7 @@ public class MainMenuView extends View {
 
     @SneakyThrows
     public void logout() {
+        String res = Utility.send("/api/loginmenu/logout","token",MenuController.getInstance().getToken());
         setCurrentToken(null);
         loadView("welcome");
     }

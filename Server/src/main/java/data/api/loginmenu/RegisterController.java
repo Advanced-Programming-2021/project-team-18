@@ -13,7 +13,6 @@ public class RegisterController {
     @GetMapping
     public String getRegisterResult(@RequestHeader(value = "username") String username, @RequestHeader(value = "password") String password, @RequestHeader(value = "nickname") String nickname) {
         User user = User.getUserByUsername(username);
-        //System.out.println("i was invoked " + username + " " + password + " " + nickname);
         HashMap<String, String> result = new HashMap<>();
         if (username.isBlank() || password.isBlank() || nickname.isBlank()){
             result.put("verdict", "none of the fields can be blank");
