@@ -1,5 +1,6 @@
 package card;
 
+import com.google.gson.annotations.Expose;
 import data.Printer;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TrapCard extends Card {
+    @Expose
     private TrapType cardTrapType;
 
     public TrapCard() {

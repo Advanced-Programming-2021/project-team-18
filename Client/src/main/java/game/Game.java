@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 @Getter
 public class Game {
-    private static Player activePlayer;
+    private Player activePlayer;
     private final User firstUser, secondUser;
     private final HashMap<User, Integer> scores;
     private final HashMap<User, Integer> maxLP;
@@ -25,10 +25,6 @@ public class Game {
     private static MainGameMenu firstPlayerGraphicsController;
     @Setter
     private static MainGameMenu secondPlayerGraphicsController;
-
-    public static Player getActivePlayer() {
-        return activePlayer;
-    }
 
     // Note: A Game consists of some duels (namely, consists of "duelsCount" duels)
     // If secondUser is null, the game starts between firstUser and Computer

@@ -1,5 +1,6 @@
 package card;
 
+import com.google.gson.annotations.Expose;
 import data.Printer;
 import effects.Effect;
 import game.Player;
@@ -16,8 +17,11 @@ public class MonsterCard extends Card {
     private MonsterCardType monsterType;
     private int cardAttack;
     private int cardDefense;
+    @Expose
     private boolean isDefenseMode;
+    @Expose
     private boolean hasAttackedThisTurn = false;
+    @Expose
     private boolean hasChangedPositionThisTurn = false;
     private String cardType;
     public MonsterCard() {

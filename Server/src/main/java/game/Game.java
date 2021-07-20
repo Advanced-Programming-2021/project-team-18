@@ -1,32 +1,59 @@
 package game;
 
 import card.Card;
+import com.google.gson.annotations.Expose;
 import data.Printer;
 import events.Phase;
 import lombok.Getter;
 import lombok.Setter;
 import view.menu.duelmenu.MainGameMenu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Getter
 public class Game {
+    @Getter
+    private static ArrayList<Game> games = new ArrayList<>();
+    @Expose
     private Player activePlayer;
-    private final User firstUser, secondUser;
+    @Expose
+    private final User firstUser;
+    @Expose
+    private final User secondUser;
     private final HashMap<User, Integer> scores;
     private final HashMap<User, Integer> maxLP;
     private final int duelsCount;
+    @Expose
     private Phase currentPhase;
-    private Player firstPlayer, secondPlayer;
+    @Expose
+    private Player firstPlayer;
+    @Expose
+    private Player secondPlayer;
+    @Expose
     private int turn;
     @Setter
+    @Expose
     private boolean isGameFinished;
+
     @Setter
     private transient MainGameMenu firstPlayerGraphicsController;
     @Setter
     private transient MainGameMenu secondPlayerGraphicsController;
 
+    public static Game getGameByToken(String token) {
+        Game chosenGame = null;
+        for(Game game : games)
+            if(game.getFirstUser().getToken().equals(token) || game.getSecondUser().getToken().equals(token))
+                chosenGame = game;
+        return chosenGame;
+    }
 
+    public Player getPlayerByUser(User user) {
+        if(user.getUsername().equals(firstPlayer.getUser().getUsername()))
+            return firstPlayer;
+        return secondPlayer;
+    }
     // Note: A Game consists of some duels (namely, consists of "duelsCount" duels)
     // If secondUser is null, the game starts between firstUser and Computer
     public Game(User firstUser, User secondUser, int duelsCount) {
@@ -49,10 +76,8 @@ public class Game {
     }
 
     public void notifyGraphic() {
-        if (firstPlayerGraphicsController != null)
-            firstPlayerGraphicsController.refresh();
-        if (secondPlayerGraphicsController != null)
-            secondPlayerGraphicsController.refresh();
+        firstPlayer.setShouldRefresh(true);
+        secondPlayer.setShouldRefresh(true);
     }
 
     boolean isNotFirstTurn() {

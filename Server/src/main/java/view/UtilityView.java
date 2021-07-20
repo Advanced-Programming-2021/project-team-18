@@ -63,132 +63,92 @@ public class UtilityView {
     }
 
     public static void displayMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(message);
-        alert.showAndWait();
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setContentText(message);
+//        alert.showAndWait();
     }
-//    public static void displayMessage(String message) {
-//        Popup popup = new Popup();
-//        Label label = new Label();
-//        label.setMinWidth(200);
-//        label.setText(message);
-//        Button closeButton = new Button("Okay");
-//        closeButton.setOnAction(e -> popup.hide());
-//        VBox layout = new VBox(10);
-//        layout.getChildren().addAll(label, closeButton);
-//        layout.setAlignment(Pos.CENTER);
-//        layout.getStylesheets().add(Objects.requireNonNull(UtilityView.class.getResource(
-//                "CSS/styles.css")).toExternalForm());
-//        closeButton.getStyleClass().add("normal-button");
-//        layout.getStyleClass().add("popup-container");
-//        popup.getContent().add(layout);
-//        Stage stage = new Stage();
-//        popup.show(stage);
-//        stage.show();
-//    }
 
-//    public static String obtainInformation(String message) {
-//        Popup popup = new Popup();
+    public static String obtainInformation(String message) {
+//        Stage stage = new Stage();
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.setMinWidth(200);
 //        Label label = new Label();
-//        label.setMinWidth(200);
 //        label.setText(message);
 //        TextField textField = new TextField();
 //        Button closeButton = new Button("submit");
 //        closeButton.setOnAction(e -> {
 //            answer = textField.getText();
-//            popup.hide();
+//            stage.close();
 //        });
 //        VBox layout = new VBox(10);
 //        layout.getChildren().addAll(label, textField, closeButton);
-//        layout.setAlignment(Pos.CENTER);
 //        layout.getStylesheets().add(Objects.requireNonNull(UtilityView.class.getResource(
 //                "CSS/styles.css")).toExternalForm());
-//        layout.getStyleClass().add("popup-container");
-//        closeButton.getStyleClass().add("normal-button");
-//        popup.getContent().add(layout);
-//        popup.show(View.stage);
-//
+//        layout.setAlignment(Pos.CENTER);
+//        Scene scene = new Scene(layout);
+//        stage.setScene(scene);
+//        stage.showAndWait();
 //        return answer;
-//    }
-
-    public static String obtainInformation(String message) {
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setMinWidth(200);
-        Label label = new Label();
-        label.setText(message);
-        TextField textField = new TextField();
-        Button closeButton = new Button("submit");
-        closeButton.setOnAction(e -> {
-            answer = textField.getText();
-            stage.close();
-        });
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, textField, closeButton);
-        layout.getStylesheets().add(Objects.requireNonNull(UtilityView.class.getResource(
-                "CSS/styles.css")).toExternalForm());
-        layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout);
-        stage.setScene(scene);
-        stage.showAndWait();
-        return answer;
+        return null;
     }
 
     public static String obtainInformationInCertainWay(String message, String regex) {
-        String input;
-        while (true) {
-            input = obtainInformation(message);
-            if (!input.matches(regex)) showError("your input didn't match the format try again!");
-            else break;
-        }
-        return input;
+//        String input;
+//        while (true) {
+//            input = obtainInformation(message);
+//            if (!input.matches(regex)) showError("your input didn't match the format try again!");
+//            else break;
+//        }
+//        return input;
+        return null;
     }
 
     @SneakyThrows
     public static String obtainInformationInList(String message, String[] options) {
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader loader = new FXMLLoader(UtilityView.class.getResource("/view/FXML/" + "obtain_information_list" + ".fxml"));
-        Parent root = loader.load();
-        ObtainInformationListController controller = loader.getController();
-        for (String option : options)
-            controller.getListView().getItems().add(option);
-        controller.setResult(controller.getListView().getSelectionModel().getSelectedItems().get(0).toString());
-        controller.getLabel().setText(message);
-        controller.getListView().getSelectionModel().select(0);
-        controller.getSelectButton().setOnMouseClicked(event -> {
-            String text = controller.getListView().getSelectionModel().getSelectedItems().get(0).toString();
-            controller.setResult(text);
-            stage.close();
-        });
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
-        return controller.getResult();
+//        Stage stage = new Stage();
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        FXMLLoader loader = new FXMLLoader(UtilityView.class.getResource("/view/FXML/" + "obtain_information_list" + ".fxml"));
+//        Parent root = loader.load();
+//        ObtainInformationListController controller = loader.getController();
+//        for (String option : options)
+//            controller.getListView().getItems().add(option);
+//        controller.setResult(controller.getListView().getSelectionModel().getSelectedItems().get(0).toString());
+//        controller.getLabel().setText(message);
+//        controller.getListView().getSelectionModel().select(0);
+//        controller.getSelectButton().setOnMouseClicked(event -> {
+//            String text = controller.getListView().getSelectionModel().getSelectedItems().get(0).toString();
+//            controller.setResult(text);
+//            stage.close();
+//        });
+//        stage.setScene(new Scene(root));
+//        stage.showAndWait();
+//        return controller.getResult();
+        return null;
     }
 
     public static void showError(String message) {
-        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        errorAlert.setContentText(message);
-        errorAlert.showAndWait();
+//        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+//        errorAlert.setContentText(message);
+//        errorAlert.showAndWait();
     }
 
     public static void playSound(String songName) {
-        System.out.println("Playing " + songName + "...");
-        Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
-                "/sounds/" + songName)).toString());
-        if (player != null) player.stop();
-        player = new MediaPlayer(media);
-        player.setCycleCount(-1);
-        player.play();
+//        System.out.println("Playing " + songName + "...");
+//        Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
+//                "/sounds/" + songName)).toString());
+//        if (player != null) player.stop();
+//        player = new MediaPlayer(media);
+//        player.setCycleCount(-1);
+//        player.play();
     }
 
     public static void playSoundWithoutCycle(String songName) {
-        System.out.println("Playing " + songName + "...");
-        Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
-                "/sounds/" + songName)).toString());
-        MediaPlayer currentPlayer = new MediaPlayer(media);
-        currentPlayer.setCycleCount(1);
-        currentPlayer.play();
+//        System.out.println("Playing " + songName + "...");
+//        Media media = new Media(Objects.requireNonNull(UtilityView.class.getResource(
+//                "/sounds/" + songName)).toString());
+//        MediaPlayer currentPlayer = new MediaPlayer(media);
+//        currentPlayer.setCycleCount(1);
+//        currentPlayer.play();
     }
 
     public static void stopPlayer() {

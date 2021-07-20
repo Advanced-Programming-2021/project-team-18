@@ -88,6 +88,8 @@ public class PreDuelMenu extends View implements Initializable {
 
     @SneakyThrows
     private void stageNewGamePage() {
+        searchForStartingGame.set(false);
+        searchForAvailableGame.set(false);
         Platform.runLater(() -> {
             MainGameMenu controller = loadGameScreen();
             stage.hide();
@@ -121,7 +123,8 @@ public class PreDuelMenu extends View implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        searchForAvailableGame = new AtomicBoolean(true);
+        searchForStartingGame = new AtomicBoolean(true);
         Thread searchForGameThread = new Thread(() -> {
             while(searchForAvailableGame.get()) {
                 try {

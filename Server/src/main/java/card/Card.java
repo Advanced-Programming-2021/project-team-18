@@ -1,5 +1,6 @@
 package card;
 
+import com.google.gson.annotations.Expose;
 import effects.*;
 import game.Player;
 import javafx.scene.image.Image;
@@ -16,6 +17,7 @@ public abstract class Card implements Comparable<Card> {
     private static final ArrayList<Card> allCards = new ArrayList<>();
     private static final ArrayList<String> allCardNames = new ArrayList<>();
     private static final HashMap<String,Image> cardImages = new HashMap<>();
+    @Expose
     private String cardName;
     @Setter
     private int price;
@@ -24,13 +26,14 @@ public abstract class Card implements Comparable<Card> {
     @Setter
     private String cardDescription;
     @Setter
+    @Expose
     private boolean isFaceUp = false;
     @Setter
-    private Player player;
+    private transient Player player;
     @Setter
     private Origin cardOrigin;
     @Setter
-    private ArrayList<Effect> effects = new ArrayList<>();
+    private transient ArrayList<Effect> effects = new ArrayList<>();
 
     public Card(String cardName, int price, String cardNumber, String cardDescription, boolean isFaceUp, Player player, Origin cardOrigin, ArrayList<Effect> effects) {
         this.cardName = cardName;

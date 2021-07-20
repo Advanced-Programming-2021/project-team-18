@@ -42,6 +42,9 @@ public class User implements Comparable<User>, Serializable {
     @Getter
     @Setter
     private int avatarID;
+    @Getter
+    @Setter
+    private String token;
     private final ArrayList<GameDeck> decks;
     private final HashMap<String, Integer> cardCount;
 

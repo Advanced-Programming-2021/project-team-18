@@ -1,6 +1,7 @@
 package game;
 
 import card.Card;
+import com.google.gson.annotations.Expose;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,9 @@ import java.util.Random;
 @Setter
 @Getter
 public class Deck {
+    @Expose
     private int capacity;
+    @Expose
     private ArrayList<Card> cardsList;
     private HashMap<String, Integer> cardCount; // NOTE : don't use this; only needed for gson
 

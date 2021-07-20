@@ -1,6 +1,7 @@
 package game;
 
 import card.*;
+import com.google.gson.annotations.Expose;
 import data.Printer;
 import effects.Effect;
 import events.*;
@@ -20,22 +21,36 @@ public class Player {
     protected static final int FIELD_SIZE = 5;
 
     // Initialized in constructor
+    @Expose
     protected User user;
+    @Expose
     protected Deck graveyard;
+    @Expose
     protected Deck remainingDeck;
+    @Expose
     protected MonsterCard[] monstersFieldList;
+    @Expose
     protected Card[] spellsAndTrapFieldList;
+    @Expose
     protected SpellCard fieldZone;
+    @Expose
     protected Deck hand;
+    @Expose
     protected int lifePoint;
+    @Expose
     protected boolean loser;
+    @Expose
     protected Card selectedCard;
+    @Expose
     protected boolean hasSummonedMonsterThisTurn; // has to be reset at end phase
+    @Expose
     protected boolean isAttackPhaseEndedByEffect = false;
+    @Expose
     protected Card theSummonedMonsterThisTurn;
+    private boolean shouldRefresh;
     // Initialized by setters
-    protected Game game;
-    protected Player opponent;
+    protected transient Game game;
+    protected transient Player opponent;
 
 
     public Player(User user, Deck deck) {

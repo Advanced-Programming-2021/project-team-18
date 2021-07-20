@@ -1,5 +1,6 @@
 package data.api.duelmenu;
 
+import game.Game;
 import game.GameDeck;
 import game.User;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +54,8 @@ public class PreDuelController {
         if(selectedRequest == null)
             return;
         seenRequests.remove(selectedRequest);
-//        boolean turn = (new Random(System.nanoTime())).nextBoolean();
+        boolean turn = (new Random(System.nanoTime())).nextBoolean();
+        createGame(turn , selectedRequest);
         selectedRequest.getFirstUser().getMessages().add("game incoming");
         selectedRequest.getSecondUser().getMessages().add("game incoming");
     }
@@ -65,5 +67,13 @@ public class PreDuelController {
             return "no message was found";
         return user.getMessages().remove(0);
     }
-
+    private void createGame(boolean turn , Request request) {
+        Game game;
+        if(turn) game = new Game(request.getFirstUser() , request.getSecondUser() , 1);
+        else game = new Game(request.getSecondUser() , request.getFirstUser() , 1);
+        game.runGame();
+        System.out.println(game.getFirstPlayer().getUser().getUsername());
+        System.out.println(game.getSecondPlayer().getUser().getUsername());
+        Game.getGames().add(game);
+    }
 }

@@ -20,7 +20,7 @@ public class Printer {
     }
 
     public static void prompt(String message) {
-        if (Game.getActivePlayer() instanceof AIPlayer) return;
+//        if (Game.getActivePlayer() instanceof AIPlayer) return;
         System.out.println(message);
     }
 

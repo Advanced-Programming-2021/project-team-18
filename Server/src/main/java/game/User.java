@@ -1,6 +1,7 @@
 package game;
 
 import card.Card;
+import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,12 +24,14 @@ public class User implements Comparable<User>, Serializable {
     private static final User dummyUser = new User();
     @Setter
     @Getter
+    @Expose
     private String username;
     @Getter
     @Setter
     private String password;
     @Getter
     @Setter
+    @Expose
     private String nickname;
     @Getter
     @Setter
@@ -41,16 +44,18 @@ public class User implements Comparable<User>, Serializable {
     private int balance;
     @Getter
     @Setter
+    @Expose
     private int avatarID;
     @Setter
     @Getter
+    @Expose
     private String token;
     private ArrayList<GameDeck> decks;
     private final HashMap<String, Integer> cardCount;
     @Getter
-    ArrayList<String> messages = new ArrayList<>();
+    private ArrayList<String> messages = new ArrayList<>();
     @Getter
-    ArrayList<Question> questions = new ArrayList<>();
+    private ArrayList<Question> questions = new ArrayList<>();
 
 
     public static List<User> getAllUsers() {
