@@ -67,11 +67,6 @@ public class MonsterCard extends Card {
     }
 
     @Override
-    public void showCard() {
-
-    }
-
-    @Override
     public Card cloneCard() {
         MonsterCard card = new MonsterCard();
         this.cloneDefaults(card);

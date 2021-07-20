@@ -1,15 +1,12 @@
 package view.menu.duelmenu;
 
 import controller.duelmenu.PreDuelController;
-import game.Game;
-import game.User;
 import javafx.animation.Interpolator;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -25,6 +22,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("BusyWait")
 public class PreDuelMenu extends View implements Initializable {
 
     public TextField textField;
@@ -44,24 +42,22 @@ public class PreDuelMenu extends View implements Initializable {
 
     public void onDuel() {
         String opponent = textField.getText();
-        String response = PreDuelController.requestDuel(MenuController.getInstance().getToken() , opponent);
-        if(response.equals("request was sent to opponent"))
-            UtilityView.displayMessage(response);
-        else
-            UtilityView.showError(response);
-
+        String response = PreDuelController.requestDuel(MenuController.getInstance().getToken(), opponent);
+        if (response.equals("request was sent to opponent")) UtilityView.displayMessage(response);
+        else UtilityView.showError(response);
     }
-    private void flipCoin(boolean turn) {
+
+    private void flipCoin() {
         coinView.setLayoutX(300);
         coinView.setLayoutY(300);
-        transition = new HeadAndTailTransition(coinView, Duration.millis(200), 3, turn);
+        transition = new HeadAndTailTransition(coinView, Duration.millis(200), 3, false);
         transition.setCycleCount(-1);
         transition.setInterpolator(Interpolator.LINEAR);
         transition.play();
         new Thread(() -> {
             do {
                 try {
-                    Thread.sleep(500);
+                    Thread. sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -126,15 +122,14 @@ public class PreDuelMenu extends View implements Initializable {
         searchForAvailableGame = new AtomicBoolean(true);
         searchForStartingGame = new AtomicBoolean(true);
         Thread searchForGameThread = new Thread(() -> {
-            while(searchForAvailableGame.get()) {
+            while (searchForAvailableGame.get()) {
                 try {
                     Thread.sleep(1000);
                     String response = PreDuelController.checkRequest(MenuController.getInstance().getToken());
-                    if(response.equals("no user was found"))
-                        continue ;
+                    if (response.equals("no user was found")) continue;
                     Platform.runLater(() -> {
-                        String userResponse = UtilityView.obtainInformationInList("do you want to play with " + response + " ?" , Utility.makeArray("yes" , "no"));
-                        if(userResponse.equals("yes")) {
+                        String userResponse = UtilityView.obtainInformationInList("do you want to play with " + response + " ?", Utility.makeArray("yes", "no"));
+                        if (userResponse.equals("yes")) {
                             PreDuelController.acceptRequest(MenuController.getInstance().getToken());
                             searchForAvailableGame.set(false);
                         }
@@ -145,15 +140,14 @@ public class PreDuelMenu extends View implements Initializable {
             }
         });
         Thread searchForStartingGameThread = new Thread(() -> {
-            while(searchForStartingGame.get()) {
+            while (searchForStartingGame.get()) {
                 try {
                     Thread.sleep(1000);
                     String response = PreDuelController.receiveLastMessage(MenuController.getInstance().getToken());
-                    if(response.equals("no message was found"))
-                        continue ;
-                    if(response.equals("game incoming")) {
+                    if (response.equals("no message was found")) continue;
+                    if (response.equals("game incoming")) {
                         searchForStartingGame.set(false);
-                        flipCoin(false);
+                        flipCoin();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

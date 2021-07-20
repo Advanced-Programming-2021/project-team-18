@@ -12,11 +12,14 @@ import java.util.HashMap;
 import java.util.Objects;
 
 @Getter
-
 public abstract class Card implements Comparable<Card> {
     private static final ArrayList<Card> allCards = new ArrayList<>();
     private static final ArrayList<String> allCardNames = new ArrayList<>();
-    private static final HashMap<String,Image> cardImages = new HashMap<>();
+    private static final HashMap<String, Image> cardImages = new HashMap<>();
+    @Getter
+    @Setter
+    private static HashMap<String, Integer> cardsBalance = new HashMap<>();
+
     @Expose
     private String cardName;
     @Setter
@@ -71,25 +74,39 @@ public abstract class Card implements Comparable<Card> {
         return allCards;
     }
 
+    public static Integer getBalanceOfCard(String cardName) {
+        return cardsBalance.get(cardName);
+    }
+
+    public static void increaseBalanceOfCard(String cardName) {
+        if (!cardsBalance.containsKey(cardName)) return;
+        cardsBalance.put(cardName, cardsBalance.get(cardName) + 1);
+    }
+
+    public static void decreaseBalanceOfCard(String cardName) {
+        if (!cardsBalance.containsKey(cardName)) return;
+        cardsBalance.put(cardName, cardsBalance.get(cardName) - 1);
+    }
+
     public boolean hasEffect(Effect effect) {
         return effects.contains(effect);
     }
 
     public Image getImage() {
-        if(cardImages.get(cardName) != null)
+        if (cardImages.get(cardName) != null)
             return cardImages.get(cardName);
         String path = "/cards_images/" + cardName.replaceAll(" ", "_") + ".jpg";
         try {
             Image image = new Image(Objects.requireNonNull(
                     getClass().getResource(path)).toExternalForm());
-            cardImages.put(cardName , image);
+            cardImages.put(cardName, image);
             return image;
         } catch (Exception e) {
-            if(cardImages.get("smiley") != null)
+            if (cardImages.get("smiley") != null)
                 return cardImages.get("smiley");
             Image image = new Image(Objects.requireNonNull(
                     getClass().getResource("/cards_images/Smiley.jpg")).toExternalForm());
-            cardImages.put("smiley" , image);
+            cardImages.put("smiley", image);
             return image;
         }
     }
@@ -101,10 +118,6 @@ public abstract class Card implements Comparable<Card> {
         card.setCardDescription(this.getCardDescription());
         card.setEffects(new ArrayList<>());
     }
-
-    public abstract Card cloneCard();
-
-    public abstract void showCard();
 
     private void manageMonsterEffects() {
 
@@ -161,6 +174,8 @@ public abstract class Card implements Comparable<Card> {
                 break;
         }
     }
+
+    public abstract Card cloneCard();
 
     private void manageSpellAndTrapEffects() {
         switch (cardName) {

@@ -15,7 +15,7 @@ public class ProgramController {
         DataManager.loadUsersData();
         DataManager.initializeAIDeck();
         new LoginMenu().runMenu();
-        DataManager.saveUsersData();
+        DataManager.saveData();
     }
 
     public void runGraphic(String[] args) {
@@ -25,6 +25,6 @@ public class ProgramController {
         DataManager.initializeAIDeck();
         APIServer.main(args);
         App.main(args);
-        DataManager.saveUsersData();
+        DataManager.saveData();
     }
 }

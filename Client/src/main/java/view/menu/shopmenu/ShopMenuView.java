@@ -21,6 +21,7 @@ import view.menu.mainmenu.MainMenuView;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ShopMenuView extends View {
 
@@ -93,25 +94,64 @@ public class ShopMenuView extends View {
             buyButton.getStyleClass().add("inactive-button");
         }
         else {
-            buyButton.getStyleClass().add("normal-button");
             buyButton.setOnAction(actionEvent -> buyCard(card));
+        }
+        Button sellButton = new Button("Sell this card");
+        if (cardBalance > 0) sellButton.setOnAction(actionEvent -> sellCard(card));
+        else {
+            sellButton.getStyleClass().clear();
+            sellButton.getStyleClass().add("inactive-button");
         }
         buyButton.resize(98.6, 35.3);
         buyButton.prefWidthProperty().bind(cardPane.widthProperty().multiply(.5));
         buyButton.prefHeightProperty().bind(buyButton.prefWidthProperty().multiply(35.3/98.6));
+        sellButton.resize(98.6, 35.3);
+        sellButton.prefWidthProperty().bind(cardPane.widthProperty().multiply(.5));
+        sellButton.prefHeightProperty().bind(buyButton.prefWidthProperty().multiply(35.3/98.6));
         Button backButton = new Button("Back");
         backButton.resize(98.6, 35.3);
         backButton.prefWidthProperty().bind(cardPane.widthProperty().multiply(.5));
         backButton.prefHeightProperty().bind(buyButton.prefWidthProperty().multiply(35.3/98.6));
         backButton.setOnAction(actionEvent -> back());
-        cardPane.getChildren().addAll(hBox, buyButton, backButton);
+        cardPane.getChildren().addAll(hBox, buyButton, sellButton, backButton);
         mainPane.setLeft(cardPane);
     }
 
-    private void buyCard(Card card) {
-        userBalance -= card.getPrice();
-        Utility.send("/api/shopmenu/buy_card", "token", MenuController.getInstance().getToken(),
+    private void sellCard(Card card) {
+        String response = Utility.send("/api/shopmenu/sell_card", "token", MenuController.getInstance().getToken(),
                 "card_name", card.getCardName());
+        switch (Objects.requireNonNull(response)) {
+            case "username_not_found":
+            case "card_not_found":
+                UtilityView.showError("Some problem occurred in connection :(");
+                return;
+            case "insufficient_balance":
+                UtilityView.showError("You don't have any instance of this card!");
+                return; // Maybe never happens ?!
+        }
+        userBalance += card.getPrice();
+        prepareCardForConsideration(card);
+        UtilityView.displayMessage("Card got sold successfully");
+    }
+
+    private void buyCard(Card card) {
+        String response = Utility.send("/api/shopmenu/buy_card", "token", MenuController.getInstance().getToken(),
+                "card_name", card.getCardName());
+        System.out.println("RESPONSE OF SERVER: " + response);
+        switch (Objects.requireNonNull(response)) {
+            case "username_not_found":
+            case "card_not_found":
+                UtilityView.showError("Some problem occurred in connection :(");
+                return;
+            case "insufficient_balance":
+                UtilityView.showError("You don't have enough balance :)");
+                return;
+            // Maybe never happens ?
+            case "no_more_card":
+                UtilityView.showError("All instances of this card have been sold!");
+                return;
+        }
+        userBalance -= card.getPrice();
         prepareCardForConsideration(card);
         UtilityView.displayMessage("Card added successfully");
     }

@@ -15,10 +15,6 @@ public class TrapCard extends Card {
 
     }
 
-    @Override
-    public void showCard() {
-
-    }
 
     @Override
     public Card cloneCard() {

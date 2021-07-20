@@ -2,7 +2,6 @@ package menus;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import game.User;
 import lombok.Getter;
 import lombok.Setter;
 import utility.Utility;
@@ -20,7 +19,6 @@ public class MenuController {
     private static final String GET_USER_LOCATION;
     private static final String REGISTER_LOCATION;
     private static final String CARD_BALANCE_LOC;
-    private static final String USER_BALANCE_LOC = "/api/shopmenu/get_user_balance";
     private static final String CHANGE_PASSWORD_LOC;
     private static final String SCOREBOARD_LOC;
     private static final Type resultType;
@@ -91,17 +89,17 @@ public class MenuController {
         HashMap<String, String> headers = Utility.makeHashMap("token", token, "card_name", cardName);
         String result = Utility.getRequest(Utility.getSERVER_LOCATION() + CARD_BALANCE_LOC,
                 null, headers);
-        return Integer.valueOf(result);
+        return Integer.parseInt(result);
     }
 
     public ArrayList<SimplifiedUser> getScoreboard() {
         String result = Utility.send(SCOREBOARD_LOC, "token", token);
         HashMap<String, String> response = new Gson().fromJson(result, resultType);
         //System.out.println(response.toString());
+        assert response != null;
         if (response.get("verdict").contentEquals("success")) {
-            ArrayList<SimplifiedUser> scoreboard = new Gson().fromJson(response.get("scoreboard"), new TypeToken<ArrayList<SimplifiedUser>>() {
+            return new Gson().fromJson(response.get("scoreboard"), new TypeToken<ArrayList<SimplifiedUser>>() {
             }.getType());
-            return scoreboard;
         }
         return null;
     }

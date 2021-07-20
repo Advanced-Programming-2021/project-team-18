@@ -35,14 +35,36 @@ public class ShopController {
 
     @RequestMapping(path = "api/shopmenu/buy_card")
     @GetMapping
-    public void buyCard(@RequestHeader(value = "token") String token,
-                        @RequestHeader(value = "card_name") String cardName) {
+    public String buyCard(@RequestHeader(value = "token") String token,
+                          @RequestHeader(value = "card_name") String cardName) {
         User user = User.getUserByToken(token);
-        if (user == null) return;
+        if (user == null) return "username_not_found";
         Card card = Card.getCardByName(cardName);
-        if (card == null) return;
-        if (user.getBalance() < card.getPrice()) return;
+        if (card == null) return "card_not_found";
+        if (user.getBalance() < card.getPrice()) return "insufficient_balance";
+        Integer cardBalance = Card.getBalanceOfCard(cardName);
+        System.out.println("cardBalance = " + cardBalance);
+        if (cardBalance == 0) return "no_more_card";
+        Card.decreaseBalanceOfCard(cardName);
+        System.out.println("cardBalance (after modificaiton) = " + Card.getCardsBalance().get(cardName));
         user.decreaseBalance(card.getPrice());
         user.addCardBalance(cardName);
+        return "successful";
+    }
+
+    @RequestMapping(path = "api/shopmenu/sell_card")
+    @GetMapping
+    public String sellCard(@RequestHeader(value = "token") String token,
+                           @RequestHeader(value = "card_name") String cardName) {
+        User user = User.getUserByToken(token);
+        if (user == null) return "username_not_found";
+        Card card = Card.getCardByName(cardName);
+        if (card == null) return "card_not_found";
+        if (user.getCardBalance(cardName) == 0) return "insufficient_balance";
+        Card.increaseBalanceOfCard(cardName);
+        System.out.println("cardBalance (after modification) = " + Card.getCardsBalance().get(cardName));
+        user.increaseBalance(card.getPrice());
+        user.subtractCardBalance(cardName);
+        return "successful";
     }
 }

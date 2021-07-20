@@ -12,7 +12,9 @@ import game.User;
 import lombok.SneakyThrows;
 import utility.Utility;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class DataManager {
     private static final String MONSTER_CARDS_PATH = "/cards/Monster.csv";
     private static final String SPELL_AND_TRAP_CARDS_PATH = "/cards/SpellTrap.csv";
     private static final String USERS_DATA_PATH = "/users/allUsers.json";
+    private static final String CARD_BALANCE_PATH = "/cards/CardBalance.json";
 
     public static void loadMonsterCardsIntoAllCards() {
         ArrayList<String[]> cards = Utility.getArrayListFromCSV(MONSTER_CARDS_PATH);
@@ -133,7 +136,19 @@ public class DataManager {
         }
     }
 
+    @SneakyThrows
+    private static void loadCardBalance(){
+        String content = new String(Files.readAllBytes(
+                Paths.get(Objects.requireNonNull(
+                        DataManager.class.getResource(CARD_BALANCE_PATH)).toURI())
+        ));
+        Card.setCardsBalance(new Gson().fromJson(content, new TypeToken<HashMap<String, Integer>>(){}.getType()));
+    }
+
+    @SneakyThrows
     public static void loadCardsIntoAllCards() {
+        System.out.println("LOADING CARDS...");
+        loadCardBalance();
         loadMonsterCardsIntoAllCards();
         loadSpellCardsIntoAllCards();
         loadTrapCardsIntoAllCards();
@@ -193,6 +208,24 @@ public class DataManager {
     }
 
     @SneakyThrows
+    private static void saveCardBalance(){
+        System.out.println("SAVING CARD_BALANCE...");
+        System.out.println(Card.getCardsBalance());
+        File file = new File(Objects.requireNonNull(
+                DataManager.class.getResource(CARD_BALANCE_PATH)).toURI());
+        FileWriter fileWriter = new FileWriter(file);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(Card.getCardsBalance());
+        fileWriter.write(json);
+        fileWriter.close();
+    }
+
+    public static void saveData() {
+        saveUsersData();
+        saveCardBalance();
+    }
+
+    @SneakyThrows
     public static void loadUsersData() {
         try {
             Gson gson = new Gson();
@@ -201,8 +234,7 @@ public class DataManager {
 
             ArrayList<User> users = gson.fromJson(text, new TypeToken<List<User>>() {
             }.getType());
-            if (users == null)
-                return;
+            if (users == null) return;
             User.setAllUsers(users);
             prepareUserDataAfterLoading();
 

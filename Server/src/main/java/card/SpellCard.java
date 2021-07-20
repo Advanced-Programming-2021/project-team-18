@@ -13,10 +13,6 @@ public class SpellCard extends Card {
     public SpellCard() {
 
     }
-    @Override
-    public void showCard() {
-
-    }
 
     @Override
     public Card cloneCard() {
