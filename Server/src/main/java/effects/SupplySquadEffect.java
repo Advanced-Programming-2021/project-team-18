@@ -12,11 +12,11 @@ public class SupplySquadEffect extends Effect {
     public void runEffect() {
         hasActivatedEffectThisTurn = true;
         if (selfPlayer.getRemainingDeck().isEmpty()) {
-            UtilityView.showError("Your deck is empty so Supply Squad cannot draw a card for you");
+            UtilityView.showError(selfPlayer.getUser(), "Your deck is empty so Supply Squad cannot draw a card for you");
             return;
         }
         if (selfPlayer.getHand().getCardsList().size() == 6) {
-            UtilityView.showError("Your hand is full so Supply Squad cannot draw a card for you");
+            UtilityView.showError(selfPlayer.getUser(), "Your hand is full so Supply Squad cannot draw a card for you");
             return;
         }
         Card newCard = selfPlayer.getRemainingDeck().pop();

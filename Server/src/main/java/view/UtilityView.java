@@ -1,21 +1,9 @@
 package view;
 
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import game.User;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import lombok.SneakyThrows;
-import view.components.ObtainInformationListController;
 
 import java.io.File;
 import java.net.URI;
@@ -62,10 +50,8 @@ public class UtilityView {
         return avatarNumbers;
     }
 
-    public static void displayMessage(String message) {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setContentText(message);
-//        alert.showAndWait();
+    public static void displayMessage(String message, User audience) {
+        audience.setDuelMessage(message);
     }
 
     public static String obtainInformation(String message) {
@@ -126,10 +112,8 @@ public class UtilityView {
         return null;
     }
 
-    public static void showError(String message) {
-//        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-//        errorAlert.setContentText(message);
-//        errorAlert.showAndWait();
+    public static void showError(User audience, String message) {
+        audience.setDuelMessage(message);
     }
 
     public static void playSound(String songName) {

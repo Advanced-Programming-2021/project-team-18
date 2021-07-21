@@ -21,17 +21,16 @@ public class MainGameController {
     private static final String SET_SPELL_OR_TRAP = "/api/duelmenu/game_menu/set_spell_or_trap";
     private static final String ACTIVATE_EFFECT = "/api/duelmenu/game_menu/activate_effect";
     private static final String FORFEIT = "/api/duelmenu/game_menu/forfeit";
+    private static final String DUEL_MESSAGE = "/api/duelmenu/game_menu/duel_message";
 
     public static Game getGameByToken(String token) {
         Gson gson = (new GsonBuilder()).registerTypeAdapter(Card.class, new CardSerializer()).create();
         String response = Utility.getRequest(Utility.getSERVER_LOCATION() + GET_GAME_BY_TOKEN, null, Utility.makeHashMap("token", token));
-        Game game = gson.fromJson(response, Game.class);
-        return game;
+        return gson.fromJson(response, Game.class);
     }
 
     public static boolean shouldRefresh(String token) {
-        String response = Utility.getRequest(Utility.getSERVER_LOCATION() + SHOULD_REFRESH, null, Utility.makeHashMap("token", token));
-        return response.equals("yes");
+        return Utility.send(SHOULD_REFRESH, "token", token).equals("yes");
     }
 
     public static void selectCard(String token, String command) {
@@ -59,21 +58,28 @@ public class MainGameController {
     }
 
     public static void attackDirect(String token) {
-        Utility.postRequest(Utility.getSERVER_LOCATION() + ATTACK_DIRECT , null , Utility.makeHashMap("token" , token));
+        Utility.postRequest(Utility.getSERVER_LOCATION() + ATTACK_DIRECT, null, Utility.makeHashMap("token", token));
     }
 
     public static void attackMonster(String token, int position) {
-        Utility.postRequest(Utility.getSERVER_LOCATION() + ATTACK_MONSTER , null , Utility.makeHashMap("token" , token , "position" , position + ""));
+        Utility.postRequest(Utility.getSERVER_LOCATION() + ATTACK_MONSTER, null, Utility.makeHashMap("token", token, "position", position + ""));
     }
 
     public static void setSpellOrTrap(String token) {
-        Utility.postRequest(Utility.getSERVER_LOCATION() + SET_SPELL_OR_TRAP, null , Utility.makeHashMap("token" , token));
+        Utility.postRequest(Utility.getSERVER_LOCATION() + SET_SPELL_OR_TRAP, null, Utility.makeHashMap("token", token));
     }
 
     public static void activateEffect(String token) {
-        Utility.postRequest(Utility.getSERVER_LOCATION() + ACTIVATE_EFFECT , null , Utility.makeHashMap("token" , token));
+        Utility.postRequest(Utility.getSERVER_LOCATION() + ACTIVATE_EFFECT, null, Utility.makeHashMap("token", token));
     }
+
     public static void forfeit(String token) {
-        Utility.postRequest(Utility.getSERVER_LOCATION() + FORFEIT , null , Utility.makeHashMap("token" , token));
+        Utility.postRequest(Utility.getSERVER_LOCATION() + FORFEIT, null, Utility.makeHashMap("token", token));
+    }
+
+    public static String getDuelMessage(String token) {
+        String response = Utility.send(DUEL_MESSAGE, "token", token);
+        System.out.println("RESPONSE OF SERVER: " + response);
+        return response;
     }
 }

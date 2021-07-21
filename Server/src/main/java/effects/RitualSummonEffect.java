@@ -42,7 +42,7 @@ public class RitualSummonEffect extends Effect {
 
     private MonsterCard selectRitualMonsterToSummon() {
         Card selectedCard;
-        UtilityView.displayMessage("Please select ritual monster to summon.");
+        UtilityView.displayMessage("Please select ritual monster to summon.", selfPlayer.getUser());
         selectedCard = selfPlayer.obtainCardFromHand();
         while (true) {
             if (selectedCard instanceof MonsterCard) {
@@ -50,7 +50,7 @@ public class RitualSummonEffect extends Effect {
                     return (MonsterCard) selectedCard;
                 }
             }
-            UtilityView.displayMessage("invalid input");
+            UtilityView.displayMessage("invalid input", selfPlayer.getUser());
         }
     }
 
@@ -73,20 +73,20 @@ public class RitualSummonEffect extends Effect {
         Card deckCard;
         boolean firstSelection = true;
         while (neededLevelSum > 0) {
-            UtilityView.displayMessage("Please choose a monster to tribute");
+            UtilityView.displayMessage("Please choose a monster to tribute", selfPlayer.getUser());
             deckCard = selfPlayer.obtainCardFromDeck(firstSelection);
             firstSelection = false;
             if (!(deckCard instanceof MonsterCard)) {
-                UtilityView.showError("Not a monster card!");
+                UtilityView.showError(selfPlayer.getUser(), "Not a monster card!");
                 continue;
             }
             sacrificedMonster = (MonsterCard) deckCard;
             if (sacrificedMonster == selectedMonster) {
-                UtilityView.showError("You cannot choose the card itself as tribute!");
+                UtilityView.showError(selfPlayer.getUser(), "You cannot choose the card itself as tribute!");
                 continue;
             }
             if (sacrificedMonster.isRitual()) {
-                UtilityView.showError("Only normal monsters can be selected as tribute!");
+                UtilityView.showError(selfPlayer.getUser(), "Only normal monsters can be selected as tribute!");
                 continue;
             }
             selfPlayer.removeCardFromDeck(deckCard);
@@ -99,9 +99,9 @@ public class RitualSummonEffect extends Effect {
         initializeSelfCardWithEvent(event);
         if (event instanceof SpellTrapActivationEvent) {
             if (((SpellTrapActivationEvent) event).getCard() == selfCard) {
-                if (Utility.checkAndPrompt(!hasRitualInHand(),
+                if (Utility.checkAndPrompt(selfPlayer.getUser(), !hasRitualInHand(),
                         "You have no ritual monster in hand!")) return false;
-                return !Utility.checkAndPrompt(!hasEnoughStarsToTribute(),
+                return !Utility.checkAndPrompt(selfPlayer.getUser(), !hasEnoughStarsToTribute(),
                         "You don't have enough stars to tribute!");
             }
         }

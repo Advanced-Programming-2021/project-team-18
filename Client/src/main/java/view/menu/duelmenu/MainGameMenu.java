@@ -7,6 +7,8 @@ import events.Phase;
 import game.Game;
 import game.Player;
 import game.User;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +31,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import menus.MenuController;
@@ -81,22 +84,22 @@ public class MainGameMenu extends View implements Initializable {
     private int[] myCardPositions = {0, 7, 9, 5, 11, 3};
     private int[] opponentCardPositions = {0, 7, 5, 9, 3, 11};
     private AtomicBoolean refreshBoardCondition;
+    private Timeline refresher;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("INITIALIZING...");
         refreshBoardCondition = new AtomicBoolean(true);
-        Thread thread = new Thread(() -> {
-            while (refreshBoardCondition.get()) {
-                try {
-                    Thread.sleep(200);
-                    if (MainGameController.shouldRefresh(MenuController.getInstance().getToken()))
-                        Platform.runLater(() -> { refresh(); });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        refresher = new Timeline(new KeyFrame(Duration.millis(200), actionEvent -> {
+            String duelMessage;
+            if (MainGameController.shouldRefresh(MenuController.getInstance().getToken())) Platform.runLater(() -> refresh());
+            duelMessage = MainGameController.getDuelMessage(MenuController.getInstance().getToken());
+            if (!duelMessage.equals("null")) {
+                UtilityView.showError(duelMessage);
             }
-        });
-        thread.start();
+        }));
+        refresher.setCycleCount(-1);
+        refresher.play();
     }
 
     private void manageGame() {
@@ -163,7 +166,7 @@ public class MainGameMenu extends View implements Initializable {
             layout.setAlignment(Pos.CENTER);
             Scene scene = new Scene(layout);
             stage.setScene(scene);
-            stage.showAndWait();
+            stage.show();
         });
         buttonsVBox.getChildren().addAll(settingButton);
     }
@@ -192,17 +195,20 @@ public class MainGameMenu extends View implements Initializable {
             });
         return imageView;
     }
+
     @SneakyThrows
     private void checkWinOrLoss() {
-        if(myPlayer.isLoser()) {
+        if (myPlayer.isLoser()) {
             refreshBoardCondition.set(false);
+            refresher.stop();
             myStage.close();
             loadView("main_menu");
             stage.show();
             UtilityView.displayMessage("you won :)");
         }
-        if(myPlayer.getOpponent().isLoser()) {
+        if (myPlayer.getOpponent().isLoser()) {
             refreshBoardCondition.set(false);
+            refresher.stop();
             myStage.close();
             loadView("main_menu");
             stage.show();
@@ -506,7 +512,7 @@ public class MainGameMenu extends View implements Initializable {
                 System.out.println("Attack!");
                 System.out.println("Defender: " + myPlayer.getOpponent()
                         .getMonstersFieldList()[monsterIndex].getCardName());
-                MainGameController.attackMonster(MenuController.getInstance().getToken() , monsterIndex);
+                MainGameController.attackMonster(MenuController.getInstance().getToken(), monsterIndex);
                 dragEvent.setDropCompleted(true);
             } else dragEvent.setDropCompleted(false);
         });

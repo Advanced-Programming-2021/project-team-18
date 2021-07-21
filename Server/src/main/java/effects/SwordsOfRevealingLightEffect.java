@@ -20,7 +20,7 @@ public class SwordsOfRevealingLightEffect extends Effect {
                     monstersField[i].setFaceUp(true);
                     selfPlayer.notifyAllEffectsForConsideration(flipEvent);
                 } else {
-                    UtilityView.displayMessage("an effect prevented flip!");
+                    UtilityView.displayMessage("an effect prevented flip!", selfPlayer.getUser());
                 }
             }
         }

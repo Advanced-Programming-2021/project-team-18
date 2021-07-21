@@ -141,11 +141,10 @@ public class Utility {
     @SneakyThrows
     public static String getRequest(String location, HashMap<String, String> params, HashMap<String, String> headers) {
         URIBuilder builder = new URIBuilder(location);
-        if(params != null) {
+        if (params != null) {
             for (String param : params.keySet())
                 builder = builder.setParameter(param, params.get(param));
         }
-        System.out.println(builder.build());
         HttpGet getRequest = new HttpGet(builder.build());
         if (headers != null) {
             for (String header : headers.keySet())
@@ -164,7 +163,6 @@ public class Utility {
             for (String param : params.keySet())
                 builder = builder.setParameter(param, params.get(param));
         }
-        System.out.println(builder.build());
         HttpPost postRequest = new HttpPost(builder.build());
         if (headers != null) {
             for (String header : headers.keySet())
@@ -183,15 +181,10 @@ public class Utility {
             header.put(args[i], args[i + 1]);
         return header;
     }
-    public static ArrayList<String> makeArrayList(String... args) {
-        ArrayList<String> result = new ArrayList<>();
-        for(int i = 0;i < args.length;++ i)
-            result.add(args[i]);
-        return result;
-    }
+
     public static String[] makeArray(String... args) {
         String[] result = new String[args.length];
-        for(int i = 0;i < args.length;++ i)
+        for (int i = 0; i < args.length; ++i)
             result[i] = args[i];
         return result;
     }

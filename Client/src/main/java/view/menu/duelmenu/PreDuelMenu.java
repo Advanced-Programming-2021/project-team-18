@@ -120,7 +120,6 @@ public class PreDuelMenu extends View implements Initializable {
     public void backButton() {
         searchForAvailableGame.set(false);
         searchForStartingGame.set(false);
-        System.out.println("FUCK");
         loadView("main_menu");
     }
 
@@ -167,16 +166,14 @@ public class PreDuelMenu extends View implements Initializable {
         searchForStartingGameThread.start();
     }
 
-    public void openChat(ActionEvent actionEvent) throws IOException {
+    public void openChat() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXML/" + "chat" + ".fxml"));
         Parent root = loader.load();
         ChatMenu controller = loader.getController();
         Stage stage = new Stage();
         stage.setWidth(400);
         stage.setHeight(650);
-        stage.setOnCloseRequest(windowEvent -> {
-            ChatMenu.stopRefresh();
-        });
+        stage.setOnCloseRequest(windowEvent -> ChatMenu.stopRefresh());
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.setFullScreen(false);

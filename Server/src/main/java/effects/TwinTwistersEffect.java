@@ -14,13 +14,13 @@ public class TwinTwistersEffect extends Effect {
     public void runEffect() {
         Card card = selfPlayer.obtainCardFromHand();
         if (selfPlayer.getOpponent().getSpellCountOnField() == 0) {
-            UtilityView.showError("Your opponent does not have anymore spells");
+            UtilityView.showError(selfPlayer.getUser(), "Your opponent does not have anymore spells");
             return;
         }
         Card firstSpell = selfPlayer.getOpponent().obtainSpellTrapFromField();
         selfPlayer.getOpponent().removeCardFromField(firstSpell, selfCard);
         if (selfPlayer.getOpponent().getSpellCountOnField() == 0) {
-            UtilityView.showError("Your opponent does not have anymore spells");
+            UtilityView.showError(selfPlayer.getUser(), "Your opponent does not have anymore spells");
             return;
         }
         Card secondSpell = selfPlayer.getOpponent().obtainSpellTrapFromField();

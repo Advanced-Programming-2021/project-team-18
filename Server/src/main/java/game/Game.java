@@ -2,11 +2,9 @@ package game;
 
 import card.Card;
 import com.google.gson.annotations.Expose;
-import data.Printer;
 import events.Phase;
 import lombok.Getter;
 import lombok.Setter;
-import view.menu.duelmenu.MainGameMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,11 +33,6 @@ public class Game {
     @Setter
     @Expose
     private boolean isGameFinished;
-
-    @Setter
-    private transient MainGameMenu firstPlayerGraphicsController;
-    @Setter
-    private transient MainGameMenu secondPlayerGraphicsController;
 
     public static Game getGameByToken(String token) {
         Game chosenGame = null;

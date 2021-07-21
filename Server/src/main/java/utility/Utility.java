@@ -3,6 +3,7 @@ package utility;
 import com.google.gson.Gson;
 import game.AIPlayer;
 import game.Player;
+import game.User;
 import lombok.SneakyThrows;
 import view.UtilityView;
 
@@ -119,10 +120,8 @@ public class Utility {
         return array;
     }
 
-    public static boolean checkAndPrompt(boolean condition, String promptMessage) {
-        if (condition) {
-//            UtilityView.showError(promptMessage);
-        }
+    public static boolean checkAndPrompt(User user, boolean condition, String promptMessage) {
+        if (condition) UtilityView.showError(user, promptMessage);
         return condition;
     }
 

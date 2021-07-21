@@ -12,28 +12,44 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class GameMenuController {
 
-    @RequestMapping(path = "api/duelmenu/game_menu/get_game_by_token" , method = RequestMethod.GET)
+    @RequestMapping(path = "api/duelmenu/game_menu/get_game_by_token", method = RequestMethod.GET)
     @GetMapping
     public String refresh(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
-        Gson gson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(Card.class , new CardSerializer()).create();
+        Gson gson = (new GsonBuilder()).excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(Card.class, new CardSerializer()).create();
         return gson.toJson(game);
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/should_refresh" , method = RequestMethod.GET)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/should_refresh", method = RequestMethod.GET)
     @GetMapping
     public String shouldRefresh(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
         User user = User.getUserByToken(token);
+        if (game == null || user == null) return "no";
         Player player = game.getPlayerByUser(user);
-        if(player.isShouldRefresh()) {
+        if (player.isShouldRefresh()) {
             player.setShouldRefresh(false);
             return "yes";
         }
         return "no";
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/select_card" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/duel_message" , method = RequestMethod.GET)
+    @GetMapping
+    public String duelMessage(@RequestHeader(value = "token") String token) {
+        User user = User.getUserByToken(token);
+        if (user == null) {
+            System.out.println("null!");
+            return "null";
+        }
+        String userMessage = user.getDuelMessage();
+        user.setDuelMessage(null);
+        return userMessage == null ? "null" : userMessage;
+    }
+
+    @RequestMapping(path = "api/duelmenu/game_menu/select_card", method = RequestMethod.POST)
     @PostMapping
-    public void selectCard(@RequestHeader(value = "token") String token , @RequestHeader(value = "command") String command) {
+    public void selectCard(@RequestHeader(value = "token") String token, @RequestHeader(value = "command") String command) {
         Game game = Game.getGameByToken(token);
         User user = User.getUserByToken(token);
         Player player = game.getPlayerByUser(user);
@@ -41,17 +57,18 @@ public class GameMenuController {
         Player who = (splittedCommand[0].equals("me") ? player : player.getOpponent());
         String where = splittedCommand[1];
         int index = Integer.parseInt(splittedCommand[2]);
-        if(where.equals("field"))
+        if (where.equals("field"))
             player.setSelectedCard(who.getFieldZone());
-        else if(where.equals("hand"))
+        else if (where.equals("hand"))
             player.setSelectedCard(who.getHand().getCardsList().get(index));
-        else if(where.equals("spell"))
+        else if (where.equals("spell"))
             player.setSelectedCard(who.getSpellsAndTrapFieldList()[index]);
         else
             player.setSelectedCard(who.getMonstersFieldList()[index]);
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/next_phase" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/next_phase", method = RequestMethod.POST)
     @PostMapping
     public void nextPhase(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -59,7 +76,8 @@ public class GameMenuController {
         game.proceedNextPhase();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/summon_monster" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/summon_monster", method = RequestMethod.POST)
     @PostMapping
     public void summonMonster(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -68,7 +86,8 @@ public class GameMenuController {
         player.summonMonster();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/set_monster" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/set_monster", method = RequestMethod.POST)
     @PostMapping
     public void setMonster(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -77,7 +96,8 @@ public class GameMenuController {
         player.setMonster();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/change_position" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/change_position", method = RequestMethod.POST)
     @PostMapping
     public void ChangePosition(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -86,7 +106,8 @@ public class GameMenuController {
         player.changeMonsterPosition();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/flip_summon" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/flip_summon", method = RequestMethod.POST)
     @PostMapping
     public void flipSummon(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -95,7 +116,8 @@ public class GameMenuController {
         player.flipSummon();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/attack_direct" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/attack_direct", method = RequestMethod.POST)
     @PostMapping
     public void attackDirect(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -104,16 +126,18 @@ public class GameMenuController {
         player.attackDirect();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/attack_monster" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/attack_monster", method = RequestMethod.POST)
     @PostMapping
-    public void attackMonster(@RequestHeader(value = "token") String token  , @RequestHeader(value = "position") String position) {
+    public void attackMonster(@RequestHeader(value = "token") String token, @RequestHeader(value = "position") String position) {
         Game game = Game.getGameByToken(token);
         User user = User.getUserByToken(token);
         Player player = game.getPlayerByUser(user);
         player.attack(Integer.parseInt(position));
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/set_spell_or_trap" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/set_spell_or_trap", method = RequestMethod.POST)
     @PostMapping
     public void setSpellOrTrap(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -122,7 +146,8 @@ public class GameMenuController {
         player.setSpellOrTrap();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/activate_effect" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/activate_effect", method = RequestMethod.POST)
     @PostMapping
     public void activateEffect(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);
@@ -131,7 +156,8 @@ public class GameMenuController {
         player.activateEffect();
         game.notifyGraphic();
     }
-    @RequestMapping(path = "api/duelmenu/game_menu/forfeit" , method = RequestMethod.POST)
+
+    @RequestMapping(path = "api/duelmenu/game_menu/forfeit", method = RequestMethod.POST)
     @PostMapping
     public void forfeit(@RequestHeader(value = "token") String token) {
         Game game = Game.getGameByToken(token);

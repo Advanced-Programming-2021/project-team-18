@@ -27,7 +27,7 @@ public class HeraldOfCreationEffect extends Effect {
             if (card instanceof MonsterCard && ((MonsterCard) card).getCardLevel() >= 7)
                 options.add(card.getCardName());
         if (options.isEmpty()) {
-            UtilityView.displayMessage("unfortunately no card for you to pick from");
+            UtilityView.displayMessage("unfortunately no card for you to pick from", selfPlayer.getUser());
             return;
         }
         String response = Utility.askPlayer(selfPlayer, message, options);

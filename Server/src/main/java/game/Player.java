@@ -7,7 +7,6 @@ import effects.Effect;
 import events.*;
 import lombok.Getter;
 import lombok.Setter;
-import menus.Menu;
 import org.jetbrains.annotations.Nullable;
 import utility.Utility;
 import view.UtilityView;
@@ -67,10 +66,6 @@ public class Player {
         hasSummonedMonsterThisTurn = false;
     }
 
-    public void print(String str) {
-        Printer.prompt(this , str);
-    }
-
     protected void increaseLifePoint(int amount) {
         this.lifePoint += amount;
     }
@@ -80,14 +75,14 @@ public class Player {
         // event : [lifepoint change]
         LifePointChangeEvent lifePointChangeEvent = new LifePointChangeEvent(this, causedCard, -amount);
         if (!getPermissionFromAllEffects(lifePointChangeEvent)) {
-            UtilityView.displayMessage("life point won't change (an effect prevented LP change)");
+            UtilityView.displayMessage("life point won't change (an effect prevented LP change)", user);
             return false;
         }
         UtilityView.playSound("healthDecrease.wav");
         lifePoint -= amount;
         if (lifePoint < 0) lifePoint = 0;
         if (lifePoint == 0) loser = true;
-        if(loser) game.setGameFinished(true);
+        if (loser) game.setGameFinished(true);
         notifyAllEffectsForConsideration(lifePointChangeEvent);
         return true;
     }
@@ -127,7 +122,8 @@ public class Player {
     public void drawPhase() {
         if (game.isNotFirstTurn()) {
             if (remainingDeck.isEmpty()) {
-                UtilityView.displayMessage("No card is remained in " + this.user.getNickname() + "'s deck.\nThey've lost!");
+                UtilityView.displayMessage("No card is remained in " + this.user.getNickname() + "'s deck.\nThey've lost!",
+                        this.getUser());
                 loser = true;
                 return;
             }
@@ -228,7 +224,7 @@ public class Player {
 
         CardEvent cardEvent = new CardEvent(card, CardEventInfo.DESTROYED, causedCard);
         if (!getPermissionFromAllEffects(cardEvent)) {
-            UtilityView.displayMessage("card won't be destroyed(an effect prevented destruction)");
+            UtilityView.displayMessage("card won't be destroyed(an effect prevented destruction)", user);
             return false;
         }
         for (int i = 1; i <= FIELD_SIZE; i++) {
@@ -335,23 +331,23 @@ public class Player {
     public Card obtainCardFromDeck(boolean showDeck) {
         String message = "please select a card";
         String[] options = new String[remainingDeck.getSize()];
-        for(int i = 0;i < remainingDeck.getSize();++ i)
+        for (int i = 0; i < remainingDeck.getSize(); ++i)
             options[i] = remainingDeck.getCardsList().get(i).getCardName();
-        String response = UtilityView.obtainInformationInList(message , options);
-        for(int i = 0;i < remainingDeck.getSize();++ i)
-            if(options[i].equals(response))
+        String response = UtilityView.obtainInformationInList(message, options);
+        for (int i = 0; i < remainingDeck.getSize(); ++i)
+            if (options[i].equals(response))
                 return remainingDeck.getCardsList().get(i);
         return remainingDeck.getCardsList().get(0);
     }
 
     public Card obtainCardFromGraveYard() {
         if (graveyard.isEmpty()) return null;
-        String input = UtilityView.obtainInformationInCertainWay("Enter the number of the monster card which you want to transform scanner to:" , "\\d{1,4}");
+        String input = UtilityView.obtainInformationInCertainWay("Enter the number of the monster card which you want to transform scanner to:", "\\d{1,4}");
         int size = graveyard.getSize();
         while (!input.matches("\\d{1,4}")
                 || Integer.parseInt(input) > size
                 || Integer.parseInt(input) < 1) {
-            input = UtilityView.obtainInformationInCertainWay("Enter the number of the monster card which you want to transform scanner to:" , "\\d{1,4}");
+            input = UtilityView.obtainInformationInCertainWay("Enter the number of the monster card which you want to transform scanner to:", "\\d{1,4}");
         }
         int index = Integer.parseInt(input);
         return graveyard.getCardsList().get(index);
@@ -362,9 +358,9 @@ public class Player {
 
         String message = "please select a card";
         String[] options = new String[deck.getSize()];
-        for(int i = 0;i < deck.getSize();++ i)
+        for (int i = 0; i < deck.getSize(); ++i)
             options[i] = deck.getCardsList().get(i).getCardName();
-        while(true) {
+        while (true) {
             String response = UtilityView.obtainInformationInList(message, options);
             int index = Integer.parseInt(response) - 1;
             if (0 <= index && index < deck.getSize()) {
@@ -378,7 +374,7 @@ public class Player {
     // returns 0/0 if r <= l
     public int obtainNumberInRange(int l, int r, String prompt) {
         if (r <= l) //noinspection divzero,NumericOverflow
-            return 0/0;
+            return 0 / 0;
         int number;
         while (true) {
             try {
@@ -388,7 +384,7 @@ public class Player {
                 continue;
             }
             if (l <= number && number < r) return number;
-            UtilityView.showError("number out of range!");
+            UtilityView.showError(user, "number out of range!");
         }
     }
 
@@ -424,22 +420,22 @@ public class Player {
 
     public void changeMonsterPosition() {
         if (selectedCard == null) {
-            UtilityView.showError("no card is selected yet");
+            UtilityView.showError(user, "no card is selected yet");
             return;
         }
         int cardId = getSelectedMonsterCardOnFieldID();
         if (cardId == -1) {
-            UtilityView.showError("you can't change this card position");
+            UtilityView.showError(user, "you can't change this card position");
             return;
         }
         if (monstersFieldList[cardId].isHasChangedPositionThisTurn()) {
-            UtilityView.showError("you already changed this card position in this turn");
+            UtilityView.showError(user, "you already changed this card position in this turn");
             return;
         }
         // maybe change position event ? not needed yet though
         monstersFieldList[cardId].setHasChangedPositionThisTurn(true);
         monstersFieldList[cardId].setDefenseMode(!monstersFieldList[cardId].isDefenseMode());
-        UtilityView.displayMessage("monster card position changed successfully");
+        UtilityView.displayMessage("monster card position changed successfully", user);
     }
 
     // Used to summon monsters with level greater than 6
@@ -462,21 +458,21 @@ public class Player {
 
     public void summonMonster() {
 //      Note: This function should be modified later to support
-        if (Utility.checkAndPrompt(selectedCard == null,
+        if (Utility.checkAndPrompt(user, selectedCard == null,
                 "no card is selected yet")) return;
         int place = getSelectedCardOnHandID();
-        if (Utility.checkAndPrompt(!(selectedCard instanceof MonsterCard) || place == -1,
+        if (Utility.checkAndPrompt(user, !(selectedCard instanceof MonsterCard) || place == -1,
                 "you can’t summon this card")) return;
         int placeOnField = getFirstEmptyPlaceOnMonstersField();
-        if (Utility.checkAndPrompt(placeOnField == -1,
+        if (Utility.checkAndPrompt(user, placeOnField == -1,
                 "monster card zone is full")) return;
-        if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn,
+        if (Utility.checkAndPrompt(user, hasSummonedMonsterThisTurn,
                 "you already summoned/set on this turn")) return;
         // event : [summon]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
         if (!getPermissionFromAllEffects(cardEvent)) {
 
-            UtilityView.showError("you don't have permission to summon");
+            UtilityView.showError(user, "you don't have permission to summon");
             return;
         }
         selectedCard.setFaceUp(true);
@@ -489,10 +485,10 @@ public class Player {
             return;
         }
         if (monsterLevel <= 6) {
-            if (Utility.checkAndPrompt(placeOnField == 1,
+            if (Utility.checkAndPrompt(user, placeOnField == 1,
                     "there are not enough cards for tribute")) return;
             int address = Integer.parseInt(UtilityView.obtainInformationInCertainWay("input the address of the card you want to tribute", "\\d+"));
-            if (Utility.checkAndPrompt(isMonsterAddressInvalid(address),
+            if (Utility.checkAndPrompt(user, isMonsterAddressInvalid(address),
                     "there are no monsters on this address")) return;
             summonMonsterMediumLevel(place, address);
             UtilityView.playSoundWithoutCycle("summon.wav");
@@ -501,15 +497,15 @@ public class Player {
             return;
         }
 
-        if (Utility.checkAndPrompt(placeOnField == 1 || placeOnField == 2,
+        if (Utility.checkAndPrompt(user, placeOnField == 1 || placeOnField == 2,
                 "there are not enough cards for tribute")) return;
         String input1, input2;
         //Printer.prompt("input two addresses for the cards you want to tribute in TWO DIFFERENT LINES:");
         int firstTribute = Integer.parseInt(UtilityView.obtainInformationInCertainWay("input the first address for tribute", "\\d+"));
         int secondTribute = Integer.parseInt(UtilityView.obtainInformationInCertainWay("input the second address for tribute", "\\d+"));
-        if (Utility.checkAndPrompt(isMonsterAddressInvalid(firstTribute) || isMonsterAddressInvalid(secondTribute),
+        if (Utility.checkAndPrompt(user, isMonsterAddressInvalid(firstTribute) || isMonsterAddressInvalid(secondTribute),
                 "there is no monster on one of these addresses")) return;
-        if (Utility.checkAndPrompt(firstTribute == secondTribute,
+        if (Utility.checkAndPrompt(user, firstTribute == secondTribute,
                 "Tributes are the same!")) return;
         summonMonsterHighLevel(firstTribute, secondTribute, place);
         UtilityView.playSoundWithoutCycle("summon.wav");
@@ -520,12 +516,12 @@ public class Player {
 
 
     public void setMonster() {
-        if (Utility.checkAndPrompt((selectedCard == null), "no card is selected yet")) return;
+        if (Utility.checkAndPrompt(user, (selectedCard == null), "no card is selected yet")) return;
         int placeOnHand = getSelectedCardOnHandID();
-        if (Utility.checkAndPrompt((placeOnHand == -1), "you can’t set this card")) return;
+        if (Utility.checkAndPrompt(user, (placeOnHand == -1), "you can’t set this card")) return;
         int placeOnMonstersZone = getFirstEmptyPlaceOnMonstersField();
-        if (Utility.checkAndPrompt((placeOnMonstersZone == -1), "monster card zone is full")) return;
-        if (Utility.checkAndPrompt(hasSummonedMonsterThisTurn, "you already summoned/set on this turn")) return;
+        if (Utility.checkAndPrompt(user, (placeOnMonstersZone == -1), "monster card zone is full")) return;
+        if (Utility.checkAndPrompt(user, hasSummonedMonsterThisTurn, "you already summoned/set on this turn")) return;
         // event : [summon]
         selectedCard.setFaceUp(false);
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
@@ -538,7 +534,7 @@ public class Player {
         hasSummonedMonsterThisTurn = true;
         ((MonsterCard) selectedCard).setDefenseMode(true);
         theSummonedMonsterThisTurn = selectedCard;
-        UtilityView.displayMessage("set successfully");
+        UtilityView.displayMessage("set successfully", user);
         notifyAllEffectsForConsideration(cardEvent);
         Printer.showBoard(this, this.opponent);
     }
@@ -546,50 +542,50 @@ public class Player {
 
     public void flipSummon() {
         if (selectedCard == null) {
-            UtilityView.showError("no card is selected yet");
+            UtilityView.showError(user, "no card is selected yet");
             return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
         if (cardID <= 0) {
-            UtilityView.showError("you can’t change this card position");
+            UtilityView.showError(user, "you can’t change this card position");
             return;
         }
         if (selectedCard.isFaceUp() || theSummonedMonsterThisTurn == selectedCard) {
-            UtilityView.showError("you can’t flip summon this card");
+            UtilityView.showError(user, "you can’t flip summon this card");
             return;
         }
         // event : [flip]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.FLIP, null);
 
         if (!getPermissionFromAllEffects(cardEvent)) {
-            UtilityView.showError("you can't flip your card");
+            UtilityView.showError(user, "you can't flip your card");
             return;
         }
         selectedCard.setFaceUp(true);
 
         notifyAllEffectsForConsideration(cardEvent);
-        UtilityView.displayMessage("flip summoned successfully");
+        UtilityView.displayMessage("flip summoned successfully", user);
         Printer.showBoard(this, this.opponent);
     }
 
 
     public void attack(int positionToAttack) {
         if (selectedCard == null) {
-            UtilityView.showError("no card is selected yet");
+            UtilityView.showError(user, "no card is selected yet");
             return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
         System.out.println(cardID);
         if (cardID <= 0) {
-            UtilityView.showError("you can’t attack with this card");
+            UtilityView.showError(user, "you can’t attack with this card");
             return;
         }
         if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
-            UtilityView.showError("this card already attacked");
+            UtilityView.showError(user, "this card already attacked");
             return;
         }
         if (((MonsterCard) selectedCard).isDefenseMode()) {
-            UtilityView.showError("can't attack with a defense position monster");
+            UtilityView.showError(user, "can't attack with a defense position monster");
             return;
         }
         if (positionToAttack <= 0 || positionToAttack >= 6 || opponent.getMonstersFieldList()[positionToAttack] == null)
@@ -597,7 +593,7 @@ public class Player {
         // event : [Attack Event]
         AttackEvent attackEvent = new AttackEvent((MonsterCard) selectedCard, opponent.getMonstersFieldList()[positionToAttack]);
         if (!getPermissionFromAllEffects(attackEvent)) {
-            UtilityView.showError("you can't attack");
+            UtilityView.showError(user, "you can't attack");
             return;
         }
         notifyAllEffectsForConsideration(attackEvent);
@@ -607,20 +603,20 @@ public class Player {
 
     public void attackDirect() {
         if (selectedCard == null) {
-            UtilityView.showError("no card is selected yet");
+            UtilityView.showError(user, "no card is selected yet");
             return;
         }
         int cardID = getSelectedMonsterCardOnFieldID();
         if (cardID <= 0) {
-            UtilityView.showError("you can’t attack with this card");
+            UtilityView.showError(user, "you can’t attack with this card");
             return;
         }
         if (((MonsterCard) selectedCard).isHasAttackedThisTurn()) {
-            UtilityView.showError("this card has already attacked");
+            UtilityView.showError(user, "this card has already attacked");
             return;
         }
-        if(((MonsterCard) selectedCard).isDefenseMode()) {
-            UtilityView.showError("can't attack with defense position monster");
+        if (((MonsterCard) selectedCard).isDefenseMode()) {
+            UtilityView.showError(user, "can't attack with defense position monster");
             return;
         }
 
@@ -631,48 +627,49 @@ public class Player {
                 break;
             }
         if (doesOpponentHaveMonster) {
-            UtilityView.showError("can't attack direct when opponent has at least a monster");
+            UtilityView.showError(user, "can't attack direct when opponent has at least a monster");
             return;
         }
         // event : [Attack Event]
         AttackEvent attackEvent = new AttackEvent((MonsterCard) selectedCard, null);
         if (!getPermissionFromAllEffects(attackEvent)) {
-            UtilityView.showError("you can't attack");
+            UtilityView.showError(user, "you can't attack");
             return;
         }
         notifyAllEffectsForConsideration(attackEvent);
         opponent.decreaseLifePoint(((MonsterCard) selectedCard).getCardAttack(), null);
         if (opponent.getLifePoint() <= 0) opponent.setLoser(true);
         ((MonsterCard) selectedCard).setHasAttackedThisTurn(true);
-        UtilityView.displayMessage("your opponent receives " + ((MonsterCard) selectedCard).getCardAttack() + " battle damage");
+        UtilityView.displayMessage("your opponent receives " + 
+                ((MonsterCard) selectedCard).getCardAttack() + " battle damage", user);
         Printer.showBoard(this, this.opponent);
     }
 
     // by Pasha
     public void activateEffect() {
         if (selectedCard == null) {
-            UtilityView.showError("no card is selected");
+            UtilityView.showError(user, "no card is selected");
             return;
         }
         if (!(selectedCard instanceof SpellCard) && !(selectedCard instanceof TrapCard)) {
-            UtilityView.showError("activate effect is only for spells");
+            UtilityView.showError(user, "activate effect is only for spells");
             return;
         }
         if (selectedCard.isFaceUp()) {
-            UtilityView.showError("you have already activated this card");
+            UtilityView.showError(user, "you have already activated this card");
             return;
         }
         boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
         if (isFieldSpell) {
-            if(getSelectedCardOnHandID() == -1 && fieldZone != null) {
+            if (getSelectedCardOnHandID() == -1 && fieldZone != null) {
                 fieldZone.setFaceUp(true);
-                CardEvent cardEvent = new CardEvent(fieldZone , CardEventInfo.FLIP , null);
+                CardEvent cardEvent = new CardEvent(fieldZone, CardEventInfo.FLIP, null);
                 notifyAllEffectsForConsideration(cardEvent);
-                return ;
+                return;
             }
             fieldZone = (SpellCard) selectedCard;
             fieldZone.setFaceUp(true);
-            CardEvent cardEvent = new CardEvent(fieldZone , CardEventInfo.ACTIVATE_EFFECT , null);
+            CardEvent cardEvent = new CardEvent(fieldZone, CardEventInfo.ACTIVATE_EFFECT, null);
             hand.removeCard(selectedCard);
             notifyAllEffectsForConsideration(cardEvent);
             return;
@@ -682,24 +679,24 @@ public class Player {
         if (getSelectedCardOnHandID() != -1) {
             int firstEmptyPlace = getFirstEmptyPlaceOnSpellsField();
             if (firstEmptyPlace == -1) {
-                UtilityView.showError("there is no card space on board for you to activate your spell");
+                UtilityView.showError(user, "there is no card space on board for you to activate your spell");
             } else {
                 CardEvent entranceCardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
                 if (!getPermissionFromAllEffects(entranceCardEvent) || !getPermissionFromAllEffects(activateCardEvent)) {
-                    UtilityView.showError("you can't activate this spell");
+                    UtilityView.showError(user, "you can't activate this spell");
                     return;
                 }
                 spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
                 notifyAllEffectsForConsideration(entranceCardEvent);
             }
-        } else if(getSpellOrTrapPositionOnBoard(selectedCard) == -1) {
-            UtilityView.showError("invalid card selected for activating");
-            return ;
+        } else if (getSpellOrTrapPositionOnBoard(selectedCard) == -1) {
+            UtilityView.showError(user, "invalid card selected for activating");
+            return;
         }
         // event : [cardEvent]
 
         if (!getPermissionFromAllEffects(activateCardEvent) || !getPermissionFromAllEffects(spellTrapActivationEvent)) {
-            UtilityView.showError("you can't activate this spell");
+            UtilityView.showError(user, "you can't activate this spell");
             return;
         }
         selectedCard.setFaceUp(true);
@@ -707,7 +704,7 @@ public class Player {
         notifyAllEffectsForConsideration(activateCardEvent);
         notifyAllEffectsForConsideration(spellTrapActivationEvent);
         UtilityView.playSoundWithoutCycle("activateEffect.wav");
-        UtilityView.displayMessage("spell activated");
+        UtilityView.displayMessage("spell activated", user);
 
         Printer.showBoard(this, this.opponent);
     }
@@ -716,7 +713,7 @@ public class Player {
     public boolean setSpellOrTrap() {
         int placeOnHand = getSelectedCardOnHandID();
         if (placeOnHand == -1) {
-            UtilityView.showError("you can't set this card");
+            UtilityView.showError(user, "you can't set this card");
             return false;
         }
         boolean isFieldSpell = (selectedCard instanceof SpellCard) && (((SpellCard) selectedCard).getCardSpellType() == SpellType.FIELD);
@@ -724,7 +721,7 @@ public class Player {
             // event :[cardEvent]
             CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
             if (!getPermissionFromAllEffects(cardEvent)) {
-                UtilityView.showError("you can't set this spell");
+                UtilityView.showError(user, "you can't set this spell");
                 return false;
             }
 
@@ -732,33 +729,33 @@ public class Player {
             fieldZone = (SpellCard) selectedCard;
             hand.removeCard(selectedCard);
             notifyAllEffectsForConsideration(cardEvent);
-            UtilityView.displayMessage("set successfully");
+            UtilityView.displayMessage("set successfully", user);
             return true;
         }
         if (getFirstEmptyPlaceOnSpellsField() == -1) {
-            UtilityView.showError("spell card zone is full");
+            UtilityView.showError(user, "spell card zone is full");
             return false;
         }
         // event :[cardEvent]
         CardEvent cardEvent = new CardEvent(selectedCard, CardEventInfo.ENTRANCE, null);
         if (!getPermissionFromAllEffects(cardEvent)) {
-            UtilityView.showError("you can't set this spell");
+            UtilityView.showError(user, "you can't set this spell");
             return false;
         }
         spellsAndTrapFieldList[getFirstEmptyPlaceOnSpellsField()] = selectedCard;
         notifyAllEffectsForConsideration(cardEvent);
         hand.removeCard(selectedCard);
-        UtilityView.displayMessage("set successfully");
+        UtilityView.displayMessage("set successfully", user);
         Printer.showBoard(this, this.opponent);
         return true;
     }
 
 
     public void showSelectedCard() {
-        if (Utility.checkAndPrompt(
+        if (Utility.checkAndPrompt(user, 
                 selectedCard == null,
                 "no card is selected yet")) return;
-        if (Utility.checkAndPrompt(
+        if (Utility.checkAndPrompt(user, 
                 selectedCard.getPlayer() == opponent && !selectedCard.isFaceUp(),
                 "card is not visible")) return;
         Printer.showCard(selectedCard);

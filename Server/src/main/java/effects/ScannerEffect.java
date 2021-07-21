@@ -24,7 +24,7 @@ public class ScannerEffect extends Effect {
     private MonsterCard handleEffectIO() {
         Card selectedCard = selfPlayer.getOpponent().obtainCardFromGraveYard();
         while (!(selectedCard instanceof MonsterCard)) {
-            UtilityView.showError("The selected Card isn't a monster card! try again");
+            UtilityView.showError(selfPlayer.getUser(), "The selected Card isn't a monster card! try again");
             selectedCard = selfPlayer.getOpponent().obtainCardFromGraveYard();
         }
         return (MonsterCard) selectedCard;
@@ -47,7 +47,7 @@ public class ScannerEffect extends Effect {
         if (event instanceof TurnChangeEvent && isActivated) {
             int graveyardMonsterSize = selfCard.getPlayer().getOpponent().getNumberOfMonstersInGraveyard();
             if (graveyardMonsterSize == 0) {
-                UtilityView.showError("Opponent does not have any monster cards in their graveyard, so the Scanner cannot activate its effect");
+                UtilityView.showError(selfPlayer.getUser(), "Opponent does not have any monster cards in their graveyard, so the Scanner cannot activate its effect");
                 return;
             }
             MonsterCard card = handleEffectIO();

@@ -65,7 +65,7 @@ public class UtilityView {
     public static void displayMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
-        alert.showAndWait();
+        alert.show();
     }
 //    public static void displayMessage(String message) {
 //        Popup popup = new Popup();
@@ -112,36 +112,38 @@ public class UtilityView {
 //    }
 
     public static String obtainInformation(String message) {
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setMinWidth(200);
-        Label label = new Label();
-        label.setText(message);
-        TextField textField = new TextField();
-        Button closeButton = new Button("submit");
-        closeButton.setOnAction(e -> {
-            answer = textField.getText();
-            stage.close();
-        });
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, textField, closeButton);
-        layout.getStylesheets().add(Objects.requireNonNull(UtilityView.class.getResource(
-                "CSS/styles.css")).toExternalForm());
-        layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout);
-        stage.setScene(scene);
-        stage.showAndWait();
-        return answer;
+        return null;
+//        Stage stage = new Stage();
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.setMinWidth(200);
+//        Label label = new Label();
+//        label.setText(message);
+//        TextField textField = new TextField();
+//        Button closeButton = new Button("submit");
+//        closeButton.setOnAction(e -> {
+//            answer = textField.getText();
+//            stage.close();
+//        });
+//        VBox layout = new VBox(10);
+//        layout.getChildren().addAll(label, textField, closeButton);
+//        layout.getStylesheets().add(Objects.requireNonNull(UtilityView.class.getResource(
+//                "CSS/styles.css")).toExternalForm());
+//        layout.setAlignment(Pos.CENTER);
+//        Scene scene = new Scene(layout);
+//        stage.setScene(scene);
+//        stage.showAndWait();
+//        return answer;
     }
 
     public static String obtainInformationInCertainWay(String message, String regex) {
-        String input;
-        while (true) {
-            input = obtainInformation(message);
-            if (!input.matches(regex)) showError("your input didn't match the format try again!");
-            else break;
-        }
-        return input;
+        return null;
+//        String input;
+//        while (true) {
+//            input = obtainInformation(message);
+//            if (!input.matches(regex)) showError("your input didn't match the format try again!");
+//            else break;
+//        }
+//        return input;
     }
 
     @SneakyThrows
@@ -170,7 +172,7 @@ public class UtilityView {
     public static void showError(String message) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setContentText(message);
-        errorAlert.showAndWait();
+        errorAlert.show();
     }
 
     public static void playSound(String songName) {

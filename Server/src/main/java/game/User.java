@@ -57,6 +57,8 @@ public class User implements Comparable<User>, Serializable {
     private final ArrayList<String> messages = new ArrayList<>();
     @Getter
     private final ArrayList<Question> questions = new ArrayList<>();
+    @Setter @Getter
+    private String duelMessage;
 
 
     public static List<User> getAllUsers() {

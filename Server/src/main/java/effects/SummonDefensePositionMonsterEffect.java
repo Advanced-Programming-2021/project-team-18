@@ -16,19 +16,19 @@ public class SummonDefensePositionMonsterEffect extends Effect {
     public void runEffect() {
         Card card = selfPlayer.obtainCardFromHand();
         if (!(card instanceof MonsterCard) || ((MonsterCard) card).getCardLevel() > 4) {
-            UtilityView.showError("invalid command!");
+            UtilityView.showError(selfPlayer.getUser(), "invalid command!");
             return;
         }
         int placeOnField = selfPlayer.getFirstEmptyPlaceOnMonstersField();
         if (!selfPlayer.getPermissionFromAllEffects(new CardEvent(card, CardEventInfo.ENTRANCE, selfCard)) || placeOnField == -1) {
-            UtilityView.showError("you can't summon this card!");
+            UtilityView.showError(selfPlayer.getUser(), "you can't summon this card!");
             return;
         }
         card.setFaceUp(true);
         ((MonsterCard) card).setDefenseMode(true);
         selfPlayer.getMonstersFieldList()[placeOnField] = (MonsterCard) card;
         selfPlayer.removeCardFromHand(card);
-        UtilityView.displayMessage("card summoned successfully!");
+        UtilityView.displayMessage("card summoned successfully!", selfPlayer.getUser());
     }
 
     public boolean permit(Event event) {
