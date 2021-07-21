@@ -47,11 +47,11 @@ public class PreDuelMenu extends View implements Initializable {
     public void onDuel() {
         String opponent = textField.getText();
         String response = PreDuelController.requestDuel(MenuController.getInstance().getToken() , opponent);
-        if(response.equals("request was sent to opponent"))
+        if(response.equals("request was sent to opponent")) {
             UtilityView.displayMessage(response);
-        else
+        } else {
             UtilityView.showError(response);
-
+        }
     }
     private void flipCoin(boolean turn) {
         coinView.setLayoutX(300);

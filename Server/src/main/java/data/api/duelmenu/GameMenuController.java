@@ -131,5 +131,14 @@ public class GameMenuController {
         player.activateEffect();
         game.notifyGraphic();
     }
+    @RequestMapping(path = "api/duelmenu/game_menu/forfeit" , method = RequestMethod.POST)
+    @PostMapping
+    public void forfeit(@RequestHeader(value = "token") String token) {
+        Game game = Game.getGameByToken(token);
+        User user = User.getUserByToken(token);
+        Player player = game.getPlayerByUser(user);
+        player.setLoser(true);
+        game.notifyGraphic();
+    }
 
 }

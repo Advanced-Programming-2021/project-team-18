@@ -20,6 +20,7 @@ public class MainGameController {
     private static final String ATTACK_MONSTER = "/api/duelmenu/game_menu/attack_monster";
     private static final String SET_SPELL_OR_TRAP = "/api/duelmenu/game_menu/set_spell_or_trap";
     private static final String ACTIVATE_EFFECT = "/api/duelmenu/game_menu/activate_effect";
+    private static final String FORFEIT = "/api/duelmenu/game_menu/forfeit";
 
     public static Game getGameByToken(String token) {
         Gson gson = (new GsonBuilder()).registerTypeAdapter(Card.class, new CardSerializer()).create();
@@ -72,5 +73,7 @@ public class MainGameController {
     public static void activateEffect(String token) {
         Utility.postRequest(Utility.getSERVER_LOCATION() + ACTIVATE_EFFECT , null , Utility.makeHashMap("token" , token));
     }
-
+    public static void forfeit(String token) {
+        Utility.postRequest(Utility.getSERVER_LOCATION() + FORFEIT , null , Utility.makeHashMap("token" , token));
+    }
 }

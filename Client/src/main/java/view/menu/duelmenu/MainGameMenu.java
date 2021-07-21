@@ -151,8 +151,7 @@ public class MainGameMenu extends View implements Initializable {
             Button closeButton = new Button("resume");
             Button forfeitButton = new Button("forfeit");
             forfeitButton.setOnMouseClicked(event2 -> {
-                // todo send to server
-                myPlayer.setLoser(true);
+                MainGameController.forfeit(MenuController.getInstance().getToken());
                 stage.close();
             });
             closeButton.setOnMouseClicked(event2 -> {
