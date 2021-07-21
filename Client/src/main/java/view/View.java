@@ -21,7 +21,12 @@ public class View {
         ((View) loader.getController()).adjustScene();
         return loader.getController();
     }
+
     public void adjustScene() {
+
+    }
+
+    public void handleServerMessage(String message) {
 
     }
 }

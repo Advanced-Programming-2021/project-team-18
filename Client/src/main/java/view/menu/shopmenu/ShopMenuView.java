@@ -1,6 +1,8 @@
 package view.menu.shopmenu;
 
 import card.Card;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,6 +11,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
+import lombok.SneakyThrows;
 import menus.MenuController;
 import utility.Utility;
 import view.UtilityView;
@@ -26,6 +30,8 @@ public class ShopMenuView extends View {
     public Button initialBackButton;
 
     private int userBalance;
+    private Card selectedCard = null;
+    private Timeline refreshPage;
 
     @FXML
     public void initialize() {
@@ -50,7 +56,7 @@ public class ShopMenuView extends View {
             cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.66 / rowSize));
             cardImage.setPreserveRatio(true);
             Card finalCard = card;
-            cardImage.setOnMouseClicked(mouseEvent -> prepareCardForConsideration(finalCard));
+            cardImage.setOnMouseClicked(mouseEvent -> selectedCard = finalCard);
             grid.add(cardImage, i % rowSize, i / rowSize);
             i++;
         }
@@ -58,6 +64,9 @@ public class ShopMenuView extends View {
                 Utility.makeHashMap("token", MenuController.getInstance().getToken()));
         System.out.println("BALANCE RESPONSE: " + balanceStr);
         userBalance = Integer.parseInt(balanceStr);
+        refreshPage = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> prepareCardForConsideration(selectedCard)));
+        refreshPage.setCycleCount(-1);
+        refreshPage.play();
     }
 
     private Color blackAndWhiteColor(Color color) {
@@ -78,6 +87,8 @@ public class ShopMenuView extends View {
     }
 
     private void prepareCardForConsideration(Card card) {
+        System.out.println("PREPARING " + card + "...");
+        if (card == null) return;
         int cardBalance = MenuController.getInstance().getCardBalance(card.getCardName());
         boolean isForbidden = MenuController.getInstance().getCardForbid(card.getCardName());
         VBox cardPane = new VBox();
@@ -128,6 +139,7 @@ public class ShopMenuView extends View {
         mainPane.setLeft(cardPane);
     }
 
+    @SneakyThrows
     private void sellCard(Card card) {
         String response = Utility.send("/api/shopmenu/sell_card", "token", MenuController.getInstance().getToken(),
                 "card_name", card.getCardName());
@@ -145,6 +157,7 @@ public class ShopMenuView extends View {
         UtilityView.displayMessage("Card got sold successfully");
     }
 
+    @SneakyThrows
     private void buyCard(Card card) {
         String response = Utility.send("/api/shopmenu/buy_card", "token", MenuController.getInstance().getToken(),
                 "card_name", card.getCardName());
@@ -168,6 +181,7 @@ public class ShopMenuView extends View {
     }
 
     public void back() {
+        refreshPage.stop();
         try {
             loadView("main_menu");
         } catch (IOException e) {
