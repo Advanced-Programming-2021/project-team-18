@@ -23,7 +23,7 @@ public class ProgramController {
         DataManager.initializeAIDeck();
         DataManager.loadUsersData();
         DataManager.initializeAIDeck();
-        //APIServer.main(args);
+        APIServer.main(args);
         App.main(args);
     }
 }

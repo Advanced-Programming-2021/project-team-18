@@ -7,8 +7,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public class ServerWelcomeView extends View {
 
@@ -59,13 +60,33 @@ public class ServerWelcomeView extends View {
         button.prefHeightProperty().bind(button.prefWidthProperty().multiply(35.3/98.6));
     }
 
+    private Color blackAndWhiteColor(Color color) {
+        int mean = (int) ((color.getRed() + color.getGreen() + color.getBlue()) * 255./ 3);
+        return Color.rgb(mean, mean, mean);
+    }
+
+    private ImageView destroyColorOfImage(Image image) {
+        WritableImage writableImage = new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
+        PixelWriter writer = writableImage.getPixelWriter();
+        PixelReader reader = writableImage.getPixelReader();
+        for (int i = 0; i < writableImage.getHeight(); i++) {
+            for (int j = 0; j < writableImage.getWidth(); j++) {
+                writer.setColor(j, i, blackAndWhiteColor(reader.getColor(j, i)));
+            }
+        }
+        return new ImageView(writableImage);
+    }
+
     private void prepareCardForConsideration(Card card) {
         VBox cardPane = new VBox();
         cardPane.setPrefWidth(stage.getWidth() * .33);
         cardPane.minWidthProperty().bind(stage.widthProperty().multiply(.33));
         cardPane.maxWidthProperty().bind(stage.widthProperty().multiply(.33));
-        
-        ImageView cardImage = new ImageView(card.getImage());
+
+        ImageView cardImage;
+        if (Card.isCardForbidden(card.getCardName())) {
+            cardImage = destroyColorOfImage(card.getImage());
+        } else cardImage = new ImageView(card.getImage());
         cardPane.spacingProperty().bind(cardImage.fitHeightProperty().multiply(.2));
         cardImage.fitWidthProperty().bind(stage.widthProperty().multiply(.8 * .33));
         cardImage.setPreserveRatio(true);
@@ -82,7 +103,10 @@ public class ServerWelcomeView extends View {
         int cardBalance = Card.getBalanceOfCard(card.getCardName());
 
         Button forbidSwitch = new Button("Switch forbid");
-        forbidSwitch.setOnAction(actionEvent -> Card.switchForbidOfCard(card.getCardName()));
+        forbidSwitch.setOnAction(actionEvent -> {
+            Card.switchForbidOfCard(card.getCardName());
+            prepareCardForConsideration(card);
+        });
         Button increaseBalance = new Button("Increase balance");
         increaseBalance.setOnAction(actionEvent -> {
             Card.increaseBalanceOfCard(card.getCardName());

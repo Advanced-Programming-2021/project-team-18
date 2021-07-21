@@ -41,6 +41,7 @@ public class ShopController {
         if (user == null) return "username_not_found";
         Card card = Card.getCardByName(cardName);
         if (card == null) return "card_not_found";
+        if (Card.isCardForbidden(cardName)) return "forbidden_card";
         if (user.getBalance() < card.getPrice()) return "insufficient_balance";
         Integer cardBalance = Card.getBalanceOfCard(cardName);
         System.out.println("cardBalance = " + cardBalance);
@@ -66,5 +67,14 @@ public class ShopController {
         user.increaseBalance(card.getPrice());
         user.subtractCardBalance(cardName);
         return "successful";
+    }
+
+    @RequestMapping(path = "api/shopmenu/get_card_forbid")
+    @GetMapping
+    public String getCardForbid(@RequestHeader(value = "token") String token,
+                                @RequestHeader(value = "card_name") String cardName) {
+        if (User.getUserByToken(token) == null) return null;
+        if (Card.getCardByName(cardName) == null) return null;
+        return (Card.isCardForbidden(cardName) ? "forbidden" : "not_forbidden");
     }
 }
