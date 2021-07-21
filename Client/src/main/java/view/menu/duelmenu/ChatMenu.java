@@ -31,7 +31,8 @@ public class ChatMenu extends View {
     public VBox chatBox;
     public TextField messageField;
     private static Timeline timeline;
-    private Stage stage;
+    @Setter
+    private Stage myStage;
     @Setter
     @Getter
     private static int messageCount = 0;

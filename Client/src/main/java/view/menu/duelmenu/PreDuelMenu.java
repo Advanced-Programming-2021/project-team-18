@@ -120,6 +120,7 @@ public class PreDuelMenu extends View implements Initializable {
     public void backButton() {
         searchForAvailableGame.set(false);
         searchForStartingGame.set(false);
+        System.out.println("FUCK");
         loadView("main_menu");
     }
 
@@ -179,7 +180,7 @@ public class PreDuelMenu extends View implements Initializable {
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.setFullScreen(false);
-        controller.setStage(stage);
+        controller.setMyStage(stage);
         stage.show();
     }
 }
