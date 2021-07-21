@@ -2,13 +2,17 @@ package menus;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import game.ChatMessage;
+import game.User;
 import lombok.Getter;
 import lombok.Setter;
 import utility.Utility;
 import view.UtilityView;
+import view.View;
 import view.menu.scoreboard.SimplifiedUser;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,9 +23,13 @@ public class MenuController {
     private static final String GET_USER_LOCATION;
     private static final String REGISTER_LOCATION;
     private static final String CARD_BALANCE_LOC;
+    private static final String USER_BALANCE_LOC = "/api/shopmenu/get_user_balance";
     private static final String CHANGE_PASSWORD_LOC;
     private static final String SCOREBOARD_LOC;
+    private static final String GETCHAT_LOC;
+    private static final String ADD_MESSAGE_LOC;
     private static final Type resultType;
+
 
     @Setter
     @Getter
@@ -34,6 +42,8 @@ public class MenuController {
         CARD_BALANCE_LOC = "/api/shopmenu/get_card_balance";
         CHANGE_PASSWORD_LOC = "/api/profilemenu/change_password";
         SCOREBOARD_LOC = "/api/scoreboardmenu/scoreboard";
+        GETCHAT_LOC = "/api/duelmenu/getChat";
+        ADD_MESSAGE_LOC = "/api/duelmenu/addMessage";
 
         resultType = new TypeToken<HashMap<String, String>>() {
         }.getType();
@@ -89,18 +99,41 @@ public class MenuController {
         HashMap<String, String> headers = Utility.makeHashMap("token", token, "card_name", cardName);
         String result = Utility.getRequest(Utility.getSERVER_LOCATION() + CARD_BALANCE_LOC,
                 null, headers);
-        return Integer.parseInt(result);
+        return Integer.valueOf(result);
     }
 
     public ArrayList<SimplifiedUser> getScoreboard() {
         String result = Utility.send(SCOREBOARD_LOC, "token", token);
         HashMap<String, String> response = new Gson().fromJson(result, resultType);
         //System.out.println(response.toString());
-        assert response != null;
         if (response.get("verdict").contentEquals("success")) {
-            return new Gson().fromJson(response.get("scoreboard"), new TypeToken<ArrayList<SimplifiedUser>>() {
+            ArrayList<SimplifiedUser> scoreboard = new Gson().fromJson(response.get("scoreboard"), new TypeToken<ArrayList<SimplifiedUser>>() {
+            }.getType());
+            return scoreboard;
+        }
+        return null;
+    }
+
+    public ArrayList<ChatMessage> getNewMessages(int lastIndex) {
+        String result = "vrtver";
+        try {
+             result = Utility.send(GETCHAT_LOC, "token", token, "index", String.valueOf(lastIndex));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        HashMap<String, String> response = new Gson().fromJson(result, new TypeToken<HashMap<String, String>>() {
+        }.getType());
+        if (response.get("verdict").contentEquals("success")) {
+            return new Gson().fromJson(response.get("messages"), new TypeToken<ArrayList<ChatMessage>>() {
             }.getType());
         }
         return null;
+    }
+
+    public void sendMessage(String message) {
+        String result = Utility.send(ADD_MESSAGE_LOC, "token", token, "message", message);
+        HashMap<String, String> response = new Gson().fromJson(result, new TypeToken<HashMap<String, String>>() {
+        }.getType());
+        if (!response.get("verdict").contentEquals("success")) UtilityView.showError(response.get("verdict"));
     }
 }

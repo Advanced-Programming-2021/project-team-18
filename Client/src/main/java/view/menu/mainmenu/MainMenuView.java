@@ -3,11 +3,15 @@ package view.menu.mainmenu;
 import game.User;
 import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.SneakyThrows;
 import menus.MenuController;
@@ -17,11 +21,13 @@ import view.View;
 import view.animations.CoinTransition;
 import view.menu.cardcreatormenu.CardCreatorView;
 import view.menu.deckmenu.DeckMenuDeckSelectionView;
+import view.menu.duelmenu.ChatMenu;
 import view.menu.duelmenu.PreDuelMenu;
 import view.menu.import_export_menu.ImportExportMenuView;
 import view.menu.scoreboard.ScoreboardView;
 
 import java.awt.*;
+import java.io.IOException;
 
 
 public class MainMenuView extends View {
@@ -100,7 +106,7 @@ public class MainMenuView extends View {
 
     @SneakyThrows
     public void logout() {
-        String res = Utility.send("/api/loginmenu/logout","token",MenuController.getInstance().getToken());
+        String res = Utility.send("/api/loginmenu/logout", "token", MenuController.getInstance().getToken());
         setCurrentToken(null);
         loadView("welcome");
     }
@@ -109,4 +115,5 @@ public class MainMenuView extends View {
     public void enterCardCreatorMenu() {
         loadView("card_creator_menu");
     }
+
 }

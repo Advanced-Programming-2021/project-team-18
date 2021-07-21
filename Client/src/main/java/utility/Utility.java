@@ -1,5 +1,6 @@
 package utility;
 
+import com.google.gson.Gson;
 import data.Printer;
 import game.AIPlayer;
 import game.Player;
@@ -205,5 +206,10 @@ public class Utility {
         if (player instanceof AIPlayer || player == null)
             return options.get(getARandomNumber(options.size()));
         return UtilityView.obtainInformationInList(player.getUser().getUsername() + " : " + message, options.toArray(new String[0]));
+    }
+
+    public static String getJson(Object object) {
+        Gson gson = new Gson();
+        return gson.toJson(object);
     }
 }

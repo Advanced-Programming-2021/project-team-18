@@ -32,7 +32,6 @@ public class LoginController {
     @GetMapping
     public String logOut(@RequestHeader(value = "token") String token) {
         User user = User.getUserByToken(token);
-        //System.out.println(user != null);
         HashMap<String, String> result = new HashMap<>();
         if (user == null) result.put("verdict", "this token does not exist");
         else{

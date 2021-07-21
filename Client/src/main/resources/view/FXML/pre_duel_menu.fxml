@@ -20,6 +20,7 @@
         <Button onAction="#onDuel" text="Duel"/>
         <Button onAction="#onDuelAI"  text="Duel AI"/>
         <Button onAction="#backButton" text="Back"/>
+        <Button onAction="#openChat" text="Chat"/>
         <ImageView fx:id="coinView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true"/>
     </children>
     <stylesheets>

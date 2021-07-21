@@ -12,6 +12,9 @@ public class RegisterController {
     @RequestMapping(path = "api/loginmenu/register", method = RequestMethod.GET)
     @GetMapping
     public String getRegisterResult(@RequestHeader(value = "username") String username, @RequestHeader(value = "password") String password, @RequestHeader(value = "nickname") String nickname) {
+        for (User user : User.getAllUsers()) {
+            System.out.println(user.getUsername() + " " + user.getNickname());
+        }
         User user = User.getUserByUsername(username);
         HashMap<String, String> result = new HashMap<>();
         if (username.isBlank() || password.isBlank() || nickname.isBlank()){
