@@ -9,6 +9,7 @@ import lombok.Setter;
 import utility.Utility;
 import view.UtilityView;
 import view.View;
+import view.menu.duelmenu.ChatMenu;
 import view.menu.scoreboard.SimplifiedUser;
 
 import java.lang.reflect.Type;
@@ -124,6 +125,7 @@ public class MenuController {
         HashMap<String, String> response = new Gson().fromJson(result, new TypeToken<HashMap<String, String>>() {
         }.getType());
         if (response.get("verdict").contentEquals("success")) {
+            ChatMenu.setOnlineCount(Integer.parseInt(response.get("onlineCount")));
             return new Gson().fromJson(response.get("messages"), new TypeToken<ArrayList<ChatMessage>>() {
             }.getType());
         }

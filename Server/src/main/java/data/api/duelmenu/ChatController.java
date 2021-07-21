@@ -26,6 +26,7 @@ public class ChatController {
         int index = Integer.parseInt(indexString);
         result.put("verdict", "success");
         result.put("messages", Utility.getJson(newMessages(index)));
+        result.put("onlineCount",String.valueOf(User.getOnlineCount()));
         return Utility.getJson(result);
     }
 

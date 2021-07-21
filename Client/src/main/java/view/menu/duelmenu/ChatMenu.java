@@ -36,12 +36,14 @@ public class ChatMenu extends View {
     @Setter
     @Getter
     private static int messageCount = 0;
+    @Setter
+    private static int onlineCount;
 
 
     @FXML
     public void initialize() {
         refresh();
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(2),actionEvent -> {
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5),actionEvent -> {
             refresh();
             actionEvent.consume();
         });
@@ -59,6 +61,7 @@ public class ChatMenu extends View {
     }
 
     private void refresh() {
+        onlinePeopleCount.setText(onlineCount + " " + "people online");
         ArrayList<ChatMessage> newMessages = MenuController.getInstance().getNewMessages(messageCount);
         for (ChatMessage message : newMessages) {
             messageCount++;
@@ -74,7 +77,7 @@ public class ChatMenu extends View {
         hBox.setMaxWidth(380);
         hBox.setAlignment(Pos.CENTER);
         if (isOdd) hBox.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY,Insets.EMPTY)));
-        else hBox.setBackground(new Background(new BackgroundFill(Color.color(0.1,0.1,0.1), CornerRadii.EMPTY,Insets.EMPTY)));
+        else hBox.setBackground(new Background(new BackgroundFill(Color.color(0.3,0.3,0.3), CornerRadii.EMPTY,Insets.EMPTY)));
         hBox.getChildren().addAll(senderLabel(sender),messageText(message));
         return hBox;
     }
