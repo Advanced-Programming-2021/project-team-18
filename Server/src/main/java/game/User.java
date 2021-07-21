@@ -51,12 +51,12 @@ public class User implements Comparable<User>, Serializable {
     @Getter
     @Expose
     private String token;
-    private ArrayList<GameDeck> decks;
+    private final ArrayList<GameDeck> decks;
     private final HashMap<String, Integer> cardCount;
     @Getter
-    private ArrayList<String> messages = new ArrayList<>();
+    private final ArrayList<String> messages = new ArrayList<>();
     @Getter
-    private ArrayList<Question> questions = new ArrayList<>();
+    private final ArrayList<Question> questions = new ArrayList<>();
 
 
     public static List<User> getAllUsers() {
@@ -122,6 +122,14 @@ public class User implements Comparable<User>, Serializable {
         decks.add(defaultDeck);
         allUsers.add(this);
         avatarID = Utility.getARandomNumber(UtilityView.getAvatarNumbers()) + 1;
+    }
+
+    public static int getOnlineCount() {
+        int count = 0;
+        for (User user : allUsers) {
+            if (user.isOnline()) count++;
+        }
+        return count;
     }
 
 
@@ -203,14 +211,6 @@ public class User implements Comparable<User>, Serializable {
         File dest = new File(new URI(Objects.requireNonNull(User.class.getResource("/avatars"))
                 + "/arbitrary/" + username));
         Files.copy(Paths.get(src.toURI()), Paths.get(dest.toURI()), REPLACE_EXISTING);
-    }
-
-    public static int getOnlineCount() {
-        int count = 0;
-        for (User user : allUsers) {
-            if (user.isOnline()) count++;
-        }
-        return count;
     }
 
     @Override
