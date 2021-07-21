@@ -29,6 +29,7 @@ public class DataManager {
     private static final String SPELL_AND_TRAP_CARDS_PATH = "/cards/SpellTrap.csv";
     private static final String USERS_DATA_PATH = "/users/allUsers.json";
     private static final String CARD_BALANCE_PATH = "/cards/CardBalance.json";
+    private static final String FORBIDDEN_CARDS_PATH = "/cards/ForbiddenCards.json";
 
     public static void loadMonsterCardsIntoAllCards() {
         ArrayList<String[]> cards = Utility.getArrayListFromCSV(MONSTER_CARDS_PATH);
@@ -146,12 +147,22 @@ public class DataManager {
     }
 
     @SneakyThrows
+    private static void loadForbiddenCards() {
+        String content = new String(Files.readAllBytes(
+                Paths.get(Objects.requireNonNull(
+                        DataManager.class.getResource(FORBIDDEN_CARDS_PATH)).toURI())
+        ));
+        Card.setForbiddenCards(new Gson().fromJson(content, new TypeToken<ArrayList<String>>(){}.getType()));
+    }
+
+    @SneakyThrows
     public static void loadCardsIntoAllCards() {
         System.out.println("LOADING CARDS...");
-        loadCardBalance();
         loadMonsterCardsIntoAllCards();
         loadSpellCardsIntoAllCards();
         loadTrapCardsIntoAllCards();
+        loadCardBalance();
+        loadForbiddenCards();
     }
 
     public static void listToMap(Deck deck) {
@@ -160,7 +171,7 @@ public class DataManager {
             try {
                 deck.getCardCount().put(card.getCardName(), 1 + deck.getCardCount().getOrDefault(card.getCardName(), 0));
             } catch (Exception e) {
-                System.out.println("couldn't save card ");
+                System.out.println("couldn't save card");
             }
         }
         deck.setCardsList(null);
@@ -209,8 +220,6 @@ public class DataManager {
 
     @SneakyThrows
     private static void saveCardBalance(){
-        System.out.println("SAVING CARD_BALANCE...");
-        System.out.println(Card.getCardsBalance());
         File file = new File(Objects.requireNonNull(
                 DataManager.class.getResource(CARD_BALANCE_PATH)).toURI());
         FileWriter fileWriter = new FileWriter(file);
@@ -220,9 +229,21 @@ public class DataManager {
         fileWriter.close();
     }
 
+    @SneakyThrows
+    private static void saveForbiddenCards() {
+        File file = new File(Objects.requireNonNull(
+                DataManager.class.getResource(FORBIDDEN_CARDS_PATH)).toURI());
+        FileWriter fileWriter = new FileWriter(file);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(Card.getForbiddenCards());
+        fileWriter.write(json);
+        fileWriter.close();
+    }
+
     public static void saveData() {
         saveUsersData();
         saveCardBalance();
+        saveForbiddenCards();
     }
 
     @SneakyThrows

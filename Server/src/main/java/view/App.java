@@ -14,16 +14,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        View.setStage(stage);
         FXMLLoader loader;
         loader = new FXMLLoader(getClass().getResource("/view/FXML/welcome.fxml"));
         Parent root = loader.load();
-        View.setStage(stage);
-        UtilityView.playSound("menu_song.wav");
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint("");
-        stage.setTitle("The Yu-Gi-Oh! :)");
+        stage.setTitle("Yu-Gi-Oh: Administrator :|");
         stage.show();
     }
 }

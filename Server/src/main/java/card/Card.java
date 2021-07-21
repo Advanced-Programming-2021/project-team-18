@@ -12,13 +12,15 @@ import java.util.HashMap;
 import java.util.Objects;
 
 @Getter
+@Setter
 public abstract class Card implements Comparable<Card> {
     private static final ArrayList<Card> allCards = new ArrayList<>();
     private static final ArrayList<String> allCardNames = new ArrayList<>();
     private static final HashMap<String, Image> cardImages = new HashMap<>();
-    @Getter
-    @Setter
+    @Getter @Setter
     private static HashMap<String, Integer> cardsBalance = new HashMap<>();
+    @Getter @Setter
+    private static ArrayList<String> forbiddenCards = new ArrayList<>();
 
     @Expose
     private String cardName;
@@ -50,7 +52,6 @@ public abstract class Card implements Comparable<Card> {
     }
 
     public Card() {
-
     }
 
     public void setCardName(String cardName) {
@@ -86,6 +87,15 @@ public abstract class Card implements Comparable<Card> {
     public static void decreaseBalanceOfCard(String cardName) {
         if (!cardsBalance.containsKey(cardName)) return;
         cardsBalance.put(cardName, cardsBalance.get(cardName) - 1);
+    }
+
+    public static void switchForbidOfCard(String cardName) {
+        if (forbiddenCards.contains(cardName)) forbiddenCards.remove(cardName);
+        else forbiddenCards.add(cardName);
+    }
+
+    public static boolean isCardForbidden(String cardName) {
+        return forbiddenCards.contains(cardName);
     }
 
     public boolean hasEffect(Effect effect) {

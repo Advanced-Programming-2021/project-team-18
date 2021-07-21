@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import utility.Utility;
 import view.UtilityView;
 
@@ -86,10 +87,9 @@ public class User implements Comparable<User>, Serializable {
     }
 
     public static User getUserByToken(@NotNull String token) {
-        for (User user : allUsers) {
-            if (token.equals(user.getToken()))
+        for (User user : allUsers)
+            if (user.getToken().equals(token))
                 return user;
-        }
         return null;
     }
 
@@ -167,6 +167,10 @@ public class User implements Comparable<User>, Serializable {
 
     public void addCardBalance(String cardName) {
         cardCount.put(cardName, cardCount.getOrDefault(cardName, 0) + 1);
+    }
+
+    public void subtractCardBalance(String cardName) {
+        cardCount.put(cardName, cardCount.getOrDefault(cardName, 0) - 1);
     }
 
     public int getCardBalance(String cardName) {
